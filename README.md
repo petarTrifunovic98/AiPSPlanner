@@ -1,1 +1,1 @@
-# A colaborative planner to help groups of people to better organize events, such as vacations and travels
+# A collaborative planner designed to help groups of people easily organize events, such as vacation and travel
