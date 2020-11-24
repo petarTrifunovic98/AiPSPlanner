@@ -1,0 +1,1 @@
+A directory created to store the project's documentation.
