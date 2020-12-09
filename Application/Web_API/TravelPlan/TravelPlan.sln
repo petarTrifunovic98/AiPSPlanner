@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelPlan", "TravelPlan\TravelPlan.csproj", "{2C723B39-79CE-49B3-9724-DB2CD2CB14E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelPlan.API", "TravelPlan\TravelPlan.API.csproj", "{2C723B39-79CE-49B3-9724-DB2CD2CB14E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelPlan.DataAccess", "TravelPlan.DataAccess\TravelPlan.DataAccess.csproj", "{8722F0FA-0D3E-4857-96FA-CA02B31B519A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2C723B39-79CE-49B3-9724-DB2CD2CB14E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C723B39-79CE-49B3-9724-DB2CD2CB14E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C723B39-79CE-49B3-9724-DB2CD2CB14E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8722F0FA-0D3E-4857-96FA-CA02B31B519A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8722F0FA-0D3E-4857-96FA-CA02B31B519A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8722F0FA-0D3E-4857-96FA-CA02B31B519A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8722F0FA-0D3E-4857-96FA-CA02B31B519A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
