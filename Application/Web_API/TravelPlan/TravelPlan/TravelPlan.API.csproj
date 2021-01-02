@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TravelPlan.DataAccess\TravelPlan.DataAccess.csproj" />
+    <ProjectReference Include="..\Repository\TravelPlan.Repository.csproj" />
   </ItemGroup>
 
 

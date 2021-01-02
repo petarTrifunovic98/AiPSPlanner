@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelPlan.DataAccess", "Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelPlan.Contracts", "TravelPlan.Contracts\TravelPlan.Contracts.csproj", "{D4105EB9-9863-4581-94A7-2ECE4B3887C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{F88D0F33-61E2-4084-BEE2-FF94062E8D5F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelPlan.Repository", "Repository\TravelPlan.Repository.csproj", "{F88D0F33-61E2-4084-BEE2-FF94062E8D5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
