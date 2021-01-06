@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using TravelPlan.DataAccess.Entities;
 
 namespace TravelPlan.DataAccess
 {
@@ -9,6 +10,10 @@ namespace TravelPlan.DataAccess
     {
         public TravelPlanDbContext(DbContextOptions<TravelPlanDbContext> options): base(options)
         { }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Item> Items { get; set; }
     }
 
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<TravelPlanDbContext>

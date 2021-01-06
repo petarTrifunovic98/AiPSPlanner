@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TravelPlan.Contracts;
 using TravelPlan.DataAccess;
+using TravelPlan.DataAccess.Entities;
 
 namespace TravelPlan.Repository
 {
@@ -15,28 +16,39 @@ namespace TravelPlan.Repository
             _context = context;
         }
 
-        /*--------------------------------------------
-        Template for creating and exposing repository instances for different entities:
-            - if an entity has it's own repository interface (e.g. "IEntityRepository"), then:
-                - create an attribute: private IEntityRepository _repository;
-                - create a public property:
-                public IEntityRepository Repository
-                {
-                    get
-                    {
-                        if(this._repository == null)
-                            this._repository = new ConcreteEntityRepository(_context);
-                        return this._repository;
-                    }
-                }
-            
-            - if an entity (e.g. "SomeEntity") doesn't have it's own repository interface, then:
-                - create an attribute: private IRepositoryBase<SomeEntity> _repository;
-                - create a public property; the difference from the one shown above is that the 
-                  type of the property should be IRepositoryBase<SomeEntity>, and it is instantiated
-                  with "new RepositoryBase<SomeEntity>(_context)"
 
-        --------------------------------------------*/
+        private IRepositoryBase<User> _userRepository;
+        public IRepositoryBase<User> UserRepository
+        {
+            get
+            {
+                if (this._userRepository == null)
+                    this._userRepository = new RepositoryBase<User>(_context);
+                return this._userRepository;
+            }
+        }
+
+        private IRepositoryBase<Team> _teamRepository;
+        public IRepositoryBase<Team> TeamRepository
+        {
+            get
+            {
+                if (this._teamRepository == null)
+                    this._teamRepository = new RepositoryBase<Team>(_context);
+                return this._teamRepository;
+            }
+        }
+
+        private IRepositoryBase<Item> _itemRepository;
+        public IRepositoryBase<Item> ItemRepository
+        {
+            get
+            {
+                if (this._itemRepository == null)
+                    this._itemRepository = new RepositoryBase<Item>(_context);
+                return this._itemRepository;
+            }
+        }
 
         public void Dispose()
         {
