@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelPlan.Contracts;
 using TravelPlan.Repository;
+using AutoMapper;
 
 namespace TravelPlan
 {
@@ -30,6 +31,7 @@ namespace TravelPlan
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
