@@ -10,7 +10,7 @@ namespace TravelPlan.DataAccess.Entities
         [Required]
         public string Name { get; set; }
 
-        public ICollection<User> Members { get; set; }
+        public virtual ICollection<User> Members { get; set; }
 
         //public override List<User> GetUsers()
         //{

@@ -22,9 +22,9 @@ namespace TravelPlan.DataAccess.Entities
 
         public string Picture { get; set; }
 
-        public ICollection<Team> MyTeams { get; set; }
+        public virtual ICollection<Team> MyTeams { get; set; }
 
-        public ICollection<Item> MyItems { get; set; }
+        public virtual ICollection<Item> MyItems { get; set; }
 
         //public override List<User> GetUsers()
         //{
