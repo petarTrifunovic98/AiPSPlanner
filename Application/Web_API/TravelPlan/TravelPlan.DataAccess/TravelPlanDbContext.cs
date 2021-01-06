@@ -14,7 +14,12 @@ namespace TravelPlan.DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Item> Items { get; set; }
-    }
+        public DbSet<Trip> Trips { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Accommodation> Accommodations { get; set; }
+        public DbSet<AccommodationPicture> AccommodationPictures { get; set; }
+    }   
+
 
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<TravelPlanDbContext>
     {
