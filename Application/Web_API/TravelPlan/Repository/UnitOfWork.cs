@@ -18,6 +18,38 @@ namespace TravelPlan.Repository
         }
 
 
+
+        private IRepositoryBase<User> _userRepository;
+        public IRepositoryBase<User> UserRepository
+        {
+            get
+            {
+                if (this._userRepository == null)
+                    this._userRepository = new RepositoryBase<User>(_context);
+                return this._userRepository;
+            }
+        }
+
+        private IRepositoryBase<Team> _teamRepository;
+        public IRepositoryBase<Team> TeamRepository
+        {
+            get
+            {
+                if (this._teamRepository == null)
+                    this._teamRepository = new RepositoryBase<Team>(_context);
+                return this._teamRepository;
+            }
+        }
+
+        private IRepositoryBase<Item> _itemRepository;
+        public IRepositoryBase<Item> ItemRepository
+        {
+            get
+            {
+                if (this._itemRepository == null)
+                    this._itemRepository = new RepositoryBase<Item>(_context);
+                return this._itemRepository;
+
         private IRepositoryBase<Trip> _tripRepository;
         public IRepositoryBase<Trip> TripRepository
         {
@@ -59,6 +91,7 @@ namespace TravelPlan.Repository
                 if (this._accommodationPictureRepository == null)
                     this._accommodationPictureRepository = new RepositoryBase<AccommodationPicture>(_context);
                 return this._accommodationPictureRepository;
+
             }
         }
 

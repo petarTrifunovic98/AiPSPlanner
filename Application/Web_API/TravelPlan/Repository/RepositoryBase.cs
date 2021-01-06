@@ -5,7 +5,7 @@ using TravelPlan.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace Repository
+namespace TravelPlan.Repository
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
