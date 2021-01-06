@@ -1,5 +1,4 @@
-﻿using Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using TravelPlan.Contracts;
@@ -49,6 +48,8 @@ namespace TravelPlan.Repository
                 if (this._itemRepository == null)
                     this._itemRepository = new RepositoryBase<Item>(_context);
                 return this._itemRepository;
+            }
+        }
 
         private IRepositoryBase<Trip> _tripRepository;
         public IRepositoryBase<Trip> TripRepository
