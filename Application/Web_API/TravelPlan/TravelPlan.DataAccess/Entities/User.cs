@@ -26,6 +26,8 @@ namespace TravelPlan.DataAccess.Entities
 
         public virtual ICollection<Item> MyItems { get; set; }
 
+        public virtual ICollection<Trip> MyTrips { get; set; }
+
         //public override List<User> GetUsers()
         //{
         //    List<User> ret = new List<User>();

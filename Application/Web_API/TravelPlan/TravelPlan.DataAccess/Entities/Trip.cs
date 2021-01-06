@@ -23,5 +23,9 @@ namespace TravelPlan.DataAccess.Entities
         public DateTime To { get; set; }
 
         public virtual ICollection<Location> Locations { get; set; }
+
+        public virtual ICollection<User> Travelers { get; set; }
+
+        public virtual ICollection<Item> ItemList { get; set; }
     }
 }
