@@ -5,10 +5,8 @@ using System.Text;
 
 namespace TravelPlan.DataAccess.Entities
 {
-    public abstract class Member
+    public interface Member
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int MemberId { get; set; }
         //public abstract List<User> GetUsers();
     }
 }

@@ -8,6 +8,9 @@ namespace TravelPlan.DataAccess.Entities
 {
     public class User: Member
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserId { get; set; }
+
         [Required]
         public string Username { get; set; }
 
