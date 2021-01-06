@@ -8,6 +8,9 @@ namespace TravelPlan.DataAccess.Entities
 {
     public class User: Member
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserId { get; set; }
+
         [Required]
         public string Username { get; set; }
 
@@ -25,6 +28,8 @@ namespace TravelPlan.DataAccess.Entities
         public virtual ICollection<Team> MyTeams { get; set; }
 
         public virtual ICollection<Item> MyItems { get; set; }
+
+        public virtual ICollection<Trip> MyTrips { get; set; }
 
         //public override List<User> GetUsers()
         //{
