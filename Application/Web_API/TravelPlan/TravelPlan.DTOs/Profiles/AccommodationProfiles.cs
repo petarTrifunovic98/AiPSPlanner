@@ -18,13 +18,19 @@ namespace TravelPlan.DTOs.Profiles
                 .ForMember(dest =>
                     dest.Accommodation,
                     opt => opt.MapFrom(
-                        src => _mapper.Map<Accommodation, AccommodationDTO>(src.Accommodation)));
+                        src => _mapper.Map<Accommodation, AccommodationDTO>(src.Accommodation)))
+                .ReverseMap();
 
             CreateMap<Accommodation, AccommodationDTO>()
                 .ForMember(dest =>
-                    dest.Pictires,
+                    dest.Pictures,
                     opt => opt.MapFrom(
-                        src => _mapper.Map<ICollection<AccommodationPicture>, ICollection<AccommodationDTO>>(src.Pictires)));
+                        src => _mapper.Map<ICollection<AccommodationPicture>, ICollection<AccommodationPictureDTO>>(src.Pictures)))
+                .ForMember(dest =>
+                    dest.Location,
+                    opt => opt.MapFrom(
+                        src => _mapper.Map<Location, LocationDTO>(src.Location)))
+                .ReverseMap();
         }
     }
 }

@@ -14,6 +14,8 @@ namespace TravelPlan.DTOs.DTOs
         public DateTime From { get; set; }
         public DateTime To { get; set; }
         public string Address { get; set; }
-        public ICollection<AccommodationPictureDTO> Pictires { get; set; }
+        public ICollection<AccommodationPictureDTO> Pictures { get; set; }
+        public int LocationId { get; set; }
+        public virtual LocationDTO Location { get; set; }
     }
 }

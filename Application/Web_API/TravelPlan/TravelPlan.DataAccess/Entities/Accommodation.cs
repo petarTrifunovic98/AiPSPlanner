@@ -36,7 +36,7 @@ namespace TravelPlan.DataAccess.Entities
 
         public String Address { get; set; }
 
-        public virtual ICollection<AccommodationPicture> Pictires {get; set;}
+        public virtual ICollection<AccommodationPicture> Pictures {get; set;}
 
         public int LocationId { get; set; }
         public virtual Location Location { get; set; }
