@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Repository;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TravelPlan.Contracts;
 using TravelPlan.DataAccess;
+using TravelPlan.DataAccess.Entities;
 
 namespace TravelPlan.Repository
 {
@@ -15,28 +17,50 @@ namespace TravelPlan.Repository
             _context = context;
         }
 
-        /*--------------------------------------------
-        Template for creating and exposing repository instances for different entities:
-            - if an entity has it's own repository interface (e.g. "IEntityRepository"), then:
-                - create an attribute: private IEntityRepository _repository;
-                - create a public property:
-                public IEntityRepository Repository
-                {
-                    get
-                    {
-                        if(this._repository == null)
-                            this._repository = new ConcreteEntityRepository(_context);
-                        return this._repository;
-                    }
-                }
-            
-            - if an entity (e.g. "SomeEntity") doesn't have it's own repository interface, then:
-                - create an attribute: private IRepositoryBase<SomeEntity> _repository;
-                - create a public property; the difference from the one shown above is that the 
-                  type of the property should be IRepositoryBase<SomeEntity>, and it is instantiated
-                  with "new RepositoryBase<SomeEntity>(_context)"
 
-        --------------------------------------------*/
+        private IRepositoryBase<Trip> _tripRepository;
+        public IRepositoryBase<Trip> TripRepository
+        {
+            get
+            {
+                if (this._tripRepository == null)
+                    this._tripRepository = new RepositoryBase<Trip>(_context);
+                return this._tripRepository;
+            }
+        }
+
+        private IRepositoryBase<Location> _locationRepository;
+        public IRepositoryBase<Location> LocationRepository
+        {
+            get
+            {
+                if (this._locationRepository == null)
+                    this._locationRepository = new RepositoryBase<Location>(_context);
+                return this._locationRepository;
+            }
+        }
+
+        private IRepositoryBase<Accommodation> _accommodationRepository;
+        public IRepositoryBase<Accommodation> AccommodationRepository
+        {
+            get
+            {
+                if (this._accommodationRepository == null)
+                    this._accommodationRepository = new RepositoryBase<Accommodation>(_context);
+                return this._accommodationRepository;
+            }
+        }
+
+        private IRepositoryBase<AccommodationPicture> _accommodationPictureRepository;
+        public IRepositoryBase<AccommodationPicture> AccommodationPictureRepository
+        {
+            get
+            {
+                if (this._accommodationPictureRepository == null)
+                    this._accommodationPictureRepository = new RepositoryBase<AccommodationPicture>(_context);
+                return this._accommodationPictureRepository;
+            }
+        }
 
         public void Dispose()
         {

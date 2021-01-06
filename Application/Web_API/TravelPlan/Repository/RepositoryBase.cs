@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Repository
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         private readonly TravelPlanDbContext _context;
         private DbSet<T> _dbSet;
