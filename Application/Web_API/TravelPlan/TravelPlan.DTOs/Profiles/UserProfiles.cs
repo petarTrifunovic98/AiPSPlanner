@@ -9,25 +9,24 @@ namespace TravelPlan.DTOs.Profiles
 {
     public class UserProfiles : Profile
     {
-        private readonly IMapper _mapper;
-        public UserProfiles(IMapper mapper)
+        public UserProfiles()
         {
-            _mapper = mapper;
-
             CreateMap<User, UserDTO>()
                 .ForMember(dest =>
                     dest.MyTeams,
                     opt => opt.MapFrom(
-                        src => _mapper.Map<ICollection<Team>, ICollection<TeamDTO>>(src.MyTeams)))
+                        src => src.MyTeams))
                 .ForMember(dest =>
                     dest.MyItems,
                     opt => opt.MapFrom(
-                        src => _mapper.Map<ICollection<Item>, ICollection<ItemDTO>>(src.MyItems)))
+                        src => src.MyItems))
                 .ForMember(dest =>
                     dest.MyTrips,
                     opt => opt.MapFrom(
-                        src => _mapper.Map<ICollection<Trip>, ICollection<TripDTO>>(src.MyTrips)))
+                        src => src.MyTrips))
                 .ReverseMap();
+
+            CreateMap<UserRegisterDTO, User>();
         }
     }
 }

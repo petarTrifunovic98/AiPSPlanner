@@ -9,20 +9,18 @@ namespace TravelPlan.DTOs.Profiles
 {
     public class LocationProfiles : Profile
     {
-        private readonly IMapper _mapper;
-        public LocationProfiles(IMapper mapper)
+        public LocationProfiles()
         {
-            _mapper = mapper;
 
             CreateMap<Location, LocationDTO>()
                 .ForMember(dest =>
                     dest.Accommodations,
                     opt => opt.MapFrom(
-                        src => _mapper.Map<ICollection<Accommodation>, ICollection<AccommodationDTO>>(src.Accommodations)))
+                        src => src.Accommodations))
                 .ForMember(dest =>
                     dest.Trip,
                     opt => opt.MapFrom(
-                        src => _mapper.Map<Trip, TripDTO>(src.Trip)))
+                        src => src.Trip))
                 .ReverseMap();
         }
     }
