@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TravelPlan.Contracts.RepositoryContracts;
+using TravelPlan.DataAccess.Entities;
 
 namespace TravelPlan.Contracts
 {
@@ -9,6 +11,12 @@ namespace TravelPlan.Contracts
         //Add property for each repository interface. If a certain entity (e.g. "SomeEntity") needs only basic data access methods 
         //(which are already provided by the IRepositoryBase), create a property of type IRepositoryBase<SomeEntity>.
         //For each of these properties, expose only the "get" method.
-        void Save();
+        IUserRepository UserRepository { get; }
+
+        //----------
+        ITeamRepository TeamRepository2 { get; }
+        //----------
+        IRepositoryBase<Team> TeamRepository { get; }
+        bool Save();
     }
 }

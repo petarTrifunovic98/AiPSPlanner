@@ -15,6 +15,10 @@ using System.Threading.Tasks;
 using TravelPlan.Contracts;
 using TravelPlan.Repository;
 using AutoMapper;
+using TravelPlan.Contracts.ServiceContracts;
+using TravelPlan.Services;
+using TravelPlan.DTOs.Profiles;
+using Newtonsoft.Json;
 
 namespace TravelPlan
 {
@@ -31,8 +35,28 @@ namespace TravelPlan
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddAutoMapper(typeof(Startup));
+            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<ITeamService, TeamService>();
+            services.AddAutoMapper(typeof(UserProfiles));
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CORS", builder =>
+                {
+                    builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                });
+            });
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.WriteIndented = true;
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
+
+            services.AddMvc().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
                 services.AddDbContext<TravelPlanDbContext>(options =>
@@ -63,6 +87,8 @@ namespace TravelPlan
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CORS");
 
             app.UseAuthorization();
 

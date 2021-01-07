@@ -4,32 +4,33 @@ using TravelPlan.DataAccess;
 using TravelPlan.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TravelPlan.Repository
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         private readonly TravelPlanDbContext _context;
-        private DbSet<T> _dbSet;
+        protected DbSet<T> _dbSet;
 
         public RepositoryBase(TravelPlanDbContext context)
         {
             _context = context;
             _dbSet = this._context.Set<T>();
         }
-        public IEnumerable<T> FindAll()
+        public async Task<IEnumerable<T>> FindAll()
         {
-            return _dbSet.ToList();
+            return await _dbSet.ToListAsync();
         }
 
-        public T FindByID(object id)
+        public async Task<T> FindByID(object id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
-        public void Create(T entity)
+        public async Task Create(T entity)
         {
-            _dbSet.Add(entity);
+            await _dbSet.AddAsync(entity);
         }
 
         public void Update(T entity)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TravelPlan.Contracts;
+using TravelPlan.Contracts.RepositoryContracts;
 using TravelPlan.DataAccess;
 using TravelPlan.DataAccess.Entities;
 
@@ -10,6 +11,7 @@ namespace TravelPlan.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly TravelPlanDbContext _context;
+        private bool _disposed = false;
 
         public UnitOfWork(TravelPlanDbContext context)
         {
@@ -18,16 +20,30 @@ namespace TravelPlan.Repository
 
 
 
-        private IRepositoryBase<User> _userRepository;
-        public IRepositoryBase<User> UserRepository
+        private IUserRepository _userRepository;
+        public IUserRepository UserRepository
         {
             get
             {
                 if (this._userRepository == null)
-                    this._userRepository = new RepositoryBase<User>(_context);
+                    this._userRepository = new UserRepository(_context);
                 return this._userRepository;
             }
         }
+
+        //-----------------
+        private ITeamRepository _teamRepository2;
+        public ITeamRepository TeamRepository2
+        {
+            get
+            {
+                if (this._teamRepository2 == null)
+                    this._teamRepository2 = new TeamRepository(_context);
+                return this._teamRepository2;
+            }
+        }
+
+        //-----------------
 
         private IRepositoryBase<Team> _teamRepository;
         public IRepositoryBase<Team> TeamRepository
@@ -98,12 +114,15 @@ namespace TravelPlan.Repository
 
         public void Dispose()
         {
-            _context.Dispose();
+            if(!_disposed)
+                _context.Dispose();
+            _disposed = true;
+            GC.SuppressFinalize(this);
         }
 
-        public void Save()
+        public bool Save()
         {
-            _context.SaveChanges();
+            return _context.SaveChanges() > 0;
         }
     }
 }
