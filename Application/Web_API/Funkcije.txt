@@ -17,8 +17,8 @@
 + Kreiraj item, dodaj item u trip
 + Izbaci item iz tripa
 + Promena parametra itema
-- Promeni user-a za item
-- check/uncheck za item
++ Promeni user-a za item
++ check/uncheck za item
 
 - Kreiraj lokaciju i dodaj je u trip
 - Brisi lokaciju iz Tripa
