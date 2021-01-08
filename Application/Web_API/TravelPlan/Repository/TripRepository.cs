@@ -19,5 +19,11 @@ namespace TravelPlan.Repository
             Trip trip = await _dbSet.Include(trip => trip.Travelers).FirstOrDefaultAsync(trip => trip.TripId == id);
             return trip;
         }
+
+        public async Task<Trip> GetTripWithItemsAndMembers(int id)
+        {
+            Trip trip = await _dbSet.Include(trip => trip.Travelers).Include(trip => trip.ItemList).FirstOrDefaultAsync(trip => trip.TripId == id);
+            return trip;
+        }
     }
 }

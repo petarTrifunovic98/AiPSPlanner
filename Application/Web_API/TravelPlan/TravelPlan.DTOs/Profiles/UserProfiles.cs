@@ -26,6 +26,8 @@ namespace TravelPlan.DTOs.Profiles
                         src => src.MyTrips))
                 .ReverseMap();
 
+            CreateMap<User, UserBasicDTO>();
+
             CreateMap<UserRegisterDTO, User>();
 
             CreateMap<UserEditDTO, User>();

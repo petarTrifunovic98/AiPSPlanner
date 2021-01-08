@@ -14,11 +14,11 @@
 + Dodavanje memebera u putovanje
 + Izbacivanje user-a iz putovanja
 
-- Kreiraj item, dodaj item u trip
-- Izbaci item iz tripa
++ Kreiraj item, dodaj item u trip
++ Izbaci item iz tripa
++ Promena parametra itema
 - Promeni user-a za item
 - check/uncheck za item
-- Promena parametra itema
 
 - Kreiraj lokaciju i dodaj je u trip
 - Brisi lokaciju iz Tripa
