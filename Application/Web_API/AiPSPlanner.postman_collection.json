@@ -247,6 +247,137 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "CreateTrip",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Idemo u Afriku\",\r\n    \"description\" : \"Da sadimo papriku\",\r\n    \"from\": \"2021-08-01\",\r\n    \"to\": \"2021-08-31\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/trip/creator/3/create-trip",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"trip",
+						"creator",
+						"3",
+						"create-trip"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditTripInfo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tripId\": 1,\r\n    \"name\" : \"Idemo u Afrikicu\",\r\n    \"description\" : \"Da sadimo paprikicu\",\r\n    \"from\": \"2021-08-02\",\r\n    \"to\": \"2021-08-30\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/trip/edit-info",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"trip",
+						"edit-info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveUserFromTrip",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44301/api/trip/remove-user/1/2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"trip",
+						"remove-user",
+						"1",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddUserToTrip",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44301/api/trip/add-user/1/2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"trip",
+						"add-user",
+						"1",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddTeamToTrip",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44301/api/trip/add-team/3/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"trip",
+						"add-team",
+						"3",
+						"1"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
