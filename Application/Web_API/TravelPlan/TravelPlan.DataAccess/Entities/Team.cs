@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Linq;
 
 namespace TravelPlan.DataAccess.Entities
 {
@@ -16,15 +17,11 @@ namespace TravelPlan.DataAccess.Entities
 
         public virtual ICollection<User> Members { get; set; }
 
-        //public override List<User> GetUsers()
-        //{
-        //    List<User> users = new List<User>();
-        //    foreach (User member in Members)
-        //    {
-        //        if(!Members.Contains(member))
-        //            users.AddRange(member.GetUsers());
-        //    }
-        //    return users;
-        //}
+        public List<User> GetUsers()
+        {
+            if (Members == null)
+                return new List<User>();
+            return Members.ToList();
+        }
     }
 }

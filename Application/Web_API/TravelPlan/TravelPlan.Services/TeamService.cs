@@ -78,12 +78,49 @@ namespace TravelPlan.Services
 
                     _unitOfWork.TeamRepository2.Update(team);
                     _unitOfWork.UserRepository.Update(user);
+
+                    if (team.Members.Count == 0)
+                        _unitOfWork.TeamRepository2.Delete(teamId);
+
                     _unitOfWork.Save();
 
                     return true;
                 }
 
                 return false;
+            }
+        }
+
+        public async Task<TeamDTO> AddMemberToTeam(int teamId, int memberId, bool IsTeam)
+        {
+            using(_unitOfWork)
+            {
+                Team team = await _unitOfWork.TeamRepository2.GetTeamWithMembers(teamId);
+                Member member;
+                if(IsTeam)
+                    member = await _unitOfWork.TeamRepository2.GetTeamWithMembers(memberId);
+                else
+                    member = await _unitOfWork.UserRepository.FindByID(memberId);
+
+                if (team.Members == null)
+                    team.Members = new List<User>();
+
+                foreach (User user in member.GetUsers())
+                {
+                    if (!team.Members.Contains(user))
+                    {
+                        team.Members.Add(user);
+                        if (user.MyTeams == null)
+                            user.MyTeams = new List<Team>();
+                        user.MyTeams.Add(team);
+                        _unitOfWork.UserRepository.Update(user);
+                    }
+                }
+                _unitOfWork.TeamRepository2.Update(team);
+                _unitOfWork.Save();
+
+                TeamDTO retTeam = _mapper.Map<Team, TeamDTO>(team);
+                return retTeam;
             }
         }
     }

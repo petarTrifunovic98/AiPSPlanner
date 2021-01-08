@@ -6,7 +6,7 @@
 
 - Kreiraj tim (ime)   ---OK
 - Promena imena tima  ---OK
-- Dodavanje memebera u tim
+- Dodavanje memebera u tim  ---OK
 - Izbacivanje user-a iz tima  ---OK
 
 - Kreiraj putovanje (datumi, opis)

@@ -12,5 +12,6 @@ namespace TravelPlan.Contracts.ServiceContracts
         Task<IEnumerable<TeamDTO>> GetTeams();
         Task<TeamDTO> EditTeamInfo(TeamEditDTO teamInfo);
         Task<bool> RemoveUserFromTeam(int teamId, int userId);
+        Task<TeamDTO> AddMemberToTeam(int teamId, int memberId, bool IsTeam);
     }
 }

@@ -7,6 +7,6 @@ namespace TravelPlan.DataAccess.Entities
 {
     public interface Member
     {
-        //public abstract List<User> GetUsers();
+        public abstract List<User> GetUsers();
     }
 }

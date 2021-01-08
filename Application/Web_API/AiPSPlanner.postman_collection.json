@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"Masha\",\r\n    \"password\": \"Masha\",\r\n    \"name\": \"Masa\",\r\n    \"LastName\":\"Nesic\"\r\n}",
+					"raw": "{\r\n    \"username\": \"CoMi\",\r\n    \"password\": \"CoMi\",\r\n    \"name\": \"Milica\",\r\n    \"LastName\":\"Krstic\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -124,7 +124,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"Masin tim\"\r\n}",
+					"raw": "{\r\n    \"name\" : \"Petrov tim\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -132,7 +132,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:44301/api/team/creator/2/create-team",
+					"raw": "https://localhost:44301/api/team/creator/3/create-team",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -142,7 +142,7 @@
 						"api",
 						"team",
 						"creator",
-						"2",
+						"3",
 						"create-team"
 					]
 				}
@@ -150,7 +150,7 @@
 			"response": []
 		},
 		{
-			"name": "EditRequestInfo",
+			"name": "EditTeamInfo",
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -185,7 +185,7 @@
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:44301/api/team/remove-user/1/2",
+					"raw": "https://localhost:44301/api/team/remove-user/2/2",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -195,13 +195,58 @@
 						"api",
 						"team",
 						"remove-user",
-						"1",
+						"2",
 						"2"
 					]
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "AddUserToTeam",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44301/api/team/add-user/1/4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"team",
+						"add-user",
+						"1",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddTeamToTeam",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44301/api/team/add-team/3/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"team",
+						"add-team",
+						"3",
+						"1"
+					]
+				}
+			},
+			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

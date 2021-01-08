@@ -31,11 +31,11 @@ namespace TravelPlan.DataAccess.Entities
 
         public virtual ICollection<Trip> MyTrips { get; set; }
 
-        //public override List<User> GetUsers()
-        //{
-        //    List<User> ret = new List<User>();
-        //    ret.Add(this);
-        //    return ret;
-        //}
+        public List<User> GetUsers()
+        {
+            List<User> ret = new List<User>();
+            ret.Add(this);
+            return ret;
+        }
     }
 }

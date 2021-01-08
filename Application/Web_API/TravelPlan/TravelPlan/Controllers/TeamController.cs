@@ -75,5 +75,39 @@ namespace TravelPlan.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut]
+        [Route("add-user/{teamId}/{memberId}")]
+        public async Task<ActionResult> AddUserToTeam(int teamId, int memberId)
+        {
+            try
+            {
+                TeamDTO team = await _teamService.AddMemberToTeam(teamId, memberId, false);
+                if (team != null)
+                    return Ok(team);
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("add-team/{teamId}/{memberId}")]
+        public async Task<ActionResult> AddTeamToTeam(int teamId, int memberId)
+        {
+            try
+            {
+                TeamDTO team = await _teamService.AddMemberToTeam(teamId, memberId, true);
+                if (team != null)
+                    return Ok(team);
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
