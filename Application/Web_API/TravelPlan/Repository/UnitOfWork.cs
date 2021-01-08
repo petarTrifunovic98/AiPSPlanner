@@ -32,29 +32,19 @@ namespace TravelPlan.Repository
         }
 
         //-----------------
-        private ITeamRepository _teamRepository2;
-        public ITeamRepository TeamRepository2
-        {
-            get
-            {
-                if (this._teamRepository2 == null)
-                    this._teamRepository2 = new TeamRepository(_context);
-                return this._teamRepository2;
-            }
-        }
 
-        //-----------------
-
-        private IRepositoryBase<Team> _teamRepository;
-        public IRepositoryBase<Team> TeamRepository
+        private ITeamRepository _teamRepository;
+        public ITeamRepository TeamRepository
         {
             get
             {
                 if (this._teamRepository == null)
-                    this._teamRepository = new RepositoryBase<Team>(_context);
+                    this._teamRepository = new TeamRepository(_context);
                 return this._teamRepository;
             }
         }
+
+        //-----------------
 
         private IRepositoryBase<Item> _itemRepository;
         public IRepositoryBase<Item> ItemRepository

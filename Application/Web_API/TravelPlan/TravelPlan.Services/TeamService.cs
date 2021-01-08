@@ -46,7 +46,7 @@ namespace TravelPlan.Services
         {
             using (_unitOfWork)
             {
-                IEnumerable<Team> teams = await _unitOfWork.TeamRepository2.GetTeamsWithMembers();
+                IEnumerable<Team> teams = await _unitOfWork.TeamRepository.GetTeamsWithMembers();
                 IEnumerable<TeamDTO> teamDTOs = _mapper.Map<IEnumerable<Team>, IEnumerable<TeamDTO>>(teams);
                 return teamDTOs;
             }
@@ -56,9 +56,9 @@ namespace TravelPlan.Services
         {
             using(_unitOfWork)
             {
-                Team team = await _unitOfWork.TeamRepository2.GetTeamWithMembers(teamInfo.TeamId);
+                Team team = await _unitOfWork.TeamRepository.GetTeamWithMembers(teamInfo.TeamId);
                 team.Name = teamInfo.Name;
-                _unitOfWork.TeamRepository2.Update(team);
+                _unitOfWork.TeamRepository.Update(team);
                 _unitOfWork.Save();
                 TeamDTO returnTeam = _mapper.Map<Team, TeamDTO>(team);
                 return returnTeam;
@@ -69,18 +69,18 @@ namespace TravelPlan.Services
         {
             using (_unitOfWork)
             {
-                Team team = await _unitOfWork.TeamRepository2.GetTeamWithMembers(teamId);
+                Team team = await _unitOfWork.TeamRepository.GetTeamWithMembers(teamId);
                 User user = await _unitOfWork.UserRepository.FindByID(userId);
                 if(team.Members != null && team.Members.Contains(user))
                 {
                     team.Members.Remove(user);
                     user.MyTeams.Remove(team);
 
-                    _unitOfWork.TeamRepository2.Update(team);
+                    _unitOfWork.TeamRepository.Update(team);
                     _unitOfWork.UserRepository.Update(user);
 
                     if (team.Members.Count == 0)
-                        _unitOfWork.TeamRepository2.Delete(teamId);
+                        _unitOfWork.TeamRepository.Delete(teamId);
 
                     _unitOfWork.Save();
 
@@ -95,10 +95,10 @@ namespace TravelPlan.Services
         {
             using(_unitOfWork)
             {
-                Team team = await _unitOfWork.TeamRepository2.GetTeamWithMembers(teamId);
+                Team team = await _unitOfWork.TeamRepository.GetTeamWithMembers(teamId);
                 Member member;
                 if(IsTeam)
-                    member = await _unitOfWork.TeamRepository2.GetTeamWithMembers(memberId);
+                    member = await _unitOfWork.TeamRepository.GetTeamWithMembers(memberId);
                 else
                     member = await _unitOfWork.UserRepository.FindByID(memberId);
 
@@ -116,7 +116,7 @@ namespace TravelPlan.Services
                         _unitOfWork.UserRepository.Update(user);
                     }
                 }
-                _unitOfWork.TeamRepository2.Update(team);
+                _unitOfWork.TeamRepository.Update(team);
                 _unitOfWork.Save();
 
                 TeamDTO retTeam = _mapper.Map<Team, TeamDTO>(team);
