@@ -9,5 +9,6 @@ namespace TravelPlan.Contracts.RepositoryContracts
     public interface ITeamRepository:IRepositoryBase<Team>
     {
         Task<IEnumerable<Team>> GetTeamsWithMembers();
+        Task<Team> GetTeamWithMembers(int id);
     }
 }

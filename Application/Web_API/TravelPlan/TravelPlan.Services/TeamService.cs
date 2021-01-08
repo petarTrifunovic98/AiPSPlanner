@@ -20,7 +20,7 @@ namespace TravelPlan.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<bool> CreateTeam(int userId, CreateTeamDTO newTeam)
+        public async Task<TeamDTO> CreateTeam(int userId, CreateTeamDTO newTeam)
         {
             using(_unitOfWork)
             {
@@ -35,7 +35,10 @@ namespace TravelPlan.Services
                 team.Members.Add(user);
 
                 await _unitOfWork.TeamRepository.Create(team);
-                return _unitOfWork.Save();
+                _unitOfWork.Save();
+
+                TeamDTO returnTeam = _mapper.Map<Team, TeamDTO>(team);
+                return returnTeam;
             }
         }
 
@@ -46,6 +49,41 @@ namespace TravelPlan.Services
                 IEnumerable<Team> teams = await _unitOfWork.TeamRepository2.GetTeamsWithMembers();
                 IEnumerable<TeamDTO> teamDTOs = _mapper.Map<IEnumerable<Team>, IEnumerable<TeamDTO>>(teams);
                 return teamDTOs;
+            }
+        }
+
+        public async Task<TeamDTO> EditTeamInfo(TeamEditDTO teamInfo)
+        {
+            using(_unitOfWork)
+            {
+                Team team = await _unitOfWork.TeamRepository2.GetTeamWithMembers(teamInfo.TeamId);
+                team.Name = teamInfo.Name;
+                _unitOfWork.TeamRepository2.Update(team);
+                _unitOfWork.Save();
+                TeamDTO returnTeam = _mapper.Map<Team, TeamDTO>(team);
+                return returnTeam;
+            }
+        }
+
+        public async Task<bool> RemoveUserFromTeam(int teamId, int userId)
+        {
+            using (_unitOfWork)
+            {
+                Team team = await _unitOfWork.TeamRepository2.GetTeamWithMembers(teamId);
+                User user = await _unitOfWork.UserRepository.FindByID(userId);
+                if(team.Members != null && team.Members.Contains(user))
+                {
+                    team.Members.Remove(user);
+                    user.MyTeams.Remove(team);
+
+                    _unitOfWork.TeamRepository2.Update(team);
+                    _unitOfWork.UserRepository.Update(user);
+                    _unitOfWork.Save();
+
+                    return true;
+                }
+
+                return false;
             }
         }
     }

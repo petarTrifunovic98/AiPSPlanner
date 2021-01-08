@@ -21,16 +21,66 @@ namespace TravelPlan.Controllers
 
         [HttpPost]
         [Route("add-account")]
-        public async Task<ActionResult> AddUserAccount(UserRegisterDTO userInfo)
+        public async Task<ActionResult> AddUserAccount([FromBody] UserRegisterDTO userInfo)
         {
             try
-            { 
-                if(await _userService.AddUserAccount(userInfo))
-                    return Ok();
-                return BadRequest();
+            {
+                UserDTO result = await _userService.AddUserAccount(userInfo);
+                if (result == null)
+                    return BadRequest("The desired username is not available.");
+                return Ok(result);
             }
             catch(Exception ex)
             { 
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("edit-info")]
+        public async Task<ActionResult> EditUserInfo([FromBody] UserEditDTO userInfo)
+        {
+            try
+            {
+                UserDTO result = await _userService.EditUserInfo(userInfo);
+                if (result == null)
+                    return BadRequest();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("change-password")]
+        public async Task<ActionResult> ChangePassword([FromBody] UserChangePassDTO userInfo)
+        {
+            try
+            {
+                if (await _userService.ChangePassword(userInfo))
+                    return Ok();
+                return BadRequest("Incorrect old password");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("delete-picture/{userId}")]
+        public async Task<ActionResult> DeletePicture(int userId)
+        {
+            try
+            {
+                if (await _userService.DeletePicture(userId))
+                    return Ok();
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }

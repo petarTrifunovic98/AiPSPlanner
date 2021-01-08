@@ -18,5 +18,11 @@ namespace TravelPlan.Repository
             IEnumerable<Team> teams = await _dbSet.Include(team => team.Members).ToListAsync();
             return teams;
         }
+
+        public async Task<Team> GetTeamWithMembers(int id)
+        {
+            Team team = await _dbSet.Include(team => team.Members).FirstOrDefaultAsync(team => team.TeamId == id);
+            return team;
+        }
     }
 }

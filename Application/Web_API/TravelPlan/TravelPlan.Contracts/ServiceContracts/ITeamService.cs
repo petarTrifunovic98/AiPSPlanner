@@ -8,7 +8,9 @@ namespace TravelPlan.Contracts.ServiceContracts
 {
     public interface ITeamService
     {
-        Task<bool> CreateTeam(int userId, CreateTeamDTO newTeam);
-        Task<IEnumerable<TeamDTO>> GetTeams(); 
+        Task<TeamDTO> CreateTeam(int userId, CreateTeamDTO newTeam);
+        Task<IEnumerable<TeamDTO>> GetTeams();
+        Task<TeamDTO> EditTeamInfo(TeamEditDTO teamInfo);
+        Task<bool> RemoveUserFromTeam(int teamId, int userId);
     }
 }
