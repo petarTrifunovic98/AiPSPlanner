@@ -31,8 +31,6 @@ namespace TravelPlan.Repository
             }
         }
 
-        //-----------------
-
         private ITeamRepository _teamRepository;
         public ITeamRepository TeamRepository
         {
@@ -41,6 +39,17 @@ namespace TravelPlan.Repository
                 if (this._teamRepository == null)
                     this._teamRepository = new TeamRepository(_context);
                 return this._teamRepository;
+            }
+        }
+
+        private ITripRepository _tripRepository;
+        public ITripRepository TripRepository
+        {
+            get
+            {
+                if (this._tripRepository == null)
+                    this._tripRepository = new TripRepository(_context);
+                return this._tripRepository;
             }
         }
 
@@ -54,17 +63,6 @@ namespace TravelPlan.Repository
                 if (this._itemRepository == null)
                     this._itemRepository = new RepositoryBase<Item>(_context);
                 return this._itemRepository;
-            }
-        }
-
-        private IRepositoryBase<Trip> _tripRepository;
-        public IRepositoryBase<Trip> TripRepository
-        {
-            get
-            {
-                if (this._tripRepository == null)
-                    this._tripRepository = new RepositoryBase<Trip>(_context);
-                return this._tripRepository;
             }
         }
 

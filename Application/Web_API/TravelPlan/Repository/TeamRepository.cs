@@ -13,6 +13,7 @@ namespace TravelPlan.Repository
     {
         public TeamRepository(TravelPlanDbContext context) : base(context)
         { }
+
         public async Task<IEnumerable<Team>> GetTeamsWithMembers()
         {
             IEnumerable<Team> teams = await _dbSet.Include(team => team.Members).ToListAsync();

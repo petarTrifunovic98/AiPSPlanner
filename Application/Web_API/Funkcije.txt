@@ -1,34 +1,34 @@
-- Kreiraj nalog  ---OK
-- Izmena parametara naloga   ---OK
++ Kreiraj nalog
++ Izmena parametara naloga
 - Dodaj sliku
-- Brisi sliku   ---OK
-- Promeni password  ---OK
++ Brisi sliku
++ Promeni password
 
-- Kreiraj tim (ime)   ---OK
-- Promena imena tima  ---OK
-- Dodavanje memebera u tim  ---OK
-- Izbacivanje user-a iz tima  ---OK
++ Kreiraj tim (ime)
++ Promena imena tima
++ Dodavanje memebera u tim
++ Izbacivanje user-a iz tima
 
-- Kreiraj putovanje (datumi, opis)
-- Azuriraj putovanje - datumi i opis
-- Dodavanje memebera u putovanje
-- Izbacivanje user-a iz putovanja
-- Putovanje se brise ako svi izadju iz njega
++ Kreiraj putovanje
++ Azuriraj putovanje
++ Dodavanje memebera u putovanje
++ Izbacivanje user-a iz putovanja
+
 - Kreiraj item, dodaj item u trip
 - Izbaci item iz tripa
-- Kreiraj lokaciju i dodaj je u trip
-- Brisi lokaciju iz Tripa
-
 - Promeni user-a za item
 - check/uncheck za item
 - Promena parametra itema
 
+- Kreiraj lokaciju i dodaj je u trip
+- Brisi lokaciju iz Tripa
 - Edit parametara lokacije
+
 - Dodaj accommodation, kreiranje acc
 - Ukloni smestaj
+- Edit parametara smestaja
 
-- Edit parametara
-- Dodavanje slike
-- Brisanje slike
+- Dodavanje slike smestaja
+- Brisanje slike smestaja
 
 

@@ -10,6 +10,7 @@ namespace TravelPlan.Contracts
     {
         IUserRepository UserRepository { get; }
         ITeamRepository TeamRepository { get; }
+        ITripRepository TripRepository { get; }
 
         bool Save();
     }
