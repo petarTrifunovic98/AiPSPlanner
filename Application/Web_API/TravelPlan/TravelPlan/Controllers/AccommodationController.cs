@@ -27,7 +27,7 @@ namespace TravelPlan.API.Controllers
                 AccommodationDTO result = await _accommodationService.CreateAccommodation(newAccommodation);
                 if (result != null)
                     return Ok(result);
-                return BadRequest();
+                return BadRequest("Accommodation dates need to correspond with location dates");
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace TravelPlan.API.Controllers
                 AccommodationDTO result = await _accommodationService.EditAccommodationInfo(accommodationInfo);
                 if (result != null)
                     return Ok(result);
-                return BadRequest();
+                return BadRequest("Accommodation dates need to correspond with location dates");
             }
             catch (Exception ex)
             {

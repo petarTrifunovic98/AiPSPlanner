@@ -27,7 +27,7 @@ namespace TravelPlan.API.Controllers
                 LocationDTO result = await _locationService.CreateLocation(newLocation);
                 if (result != null)
                     return Ok(result);
-                return BadRequest();
+                return BadRequest("Location dates need to correspond with trip dates");
             }
             catch(Exception ex)
             {
@@ -59,7 +59,7 @@ namespace TravelPlan.API.Controllers
                 LocationDTO result = await _locationService.EditLocationInfo(locationInfo);
                 if (result != null)
                     return Ok(result);
-                return BadRequest();
+                return BadRequest("Location dates need to correspond with trip dates");
             }
             catch (Exception ex)
             {
