@@ -24,12 +24,10 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
-                if (newTrip.From > newTrip.To)
-                    return BadRequest("The trip cannot end before it started");
                 TripDTO result = await _tripService.CreateTrip(creatorId, newTrip);
                 if (result != null)
                     return Ok(result);
-                return BadRequest();
+                return BadRequest("Trip dates are not valid.");
             }
             catch (Exception ex)
             {
@@ -43,12 +41,10 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
-                if (tripInfo.From > tripInfo.To)
-                    return BadRequest("The trip cannot end before it started");
                 TripDTO result = await _tripService.EditTripInfo(tripInfo);
                 if (result != null)
                     return Ok(result);
-                return BadRequest();
+                return BadRequest("Trip dates are not valid.");
             }
             catch (Exception ex)
             {

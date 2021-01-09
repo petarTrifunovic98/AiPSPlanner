@@ -25,6 +25,9 @@ namespace TravelPlan.Services
         {
             using (_unitOfWork)
             {
+                if (!DateManagerService.checkFromToDates(newTrip.From, newTrip.To))
+                    return null;
+
                 Trip trip = _mapper.Map<TripCreateDTO, Trip>(newTrip);
                 User user = await _unitOfWork.UserRepository.FindByID(userId);
                 if (user.MyTrips == null)
@@ -48,6 +51,9 @@ namespace TravelPlan.Services
         {
             using (_unitOfWork)
             {
+                if (!DateManagerService.checkFromToDates(tripInfo.From, tripInfo.To))
+                    return null;
+
                 Trip trip = await _unitOfWork.TripRepository.FindByID(tripInfo.TripId);
                 trip.Name = tripInfo.Name;
                 trip.Description = tripInfo.Description;

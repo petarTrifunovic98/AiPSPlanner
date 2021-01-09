@@ -25,10 +25,13 @@ namespace TravelPlan.Services
         {
             using(_unitOfWork)
             {
+                if (!DateManagerService.checkFromToDates(newAccommodation.From, newAccommodation.To))
+                    return null;
+
                 Accommodation accommodation = _mapper.Map<AccommodationCreateDTO, Accommodation>(newAccommodation);
                 Location location = await _unitOfWork.LocationRepository.FindByID(newAccommodation.LocationId);
 
-                if (!DateManagerService.checkDates(location.From, location.To, accommodation.From, accommodation.To))
+                if (!DateManagerService.checkParentChildDates(location.From, location.To, accommodation.From, accommodation.To))
                     return null;
 
                 accommodation.Location = location;
@@ -58,6 +61,9 @@ namespace TravelPlan.Services
         {
             using (_unitOfWork)
             {
+                if (!DateManagerService.checkFromToDates(accommodationInfo.From, accommodationInfo.To))
+                    return null;
+
                 Accommodation accommodation = await _unitOfWork.AccommodationRepository.FindByID(accommodationInfo.AccommodationId);
                 Location location = await _unitOfWork.LocationRepository.FindByID(accommodation.LocationId);
 
@@ -68,7 +74,7 @@ namespace TravelPlan.Services
                 accommodation.To = accommodationInfo.To;
                 accommodation.Address = accommodationInfo.Address;
 
-                if (!DateManagerService.checkDates(location.From, location.To, accommodation.From, accommodation.To))
+                if (!DateManagerService.checkParentChildDates(location.From, location.To, accommodation.From, accommodation.To))
                     return null;
 
                 _unitOfWork.Save();
