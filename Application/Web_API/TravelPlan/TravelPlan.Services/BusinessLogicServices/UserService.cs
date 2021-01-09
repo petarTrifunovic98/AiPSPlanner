@@ -45,6 +45,23 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
+        public async Task<UserAuthenticateResponseDTO> LogUserIn(UserLoginDTO userInfo)
+        {
+            using(_unitOfWork)
+            {
+                User user = await _unitOfWork.UserRepository.GetUserByUsername(userInfo.Username);
+                byte[] pwdBytes = Encoding.Unicode.GetBytes(userInfo.Password);
+                userInfo.Password = Convert.ToBase64String(pwdBytes);
+                if (user.Password != userInfo.Password)
+                    return null;
+
+                UserAuthenticateResponseDTO returnUser = _mapper.Map<User, UserAuthenticateResponseDTO>(user);
+                returnUser.Token = GenerateToken(user);
+                return returnUser;
+            }
+            throw new NotImplementedException();
+        }
+
         private string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -52,7 +69,7 @@ namespace TravelPlan.Services.BusinessLogicServices
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserId.ToString()) }),
-                Expires = DateTime.UtcNow.AddMinutes(3),
+                Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

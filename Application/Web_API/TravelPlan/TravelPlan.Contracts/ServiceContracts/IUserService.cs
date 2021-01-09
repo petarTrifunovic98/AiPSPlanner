@@ -9,6 +9,7 @@ namespace TravelPlan.Contracts.ServiceContracts
     public interface IUserService
     {
         Task<UserAuthenticateResponseDTO> AddUserAccount(UserRegisterDTO userInfo);
+        Task<UserAuthenticateResponseDTO> LogUserIn(UserLoginDTO userInfo);
         Task<UserDTO> EditUserInfo(UserEditDTO userInfo);
         Task<bool> ChangePassword(UserChangePassDTO userInfo);
         Task<bool> DeletePicture(int userID);

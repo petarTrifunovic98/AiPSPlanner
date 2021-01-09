@@ -37,6 +37,23 @@ namespace TravelPlan.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult> LogUserIn([FromBody] UserLoginDTO userInfo)
+        {
+            try
+            {
+                UserAuthenticateResponseDTO result = await _userService.LogUserIn(userInfo);
+                if (result == null)
+                    return BadRequest("Wrong password");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [Authorize]
         [HttpPut]
         [Route("edit-info")]
