@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -117,6 +118,31 @@ namespace TravelPlan.Services.BusinessLogicServices
                 user.Picture = null;
                 return true;
             }
+        }
+
+        public async Task<IEnumerable<UserDTO>> GetUsers()
+        {
+            using(_unitOfWork)
+            {
+                IEnumerable<User> users = await _unitOfWork.UserRepository.FindAll();
+                List<UserDTO> usersInfo = new List<UserDTO>();
+                foreach(User user in users)
+                {
+                    usersInfo.Add(_mapper.Map<User, UserDTO>(user));
+                }
+                return usersInfo;
+            }
+            throw new NotImplementedException();
+        }
+
+        public async Task<UserDTO> GetSpecificUser(int userId)
+        {
+            using(_unitOfWork)
+            {
+                User user = await _unitOfWork.UserRepository.FindByID(userId);
+                return _mapper.Map<User, UserDTO>(user);
+            }
+            throw new NotImplementedException();
         }
     }
 }
