@@ -51,7 +51,7 @@ namespace TravelPlan.Services
         {
             using (_unitOfWork) 
             { 
-                Location stubLocation = new Location { LocationId = locationId };
+                Location stubLocation = new Location { VotableId = locationId };
                 _unitOfWork.LocationRepository.Delete(stubLocation);
                 _unitOfWork.Save();
             }

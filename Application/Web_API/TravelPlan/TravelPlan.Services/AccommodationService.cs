@@ -51,7 +51,7 @@ namespace TravelPlan.Services
         {
             using (_unitOfWork)
             {
-                Accommodation stubAccommodation = new Accommodation { AccommodationId = accommodationId };
+                Accommodation stubAccommodation = new Accommodation { VotableId = accommodationId };
                 _unitOfWork.AccommodationRepository.Delete(stubAccommodation);
                 _unitOfWork.Save();
             }

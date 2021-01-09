@@ -8,6 +8,8 @@ namespace TravelPlan.DTOs.DTOs
     public class AccommodationDTO
     {
         public int AccommodationId { get; set; }
+        public int PositiveVotes { get; set; }
+        public int NegativeVotes { get; set; }
         public AccommodationType Type { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

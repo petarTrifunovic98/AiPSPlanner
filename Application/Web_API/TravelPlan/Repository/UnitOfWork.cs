@@ -98,6 +98,30 @@ namespace TravelPlan.Repository
             }
         }
 
+        private IVotableRepository _votableRepository;
+        public IVotableRepository VotableRepository
+        {
+            get
+            {
+                if (this._votableRepository == null)
+                    this._votableRepository = new VotableRepository(_context);
+                return this._votableRepository;
+
+            }
+        }
+
+        private IRepositoryBase<Vote> _voteRepository;
+        public IRepositoryBase<Vote> VoteRepository
+        {
+            get
+            {
+                if (this._voteRepository == null)
+                    this._voteRepository = new RepositoryBase<Vote>(_context);
+                return this._voteRepository;
+
+            }
+        }
+
         public void Dispose()
         {
             if(!_disposed)

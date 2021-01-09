@@ -18,6 +18,20 @@ namespace TravelPlan.DataAccess
         public DbSet<Location> Locations { get; set; }
         public DbSet<Accommodation> Accommodations { get; set; }
         public DbSet<AccommodationPicture> AccommodationPictures { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Accommodation>()
+                .HasOne(a => a.Location)
+                .WithMany(l => l.Accommodations)
+                .HasForeignKey(a => a.LocationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Location>()
+                .HasMany(l => l.Accommodations)
+                .WithOne(a => a.Location)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }   
 
 

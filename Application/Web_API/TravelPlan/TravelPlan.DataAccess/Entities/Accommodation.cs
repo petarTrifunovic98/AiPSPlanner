@@ -16,11 +16,8 @@ namespace TravelPlan.DataAccess.Entities
         Camping
     }
 
-    public class Accommodation
+    public class Accommodation : Votable
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int AccommodationId { get; set; }
-
         public AccommodationType Type { get; set; }
 
         [Required]
@@ -38,6 +35,7 @@ namespace TravelPlan.DataAccess.Entities
 
         public virtual ICollection<AccommodationPicture> Pictures {get; set;}
 
+        [ForeignKey("Location")]
         public int LocationId { get; set; }
         public virtual Location Location { get; set; }
     }

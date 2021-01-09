@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TravelPlan.DataAccess.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class pleasework : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,28 +54,44 @@ namespace TravelPlan.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Locations",
+                name: "Votable",
                 columns: table => new
                 {
-                    LocationId = table.Column<int>(type: "int", nullable: false)
+                    VotableId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PositiveVotes = table.Column<int>(type: "int", nullable: false),
+                    NegativeVotes = table.Column<int>(type: "int", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: true),
+                    Accommodation_Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Accommodation_Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Accommodation_From = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Accommodation_To = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LocationId = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Latitude = table.Column<double>(type: "float", nullable: false),
-                    Longitude = table.Column<double>(type: "float", nullable: false),
-                    From = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    To = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TripId = table.Column<int>(type: "int", nullable: false)
+                    Latitude = table.Column<double>(type: "float", nullable: true),
+                    Longitude = table.Column<double>(type: "float", nullable: true),
+                    From = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    To = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TripId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Locations", x => x.LocationId);
+                    table.PrimaryKey("PK_Votable", x => x.VotableId);
                     table.ForeignKey(
-                        name: "FK_Locations_Trips_TripId",
+                        name: "FK_Votable_Trips_TripId",
                         column: x => x.TripId,
                         principalTable: "Trips",
                         principalColumn: "TripId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Votable_Votable_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Votable",
+                        principalColumn: "VotableId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,7 +106,7 @@ namespace TravelPlan.DataAccess.Migrations
                     Unit = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Checked = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    TripId = table.Column<int>(type: "int", nullable: true)
+                    TripId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,7 +116,7 @@ namespace TravelPlan.DataAccess.Migrations
                         column: x => x.TripId,
                         principalTable: "Trips",
                         principalColumn: "TripId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Items_Users_UserId",
                         column: x => x.UserId,
@@ -158,31 +174,6 @@ namespace TravelPlan.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Accommodations",
-                columns: table => new
-                {
-                    AccommodationId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    From = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    To = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LocationId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Accommodations", x => x.AccommodationId);
-                    table.ForeignKey(
-                        name: "FK_Accommodations_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "LocationId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AccommodationPictures",
                 columns: table => new
                 {
@@ -195,10 +186,37 @@ namespace TravelPlan.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_AccommodationPictures", x => x.AccommodationPictureId);
                     table.ForeignKey(
-                        name: "FK_AccommodationPictures_Accommodations_AccommodationId",
+                        name: "FK_AccommodationPictures_Votable_AccommodationId",
                         column: x => x.AccommodationId,
-                        principalTable: "Accommodations",
-                        principalColumn: "AccommodationId",
+                        principalTable: "Votable",
+                        principalColumn: "VotableId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vote",
+                columns: table => new
+                {
+                    VoteId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Positive = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    VotableId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vote", x => x.VoteId);
+                    table.ForeignKey(
+                        name: "FK_Vote_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Vote_Votable_VotableId",
+                        column: x => x.VotableId,
+                        principalTable: "Votable",
+                        principalColumn: "VotableId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -206,11 +224,6 @@ namespace TravelPlan.DataAccess.Migrations
                 name: "IX_AccommodationPictures_AccommodationId",
                 table: "AccommodationPictures",
                 column: "AccommodationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Accommodations_LocationId",
-                table: "Accommodations",
-                column: "LocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_TripId",
@@ -223,11 +236,6 @@ namespace TravelPlan.DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Locations_TripId",
-                table: "Locations",
-                column: "TripId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TeamUser_MyTeamsTeamId",
                 table: "TeamUser",
                 column: "MyTeamsTeamId");
@@ -236,6 +244,26 @@ namespace TravelPlan.DataAccess.Migrations
                 name: "IX_TripUser_TravelersUserId",
                 table: "TripUser",
                 column: "TravelersUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Votable_LocationId",
+                table: "Votable",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Votable_TripId",
+                table: "Votable",
+                column: "TripId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vote_UserId",
+                table: "Vote",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vote_VotableId",
+                table: "Vote",
+                column: "VotableId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -253,7 +281,7 @@ namespace TravelPlan.DataAccess.Migrations
                 name: "TripUser");
 
             migrationBuilder.DropTable(
-                name: "Accommodations");
+                name: "Vote");
 
             migrationBuilder.DropTable(
                 name: "Teams");
@@ -262,7 +290,7 @@ namespace TravelPlan.DataAccess.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Locations");
+                name: "Votable");
 
             migrationBuilder.DropTable(
                 name: "Trips");

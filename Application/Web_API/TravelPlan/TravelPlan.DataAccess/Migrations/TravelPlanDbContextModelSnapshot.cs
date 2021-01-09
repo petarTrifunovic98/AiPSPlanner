@@ -34,42 +34,6 @@ namespace TravelPlan.DataAccess.Migrations
                     b.ToTable("TeamUser");
                 });
 
-            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Accommodation", b =>
-                {
-                    b.Property<int>("AccommodationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("To")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("AccommodationId");
-
-                    b.HasIndex("LocationId");
-
-                    b.ToTable("Accommodations");
-                });
-
             modelBuilder.Entity("TravelPlan.DataAccess.Entities.AccommodationPicture", b =>
                 {
                     b.Property<int>("AccommodationPictureId")
@@ -127,42 +91,6 @@ namespace TravelPlan.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Location", b =>
-                {
-                    b.Property<int>("LocationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Latitude")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Longitude")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("To")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TripId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LocationId");
-
-                    b.HasIndex("TripId");
-
-                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("TravelPlan.DataAccess.Entities.Team", b =>
@@ -237,6 +165,55 @@ namespace TravelPlan.DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Votable", b =>
+                {
+                    b.Property<int>("VotableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NegativeVotes")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PositiveVotes")
+                        .HasColumnType("int");
+
+                    b.HasKey("VotableId");
+
+                    b.ToTable("Votable");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Votable");
+                });
+
+            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Vote", b =>
+                {
+                    b.Property<int>("VoteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<bool>("Positive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VotableId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VoteId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VotableId");
+
+                    b.ToTable("Vote");
+                });
+
             modelBuilder.Entity("TripUser", b =>
                 {
                     b.Property<int>("MyTripsTripId")
@@ -252,6 +229,72 @@ namespace TravelPlan.DataAccess.Migrations
                     b.ToTable("TripUser");
                 });
 
+            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Accommodation", b =>
+                {
+                    b.HasBaseType("TravelPlan.DataAccess.Entities.Votable");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Accommodation_Description");
+
+                    b.Property<DateTime>("From")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Accommodation_From");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Accommodation_Name");
+
+                    b.Property<DateTime>("To")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Accommodation_To");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasDiscriminator().HasValue("Accommodation");
+                });
+
+            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Location", b =>
+                {
+                    b.HasBaseType("TravelPlan.DataAccess.Entities.Votable");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("From")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("To")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TripId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("TripId");
+
+                    b.HasDiscriminator().HasValue("Location");
+                });
+
             modelBuilder.Entity("TeamUser", b =>
                 {
                     b.HasOne("TravelPlan.DataAccess.Entities.User", null)
@@ -265,17 +308,6 @@ namespace TravelPlan.DataAccess.Migrations
                         .HasForeignKey("MyTeamsTeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Accommodation", b =>
-                {
-                    b.HasOne("TravelPlan.DataAccess.Entities.Location", "Location")
-                        .WithMany("Accommodations")
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("TravelPlan.DataAccess.Entities.AccommodationPicture", b =>
@@ -308,15 +340,23 @@ namespace TravelPlan.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Location", b =>
+            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Vote", b =>
                 {
-                    b.HasOne("TravelPlan.DataAccess.Entities.Trip", "Trip")
-                        .WithMany("Locations")
-                        .HasForeignKey("TripId")
+                    b.HasOne("TravelPlan.DataAccess.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Trip");
+                    b.HasOne("TravelPlan.DataAccess.Entities.Votable", "Votable")
+                        .WithMany("Votes")
+                        .HasForeignKey("VotableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("Votable");
                 });
 
             modelBuilder.Entity("TripUser", b =>
@@ -336,12 +376,24 @@ namespace TravelPlan.DataAccess.Migrations
 
             modelBuilder.Entity("TravelPlan.DataAccess.Entities.Accommodation", b =>
                 {
-                    b.Navigation("Pictures");
+                    b.HasOne("TravelPlan.DataAccess.Entities.Location", "Location")
+                        .WithMany("Accommodations")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("TravelPlan.DataAccess.Entities.Location", b =>
                 {
-                    b.Navigation("Accommodations");
+                    b.HasOne("TravelPlan.DataAccess.Entities.Trip", "Trip")
+                        .WithMany("Locations")
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trip");
                 });
 
             modelBuilder.Entity("TravelPlan.DataAccess.Entities.Trip", b =>
@@ -354,6 +406,21 @@ namespace TravelPlan.DataAccess.Migrations
             modelBuilder.Entity("TravelPlan.DataAccess.Entities.User", b =>
                 {
                     b.Navigation("MyItems");
+                });
+
+            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Votable", b =>
+                {
+                    b.Navigation("Votes");
+                });
+
+            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Accommodation", b =>
+                {
+                    b.Navigation("Pictures");
+                });
+
+            modelBuilder.Entity("TravelPlan.DataAccess.Entities.Location", b =>
+                {
+                    b.Navigation("Accommodations");
                 });
 #pragma warning restore 612, 618
         }
