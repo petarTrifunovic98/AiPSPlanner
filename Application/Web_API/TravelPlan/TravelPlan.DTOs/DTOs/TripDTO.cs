@@ -12,7 +12,7 @@ namespace TravelPlan.DTOs.DTOs
         public DateTime From { get; set; }
         public DateTime To { get; set; }
         public virtual ICollection<LocationDTO> Locations { get; set; }
-        public virtual ICollection<UserDTO> Travelers { get; set; }
+        public virtual ICollection<UserBasicDTO> Travelers { get; set; }
         public virtual ICollection<ItemDTO> ItemList { get; set; }
     }
 }
