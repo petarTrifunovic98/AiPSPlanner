@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TravelPlan.Contracts.RepositoryContracts;
@@ -24,6 +25,14 @@ namespace TravelPlan.Repository
         {
             Team team = await _dbSet.Include(team => team.Members).FirstOrDefaultAsync(team => team.TeamId == id);
             return team;
+        }
+
+        public async Task<IEnumerable<Team>> GetUserTeamsWithMembers(User user)
+        {
+
+            IEnumerable<Team> teams = await _dbSet.Select(team => team).Where(team => team.Members.Contains(user))
+                                                  .Include(team => team.Members).ToListAsync();
+            return teams;
         }
     }
 }

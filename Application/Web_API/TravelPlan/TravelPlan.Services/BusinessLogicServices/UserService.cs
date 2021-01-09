@@ -125,12 +125,8 @@ namespace TravelPlan.Services.BusinessLogicServices
             using(_unitOfWork)
             {
                 IEnumerable<User> users = await _unitOfWork.UserRepository.FindAll();
-                List<UserDTO> usersInfo = new List<UserDTO>();
-                foreach(User user in users)
-                {
-                    usersInfo.Add(_mapper.Map<User, UserDTO>(user));
-                }
-                return usersInfo;
+                IEnumerable<UserDTO> usersInfos = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(users);
+                return usersInfos;
             }
             throw new NotImplementedException();
         }

@@ -106,7 +106,7 @@ namespace TravelPlan.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("users")]
+        [Route("get-users")]
         public async Task<ActionResult> GetUsers()
         {
             try
@@ -122,7 +122,7 @@ namespace TravelPlan.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("user/{userId}")]
+        [Route("get-user/{userId}")]
         public async Task<ActionResult> GetSpecificUser(int userId)
         {
             try
