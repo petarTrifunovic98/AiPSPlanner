@@ -31,6 +31,8 @@ namespace TravelPlan.DTOs.Profiles
             CreateMap<UserRegisterDTO, User>();
 
             CreateMap<UserEditDTO, User>();
+
+            CreateMap<User, UserAuthenticateResponseDTO>();
         }
     }
 }

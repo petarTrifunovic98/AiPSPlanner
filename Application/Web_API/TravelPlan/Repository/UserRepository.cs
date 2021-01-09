@@ -24,5 +24,11 @@ namespace TravelPlan.Repository
             User user = await _dbSet.Include(user => user.MyItems).FirstOrDefaultAsync(user => user.UserId == id);
             return user;
         }
+
+        public async Task<User> GetUserByUsername(string username)
+        {
+            User user = await _dbSet.FirstOrDefaultAsync(user => user.Username == username);
+            return user;
+        }
     }
 }

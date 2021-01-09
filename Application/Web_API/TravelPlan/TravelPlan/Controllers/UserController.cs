@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Services;
 
 namespace TravelPlan.Controllers
 {
@@ -25,7 +26,7 @@ namespace TravelPlan.Controllers
         {
             try
             {
-                UserDTO result = await _userService.AddUserAccount(userInfo);
+                UserAuthenticateResponseDTO result = await _userService.AddUserAccount(userInfo);
                 if (result == null)
                     return BadRequest("The desired username is not available.");
                 return Ok(result);
@@ -36,6 +37,7 @@ namespace TravelPlan.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut]
         [Route("edit-info")]
         public async Task<ActionResult> EditUserInfo([FromBody] UserEditDTO userInfo)

@@ -10,5 +10,6 @@ namespace TravelPlan.Contracts.RepositoryContracts
     {
         bool UsernameTaken(string username);
         Task<User> GetUserWithItems(int id);
+        Task<User> GetUserByUsername(string username);
     }
 }

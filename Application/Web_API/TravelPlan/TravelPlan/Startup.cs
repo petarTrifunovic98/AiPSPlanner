@@ -19,6 +19,8 @@ using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.Services;
 using TravelPlan.DTOs.Profiles;
 using Newtonsoft.Json;
+using TravelPlan.Services.AuthentificationService;
+using TravelPlan.Services.BusinessLogicServices;
 
 namespace TravelPlan
 {
@@ -62,6 +64,8 @@ namespace TravelPlan
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
                 services.AddDbContext<TravelPlanDbContext>(options =>
@@ -96,6 +100,8 @@ namespace TravelPlan
             app.UseCors("CORS");
 
             app.UseAuthorization();
+
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
