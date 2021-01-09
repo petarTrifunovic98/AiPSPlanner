@@ -9,7 +9,7 @@ using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
 
-namespace TravelPlan.Services
+namespace TravelPlan.Services.BusinessLogicServices
 {
     public class VoteService : IVoteService
     {
@@ -24,7 +24,7 @@ namespace TravelPlan.Services
 
         public async Task<VoteEditDTO> HaveIVotedFor(int votableId, int userId)
         {
-            using(_unitOfWork)
+            using (_unitOfWork)
             {
                 Votable votable = await _unitOfWork.VotableRepository.GetVotableWithVotes(votableId);
                 Vote vote = votable.Votes.Where(x => x.UserId == userId).FirstOrDefault();
@@ -36,7 +36,7 @@ namespace TravelPlan.Services
 
         public async Task<VoteDTO> Vote(VoteCreateDTO newVote)
         {
-            using(_unitOfWork)
+            using (_unitOfWork)
             {
                 Vote vote = _mapper.Map<VoteCreateDTO, Vote>(newVote);
                 Votable votable = await _unitOfWork.VotableRepository.GetVotableWithVotes(newVote.VotableId);
@@ -64,7 +64,7 @@ namespace TravelPlan.Services
             using (_unitOfWork)
             {
                 Vote vote = await _unitOfWork.VoteRepository.FindByID(voteInfo.VoteId);
-                
+
                 if (vote.Positive != voteInfo.Positive)
                 {
                     Votable votable = await _unitOfWork.VotableRepository.FindByID(vote.VotableId);
@@ -79,7 +79,7 @@ namespace TravelPlan.Services
                         votable.PositiveVotes++;
                     }
                 }
-                
+
                 vote.Positive = voteInfo.Positive;
                 _unitOfWork.Save();
                 return _mapper.Map<Vote, VoteDTO>(vote);

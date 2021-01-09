@@ -7,8 +7,9 @@ using TravelPlan.Contracts;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Services.Helpers;
 
-namespace TravelPlan.Services
+namespace TravelPlan.Services.BusinessLogicServices
 {
     public class TripService : ITripService
     {

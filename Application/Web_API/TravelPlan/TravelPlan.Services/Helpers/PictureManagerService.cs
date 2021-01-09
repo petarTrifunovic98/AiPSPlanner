@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace TravelPlan.Services
+namespace TravelPlan.Services.Helpers
 {
     public class PictureManagerService
     {

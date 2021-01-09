@@ -8,7 +8,7 @@ using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
 
-namespace TravelPlan.Services
+namespace TravelPlan.Services.BusinessLogicServices
 {
     public class TeamService : ITeamService
     {
@@ -22,7 +22,7 @@ namespace TravelPlan.Services
         }
         public async Task<TeamDTO> CreateTeam(int userId, CreateTeamDTO newTeam)
         {
-            using(_unitOfWork)
+            using (_unitOfWork)
             {
                 Team team = _mapper.Map<CreateTeamDTO, Team>(newTeam);
                 User user = await _unitOfWork.UserRepository.FindByID(userId);
@@ -54,7 +54,7 @@ namespace TravelPlan.Services
 
         public async Task<TeamDTO> EditTeamInfo(TeamEditDTO teamInfo)
         {
-            using(_unitOfWork)
+            using (_unitOfWork)
             {
                 Team team = await _unitOfWork.TeamRepository.GetTeamWithMembers(teamInfo.TeamId);
                 team.Name = teamInfo.Name;
@@ -71,7 +71,7 @@ namespace TravelPlan.Services
             {
                 Team team = await _unitOfWork.TeamRepository.GetTeamWithMembers(teamId);
                 User user = await _unitOfWork.UserRepository.FindByID(userId);
-                if(team.Members != null && team.Members.Contains(user))
+                if (team.Members != null && team.Members.Contains(user))
                 {
                     team.Members.Remove(user);
                     user.MyTeams.Remove(team);
@@ -93,11 +93,11 @@ namespace TravelPlan.Services
 
         public async Task<TeamDTO> AddMemberToTeam(int teamId, int memberId, bool IsTeam)
         {
-            using(_unitOfWork)
+            using (_unitOfWork)
             {
                 Team team = await _unitOfWork.TeamRepository.GetTeamWithMembers(teamId);
                 Member member;
-                if(IsTeam)
+                if (IsTeam)
                     member = await _unitOfWork.TeamRepository.GetTeamWithMembers(memberId);
                 else
                     member = await _unitOfWork.UserRepository.FindByID(memberId);

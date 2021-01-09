@@ -7,8 +7,9 @@ using TravelPlan.Contracts;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Services.Helpers;
 
-namespace TravelPlan.Services
+namespace TravelPlan.Services.BusinessLogicServices
 {
     public class LocationService : ILocationService
     {
@@ -23,7 +24,7 @@ namespace TravelPlan.Services
 
         public async Task<LocationDTO> CreateLocation(LocationCreateDTO newLocation)
         {
-            using(_unitOfWork)
+            using (_unitOfWork)
             {
                 if (!DateManagerService.checkFromToDates(newLocation.From, newLocation.To))
                     return null;
@@ -49,8 +50,8 @@ namespace TravelPlan.Services
 
         public void DeleteLocation(int locationId)
         {
-            using (_unitOfWork) 
-            { 
+            using (_unitOfWork)
+            {
                 Location stubLocation = new Location { VotableId = locationId };
                 _unitOfWork.LocationRepository.Delete(stubLocation);
                 _unitOfWork.Save();
@@ -59,7 +60,7 @@ namespace TravelPlan.Services
 
         public async Task<LocationDTO> EditLocationInfo(LocationEditDTO locationInfo)
         {
-            using(_unitOfWork)
+            using (_unitOfWork)
             {
                 if (!DateManagerService.checkFromToDates(locationInfo.From, locationInfo.To))
                     return null;

@@ -8,7 +8,7 @@ using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
 
-namespace TravelPlan.Services
+namespace TravelPlan.Services.BusinessLogicServices
 {
     public class ItemService : IItemService
     {
@@ -23,7 +23,7 @@ namespace TravelPlan.Services
 
         public async Task<ItemDTO> CreateItem(ItemCreateDTO newItem)
         {
-            using(_unitOfWork)
+            using (_unitOfWork)
             {
                 Item item = _mapper.Map<ItemCreateDTO, Item>(newItem);
                 User user = await _unitOfWork.UserRepository.GetUserWithItems(newItem.UserId);
@@ -55,7 +55,7 @@ namespace TravelPlan.Services
 
         public async Task<bool> DeleteItem(int itemId)
         {
-            using(_unitOfWork)
+            using (_unitOfWork)
             {
                 Item item = await _unitOfWork.ItemRepository.FindByID(itemId);
                 User user = await _unitOfWork.UserRepository.GetUserWithItems(item.UserId);

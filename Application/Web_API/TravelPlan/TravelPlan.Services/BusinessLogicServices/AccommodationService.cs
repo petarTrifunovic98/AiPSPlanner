@@ -7,8 +7,9 @@ using TravelPlan.Contracts;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Services.Helpers;
 
-namespace TravelPlan.Services
+namespace TravelPlan.Services.BusinessLogicServices
 {
     public class AccommodationService : IAccommodationService
     {
@@ -23,7 +24,7 @@ namespace TravelPlan.Services
 
         public async Task<AccommodationDTO> CreateAccommodation(AccommodationCreateDTO newAccommodation)
         {
-            using(_unitOfWork)
+            using (_unitOfWork)
             {
                 if (!DateManagerService.checkFromToDates(newAccommodation.From, newAccommodation.To))
                     return null;
