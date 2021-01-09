@@ -12,5 +12,6 @@ namespace TravelPlan.Contracts
         Task Create(T entity);
         void Update(T entity);
         void Delete(object id);
+        void Delete(T entity);
     }
 }

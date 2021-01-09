@@ -43,5 +43,10 @@ namespace TravelPlan.Repository
             T entity = _dbSet.Find(id);
             _dbSet.Remove(entity);
         }
+
+        public void Delete(T entity)
+        {
+            _dbSet.Remove(entity);
+        }
     }
 }

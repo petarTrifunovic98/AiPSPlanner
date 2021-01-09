@@ -30,6 +30,9 @@ namespace TravelPlan.DTOs.Profiles
                     opt => opt.MapFrom(
                         src => src.Location))
                 .ReverseMap();
+
+            CreateMap<AccommodationCreateDTO, Accommodation>();
+            CreateMap<AccommodationEditDTO, Accommodation>();
         }
     }
 }

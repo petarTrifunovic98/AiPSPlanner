@@ -12,6 +12,8 @@ namespace TravelPlan.Contracts
         ITeamRepository TeamRepository { get; }
         ITripRepository TripRepository { get; }
         IRepositoryBase<Item> ItemRepository { get; }
+        IRepositoryBase<Location> LocationRepository { get; }
+        IRepositoryBase<Accommodation> AccommodationRepository { get; }
 
         bool Save();
     }

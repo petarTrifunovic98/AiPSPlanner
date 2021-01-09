@@ -39,6 +39,8 @@ namespace TravelPlan
             services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<ITripService, TripService>();
             services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<IAccommodationService, AccommodationService>();
+            services.AddTransient<ILocationService, LocationService>();
             services.AddAutoMapper(typeof(UserProfiles));
             services.AddControllers();
             services.AddCors(options =>

@@ -53,8 +53,6 @@ namespace TravelPlan.Repository
             }
         }
 
-        //-----------------
-
         private IRepositoryBase<Item> _itemRepository;
         public IRepositoryBase<Item> ItemRepository
         {
