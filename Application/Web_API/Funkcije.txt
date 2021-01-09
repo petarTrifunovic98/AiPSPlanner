@@ -20,13 +20,13 @@
 + Promeni user-a za item
 + check/uncheck za item
 
-- Kreiraj lokaciju i dodaj je u trip
-- Brisi lokaciju iz Tripa
-- Edit parametara lokacije
++ Kreiraj lokaciju i dodaj je u trip
++ Brisi lokaciju iz Tripa
++ Edit parametara lokacije
 
-- Dodaj accommodation, kreiranje acc
-- Ukloni smestaj
-- Edit parametara smestaja
++ Dodaj accommodation, kreiranje acc
++ Ukloni smestaj
++ Edit parametara smestaja
 
 - Dodavanje slike smestaja
 - Brisanje slike smestaja
