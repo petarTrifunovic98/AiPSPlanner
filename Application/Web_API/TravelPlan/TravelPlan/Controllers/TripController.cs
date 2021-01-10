@@ -101,5 +101,35 @@ namespace TravelPlan.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("get-trip/{tripId}")]
+        public async Task<ActionResult> GetSpecificTrip(int tripId)
+        {
+            try
+            {
+                TripDTO trip = await _tripService.GetTripWithItemsAndMembers(tripId);
+                return Ok(trip);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-trips/user/{userId}")]
+        public async Task<ActionResult> GetUserTrips(int userId)
+        {
+            try
+            {
+                IEnumerable<TripDTO> trip = await _tripService.GetUserTrips(userId);
+                return Ok(trip);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

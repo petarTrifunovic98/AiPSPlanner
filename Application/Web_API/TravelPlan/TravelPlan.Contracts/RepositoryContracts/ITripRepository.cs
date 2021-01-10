@@ -10,5 +10,6 @@ namespace TravelPlan.Contracts.RepositoryContracts
     {
         Task<Trip> GetTripWithMembers(int id);
         Task<Trip> GetTripWithItemsAndMembers(int id);
+        Task<IEnumerable<Trip>> GetUserTrips(User user);
     }
 }

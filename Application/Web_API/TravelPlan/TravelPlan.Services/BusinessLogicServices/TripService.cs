@@ -125,5 +125,25 @@ namespace TravelPlan.Services.BusinessLogicServices
                 return retTrip;
             }
         }
+
+        public async Task<TripDTO> GetTripWithItemsAndMembers(int tripId)
+        {
+            using (_unitOfWork)
+            {
+                Trip trip = await _unitOfWork.TripRepository.GetTripWithItemsAndMembers(tripId);
+                return _mapper.Map<Trip, TripDTO>(trip);
+            }
+        }
+
+        public async Task<IEnumerable<TripDTO>> GetUserTrips(int userId)
+        {
+            using (_unitOfWork)
+            {
+                User user = await _unitOfWork.UserRepository.FindByID(userId);
+                IEnumerable<Trip> trips = await _unitOfWork.TripRepository.GetUserTrips(user);
+                IEnumerable<TripDTO> tripsInfos = _mapper.Map<IEnumerable<Trip>, IEnumerable<TripDTO>>(trips);
+                return tripsInfos;
+            }
+        }
     }
 }
