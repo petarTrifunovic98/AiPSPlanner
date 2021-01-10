@@ -3,32 +3,49 @@
 - Dodaj sliku
 + Brisi sliku
 + Promeni password
++ Pribavi sve korisnike
++ Pribavi konkretnog korisnika
 
 + Kreiraj tim (ime)
 + Promena imena tima
 + Dodavanje memebera u tim
 + Izbacivanje user-a iz tima
++ Pribavi sve timove
++ Pribavi konkretan tim
++ Pribavi sve korisnikove timove
 
 + Kreiraj putovanje
 + Azuriraj putovanje
 + Dodavanje memebera u putovanje
 + Izbacivanje user-a iz putovanja
++ Pribavi konkretno putovanje
++ Pribavi sva korisnikova putovanja
 
 + Kreiraj item, dodaj item u trip
 + Izbaci item iz tripa
 + Promena parametra itema
 + Promeni user-a za item
 + check/uncheck za item
++ Pribavi sve item-e iz konkretnog putovanja
++ Pribavi konkretan item
++ Pribavi sve korisnikove item-e na konkretnom putovanju
++ Pribavi sve korisnikove item-e (na svim njegovim putovanjima)
 
 + Kreiraj lokaciju i dodaj je u trip
 + Brisi lokaciju iz Tripa
 + Edit parametara lokacije
+- Pribavi sve lokacije za konkretno putovanje
+- Pribavi konkretnu lokaciju
 
 + Dodaj accommodation, kreiranje acc
 + Ukloni smestaj
 + Edit parametara smestaja
+- Pribavi sve smestaje za konkretnu lokaciju
+- Pribavi konkretan smestaj
 
 - Dodavanje slike smestaja
 - Brisanje slike smestaja
+-? Pribavi sve slike za konkretan smestaj
+-? Pribavi konkretnu sliku
 
 
