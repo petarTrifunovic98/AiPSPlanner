@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TravelPlan.Contracts;
@@ -41,6 +42,10 @@ namespace TravelPlan.Services.BusinessLogicServices
                     location.Accommodations = new List<Accommodation>();
                 location.Accommodations.Add(accommodation);
 
+                Votable votable = new Votable();
+                accommodation.Votable = votable;
+
+                await _unitOfWork.VotableRepository.Create(votable);
                 await _unitOfWork.AccommodationRepository.Create(accommodation);
                 _unitOfWork.Save();
 
@@ -48,13 +53,15 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
-        public void DeleteAccommodation(int accommodationId)
+        public async Task<bool> DeleteAccommodation(int accommodationId)
         {
             using (_unitOfWork)
             {
-                Accommodation stubAccommodation = new Accommodation { VotableId = accommodationId };
-                _unitOfWork.AccommodationRepository.Delete(stubAccommodation);
+                Accommodation accommodation = await _unitOfWork.AccommodationRepository.FindByID(accommodationId);
+                _unitOfWork.VotableRepository.Delete(accommodation.VotableId);
+                _unitOfWork.AccommodationRepository.Delete(accommodationId);
                 _unitOfWork.Save();
+                return true;
             }
         }
 
@@ -81,6 +88,24 @@ namespace TravelPlan.Services.BusinessLogicServices
                 _unitOfWork.Save();
 
                 return _mapper.Map<Accommodation, AccommodationDTO>(accommodation);
+            }
+        }
+
+        public async Task<AccommodationDTO> GetSpecificAccommodation(int accommodationId)
+        {
+            using(_unitOfWork)
+            {
+                Accommodation accommodation = await _unitOfWork.AccommodationRepository.GetAccommodationWithVotable(accommodationId);
+                return _mapper.Map<Accommodation, AccommodationDTO>(accommodation);
+            }
+        }
+
+        public async Task<List<AccommodationDTO>> GetAccommodationsForLocation(int locationId)
+        {
+            using (_unitOfWork)
+            {
+                Location location = await _unitOfWork.LocationRepository.GetLocationWithAccommodations(locationId);
+                return location.Accommodations.Select(a => _mapper.Map<Accommodation, AccommodationDTO>(a)).ToList();
             }
         }
     }

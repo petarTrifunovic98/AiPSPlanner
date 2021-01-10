@@ -21,9 +21,23 @@ namespace TravelPlan.Repository
             return trip;
         }
 
+        public async Task<Trip> GetTripWithMembersAndLocations(int id)
+        {
+            Trip trip = await _dbSet.Include(trip => trip.Travelers)
+                                    .Include(trip => trip.Locations).ThenInclude(location => location.Votable)
+                                    .FirstOrDefaultAsync(trip => trip.TripId == id);
+            return trip;
+        }
+
         public async Task<Trip> GetTripWithItemsAndMembers(int id)
         {
             Trip trip = await _dbSet.Include(trip => trip.Travelers).Include(trip => trip.ItemList).FirstOrDefaultAsync(trip => trip.TripId == id);
+            return trip;
+        }
+
+        public async Task<Trip> GetTripWithILocations(int id)
+        {
+            Trip trip = await _dbSet.Include(trip => trip.Locations).ThenInclude(x => x.Votable).FirstOrDefaultAsync(trip => trip.TripId == id);
             return trip;
         }
 

@@ -30,17 +30,13 @@ namespace TravelPlan.DTOs.Profiles
                     opt => opt.MapFrom(
                         src => src.Location))
                 .ForMember(dest =>
-                    dest.AccommodationId,
+                    dest.Votable,
                     opt => opt.MapFrom(
-                        src => src.VotableId))
+                        src => src.Votable))
                 .ReverseMap();
 
             CreateMap<AccommodationCreateDTO, Accommodation>();
-            CreateMap<AccommodationEditDTO, Accommodation>()
-                .ForMember(dest =>
-                    dest.VotableId,
-                    opt => opt.MapFrom(
-                        src => src.AccommodationId));
+            CreateMap<AccommodationEditDTO, Accommodation>();
         }
     }
 }

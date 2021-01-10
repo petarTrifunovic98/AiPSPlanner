@@ -34,14 +34,14 @@
 + Kreiraj lokaciju i dodaj je u trip
 + Brisi lokaciju iz Tripa
 + Edit parametara lokacije
-- Pribavi sve lokacije za konkretno putovanje
-- Pribavi konkretnu lokaciju
++ Pribavi sve lokacije za konkretno putovanje
++ Pribavi konkretnu lokaciju
 
 + Dodaj accommodation, kreiranje acc
 + Ukloni smestaj
 + Edit parametara smestaja
-- Pribavi sve smestaje za konkretnu lokaciju
-- Pribavi konkretan smestaj
++ Pribavi sve smestaje za konkretnu lokaciju
++ Pribavi konkretan smestaj
 
 - Dodavanje slike smestaja
 - Brisanje slike smestaja

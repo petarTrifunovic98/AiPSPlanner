@@ -37,11 +37,11 @@ namespace TravelPlan.API.Controllers
 
         [HttpDelete]
         [Route("delete-accommodation/{accommodationId}")]
-        public ActionResult DeleteAccommodation(int accommodationId)
+        public async Task<ActionResult> DeleteAccommodation(int accommodationId)
         {
             try
             {
-                _accommodationService.DeleteAccommodation(accommodationId);
+                await _accommodationService.DeleteAccommodation(accommodationId);
                 return Ok();
             }
             catch (Exception ex)
@@ -60,6 +60,34 @@ namespace TravelPlan.API.Controllers
                 if (result != null)
                     return Ok(result);
                 return BadRequest("Accommodation dates are not valid.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-accommodation/{accommodationId}")]
+        public async Task<ActionResult> GetAccommodation(int accommodationId)
+        {
+            try
+            {
+                return Ok(await _accommodationService.GetSpecificAccommodation(accommodationId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-location-accommodations/{locationId}")]
+        public async Task<ActionResult> GetLocationAccommodations(int locationId)
+        {
+            try
+            {
+                return Ok(await _accommodationService.GetAccommodationsForLocation(locationId));
             }
             catch (Exception ex)
             {

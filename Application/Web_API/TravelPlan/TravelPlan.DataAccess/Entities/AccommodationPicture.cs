@@ -14,7 +14,6 @@ namespace TravelPlan.DataAccess.Entities
         [Required]
         public String Picture { get; set; }
 
-        [ForeignKey("Accommodation")]
         public int AccommodationId { get; set; }
         public virtual Accommodation Accommodation { get; set; }
     }

@@ -6,8 +6,11 @@ using System.Text;
 
 namespace TravelPlan.DataAccess.Entities
 {
-    public class Location : Votable
+    public class Location
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int LocationId { get; set; }
+
         [Required]
         public String Name { get; set; }
 
@@ -27,5 +30,8 @@ namespace TravelPlan.DataAccess.Entities
 
         public int TripId { get; set; }
         public virtual Trip Trip { get; set; }
+
+        public int VotableId { get; set; }
+        public virtual Votable Votable { get; set; }
     }
 }

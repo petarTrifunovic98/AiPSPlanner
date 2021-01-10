@@ -82,6 +82,7 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 vote.Positive = voteInfo.Positive;
                 _unitOfWork.Save();
+                
                 return _mapper.Map<Vote, VoteDTO>(vote);
             }
         }

@@ -12,8 +12,8 @@ namespace TravelPlan.Contracts
         ITeamRepository TeamRepository { get; }
         ITripRepository TripRepository { get; }
         IItemRepository ItemRepository { get; }
-        IRepositoryBase<Location> LocationRepository { get; }
-        IRepositoryBase<Accommodation> AccommodationRepository { get; }
+        ILocationRepository LocationRepository { get; }
+        IAccommodationRepository AccommodationRepository { get; }
         IVotableRepository VotableRepository { get; }
         IRepositoryBase<Vote> VoteRepository { get; }
 

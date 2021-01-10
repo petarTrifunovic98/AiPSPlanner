@@ -64,24 +64,24 @@ namespace TravelPlan.Repository
             }
         }
 
-        private IRepositoryBase<Location> _locationRepository;
-        public IRepositoryBase<Location> LocationRepository
+        private ILocationRepository _locationRepository;
+        public ILocationRepository LocationRepository
         {
             get
             {
                 if (this._locationRepository == null)
-                    this._locationRepository = new RepositoryBase<Location>(_context);
+                    this._locationRepository = new LocationRepository(_context);
                 return this._locationRepository;
             }
         }
 
-        private IRepositoryBase<Accommodation> _accommodationRepository;
-        public IRepositoryBase<Accommodation> AccommodationRepository
+        private IAccommodationRepository _accommodationRepository;
+        public IAccommodationRepository AccommodationRepository
         {
             get
             {
                 if (this._accommodationRepository == null)
-                    this._accommodationRepository = new RepositoryBase<Accommodation>(_context);
+                    this._accommodationRepository = new AccommodationRepository(_context);
                 return this._accommodationRepository;
             }
         }

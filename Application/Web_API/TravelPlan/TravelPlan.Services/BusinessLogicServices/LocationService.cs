@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TravelPlan.Contracts;
@@ -41,6 +42,10 @@ namespace TravelPlan.Services.BusinessLogicServices
                     trip.Locations = new List<Location>();
                 trip.Locations.Add(location);
 
+                Votable votable = new Votable();
+                location.Votable = votable;
+
+                await _unitOfWork.VotableRepository.Create(votable);
                 await _unitOfWork.LocationRepository.Create(location);
                 _unitOfWork.Save();
 
@@ -48,13 +53,20 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
-        public void DeleteLocation(int locationId)
+        public async Task<bool> DeleteLocation(int locationId)
         {
             using (_unitOfWork)
             {
-                Location stubLocation = new Location { VotableId = locationId };
-                _unitOfWork.LocationRepository.Delete(stubLocation);
+                Location location = await _unitOfWork.LocationRepository.GetLocationWithAccommodations(locationId);            
+                foreach(Accommodation accommodation in location.Accommodations)
+                {
+                    _unitOfWork.VotableRepository.Delete(accommodation.VotableId);
+                    _unitOfWork.AccommodationRepository.Delete(accommodation.AccommodationId);
+                }
+                _unitOfWork.VotableRepository.Delete(location.VotableId);
+                _unitOfWork.LocationRepository.Delete(locationId);
                 _unitOfWork.Save();
+                return true;
             }
         }
 
@@ -79,6 +91,24 @@ namespace TravelPlan.Services.BusinessLogicServices
                 _unitOfWork.Save();
 
                 return _mapper.Map<Location, LocationDTO>(location);
+            }
+        }
+
+        public async Task<LocationDTO> GetSpecificLocation(int locationId)
+        {
+            using (_unitOfWork)
+            {
+                Location location = await _unitOfWork.LocationRepository.GetLocationWithVotable(locationId);
+                return _mapper.Map<Location, LocationDTO>(location);
+            }
+        }
+
+        public async Task<List<LocationDTO>> GetLocationsForTrip(int tripId)
+        {
+            using (_unitOfWork)
+            {
+                Trip trip = await _unitOfWork.TripRepository.GetTripWithILocations(tripId);
+                return trip.Locations.Select(l => _mapper.Map<Location, LocationDTO>(l)).ToList();
             }
         }
     }

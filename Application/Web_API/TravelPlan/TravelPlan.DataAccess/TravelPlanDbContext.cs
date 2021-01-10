@@ -25,12 +25,12 @@ namespace TravelPlan.DataAccess
                 .HasOne(a => a.Location)
                 .WithMany(l => l.Accommodations)
                 .HasForeignKey(a => a.LocationId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Location>()
                 .HasMany(l => l.Accommodations)
                 .WithOne(a => a.Location)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }   
 

@@ -7,8 +7,6 @@ namespace TravelPlan.DTOs.DTOs
     public class LocationDTO
     {
         public int LocationId { get; set; }
-        public int PositiveVotes { get; set; }
-        public int NegativeVotes { get; set; }
         public String Name { get; set; }
         public String Description { get; set; }
         public double Latitude { get; set; }
@@ -18,5 +16,7 @@ namespace TravelPlan.DTOs.DTOs
         public ICollection<AccommodationDTO> Accommodations { get; set; }
         public int TripId { get; set; }
         public virtual TripBasicDTO Trip { get; set; }
+        public int VotableId { get; set; }
+        public virtual VotableDTO Votable { get; set; }
     }
 }

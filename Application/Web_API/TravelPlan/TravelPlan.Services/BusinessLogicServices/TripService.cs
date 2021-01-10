@@ -71,7 +71,7 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             using (_unitOfWork)
             {
-                Trip trip = await _unitOfWork.TripRepository.GetTripWithMembers(tripId);
+                Trip trip = await _unitOfWork.TripRepository.GetTripWithMembersAndLocations(tripId);
                 User user = await _unitOfWork.UserRepository.FindByID(userId);
                 if (trip.Travelers != null && trip.Travelers.Contains(user))
                 {
@@ -82,8 +82,21 @@ namespace TravelPlan.Services.BusinessLogicServices
                     _unitOfWork.UserRepository.Update(user);
 
                     if (trip.Travelers.Count == 0)
+                    {
+                        foreach(Location location in trip.Locations)
+                        {
+                            Location locationFull = await _unitOfWork.LocationRepository.GetLocationWithAccommodations(location.LocationId);
+                            foreach (Accommodation accommodation in locationFull.Accommodations)
+                            {
+                                _unitOfWork.VotableRepository.Delete(accommodation.VotableId);
+                                _unitOfWork.AccommodationRepository.Delete(accommodation.AccommodationId);
+                            }
+                            _unitOfWork.VotableRepository.Delete(location.VotableId);
+                            //_unitOfWork.LocationRepository.Delete(location.LocationId);
+                        }
                         _unitOfWork.TripRepository.Delete(tripId);
-
+                    }
+                        
                     _unitOfWork.Save();
 
                     return true;

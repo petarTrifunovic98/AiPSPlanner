@@ -22,17 +22,12 @@ namespace TravelPlan.DTOs.Profiles
                     opt => opt.MapFrom(
                         src => src.Trip))
                 .ForMember(dest =>
-                    dest.LocationId,
+                    dest.Votable,
                     opt => opt.MapFrom(
-                        src => src.VotableId))
-                .ReverseMap();
+                        src => src.Votable));
 
             CreateMap<LocationCreateDTO, Location>();
-            CreateMap<LocationEditDTO, Location>()
-                .ForMember(dest =>
-                    dest.VotableId,
-                    opt => opt.MapFrom(
-                        src => src.LocationId));
+            CreateMap<LocationEditDTO, Location>();
         }
     }
 }
