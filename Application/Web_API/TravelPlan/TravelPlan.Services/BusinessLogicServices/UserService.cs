@@ -60,7 +60,6 @@ namespace TravelPlan.Services.BusinessLogicServices
                 returnUser.Token = GenerateToken(user);
                 return returnUser;
             }
-            throw new NotImplementedException();
         }
 
         private string GenerateToken(User user)
