@@ -101,5 +101,65 @@ namespace TravelPlan.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("get-items/trip/{tripId}")]
+        public async Task<ActionResult> GetTripItems(int tripId)
+        {
+            try
+            {
+                IEnumerable<ItemDTO> items = await _itemService.GetTripItems(tripId);
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-item/{itemId}")]
+        public async Task<ActionResult> GetSpecificItem(int itemId)
+        {
+            try
+            {
+                ItemDTO item = await _itemService.GetSpecificItem(itemId);
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-items/user/{userId}/trip/{tripId}")]
+        public async Task<ActionResult> GetUserTripItems(int userId, int tripId)
+        {
+            try
+            {
+                IEnumerable<ItemDTO> items = await _itemService.GetUserTripItems(userId, tripId);
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-items/user/{userId}")]
+        public async Task<ActionResult> GetUserItems(int userId)
+        {
+            try
+            {
+                IEnumerable<ItemDTO> items = await _itemService.GetUserItems(userId);
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

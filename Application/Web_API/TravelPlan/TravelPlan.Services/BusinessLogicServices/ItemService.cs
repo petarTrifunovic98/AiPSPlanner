@@ -132,5 +132,42 @@ namespace TravelPlan.Services.BusinessLogicServices
                 return retItem;
             }
         }
+
+        public async Task<IEnumerable<ItemDTO>> GetTripItems(int tripId)
+        {
+            using (_unitOfWork)
+            {
+                IEnumerable<Item> items = await _unitOfWork.ItemRepository.GetTripItems(tripId);
+                IEnumerable<ItemDTO> itemsInfos = _mapper.Map<IEnumerable<Item>, IEnumerable<ItemDTO>>(items);
+                return itemsInfos;
+            }
+        }
+
+        public async Task<ItemDTO> GetSpecificItem(int itemId)
+        {
+            using (_unitOfWork)
+            {
+                Item item = await _unitOfWork.ItemRepository.GetSpecificItemWithUserAndTrip(itemId);
+                return _mapper.Map<Item, ItemDTO>(item);
+            }
+        }
+
+        public async Task<IEnumerable<ItemDTO>> GetUserTripItems(int userId, int tripId)
+        {
+            using (_unitOfWork)
+            {
+                IEnumerable<Item> items = await _unitOfWork.ItemRepository.GetUserTripItems(userId, tripId);
+                return _mapper.Map<IEnumerable<Item>, IEnumerable<ItemDTO>>(items);
+            }
+        }
+
+        public async Task<IEnumerable<ItemDTO>> GetUserItems(int userId)
+        {
+            using (_unitOfWork)
+            {
+                IEnumerable<Item> items = await _unitOfWork.ItemRepository.GetUserItems(userId);
+                return _mapper.Map<IEnumerable<Item>, IEnumerable<ItemDTO>>(items);
+            }
+        }
     }
 }
