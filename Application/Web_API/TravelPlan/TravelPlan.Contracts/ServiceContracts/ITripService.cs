@@ -12,5 +12,7 @@ namespace TravelPlan.Contracts.ServiceContracts
         Task<TripDTO> EditTripInfo(TripEditDTO tripInfo);
         Task<bool> RemoveUserFromTrip(int tripId, int userId);
         Task<TripDTO> AddMemberToTrip(int tripId, int memberId, bool IsTeam);
+        Task<TripDTO> GetTripWithItemsAndMembers(int tripId);
+        Task<IEnumerable<TripDTO>> GetUserTrips(int userId);
     }
 }

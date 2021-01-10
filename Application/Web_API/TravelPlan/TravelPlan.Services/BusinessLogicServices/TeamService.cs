@@ -42,16 +42,6 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
-        public async Task<IEnumerable<TeamDTO>> GetTeams()
-        {
-            using (_unitOfWork)
-            {
-                IEnumerable<Team> teams = await _unitOfWork.TeamRepository.GetTeamsWithMembers();
-                IEnumerable<TeamDTO> teamDTOs = _mapper.Map<IEnumerable<Team>, IEnumerable<TeamDTO>>(teams);
-                return teamDTOs;
-            }
-        }
-
         public async Task<TeamDTO> EditTeamInfo(TeamEditDTO teamInfo)
         {
             using (_unitOfWork)
@@ -121,6 +111,36 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 TeamDTO retTeam = _mapper.Map<Team, TeamDTO>(team);
                 return retTeam;
+            }
+        }
+
+        public async Task<IEnumerable<TeamDTO>> GetTeams()
+        {
+            using (_unitOfWork)
+            {
+                IEnumerable<Team> teams = await _unitOfWork.TeamRepository.GetTeamsWithMembers();
+                IEnumerable<TeamDTO> teamDTOs = _mapper.Map<IEnumerable<Team>, IEnumerable<TeamDTO>>(teams);
+                return teamDTOs;
+            }
+        }
+
+        public async Task<TeamDTO> GetSpecificTeam(int teamId)
+        {
+            using (_unitOfWork)
+            {
+                Team team = await _unitOfWork.TeamRepository.GetTeamWithMembers(teamId);
+                return _mapper.Map<Team, TeamDTO>(team);
+            }
+        }
+
+        public async Task<IEnumerable<TeamDTO>> GetUserTeams(int userId)
+        {
+            using (_unitOfWork)
+            {
+                User user = await _unitOfWork.UserRepository.FindByID(userId);
+                IEnumerable<Team> teams = await _unitOfWork.TeamRepository.GetUserTeamsWithMembers(user);
+                IEnumerable<TeamDTO> result = _mapper.Map<IEnumerable<Team>, IEnumerable<TeamDTO>>(teams);
+                return result;
             }
         }
     }

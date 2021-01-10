@@ -8,6 +8,6 @@ namespace TravelPlan.DTOs.DTOs
     {
         public int TeamId { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<UserDTO> Members { get; set; }
+        public virtual ICollection<UserBasicDTO> Members { get; set; }
     }
 }

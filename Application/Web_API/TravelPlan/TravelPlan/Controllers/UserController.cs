@@ -103,5 +103,37 @@ namespace TravelPlan.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("get-users")]
+        public async Task<ActionResult> GetUsers()
+        {
+            try
+            {
+                IEnumerable<UserDTO> users = await _userService.GetUsers();
+                return Ok(users);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("get-user/{userId}")]
+        public async Task<ActionResult> GetSpecificUser(int userId)
+        {
+            try
+            {
+                UserDTO user = await _userService.GetSpecificUser(userId);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -53,13 +53,13 @@ namespace TravelPlan.Repository
             }
         }
 
-        private IRepositoryBase<Item> _itemRepository;
-        public IRepositoryBase<Item> ItemRepository
+        private IItemRepository _itemRepository;
+        public IItemRepository ItemRepository
         {
             get
             {
                 if (this._itemRepository == null)
-                    this._itemRepository = new RepositoryBase<Item>(_context);
+                    this._itemRepository = new ItemRepository(_context);
                 return this._itemRepository;
             }
         }

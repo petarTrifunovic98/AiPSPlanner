@@ -13,5 +13,7 @@ namespace TravelPlan.Contracts.ServiceContracts
         Task<UserDTO> EditUserInfo(UserEditDTO userInfo);
         Task<bool> ChangePassword(UserChangePassDTO userInfo);
         Task<bool> DeletePicture(int userID);
+        Task<IEnumerable<UserDTO>> GetUsers();
+        Task<UserDTO> GetSpecificUser(int userId);
     }
 }

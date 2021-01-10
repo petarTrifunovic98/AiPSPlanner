@@ -35,14 +35,6 @@ namespace TravelPlan.API.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("get-teams")]
-        public async Task<ActionResult> GetTeams()
-        {
-            IEnumerable<TeamDTO> teams = await _teamService.GetTeams();
-            return Ok(teams);
-        }
-
         [HttpPut]
         [Route("edit-info")]
         public async Task<ActionResult> EditTeamInfo([FromBody] TeamEditDTO teamInfo)
@@ -103,6 +95,51 @@ namespace TravelPlan.API.Controllers
                 if (team != null)
                     return Ok(team);
                 return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-teams")]
+        public async Task<ActionResult> GetTeams()
+        {
+            try
+            { 
+                IEnumerable<TeamDTO> teams = await _teamService.GetTeams();
+                return Ok(teams);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-team/{teamId}")]
+        public async Task<ActionResult> GetSpecificTeam(int teamId)
+        {
+            try
+            {
+                TeamDTO team = await _teamService.GetSpecificTeam(teamId);
+                return Ok(team);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-teams/user/{userId}")]
+        public async Task<ActionResult> GetUserTeams(int userId)
+        {
+            try
+            {
+                IEnumerable<TeamDTO> teams = await _teamService.GetUserTeams(userId);
+                return Ok(teams);
             }
             catch (Exception ex)
             {

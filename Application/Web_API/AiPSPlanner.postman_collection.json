@@ -1,754 +1,837 @@
 {
-	"info": {
-		"_postman_id": "fe5fd916-c1ee-49b6-934e-70cfb0f030da",
-		"name": "AiPSPlanner",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
+	"id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+	"name": "AiPSPlanner",
+	"description": "",
+	"order": [
+		"b550fbaa-802d-3d0a-b781-de2848579563",
+		"fcc71404-93d8-aa6e-fd48-cc3c2b335d2d",
+		"25415bed-c828-337c-074d-960d24611f67",
+		"c1bf7ef4-5f55-020d-fa8a-95fd7afb9962",
+		"a1fe6a91-9a6b-b1ec-1969-9c64080e207c",
+		"54d5cb23-b35b-4023-2fca-020331d0bb76",
+		"94eb9ba2-a8a4-28c6-5af2-831cdae17086",
+		"a96dbc64-4cea-b410-4e29-7c12824f1f9e",
+		"58b3b0c8-eab5-4ef6-4e8d-0225f0170a46",
+		"4d3524ab-2f02-db68-70df-e81539069a6e",
+		"7bf4bd65-e254-0609-70be-ae850d5233e7",
+		"511fe025-c2f7-a74f-e61e-ca63990a08c5",
+		"79d637a8-859f-d271-8fea-1d2f3f262a68",
+		"1f01179b-1f0a-ef97-c1d8-9012d11da0fc",
+		"3c3c2a88-a037-e75c-d4d8-4dce1075b722",
+		"7575a604-c9c2-8946-e612-fc6c2b0ef8bd",
+		"399f1f35-81ca-b28e-4333-60982fbd387d",
+		"a91d1e52-60fa-60e7-9e10-88b50f3a6234",
+		"b5e6a17d-6ed2-d04e-b344-d47653152408",
+		"beac4a40-2310-8b4c-a390-2b306f849633",
+		"bedb3234-6a1c-9895-18e0-5df06a92e8e5",
+		"c4254453-0281-03b1-eae4-5637f9d79c8b",
+		"6e6e1a4d-1d62-8bd4-9933-309d621cf1a6",
+		"51765406-6ebd-210f-1f0d-5beb4f631964",
+		"0436f957-204d-2a1b-3d72-afb1b555f094",
+		"3fe24ca4-921b-43d6-3fe2-6935c40be5c7",
+		"b3a73bd2-9a01-c794-e532-dadc80eb5246",
+		"d0c975fe-8b4f-49c5-af3e-b08cb3667938",
+		"c99d1b63-0f3f-3f66-efc7-b4aecce5e423",
+		"4b8bf32b-a84d-1291-eb29-966436d27d5b",
+		"c092d811-d0a1-2206-6525-3756616226d0",
+		"eb24f176-a0cc-efbf-8683-8f6fc957f8cb",
+		"0bbe9138-ab8a-3449-1d6b-d7348cb1d421",
+		"0db06178-1013-2b4a-f6b1-d643a523c101",
+		"f89aaa34-8784-3825-f3a0-1f1ecd49e0c4",
+		"7594e437-983f-8cbd-c349-f4a63dff3842",
+		"6aa3a061-adde-a5fd-91ac-69d4c7082ab7"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 0,
+	"owner": "10970717",
+	"public": false,
+	"requests": [
 		{
-			"name": "CreateAccount",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"CoMi\",\r\n    \"password\": \"CoMi\",\r\n    \"name\": \"Milica\",\r\n    \"LastName\":\"Krstic\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/user/add-account",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"add-account"
-					]
-				}
-			},
-			"response": []
+			"id": "0436f957-204d-2a1b-3d72-afb1b555f094",
+			"headers": "",
+			"headerData": [],
+			"url": "https://localhost:44301/api/accommodation/delete-accommodation/2",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "DELETE",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": null,
+			"dataMode": "params",
+			"name": "DeleteAccommodation",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610207165403,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
 		},
 		{
-			"name": "EditUserInfo",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"UserId\" : 2,\r\n    \"name\" : \"Masica\",\r\n    \"LastName\" : \"Nesiceva\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/user/edit-info",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"edit-info"
-					]
-				}
-			},
-			"response": []
+			"id": "0bbe9138-ab8a-3449-1d6b-d7348cb1d421",
+			"headers": "",
+			"headerData": [],
+			"url": "https://localhost:44301/api/item/get-item/1",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": null,
+			"dataMode": "params",
+			"name": "GetSpecificItem",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610239520778,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
 		},
 		{
-			"name": "ChangePassword",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"UserId\" : 2,\r\n    \"OldPassword\" : \"Masha\",\r\n    \"NewPassword\" : \"MashaBre\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/user/change-password",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"change-password"
-					]
-				}
-			},
-			"response": []
+			"id": "0db06178-1013-2b4a-f6b1-d643a523c101",
+			"headers": "",
+			"headerData": [],
+			"url": "https://localhost:44301/api/item/get-items/user/1/trip/1",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1610239717642,
+			"name": "GetUserTripItems",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"responses": []
 		},
 		{
-			"name": "DeletePicture",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/user/delete-picture/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"delete-picture",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CreateTeam",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"Petrov tim\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/team/creator/3/create-team",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"creator",
-						"3",
-						"create-team"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "EditTeamInfo",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"TeamId\" : 1,\r\n    \"Name\" : \"Masin tim bre\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/team/edit-info",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"edit-info"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "RemoveUserFromTeam",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/team/remove-user/2/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"remove-user",
-						"2",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AddUserToTeam",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/team/add-user/1/4",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"add-user",
-						"1",
-						"4"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AddTeamToTeam",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/team/add-team/3/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"add-team",
-						"3",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CreateTrip",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"Idemo na Mars\",\r\n    \"description\" : \"Da sadimo papriku\",\r\n    \"from\": \"2021-08-01\",\r\n    \"to\": \"2021-08-31\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/trip/creator/1/create-trip",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"creator",
-						"1",
-						"create-trip"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "EditTripInfo",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"tripId\": 1,\r\n    \"name\" : \"Idemo u Afrikicu\",\r\n    \"description\" : \"Da sadimo paprikicu\",\r\n    \"from\": \"2021-08-02\",\r\n    \"to\": \"2021-08-30\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/trip/edit-info",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"edit-info"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "RemoveUserFromTrip",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/trip/remove-user/1/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"remove-user",
-						"1",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AddUserToTrip",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/trip/add-user/1/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"add-user",
-						"1",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
+			"id": "1f01179b-1f0a-ef97-c1d8-9012d11da0fc",
 			"name": "AddTeamToTrip",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/trip/add-team/1/3",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"add-team",
-						"1",
-						"3"
-					]
-				}
-			},
-			"response": []
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/trip/add-team/1/3",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
 		},
 		{
-			"name": "CreateItem",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"paprika\",\r\n    \"description\" : \"zuta, fina ali ljuta\",\r\n    \"amount\" : 100,\r\n    \"unit\" : \"komada\",\r\n    \"userId\" : 2,\r\n    \"tripId\" :3\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/item/create-item",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"create-item"
-					]
-				}
-			},
-			"response": []
+			"id": "25415bed-c828-337c-074d-960d24611f67",
+			"name": "ChangePassword",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"UserId\" : 2,\r\n    \"OldPassword\" : \"Masha\",\r\n    \"NewPassword\" : \"MashaBre\"\r\n}",
+			"url": "https://localhost:44301/api/user/change-password",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
 		},
 		{
-			"name": "DeleteItem",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/item/delete-item/3",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"delete-item",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
+			"id": "399f1f35-81ca-b28e-4333-60982fbd387d",
 			"name": "EditItemInfo",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"itemId\" : 2,\r\n    \"name\" : \"paradajz\",\r\n    \"description\" : \"Lepi paradajz\",\r\n    \"amount\" : 30,\r\n    \"unit\" : \"kg\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/item/edit-item",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"edit-item"
-					]
-				}
-			},
-			"response": []
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"itemId\" : 2,\r\n    \"name\" : \"paradajz\",\r\n    \"description\" : \"Lepi paradajz\",\r\n    \"amount\" : 30,\r\n    \"unit\" : \"kg\"\r\n}",
+			"url": "https://localhost:44301/api/item/edit-item",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
 		},
 		{
-			"name": "ChangeUserForItem",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/item/change-user/2/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"change-user",
-						"2",
-						"2"
-					]
-				}
-			},
-			"response": []
+			"id": "3c3c2a88-a037-e75c-d4d8-4dce1075b722",
+			"name": "CreateItem",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "POST",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"name\" : \"paprika\",\r\n    \"description\" : \"zuta, fina ali ljuta\",\r\n    \"amount\" : 100,\r\n    \"unit\" : \"komada\",\r\n    \"userId\" : 3,\r\n    \"tripId\" :1\r\n}",
+			"url": "https://localhost:44301/api/item/create-item",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
 		},
 		{
-			"name": "ChangeCheckedForItem",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/item/change-checked/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"change-checked",
-						"2"
-					]
+			"id": "3fe24ca4-921b-43d6-3fe2-6935c40be5c7",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
 				}
-			},
-			"response": []
+			],
+			"url": "https://localhost:44301/api/user/login",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Login",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610227171418,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"username\": \"CoMi\",\n\t\"password\": \"CoMi\"\n}"
 		},
 		{
-			"name": "CreateLocation",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Budimpesta\",\n\t\"description\": \"Prelepo mesto\",\n\t\"latitude\": 42.120,\n\t\"longitude\": 22.223,\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-30\",\n    \"tripId\": 1\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/location/create-location",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"location",
-						"create-location"
-					]
-				}
-			},
-			"response": []
+			"id": "4b8bf32b-a84d-1291-eb29-966436d27d5b",
+			"headers": "",
+			"headerData": [],
+			"url": "https://localhost:44301/api/team/get-team/2",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": null,
+			"dataMode": "params",
+			"name": "GetSpecificTeam",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610238686029,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
 		},
 		{
-			"name": "CreateAccommodation",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"type\":\"Room\",\n\t\"name\": \"Trokrevetna\",\n\t\"description\": \"U finom apartmanu\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-30\",\n    \"address\": \"Abdul Naser 23, Kairo\",\n    \"locationId\": 3\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/accommodation/create-accommodation",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"accommodation",
-						"create-accommodation"
-					]
-				}
-			},
-			"response": []
+			"id": "4d3524ab-2f02-db68-70df-e81539069a6e",
+			"name": "CreateTrip",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "POST",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"name\" : \"Idemo u Afriku\",\r\n    \"description\" : \"Da sadimo papriku\",\r\n    \"from\": \"2021-08-01\",\r\n    \"to\": \"2021-08-31\"\r\n}",
+			"url": "https://localhost:44301/api/trip/creator/3/create-trip",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
 		},
 		{
-			"name": "DeleteLocation",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/location/delete-location/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"location",
-						"delete-location",
-						"2"
-					]
-				}
-			},
-			"response": []
+			"id": "511fe025-c2f7-a74f-e61e-ca63990a08c5",
+			"name": "RemoveUserFromTrip",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/trip/remove-user/1/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
 		},
 		{
-			"name": "EditLocation",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"locationId\":3,\n\t\"name\":\"Kairo, Egipat\",\n\t\"description\":\"Blizu Nila, savrseno\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\"\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/location/edit-location",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"location",
-						"edit-location"
-					]
+			"id": "51765406-6ebd-210f-1f0d-5beb4f631964",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
 				}
-			},
-			"response": []
-		},
-		{
+			],
+			"url": "https://localhost:44301/api/accommodation/edit-accommodation",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "PUT",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": [],
+			"dataMode": "raw",
 			"name": "EditAccommodation",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"accommodationId\": 2,\n\t\"type\":\"Hotel\",\n\t\"name\": \"Ceo hotel za naaas\",\n\t\"description\": \"Najbolja zurka ikada!\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\",\n    \"address\": \"Ngakvo Kano 23/15, Ndzamena\",\n    \"locationId\": 3\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/accommodation/edit-accommodation",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"accommodation",
-						"edit-accommodation"
-					]
-				}
-			},
-			"response": []
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610155382217,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"accommodationId\": 2,\n\t\"type\":\"Hotel\",\n\t\"name\": \"Ceo hotel za naaas\",\n\t\"description\": \"Najbolja zurka ikada!\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\",\n    \"address\": \"Ngakvo Kano 23/15, Ndzamena\",\n    \"locationId\": 3\n}"
 		},
 		{
-			"name": "CheckIfVoted",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/vote/check-voted/4/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"vote",
-						"check-voted",
-						"4",
-						"1"
-					]
-				}
-			},
-			"response": []
+			"id": "54d5cb23-b35b-4023-2fca-020331d0bb76",
+			"name": "EditTeamInfo",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"TeamId\" : 1,\r\n    \"Name\" : \"Masin tim bre\"\r\n}",
+			"url": "https://localhost:44301/api/team/edit-info",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
 		},
 		{
-			"name": "Vote",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"positive\" : true,\r\n    \"userId\" : 1,\r\n    \"votableId\" : 4\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/vote/vote",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"vote",
-						"vote"
-					]
-				}
-			},
-			"response": []
+			"id": "58b3b0c8-eab5-4ef6-4e8d-0225f0170a46",
+			"name": "AddTeamToTeam",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/team/add-team/3/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
 		},
 		{
-			"name": "ChangeVote",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"voteId\": 3,\r\n    \"positive\": false\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/vote/change-vote",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"vote",
-						"change-vote"
-					]
-				}
-			},
-			"response": []
+			"id": "6aa3a061-adde-a5fd-91ac-69d4c7082ab7",
+			"headers": "",
+			"headerData": [],
+			"url": "https://localhost:44301/api/trip/get-trips/user/1",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1610243035131,
+			"name": "GetUserTrips",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"responses": []
 		},
 		{
-			"name": "DeleteVote",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/vote/remove-vote/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"vote",
-						"remove-vote",
-						"2"
-					]
+			"id": "6e6e1a4d-1d62-8bd4-9933-309d621cf1a6",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
 				}
-			},
-			"response": []
+			],
+			"url": "https://localhost:44301/api/location/edit-location",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "PUT",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": [],
+			"dataMode": "raw",
+			"name": "EditLocation",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610155030490,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"locationId\":3,\n\t\"name\":\"Kairo, Egipat\",\n\t\"description\":\"Blizu Nila, savrseno\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\"\n}"
 		},
 		{
-			"name": "GetVotes",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/vote/get-votes/4/true",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"vote",
-						"get-votes",
-						"4",
-						"true"
-					]
+			"id": "7575a604-c9c2-8946-e612-fc6c2b0ef8bd",
+			"name": "DeleteItem",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "DELETE",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/item/delete-item/3",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
+		},
+		{
+			"id": "7594e437-983f-8cbd-c349-f4a63dff3842",
+			"headers": "",
+			"headerData": [],
+			"url": "https://localhost:44301/api/trip/get-trip/1",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": null,
+			"dataMode": "params",
+			"name": "GetSpecificTrip",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610242962548,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "79d637a8-859f-d271-8fea-1d2f3f262a68",
+			"name": "AddUserToTrip",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/trip/add-user/1/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
+		},
+		{
+			"id": "7bf4bd65-e254-0609-70be-ae850d5233e7",
+			"name": "EditTripInfo",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"tripId\": 1,\r\n    \"name\" : \"Idemo u Afrikicu\",\r\n    \"description\" : \"Da sadimo paprikicu\",\r\n    \"from\": \"2021-08-02\",\r\n    \"to\": \"2021-08-30\"\r\n}",
+			"url": "https://localhost:44301/api/trip/edit-info",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
+		},
+		{
+			"id": "94eb9ba2-a8a4-28c6-5af2-831cdae17086",
+			"name": "RemoveUserFromTeam",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/team/remove-user/2/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
+		},
+		{
+			"id": "a1fe6a91-9a6b-b1ec-1969-9c64080e207c",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
 				}
-			},
-			"response": []
+			],
+			"url": "https://localhost:44301/api/team/creator/3/create-team",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1610231508507,
+			"name": "CreateTeam",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"responses": [],
+			"rawModeData": "{\r\n    \"name\" : \"Petrov tim\"\r\n}"
+		},
+		{
+			"id": "a91d1e52-60fa-60e7-9e10-88b50f3a6234",
+			"name": "ChangeUserForItem",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/item/change-user/2/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
+		},
+		{
+			"id": "a96dbc64-4cea-b410-4e29-7c12824f1f9e",
+			"name": "AddUserToTeam",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/team/add-user/1/4",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
+		},
+		{
+			"id": "b3a73bd2-9a01-c794-e532-dadc80eb5246",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MTAyMjk0MTYsImV4cCI6MTYxMDIzMTIxNiwiaWF0IjoxNjEwMjI5NDE2fQ.yyznkwjKcWYp4P2sQAXmiogNHr2dH_m5iZ3ABj9-l5Q\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MTAyMjk0MTYsImV4cCI6MTYxMDIzMTIxNiwiaWF0IjoxNjEwMjI5NDE2fQ.yyznkwjKcWYp4P2sQAXmiogNHr2dH_m5iZ3ABj9-l5Q",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://localhost:44301/api/user/get-users",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1610230833482,
+			"name": "GetUsers",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"responses": []
+		},
+		{
+			"id": "b550fbaa-802d-3d0a-b781-de2848579563",
+			"name": "CreateAccount",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "POST",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"username\": \"CoMi\",\r\n    \"password\": \"CoMi\",\r\n    \"name\": \"Milica\",\r\n    \"LastName\":\"Krstic\"\r\n}",
+			"url": "https://localhost:44301/api/user/add-account",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
+		},
+		{
+			"id": "b5e6a17d-6ed2-d04e-b344-d47653152408",
+			"name": "ChangeCheckedForItem",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/item/change-checked/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
+		},
+		{
+			"id": "beac4a40-2310-8b4c-a390-2b306f849633",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://localhost:44301/api/location/create-location",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": [],
+			"dataMode": "raw",
+			"name": "CreateLocation",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610149695112,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"name\": \"Budimpesta\",\n\t\"description\": \"Prelepo mesto\",\n\t\"latitude\": 42.120,\n\t\"longitude\": 22.223,\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\",\n    \"tripId\": 1\n}"
+		},
+		{
+			"id": "bedb3234-6a1c-9895-18e0-5df06a92e8e5",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://localhost:44301/api/accommodation/create-accommodation",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": [],
+			"dataMode": "raw",
+			"name": "CreateAccommodation",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610153738402,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"type\":\"Room\",\n\t\"name\": \"Trokrevetna\",\n\t\"description\": \"U finom apartmanu\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\",\n    \"address\": \"Abdul Naser 23, Kairo\",\n    \"locationId\": 2\n}"
+		},
+		{
+			"id": "c092d811-d0a1-2206-6525-3756616226d0",
+			"headers": "",
+			"headerData": [],
+			"url": "https://localhost:44301/api/team/get-teams/user/2",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": null,
+			"dataMode": "params",
+			"name": "GetUserTeams",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610238705952,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "c1bf7ef4-5f55-020d-fa8a-95fd7afb9962",
+			"name": "DeletePicture",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/user/delete-picture/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
+		},
+		{
+			"id": "c4254453-0281-03b1-eae4-5637f9d79c8b",
+			"headers": "",
+			"headerData": [],
+			"url": "https://localhost:44301/api/location/delete-location/2",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "DELETE",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": null,
+			"dataMode": "params",
+			"name": "DeleteLocation",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610155017682,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "c99d1b63-0f3f-3f66-efc7-b4aecce5e423",
+			"headers": "",
+			"headerData": [],
+			"url": "https://localhost:44301/api/team/get-teams",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": null,
+			"dataMode": "params",
+			"name": "GetTeams",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610232773247,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "d0c975fe-8b4f-49c5-af3e-b08cb3667938",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MTAyMjk0MTYsImV4cCI6MTYxMDIzMTIxNiwiaWF0IjoxNjEwMjI5NDE2fQ.yyznkwjKcWYp4P2sQAXmiogNHr2dH_m5iZ3ABj9-l5Q\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MTAyMjk0MTYsImV4cCI6MTYxMDIzMTIxNiwiaWF0IjoxNjEwMjI5NDE2fQ.yyznkwjKcWYp4P2sQAXmiogNHr2dH_m5iZ3ABj9-l5Q",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://localhost:44301/api/user/get-user/3",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1610231489063,
+			"name": "GetSpecificUser",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"responses": []
+		},
+		{
+			"id": "eb24f176-a0cc-efbf-8683-8f6fc957f8cb",
+			"headers": "",
+			"headerData": [],
+			"url": "https://localhost:44301/api/item/get-items/trip/1",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": null,
+			"dataMode": "params",
+			"name": "GetTripItems",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610239168714,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "f89aaa34-8784-3825-f3a0-1f1ecd49e0c4",
+			"headers": "",
+			"headerData": [],
+			"url": "https://localhost:44301/api/item/get-items/user/1",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"data": null,
+			"dataMode": "params",
+			"name": "GetUserItems",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610239738857,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "fcc71404-93d8-aa6e-fd48-cc3c2b335d2d",
+			"name": "EditUserInfo",
+			"description": "",
+			"collectionId": "b4eb7324-2289-45c8-7df5-cc3e5fed5676",
+			"method": "PUT",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"UserId\" : 2,\r\n    \"name\" : \"Masica\",\r\n    \"LastName\" : \"Nesiceva\"\r\n}",
+			"url": "https://localhost:44301/api/user/edit-info",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "b4eb7324-2289-45c8-7df5-cc3e5fed5676"
 		}
 	]
 }
