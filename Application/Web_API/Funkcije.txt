@@ -1,6 +1,6 @@
 + Kreiraj nalog
 + Izmena parametara naloga
-- Dodaj sliku
++ Dodaj sliku
 + Brisi sliku
 + Promeni password
 + Pribavi sve korisnike
@@ -43,9 +43,8 @@
 + Pribavi sve smestaje za konkretnu lokaciju
 + Pribavi konkretan smestaj
 
-- Dodavanje slike smestaja
-- Brisanje slike smestaja
--? Pribavi sve slike za konkretan smestaj
--? Pribavi konkretnu sliku
++ Dodavanje slike smestaja
++ Brisanje slike smestaja
++ Pribavi sve slike za konkretan smestaj
 
 
