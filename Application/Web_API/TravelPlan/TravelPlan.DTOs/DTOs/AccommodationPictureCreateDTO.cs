@@ -4,11 +4,9 @@ using System.Text;
 
 namespace TravelPlan.DTOs.DTOs
 {
-    public class UserEditDTO
+    public class AccommodationPictureCreateDTO
     {
-        public int UserId { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
+        public int AccommodationId { get; set; }
         public string Picture { get; set; }
     }
 }

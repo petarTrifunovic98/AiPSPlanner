@@ -35,7 +35,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 team.Members.Add(user);
 
                 await _unitOfWork.TeamRepository.Create(team);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 TeamDTO returnTeam = _mapper.Map<Team, TeamDTO>(team);
                 return returnTeam;
@@ -49,7 +49,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 Team team = await _unitOfWork.TeamRepository.GetTeamWithMembers(teamInfo.TeamId);
                 team.Name = teamInfo.Name;
                 _unitOfWork.TeamRepository.Update(team);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
                 TeamDTO returnTeam = _mapper.Map<Team, TeamDTO>(team);
                 return returnTeam;
             }
@@ -72,7 +72,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                     if (team.Members.Count == 0)
                         _unitOfWork.TeamRepository.Delete(teamId);
 
-                    _unitOfWork.Save();
+                    await _unitOfWork.Save();
 
                     return true;
                 }
@@ -107,7 +107,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                     }
                 }
                 _unitOfWork.TeamRepository.Update(team);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 TeamDTO retTeam = _mapper.Map<Team, TeamDTO>(team);
                 return retTeam;

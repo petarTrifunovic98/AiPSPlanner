@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TravelPlan.DataAccess\TravelPlan.DataAccess.csproj" />
+    <ProjectReference Include="..\TravelPlan.Helpers\TravelPlan.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

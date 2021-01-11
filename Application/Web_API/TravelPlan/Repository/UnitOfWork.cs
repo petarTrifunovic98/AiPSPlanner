@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TravelPlan.Contracts;
 using TravelPlan.Contracts.RepositoryContracts;
 using TravelPlan.DataAccess;
@@ -130,9 +131,9 @@ namespace TravelPlan.Repository
             GC.SuppressFinalize(this);
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

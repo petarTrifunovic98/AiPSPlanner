@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelPlan.Repository", "Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelPlan.DTOs", "TravelPlan.DTOs\TravelPlan.DTOs.csproj", "{CA821271-8EFB-44C3-90DF-ADE633A13BFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelPlan.Services", "TravelPlan.Services\TravelPlan.Services.csproj", "{B4D75960-3F04-45D7-82D8-D139F0F17002}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelPlan.Services", "TravelPlan.Services\TravelPlan.Services.csproj", "{B4D75960-3F04-45D7-82D8-D139F0F17002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelPlan.Helpers", "TravelPlan.Helpers\TravelPlan.Helpers.csproj", "{17636BFA-C01B-4518-B8D1-A505ABEDEEF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{B4D75960-3F04-45D7-82D8-D139F0F17002}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4D75960-3F04-45D7-82D8-D139F0F17002}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4D75960-3F04-45D7-82D8-D139F0F17002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17636BFA-C01B-4518-B8D1-A505ABEDEEF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17636BFA-C01B-4518-B8D1-A505ABEDEEF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17636BFA-C01B-4518-B8D1-A505ABEDEEF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17636BFA-C01B-4518-B8D1-A505ABEDEEF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

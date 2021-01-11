@@ -94,5 +94,50 @@ namespace TravelPlan.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("add-picture")]
+        public async Task<ActionResult> AddAccommodationPicture(AccommodationPictureCreateDTO picture)
+        {
+            try
+            {
+                AccommodationPictureDTO accommodationPicture = await _accommodationService.AddAccommodationPicture(picture);
+                return Ok(accommodationPicture);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-pictures/accommodation/{accommodationId}")]
+        public async Task<ActionResult> GetAccommodationPictures(int accommodationId)
+        {
+            try
+            {
+                IEnumerable<AccommodationPictureDTO> pictures = await _accommodationService.GetAccommodationPictures(accommodationId);
+                return Ok(pictures);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("delete-picture/{pictureId}")]
+        public async Task<ActionResult> DeleteAccommodationPicture(int pictureId)
+        {
+            try
+            {
+                await _accommodationService.DeleteAccommodationPicture(pictureId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

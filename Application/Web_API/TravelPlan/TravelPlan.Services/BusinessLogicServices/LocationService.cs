@@ -8,7 +8,7 @@ using TravelPlan.Contracts;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
-using TravelPlan.Services.Helpers;
+using TravelPlan.Helpers;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -47,7 +47,7 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 await _unitOfWork.VotableRepository.Create(votable);
                 await _unitOfWork.LocationRepository.Create(location);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 return _mapper.Map<Location, LocationDTO>(location);
             }
@@ -65,7 +65,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 }
                 _unitOfWork.VotableRepository.Delete(location.VotableId);
                 _unitOfWork.LocationRepository.Delete(locationId);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
                 return true;
             }
         }
@@ -88,7 +88,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 if (!DateManagerService.checkParentChildDates(trip.From, trip.To, location.From, location.To))
                     return null;
 
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 return _mapper.Map<Location, LocationDTO>(location);
             }
