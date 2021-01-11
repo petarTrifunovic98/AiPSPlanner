@@ -54,7 +54,6 @@ namespace TravelPlan.Controllers
             }
         }
 
-        [Authorize]
         [HttpPut]
         [Route("edit-info")]
         public async Task<ActionResult> EditUserInfo([FromBody] UserEditDTO userInfo)

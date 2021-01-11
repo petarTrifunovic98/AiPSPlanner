@@ -12,6 +12,7 @@ using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
 using TravelPlan.Services.AuthentificationService;
+using TravelPlan.Helpers;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -83,6 +84,9 @@ namespace TravelPlan.Services.BusinessLogicServices
                 User user = await _unitOfWork.UserRepository.FindByID(userInfo.UserId);
                 user.Name = userInfo.Name;
                 user.LastName = userInfo.LastName;
+                if (!string.IsNullOrEmpty(userInfo.Picture))
+                    user.Picture = PictureManagerService.SaveImageToFile(userInfo.Picture, user.GetType().Name, user.UserId);
+
                 _unitOfWork.UserRepository.Update(user);
                 _unitOfWork.Save();
                 UserDTO returnUser = _mapper.Map<User, UserDTO>(user);
