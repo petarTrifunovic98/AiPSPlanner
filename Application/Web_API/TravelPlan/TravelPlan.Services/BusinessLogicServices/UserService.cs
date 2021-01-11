@@ -89,7 +89,15 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 _unitOfWork.UserRepository.Update(user);
                 await _unitOfWork.Save();
+
+                if (userInfo.Picture != null)
+                    user.Picture = null;
+
                 UserDTO returnUser = _mapper.Map<User, UserDTO>(user);
+
+                if (userInfo.Picture != null)
+                    returnUser.Picture = userInfo.Picture;
+
                 return returnUser;
             }
         }

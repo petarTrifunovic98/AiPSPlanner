@@ -8,6 +8,7 @@ namespace TravelPlan.Helpers
     public class PictureManagerService
     {
         private readonly static string _folderLocation = @"..\..\";
+
         public static string SaveImageToFile(string base64Image, string folderName, int id)
         {
             byte[] bytes = Convert.FromBase64String(base64Image);

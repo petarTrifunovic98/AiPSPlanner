@@ -114,19 +114,30 @@ namespace TravelPlan.Services.BusinessLogicServices
             using (_unitOfWork)
             {
                 Accommodation accommodation = await _unitOfWork.AccommodationRepository.FindByID(picture.AccommodationId);
-                AccommodationPicture accommodationPicture = _mapper.Map<AccommodationPictureCreateDTO, AccommodationPicture>(picture);
-                accommodationPicture.Picture = 
-                    PictureManagerService.SaveImageToFileGenerateId(picture.Picture, accommodation.GetType().Name, accommodation.AccommodationId);
+                AccommodationPicture accommodationPicture = new AccommodationPicture
+                {
+                    AccommodationPictureId = 0,
+                    AccommodationId = accommodation.AccommodationId,
+                    Accommodation = accommodation,
+                    Picture = "temp",
+                };
 
+                await _unitOfWork.AccommodationPictureRepository.Create(accommodationPicture);
+                await _unitOfWork.Save();
+
+                accommodationPicture.Picture = PictureManagerService.SaveImageToFile(picture.Picture, accommodation.GetType().Name, accommodationPicture.AccommodationPictureId);
                 accommodationPicture.Accommodation = accommodation;
 
                 if (accommodation.Pictures == null)
                     accommodation.Pictures = new List<AccommodationPicture>();
                 accommodation.Pictures.Add(accommodationPicture);
-
-                await _unitOfWork.AccommodationPictureRepository.Create(accommodationPicture);
+                _unitOfWork.AccommodationPictureRepository.Update(accommodationPicture);
                 await _unitOfWork.Save();
-                return _mapper.Map<AccommodationPicture, AccommodationPictureDTO>(accommodationPicture);
+                accommodationPicture.Picture = null;
+
+                AccommodationPictureDTO res = _mapper.Map<AccommodationPicture, AccommodationPictureDTO>(accommodationPicture);
+                res.Picture = picture.Picture;
+                return res;
             }
         }
 
