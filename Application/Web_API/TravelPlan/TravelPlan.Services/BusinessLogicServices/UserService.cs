@@ -119,6 +119,7 @@ namespace TravelPlan.Services.BusinessLogicServices
             {
                 User user = await _unitOfWork.UserRepository.FindByID(userID);
                 user.Picture = null;
+                await _unitOfWork.Save();
                 return true;
             }
         }

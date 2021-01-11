@@ -45,7 +45,7 @@ namespace TravelPlan
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IVoteService, VoteService>();
             services.AddAutoMapper(typeof(UserProfiles));
-            services.AddControllers();
+            services.AddControllers().AddMvcOptions(x => x.Filters.Add(new AuthorizeAttribute()));
             services.AddCors(options =>
             {
                 options.AddPolicy("CORS", builder =>

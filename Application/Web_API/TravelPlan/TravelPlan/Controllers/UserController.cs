@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace TravelPlan.Controllers
             _userService = userService;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("add-account")]
         public async Task<ActionResult> AddUserAccount([FromBody] UserRegisterDTO userInfo)
@@ -37,6 +39,7 @@ namespace TravelPlan.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("login")]
         public async Task<ActionResult> LogUserIn([FromBody] UserLoginDTO userInfo)
@@ -103,7 +106,6 @@ namespace TravelPlan.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet]
         [Route("get-users")]
         public async Task<ActionResult> GetUsers()
@@ -119,7 +121,6 @@ namespace TravelPlan.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet]
         [Route("get-user/{userId}")]
         public async Task<ActionResult> GetSpecificUser(int userId)

@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TravelPlan.DataAccess.Entities;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TravelPlan.Services
 {
@@ -13,6 +16,16 @@ namespace TravelPlan.Services
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            if (context.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+            {
+                var hasAllowAnonymousAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true)
+                    .Any(a => a.GetType() == typeof(AllowAnonymousAttribute));
+                if (hasAllowAnonymousAttribute)
+                {
+                    return;
+                }
+            }
+
             var user = (User)context.HttpContext.Items["User"];
             if (user == null)
             {
