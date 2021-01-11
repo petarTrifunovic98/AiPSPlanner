@@ -46,7 +46,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.ItemRepository.Create(item);
                 _unitOfWork.UserRepository.Update(user);
                 _unitOfWork.TripRepository.Update(trip);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
                 return retItem;
@@ -68,7 +68,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 _unitOfWork.TripRepository.Update(trip);
 
                 _unitOfWork.ItemRepository.Delete(itemId);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 return true;
             }
@@ -84,7 +84,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 item.Amount = itemInfo.Amount;
                 item.Unit = itemInfo.Unit;
                 _unitOfWork.ItemRepository.Update(item);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
                 return retItem;
             }
@@ -111,7 +111,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 _unitOfWork.UserRepository.Update(user);
                 _unitOfWork.UserRepository.Update(newUser);
                 _unitOfWork.ItemRepository.Update(item);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
                 return retItem;
@@ -126,7 +126,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 item.Checked = !item.Checked;
 
                 _unitOfWork.ItemRepository.Update(item);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
                 return retItem;

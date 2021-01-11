@@ -40,7 +40,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 userInfo.Password = Convert.ToBase64String(pwdBytes);
                 User newUser = _mapper.Map<UserRegisterDTO, User>(userInfo);
                 await _unitOfWork.UserRepository.Create(newUser);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
                 UserAuthenticateResponseDTO returnUser = _mapper.Map<User, UserAuthenticateResponseDTO>(newUser);
                 returnUser.Token = GenerateToken(newUser);
                 return returnUser;
@@ -88,7 +88,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                     user.Picture = PictureManagerService.SaveImageToFile(userInfo.Picture, user.GetType().Name, user.UserId);
 
                 _unitOfWork.UserRepository.Update(user);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
                 UserDTO returnUser = _mapper.Map<User, UserDTO>(user);
                 return returnUser;
             }
@@ -109,7 +109,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 user.Password = Convert.ToBase64String(newPwdBytes);
                 _unitOfWork.UserRepository.Update(user);
 
-                return _unitOfWork.Save();
+                return await _unitOfWork.Save();
             }
         }
 

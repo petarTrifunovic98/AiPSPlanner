@@ -47,7 +47,7 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 await _unitOfWork.VotableRepository.Create(votable);
                 await _unitOfWork.AccommodationRepository.Create(accommodation);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 return _mapper.Map<Accommodation, AccommodationDTO>(accommodation);
             }
@@ -60,7 +60,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 Accommodation accommodation = await _unitOfWork.AccommodationRepository.FindByID(accommodationId);
                 _unitOfWork.VotableRepository.Delete(accommodation.VotableId);
                 _unitOfWork.AccommodationRepository.Delete(accommodationId);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
                 return true;
             }
         }
@@ -85,7 +85,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 if (!DateManagerService.checkParentChildDates(location.From, location.To, accommodation.From, accommodation.To))
                     return null;
 
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 return _mapper.Map<Accommodation, AccommodationDTO>(accommodation);
             }
@@ -106,6 +106,45 @@ namespace TravelPlan.Services.BusinessLogicServices
             {
                 Location location = await _unitOfWork.LocationRepository.GetLocationWithAccommodations(locationId);
                 return location.Accommodations.Select(a => _mapper.Map<Accommodation, AccommodationDTO>(a)).ToList();
+            }
+        }
+
+        public async Task<AccommodationPictureDTO> AddAccommodationPicture(AccommodationPictureCreateDTO picture)
+        {
+            using (_unitOfWork)
+            {
+                Accommodation accommodation = await _unitOfWork.AccommodationRepository.FindByID(picture.AccommodationId);
+                AccommodationPicture accommodationPicture = _mapper.Map<AccommodationPictureCreateDTO, AccommodationPicture>(picture);
+                accommodationPicture.Picture = 
+                    PictureManagerService.SaveImageToFileGenerateId(picture.Picture, accommodation.GetType().Name, accommodation.AccommodationId);
+
+                accommodationPicture.Accommodation = accommodation;
+
+                if (accommodation.Pictures == null)
+                    accommodation.Pictures = new List<AccommodationPicture>();
+                accommodation.Pictures.Add(accommodationPicture);
+
+                await _unitOfWork.AccommodationPictureRepository.Create(accommodationPicture);
+                await _unitOfWork.Save();
+                return _mapper.Map<AccommodationPicture, AccommodationPictureDTO>(accommodationPicture);
+            }
+        }
+
+        public async Task<IEnumerable<AccommodationPictureDTO>> GetAccommodationPictures(int accommodationId)
+        {
+            using (_unitOfWork)
+            {
+                IEnumerable<AccommodationPicture> pictures = await _unitOfWork.AccommodationRepository.GetAccommodationPictures(accommodationId);
+                return _mapper.Map<IEnumerable<AccommodationPicture>, IEnumerable<AccommodationPictureDTO>>(pictures);
+            }
+        }
+
+        public async Task DeleteAccommodationPicture(int pictureId)
+        {
+            using (_unitOfWork)
+            {
+                _unitOfWork.AccommodationPictureRepository.Delete(pictureId);
+                await _unitOfWork.Save();
             }
         }
     }

@@ -41,7 +41,7 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 await _unitOfWork.TripRepository.Create(trip);
                 _unitOfWork.UserRepository.Update(user);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 TripDTO returnTrip = _mapper.Map<Trip, TripDTO>(trip);
                 return returnTrip;
@@ -61,7 +61,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 trip.From = tripInfo.From;
                 trip.To = tripInfo.To;
                 _unitOfWork.TripRepository.Update(trip);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
                 TripDTO returnTrip = _mapper.Map<Trip, TripDTO>(trip);
                 return returnTrip;
             }
@@ -96,8 +96,8 @@ namespace TravelPlan.Services.BusinessLogicServices
                         }
                         _unitOfWork.TripRepository.Delete(tripId);
                     }
-                        
-                    _unitOfWork.Save();
+
+                    await _unitOfWork.Save();
 
                     return true;
                 }
@@ -132,7 +132,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                     }
                 }
                 _unitOfWork.TripRepository.Update(trip);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 TripDTO retTrip = _mapper.Map<Trip, TripDTO>(trip);
                 return retTrip;

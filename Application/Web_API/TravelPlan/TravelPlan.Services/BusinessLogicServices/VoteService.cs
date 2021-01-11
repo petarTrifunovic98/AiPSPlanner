@@ -53,7 +53,7 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 _unitOfWork.VotableRepository.Update(votable);
                 await _unitOfWork.VoteRepository.Create(vote);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 return _mapper.Map<Vote, VoteDTO>(vote);
             }
@@ -81,7 +81,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 }
 
                 vote.Positive = voteInfo.Positive;
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
                 
                 return _mapper.Map<Vote, VoteDTO>(vote);
             }
@@ -102,7 +102,7 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 _unitOfWork.VotableRepository.Update(votable);
                 _unitOfWork.VoteRepository.Delete(voteId);
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
 
                 return _mapper.Map<Votable, VotableDTO>(votable);
             }

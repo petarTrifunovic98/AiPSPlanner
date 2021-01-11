@@ -9,5 +9,6 @@ namespace TravelPlan.Contracts.RepositoryContracts
     public interface IAccommodationRepository : IRepositoryBase<Accommodation>
     {
         Task<Accommodation> GetAccommodationWithVotable(int AccommodationId);
+        Task<IEnumerable<AccommodationPicture>> GetAccommodationPictures(int accommodationId);
     }
 }

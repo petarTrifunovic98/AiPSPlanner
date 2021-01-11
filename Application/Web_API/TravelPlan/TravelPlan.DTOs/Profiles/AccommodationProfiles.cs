@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Helpers;
 
 namespace TravelPlan.DTOs.Profiles
 {
@@ -18,7 +19,12 @@ namespace TravelPlan.DTOs.Profiles
                     dest.Accommodation,
                     opt => opt.MapFrom(
                         src => src.Accommodation))
-                .ReverseMap();
+                .ForMember(dest => 
+                    dest.Picture,
+                    opt=>opt.MapFrom(
+                        src=>PictureManagerService.LoadImageFromFile(src.Picture)));
+
+            CreateMap<AccommodationPictureCreateDTO, AccommodationPicture>();
 
             CreateMap<Accommodation, AccommodationDTO>()
                 .ForMember(dest =>
