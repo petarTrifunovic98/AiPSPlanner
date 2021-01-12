@@ -40,15 +40,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                     trip.Travelers = new List<User>();
                 trip.Travelers.Add(user);
 
-                AbstractFactory factory;
-                if (newTrip.TripCategory == TripCategory.Sea)
-                    factory = new SeaFactory();
-                else if (newTrip.TripCategory == TripCategory.Winter)
-                    factory = new WinterFactory();
-                else if (newTrip.TripCategory == TripCategory.Spa)
-                    factory = new SpaFactory();
-                else
-                    factory = new OtherFactory();
+                AbstractFactory factory = getConcreteFactory(newTrip.TripCategory);
 
                 trip.AddOn = factory.CreateAddOn();
                 trip.TripType = factory.CreateTripType();
@@ -60,6 +52,20 @@ namespace TravelPlan.Services.BusinessLogicServices
                 TripDTO returnTrip = _mapper.Map<Trip, TripDTO>(trip);
                 return returnTrip;
             }
+        }
+
+        public AbstractFactory getConcreteFactory(TripCategory tripCategory)
+        {
+            AbstractFactory factory;
+            if (tripCategory == TripCategory.Sea)
+                factory = new SeaFactory();
+            else if (tripCategory == TripCategory.Winter)
+                factory = new WinterFactory();
+            else if (tripCategory == TripCategory.Spa)
+                factory = new SpaFactory();
+            else
+                factory = new OtherFactory();
+            return factory;
         }
 
         public async Task<TripDTO> EditTripInfo(TripEditDTO tripInfo)
