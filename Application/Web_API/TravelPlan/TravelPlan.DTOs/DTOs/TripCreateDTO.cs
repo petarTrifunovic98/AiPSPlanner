@@ -6,6 +6,7 @@ namespace TravelPlan.DTOs.DTOs
 {
     public enum TripCategory
     {
+        Other,
         Sea,
         Winter,
         Spa

@@ -45,8 +45,10 @@ namespace TravelPlan.Services.BusinessLogicServices
                     factory = new SeaFactory();
                 else if (newTrip.TripCategory == TripCategory.Winter)
                     factory = new WinterFactory();
-                else
+                else if (newTrip.TripCategory == TripCategory.Spa)
                     factory = new SpaFactory();
+                else
+                    factory = new OtherFactory();
 
                 trip.AddOn = factory.CreateAddOn();
                 trip.TripType = factory.CreateTripType();

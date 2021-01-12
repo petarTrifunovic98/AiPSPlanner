@@ -24,10 +24,12 @@ namespace TravelPlan.DataAccess
         public DbSet<SeaAddOn> SeaAddOns { get; set; }
         public DbSet<WinterAddOn> WinterAddOns { get; set; }
         public DbSet<SpaAddOn> SpaAddOns { get; set; }
+        public DbSet<OtherAddOn> OtherAddOns { get; set; }
         public DbSet<TripType> TripTypes { get; set; }
         public DbSet<SeaType> SeaTypes { get; set; }
         public DbSet<WinterType> WinterTypes { get; set; }
         public DbSet<SpaType> SpaTypes { get; set; }
+        public DbSet<OtherType> OtherTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
