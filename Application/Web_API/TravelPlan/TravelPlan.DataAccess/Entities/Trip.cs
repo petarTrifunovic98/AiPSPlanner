@@ -27,5 +27,11 @@ namespace TravelPlan.DataAccess.Entities
         public virtual ICollection<User> Travelers { get; set; }
 
         public virtual ICollection<Item> ItemList { get; set; }
+
+        public int AddOnId { get; set; }
+        public AddOn AddOn { get; set; }
+
+        public int TripTypeId { get; set; }
+        public TripType TripType { get; set; }
     }
 }

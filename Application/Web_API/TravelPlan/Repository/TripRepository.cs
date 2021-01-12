@@ -17,13 +17,16 @@ namespace TravelPlan.Repository
 
         public async Task<Trip> GetTripWithMembers(int id)
         {
-            Trip trip = await _dbSet.Include(trip => trip.Travelers).FirstOrDefaultAsync(trip => trip.TripId == id);
+            Trip trip = await _dbSet.Include(trip => trip.Travelers)
+                                    .Include(trip => trip.TripType)
+                                    .FirstOrDefaultAsync(trip => trip.TripId == id);
             return trip;
         }
 
         public async Task<Trip> GetTripWithMembersAndLocations(int id)
         {
-            Trip trip = await _dbSet.Include(trip => trip.Travelers)
+            Trip trip = await _dbSet.Include(trip => trip.TripType)
+                                    .Include(trip => trip.Travelers)
                                     .Include(trip => trip.Locations).ThenInclude(location => location.Votable)
                                     .FirstOrDefaultAsync(trip => trip.TripId == id);
             return trip;
@@ -31,21 +34,33 @@ namespace TravelPlan.Repository
 
         public async Task<Trip> GetTripWithItemsAndMembers(int id)
         {
-            Trip trip = await _dbSet.Include(trip => trip.Travelers).Include(trip => trip.ItemList).FirstOrDefaultAsync(trip => trip.TripId == id);
+            Trip trip = await _dbSet.Include(trip => trip.Travelers)
+                                    .Include(trip => trip.ItemList)
+                                    .Include(trip => trip.TripType)
+                                    .FirstOrDefaultAsync(trip => trip.TripId == id);
             return trip;
         }
 
         public async Task<Trip> GetTripWithILocations(int id)
         {
-            Trip trip = await _dbSet.Include(trip => trip.Locations).ThenInclude(x => x.Votable).FirstOrDefaultAsync(trip => trip.TripId == id);
+            Trip trip = await _dbSet.Include(trip => trip.TripType)
+                                    .Include(trip => trip.Locations)
+                                    .ThenInclude(x => x.Votable)
+                                    .FirstOrDefaultAsync(trip => trip.TripId == id);
             return trip;
         }
 
         public async Task<IEnumerable<Trip>> GetUserTrips(User user)
         {
             IEnumerable<Trip> trips = await _dbSet.Select(trip => trip).Where(trip => trip.Travelers.Contains(user))
-                                                  .Include(trip => trip.Travelers).Include(trip => trip.ItemList).ToListAsync();
+                                                  .Include(trip => trip.Travelers).Include(trip => trip.ItemList)
+                                                  .Include(trip => trip.TripType).ToListAsync();
             return trips;
+        }
+
+        public async Task<TripType> GetTripTripType(int tripId)
+        {
+            return await _dbSet.Where(trip => trip.TripId == tripId).Select(trip => trip.TripType).FirstOrDefaultAsync();
         }
     }
 }

@@ -14,5 +14,6 @@ namespace TravelPlan.DTOs.DTOs
         public virtual ICollection<LocationDTO> Locations { get; set; }
         public virtual ICollection<UserBasicDTO> Travelers { get; set; }
         public virtual ICollection<ItemDTO> ItemList { get; set; }
+        public String Icon { get; set; }
     }
 }

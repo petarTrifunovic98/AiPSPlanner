@@ -24,7 +24,21 @@ namespace TravelPlan.DTOs.Profiles
                     dest.ItemList,
                     opt => opt.MapFrom(
                         src => src.ItemList))
+                .ForMember(dest =>
+                    dest.Icon,
+                    opt => opt.MapFrom(
+                        src => src.TripType.getIcon()))
                 .ReverseMap();
+
+            CreateMap<TripType, TripAdditionalInfoDTO>()
+                .ForMember(dest =>
+                    dest.PackingList,
+                    opt => opt.MapFrom(
+                        src => src.GetPackingList()))
+                .ForMember(dest =>
+                    dest.TipsAndTricks,
+                    opt => opt.MapFrom(
+                        src => src.getTipsAndTricks()));
 
             CreateMap<Trip, TripBasicDTO>();
 

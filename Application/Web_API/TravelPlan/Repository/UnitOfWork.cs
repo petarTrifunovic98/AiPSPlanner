@@ -123,6 +123,17 @@ namespace TravelPlan.Repository
             }
         }
 
+        private IRepositoryBase<TripType> _tripTypeRepository;
+        public IRepositoryBase<TripType> TripTypeRepository
+        {
+            get
+            {
+                if (this._tripTypeRepository == null)
+                    this._tripTypeRepository = new RepositoryBase<TripType>(_context);
+                return this._tripTypeRepository;
+            }
+        }
+
         public void Dispose()
         {
             if(!_disposed)

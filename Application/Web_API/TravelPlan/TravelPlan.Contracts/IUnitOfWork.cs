@@ -18,6 +18,7 @@ namespace TravelPlan.Contracts
         IVotableRepository VotableRepository { get; }
         IRepositoryBase<Vote> VoteRepository { get; }
         IRepositoryBase<AccommodationPicture> AccommodationPictureRepository { get; }
+        IRepositoryBase<TripType> TripTypeRepository { get; }
 
         Task<bool> Save();
     }

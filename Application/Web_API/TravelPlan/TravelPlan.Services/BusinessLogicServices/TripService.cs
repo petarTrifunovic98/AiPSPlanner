@@ -8,6 +8,7 @@ using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
 using TravelPlan.Helpers;
+using TravelPlan.Services.BusinessLogicServices.AbstractFactoryServices;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -38,6 +39,17 @@ namespace TravelPlan.Services.BusinessLogicServices
                 if (trip.Travelers == null)
                     trip.Travelers = new List<User>();
                 trip.Travelers.Add(user);
+
+                AbstractFactory factory;
+                if (newTrip.TripCategory == TripCategory.Sea)
+                    factory = new SeaFactory();
+                else if (newTrip.TripCategory == TripCategory.Winter)
+                    factory = new WinterFactory();
+                else
+                    factory = new SpaFactory();
+
+                trip.AddOn = factory.CreateAddOn();
+                trip.TripType = factory.CreateTripType();
 
                 await _unitOfWork.TripRepository.Create(trip);
                 _unitOfWork.UserRepository.Update(user);
@@ -156,6 +168,27 @@ namespace TravelPlan.Services.BusinessLogicServices
                 IEnumerable<Trip> trips = await _unitOfWork.TripRepository.GetUserTrips(user);
                 IEnumerable<TripDTO> tripsInfos = _mapper.Map<IEnumerable<Trip>, IEnumerable<TripDTO>>(trips);
                 return tripsInfos;
+            }
+        }
+
+        public async Task<TripAdditionalInfoDTO> GetTripAdditionalInfo(int tripId)
+        {
+            using(_unitOfWork)
+            {
+                TripType tripType = await _unitOfWork.TripRepository.GetTripTripType(tripId);
+                return _mapper.Map<TripType, TripAdditionalInfoDTO>(tripType);
+            }
+        }
+
+        public async Task<TripAdditionalInfoDTO> AddItemToPackingList(int tripId, TripStandardListItemDTO item)
+        {
+            using (_unitOfWork)
+            {
+                TripType tripType = await _unitOfWork.TripRepository.GetTripTripType(tripId);
+                tripType.StandardList += "_" + item.item;
+                _unitOfWork.TripTypeRepository.Update(tripType);
+                await _unitOfWork.Save();
+                return _mapper.Map<TripType, TripAdditionalInfoDTO>(tripType);
             }
         }
     }

@@ -131,5 +131,35 @@ namespace TravelPlan.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("get-trip-additional-info/{tripId}")]
+        public async Task<ActionResult> GetTripAdditionalInfo(int tripId)
+        {
+            try
+            {
+                TripAdditionalInfoDTO tripInfo = await _tripService.GetTripAdditionalInfo(tripId);
+                return Ok(tripInfo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("add-to-trip-packing-list/{tripId}")]
+        public async Task<ActionResult> AddItemToPackingList(int tripId, [FromBody]TripStandardListItemDTO item)
+        {
+            try
+            {
+                TripAdditionalInfoDTO tripInfo = await _tripService.AddItemToPackingList(tripId, item);
+                return Ok(tripInfo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

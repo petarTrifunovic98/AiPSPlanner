@@ -18,6 +18,16 @@ namespace TravelPlan.DataAccess
         public DbSet<Location> Locations { get; set; }
         public DbSet<Accommodation> Accommodations { get; set; }
         public DbSet<AccommodationPicture> AccommodationPictures { get; set; }
+        public DbSet<Votable> Votables { get; set; }
+        public DbSet<Vote> Votes { get; set; }
+        public DbSet<AddOn> AddOns { get; set; }
+        public DbSet<SeaAddOn> SeaAddOns { get; set; }
+        public DbSet<WinterAddOn> WinterAddOns { get; set; }
+        public DbSet<SpaAddOn> SpaAddOns { get; set; }
+        public DbSet<TripType> TripTypes { get; set; }
+        public DbSet<SeaType> SeaTypes { get; set; }
+        public DbSet<WinterType> WinterTypes { get; set; }
+        public DbSet<SpaType> SpaTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
