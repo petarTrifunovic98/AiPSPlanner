@@ -151,6 +151,23 @@ namespace TravelPlan.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("get-user-username/{username}")]
+        public async Task<ActionResult> GetUserByUsername(String username)
+        {
+            try
+            {
+                UserBasicDTO user = await _userService.GetUserByUsername(username);
+                if(user != null)
+                    return Ok(user);
+                return BadRequest("A user with a provided username does not exist.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [AllowAnonymous]
         [HttpPut]
         [Route("change-password-temp")]

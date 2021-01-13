@@ -153,6 +153,15 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
+        public async Task<UserBasicDTO> GetUserByUsername(String username)
+        {
+            using (_unitOfWork)
+            {
+                User user = await _unitOfWork.UserRepository.GetUserByUsername(username);
+                return _mapper.Map<User, UserBasicDTO>(user);
+            }
+        }
+
         public async Task ChangePasswordTemp(UserChangePassDTO userInfo)
         {
             using (_unitOfWork)

@@ -17,5 +17,6 @@ namespace TravelPlan.Contracts.ServiceContracts
         Task<IEnumerable<UserDTO>> GetUsers();
         Task<UserDTO> GetSpecificUser(int userId);
         Task ChangePasswordTemp(UserChangePassDTO userInfo);
+        Task<UserBasicDTO> GetUserByUsername(String username);
     }
 }
