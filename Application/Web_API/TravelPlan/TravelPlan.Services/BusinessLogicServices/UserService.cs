@@ -13,6 +13,7 @@ using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
 using TravelPlan.Services.AuthentificationService;
 using TravelPlan.Helpers;
+using System.Linq;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -21,12 +22,14 @@ namespace TravelPlan.Services.BusinessLogicServices
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly AppSettings _appSettings;
+        private readonly ITokenManager _tokenManager;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings, ITokenManager tokenManager)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _appSettings = appSettings.Value;
+            _tokenManager = tokenManager;
         }
 
         public async Task<UserAuthenticateResponseDTO> AddUserAccount(UserRegisterDTO userInfo)
@@ -36,13 +39,12 @@ namespace TravelPlan.Services.BusinessLogicServices
                 if (_unitOfWork.UserRepository.UsernameTaken(userInfo.Username))
                     return null;
 
-                byte[] pwdBytes = Encoding.Unicode.GetBytes(userInfo.Password);
-                userInfo.Password = Convert.ToBase64String(pwdBytes);
+                userInfo.Password = PasswordEncryptionService.EncryptPassword(userInfo.Password, _appSettings.SaltLength);
                 User newUser = _mapper.Map<UserRegisterDTO, User>(userInfo);
                 await _unitOfWork.UserRepository.Create(newUser);
                 await _unitOfWork.Save();
                 UserAuthenticateResponseDTO returnUser = _mapper.Map<User, UserAuthenticateResponseDTO>(newUser);
-                returnUser.Token = GenerateToken(newUser);
+                returnUser.Token = _tokenManager.GenerateToken(newUser.UserId);
                 return returnUser;
             }
         }
@@ -52,29 +54,33 @@ namespace TravelPlan.Services.BusinessLogicServices
             using(_unitOfWork)
             {
                 User user = await _unitOfWork.UserRepository.GetUserByUsername(userInfo.Username);
-                byte[] pwdBytes = Encoding.Unicode.GetBytes(userInfo.Password);
-                userInfo.Password = Convert.ToBase64String(pwdBytes);
-                if (user.Password != userInfo.Password)
+                if (!PasswordEncryptionService.IsPasswordCorrect(user.Password, userInfo.Password, _appSettings.SaltLength))
                     return null;
 
                 UserAuthenticateResponseDTO returnUser = _mapper.Map<User, UserAuthenticateResponseDTO>(user);
-                returnUser.Token = GenerateToken(user);
+                returnUser.Token = _tokenManager.GenerateToken(user.UserId);
                 return returnUser;
             }
         }
 
-        private string GenerateToken(User user)
+        public async Task LogUserOut(int userId)
         {
+            string token = _tokenManager.GetCurrentAsync();
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserId.ToString()) }),
-                Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            }, out SecurityToken validatedToken);
+
+            var jwtToken = (JwtSecurityToken)validatedToken;
+            int tokenId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+            if (tokenId == userId)
+                await _tokenManager.DeactivateCurrentAsync();
         }
 
         public async Task<UserDTO> EditUserInfo(UserEditDTO userInfo)
@@ -107,14 +113,10 @@ namespace TravelPlan.Services.BusinessLogicServices
             using (_unitOfWork)
             {
                 User user = await _unitOfWork.UserRepository.FindByID(userInfo.UserId);
-                byte[] oldPwdBytes = Encoding.Unicode.GetBytes(userInfo.OldPassword);
-                userInfo.OldPassword = Convert.ToBase64String(oldPwdBytes);
-
-                if (user.Password != userInfo.OldPassword)
+                if (!PasswordEncryptionService.IsPasswordCorrect(user.Password, userInfo.OldPassword, _appSettings.SaltLength))
                     return false;
 
-                byte[] newPwdBytes = Encoding.Unicode.GetBytes(userInfo.NewPassword);
-                user.Password = Convert.ToBase64String(newPwdBytes);
+                user.Password = PasswordEncryptionService.EncryptPassword(userInfo.NewPassword, _appSettings.SaltLength);
                 _unitOfWork.UserRepository.Update(user);
 
                 return await _unitOfWork.Save();
@@ -140,7 +142,6 @@ namespace TravelPlan.Services.BusinessLogicServices
                 IEnumerable<UserDTO> usersInfos = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(users);
                 return usersInfos;
             }
-            throw new NotImplementedException();
         }
 
         public async Task<UserDTO> GetSpecificUser(int userId)
@@ -150,7 +151,18 @@ namespace TravelPlan.Services.BusinessLogicServices
                 User user = await _unitOfWork.UserRepository.FindByID(userId);
                 return _mapper.Map<User, UserDTO>(user);
             }
-            throw new NotImplementedException();
+        }
+
+        public async Task ChangePasswordTemp(UserChangePassDTO userInfo)
+        {
+            using (_unitOfWork)
+            {
+                User user = await _unitOfWork.UserRepository.FindByID(userInfo.UserId);
+
+                user.Password = PasswordEncryptionService.EncryptPassword(userInfo.NewPassword, _appSettings.SaltLength);
+                _unitOfWork.UserRepository.Update(user);
+                await _unitOfWork.Save();
+            }
         }
     }
 }

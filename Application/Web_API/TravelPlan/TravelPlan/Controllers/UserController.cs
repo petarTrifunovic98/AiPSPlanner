@@ -57,6 +57,21 @@ namespace TravelPlan.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("logout/{userId}")]
+        public async Task<ActionResult> LogUserOut(int userId)
+        { 
+            try
+            {
+                await _userService.LogUserOut(userId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut]
         [Route("edit-info")]
         public async Task<ActionResult> EditUserInfo([FromBody] UserEditDTO userInfo)
@@ -129,6 +144,22 @@ namespace TravelPlan.Controllers
             {
                 UserDTO user = await _userService.GetSpecificUser(userId);
                 return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPut]
+        [Route("change-password-temp")]
+        public async Task<ActionResult> ChangePasswordTemp(UserChangePassDTO userInfo)
+        {
+            try
+            {
+                await _userService.ChangePasswordTemp(userInfo);
+                return Ok();
             }
             catch (Exception ex)
             {
