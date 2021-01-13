@@ -15,5 +15,6 @@ namespace TravelPlan.Contracts.ServiceContracts
         Task<bool> DeletePicture(int userID);
         Task<IEnumerable<UserDTO>> GetUsers();
         Task<UserDTO> GetSpecificUser(int userId);
+        Task ChangePasswordTemp(UserChangePassDTO userInfo);
     }
 }

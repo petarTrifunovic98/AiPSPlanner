@@ -36,8 +36,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 if (_unitOfWork.UserRepository.UsernameTaken(userInfo.Username))
                     return null;
 
-                byte[] pwdBytes = Encoding.Unicode.GetBytes(userInfo.Password);
-                userInfo.Password = Convert.ToBase64String(pwdBytes);
+                userInfo.Password = PasswordEncryptionService.EncryptPassword(userInfo.Password, _appSettings.SaltLength);
                 User newUser = _mapper.Map<UserRegisterDTO, User>(userInfo);
                 await _unitOfWork.UserRepository.Create(newUser);
                 await _unitOfWork.Save();
@@ -52,9 +51,7 @@ namespace TravelPlan.Services.BusinessLogicServices
             using(_unitOfWork)
             {
                 User user = await _unitOfWork.UserRepository.GetUserByUsername(userInfo.Username);
-                byte[] pwdBytes = Encoding.Unicode.GetBytes(userInfo.Password);
-                userInfo.Password = Convert.ToBase64String(pwdBytes);
-                if (user.Password != userInfo.Password)
+                if (!PasswordEncryptionService.IsPasswordCorrect(user.Password, userInfo.Password, _appSettings.SaltLength))
                     return null;
 
                 UserAuthenticateResponseDTO returnUser = _mapper.Map<User, UserAuthenticateResponseDTO>(user);
@@ -107,14 +104,10 @@ namespace TravelPlan.Services.BusinessLogicServices
             using (_unitOfWork)
             {
                 User user = await _unitOfWork.UserRepository.FindByID(userInfo.UserId);
-                byte[] oldPwdBytes = Encoding.Unicode.GetBytes(userInfo.OldPassword);
-                userInfo.OldPassword = Convert.ToBase64String(oldPwdBytes);
-
-                if (user.Password != userInfo.OldPassword)
+                if (!PasswordEncryptionService.IsPasswordCorrect(user.Password, userInfo.OldPassword, _appSettings.SaltLength))
                     return false;
 
-                byte[] newPwdBytes = Encoding.Unicode.GetBytes(userInfo.NewPassword);
-                user.Password = Convert.ToBase64String(newPwdBytes);
+                user.Password = PasswordEncryptionService.EncryptPassword(userInfo.NewPassword, _appSettings.SaltLength);
                 _unitOfWork.UserRepository.Update(user);
 
                 return await _unitOfWork.Save();
@@ -140,7 +133,6 @@ namespace TravelPlan.Services.BusinessLogicServices
                 IEnumerable<UserDTO> usersInfos = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(users);
                 return usersInfos;
             }
-            throw new NotImplementedException();
         }
 
         public async Task<UserDTO> GetSpecificUser(int userId)
@@ -150,7 +142,18 @@ namespace TravelPlan.Services.BusinessLogicServices
                 User user = await _unitOfWork.UserRepository.FindByID(userId);
                 return _mapper.Map<User, UserDTO>(user);
             }
-            throw new NotImplementedException();
+        }
+
+        public async Task ChangePasswordTemp(UserChangePassDTO userInfo)
+        {
+            using (_unitOfWork)
+            {
+                User user = await _unitOfWork.UserRepository.FindByID(userInfo.UserId);
+
+                user.Password = PasswordEncryptionService.EncryptPassword(userInfo.NewPassword, _appSettings.SaltLength);
+                _unitOfWork.UserRepository.Update(user);
+                await _unitOfWork.Save();
+            }
         }
     }
 }

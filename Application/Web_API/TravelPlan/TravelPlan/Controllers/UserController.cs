@@ -135,5 +135,21 @@ namespace TravelPlan.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [AllowAnonymous]
+        [HttpPut]
+        [Route("change-password-temp")]
+        public async Task<ActionResult> ChangePasswordTemp(UserChangePassDTO userInfo)
+        {
+            try
+            {
+                await _userService.ChangePasswordTemp(userInfo);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
