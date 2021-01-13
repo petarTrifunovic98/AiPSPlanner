@@ -8,5 +8,6 @@ namespace TravelPlan.Services.AuthentificationService
     {
         public string Secret { get; set; }
         public int SaltLength { get; set; }
+        public int ExpiryMinutes { get; set; }
     }
 }

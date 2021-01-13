@@ -21,6 +21,7 @@ using TravelPlan.DTOs.Profiles;
 using Newtonsoft.Json;
 using TravelPlan.Services.AuthentificationService;
 using TravelPlan.Services.BusinessLogicServices;
+using Microsoft.AspNetCore.Http;
 
 namespace TravelPlan
 {
@@ -44,6 +45,8 @@ namespace TravelPlan
             services.AddTransient<IAccommodationService, AccommodationService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IVoteService, VoteService>();
+            services.AddTransient<ITokenManager, TokenManager>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapper(typeof(UserProfiles));
             services.AddControllers().AddMvcOptions(x => x.Filters.Add(new AuthorizeAttribute()));
             services.AddCors(options =>
@@ -65,6 +68,12 @@ namespace TravelPlan
             });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddDistributedRedisCache(redis =>
+                { 
+                    redis.Configuration = Configuration["Redis:ConnectionString"]; 
+                }
+            );
+
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {

@@ -57,6 +57,21 @@ namespace TravelPlan.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("logout/{userId}")]
+        public async Task<ActionResult> LogUserOut(int userId)
+        { 
+            try
+            {
+                await _userService.LogUserOut(userId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut]
         [Route("edit-info")]
         public async Task<ActionResult> EditUserInfo([FromBody] UserEditDTO userInfo)

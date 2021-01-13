@@ -11,6 +11,7 @@ using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.Contracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.Services.AuthentificationService;
+using System.Net;
 
 namespace TravelPlan.Services
 {
@@ -18,16 +19,24 @@ namespace TravelPlan.Services
     {
         private readonly RequestDelegate _next;
         private readonly AppSettings _appSettings;
+        private readonly ITokenManager _tokenManager;
 
-        public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
+        public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings, ITokenManager tokenManager)
         {
             _next = next;
             _appSettings = appSettings.Value;
+            _tokenManager = tokenManager;
         }
 
         public async Task Invoke(HttpContext context, IUnitOfWork unitOfWork)
         {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            if (!await _tokenManager.IsCurrentActiveToken())
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return;
+            }
+
+            string token = _tokenManager.GetCurrentAsync();
 
             if (token != null)
                 await AttachUserToContext(context, unitOfWork, token);

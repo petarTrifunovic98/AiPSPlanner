@@ -10,6 +10,7 @@ namespace TravelPlan.Contracts.ServiceContracts
     {
         Task<UserAuthenticateResponseDTO> AddUserAccount(UserRegisterDTO userInfo);
         Task<UserAuthenticateResponseDTO> LogUserIn(UserLoginDTO userInfo);
+        Task LogUserOut(int userId, int tokenId);
         Task<UserDTO> EditUserInfo(UserEditDTO userInfo);
         Task<bool> ChangePassword(UserChangePassDTO userInfo);
         Task<bool> DeletePicture(int userID);
