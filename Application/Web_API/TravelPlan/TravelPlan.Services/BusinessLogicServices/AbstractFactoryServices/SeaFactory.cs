@@ -9,7 +9,9 @@ namespace TravelPlan.Services.BusinessLogicServices.AbstractFactoryServices
     {
         public override AddOn CreateAddOn()
         {
-            return new SeaAddOn();
+            AddOn addOn = new SeaAddOn();
+            AddVotable(addOn);
+            return addOn;
         }
 
         public override TripType CreateTripType()

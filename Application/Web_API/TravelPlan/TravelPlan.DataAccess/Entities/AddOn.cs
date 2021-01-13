@@ -11,5 +11,7 @@ namespace TravelPlan.DataAccess.Entities
         public int AddOnId { get; set; }
         public String Description { get; set; }
         public int Price { get; set; }
+        public int VotableId { get; set; }
+        public virtual Votable Votable { get; set; }
     }
 }

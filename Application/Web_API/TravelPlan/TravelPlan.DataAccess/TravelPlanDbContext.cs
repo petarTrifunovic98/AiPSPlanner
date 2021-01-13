@@ -43,6 +43,11 @@ namespace TravelPlan.DataAccess
                 .HasMany(l => l.Accommodations)
                 .WithOne(a => a.Location)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<AddOn>()
+                .HasOne(a => a.Votable)
+                .WithOne()
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }   
 

@@ -11,6 +11,10 @@ namespace TravelPlan.DataAccess.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TripTypeId { get; set; }
         public String StandardList { get; set; }
+        
+        [ForeignKey("Trip")]
+        public int TripId { get; set; }
+        public Trip Trip { get; set; }
 
         public abstract List<String> getTipsAndTricks();
         public abstract String getIcon();

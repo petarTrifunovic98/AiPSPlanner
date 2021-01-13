@@ -9,7 +9,9 @@ namespace TravelPlan.Services.BusinessLogicServices.AbstractFactoryServices
     {
         public override AddOn CreateAddOn()
         {
-            return new WinterAddOn();
+            AddOn addOn = new WinterAddOn();
+            AddVotable(addOn);
+            return addOn;
         }
 
         public override TripType CreateTripType()

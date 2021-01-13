@@ -9,5 +9,9 @@ namespace TravelPlan.Services.BusinessLogicServices.AbstractFactoryServices
     {
         public abstract AddOn CreateAddOn();
         public abstract TripType CreateTripType();
+        protected void AddVotable(AddOn addOn)
+        {
+            addOn.Votable = new Votable();
+        }
     }
 }
