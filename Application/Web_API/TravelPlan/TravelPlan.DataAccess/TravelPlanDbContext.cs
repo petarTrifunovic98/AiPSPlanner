@@ -30,6 +30,21 @@ namespace TravelPlan.DataAccess
         public DbSet<WinterType> WinterTypes { get; set; }
         public DbSet<SpaType> SpaTypes { get; set; }
         public DbSet<OtherType> OtherTypes { get; set; }
+        public DbSet<SeaDecorator> SeaDecorators { get; set; }
+        public DbSet<Aquapark> Aquaparks { get; set; }
+        public DbSet<Waterboard> Waterboards { get; set; }
+        public DbSet<SunBeds> SunBeds { get; set; }
+        public DbSet<Cruise> Cruises { get; set; }
+        public DbSet<CruiseDecorator> CruiseDecorators { get; set; }
+        public DbSet<Breakfast> Breakfasts { get; set; }
+        public DbSet<Lunch> Lunches { get; set; }
+        public DbSet<BreakfastDecorator> BreakfastDecorators { get; set; }
+        public DbSet<Coffee> Coffees { get; set; }
+        public DbSet<Tea> Teas { get; set; }
+        public DbSet<Juice> Juices { get; set; }
+        public DbSet<LunchDecorator> LunchDecorators { get; set; }
+        public DbSet<Wine> Wines { get; set; }
+        public DbSet<Dessert> Desserts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,6 +61,11 @@ namespace TravelPlan.DataAccess
 
             modelBuilder.Entity<AddOn>()
                 .HasOne(a => a.Votable)
+                .WithOne()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<SeaDecorator>()
+                .HasOne(a => a.Decorator)
                 .WithOne()
                 .OnDelete(DeleteBehavior.NoAction);
         }
