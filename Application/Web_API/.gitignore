@@ -37,3 +37,6 @@
 #Ignore the text file for building image paths
 *.txt
 tempImgCounter.txt
+
+#Do not ignore static icons
+!TripTypeIcons/*.*
