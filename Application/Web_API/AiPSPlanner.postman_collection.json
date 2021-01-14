@@ -1,1506 +1,1147 @@
 {
-	"info": {
-		"_postman_id": "f9768566-f7a4-42e3-b74c-58fc4cde1455",
-		"name": "AiPSPlanner",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
+	"id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+	"name": "AiPSPlanner",
+	"description": "",
+	"order": [
+		"257e7657-f845-b8a6-a710-f91b44170eec",
+		"509e04a6-31b6-379a-2f68-3a2f71fad4eb",
+		"88670c05-85f2-cdec-6547-f83df069d8f3",
+		"f6516999-2eb6-54a8-774a-2a6abd7b7875",
+		"82183afb-57f2-4f8e-6091-db72acd118ee",
+		"a08ec54c-4cc9-e19a-842b-03973a77ac92",
+		"9b807009-2e07-3df4-c0d3-a37a19306cca",
+		"1627da82-7df7-612a-b24e-442e27bae00f",
+		"ee4c4496-7a90-8715-88ec-1aea6239f32f",
+		"4d0c1284-4232-e925-daa3-78492ec97510",
+		"132af641-4f3d-90e7-f476-0d6c57d84b94",
+		"409693bf-8235-c768-4cee-aa7c6f32a544",
+		"a8b396b7-46b4-80ad-0dc9-0d8990463905",
+		"0fe0f0b1-5c57-ae5d-263f-d7ba46443b3e",
+		"4e9e7c5b-81ae-4e9e-beea-3e75a8a52e4a",
+		"bf0be908-13eb-d9c5-3cae-203c0ec48a47",
+		"812d1b33-3890-b854-6af4-82683cec368a",
+		"cbe83a5e-302f-33ee-cf01-0865e590bbca",
+		"e20d7a06-e73c-5370-808d-4e85daae2ce8",
+		"5ddd0c85-c6f7-dcec-5a6b-a21ee7eff68c",
+		"223386a8-2e28-dd27-7e8c-4bc95f78c3c6",
+		"c434362b-e612-533b-5abd-2777597229b8",
+		"9003d3c1-51fa-c104-e897-1b20122d349d",
+		"b32204f5-359c-945c-5f80-7c0eb6e84533",
+		"8ad0c269-e599-83fb-42eb-106a2bfa74ff",
+		"583cc97f-167f-2aa0-34f7-b85fc8c3cd58",
+		"bb6d6a8e-a0e8-ee18-71df-5795df4a2210",
+		"ae6ad41e-74cf-08ba-d8d0-0edf35c9667f",
+		"a1a9c071-7cf2-7aef-07dd-822963f54df4",
+		"d83db5e5-10d5-2d6a-6be9-85db8a8ec48b",
+		"4f1b795b-f477-b3fa-ce38-cec8d3f5b12f",
+		"93e69bdd-cc82-18b0-065a-90c423155d26",
+		"f1bdd3eb-af37-b06f-ff7b-25ff56038e97",
+		"887bfd73-e28e-710b-aba5-b548651165f9",
+		"6f616d58-e5d8-7a66-426a-75ddfbe2366d",
+		"fe58d21c-ece0-fc4b-1d66-8baaa0bbf4a8",
+		"ff3bf2a1-098b-9523-14d6-a43b227ff0c9",
+		"c000fce0-731d-7ced-1418-efbd4c088904",
+		"48884a36-2234-fb56-41da-26f51fc6737f",
+		"c2bf9328-c0e9-c3ee-7ed0-ff5e99c545fd",
+		"980ea71f-bb92-391c-030d-0cc1c4affd91",
+		"7867e213-0f96-74e7-9747-41738c5df9f9",
+		"a2fb5a57-6246-4c32-cbfb-5cba5e7bc29b",
+		"4b198abd-2a01-1eda-c19d-3bbc63892204",
+		"2ffb7425-addb-d0ce-feae-6e9f63df9a29",
+		"79b403cf-a35b-8460-a13d-d08b8ce4f422",
+		"a9c209a0-27b0-68b2-f12b-fe03048997b9",
+		"3893080f-9921-5f08-67b5-d57a831cdb10",
+		"42339ee7-6286-474b-89f2-6f884ad9b109",
+		"7b0210ba-e663-734f-87c0-2f0228ae3655",
+		"ca97a26d-8e0f-7b5f-3cd1-c616f6270f1a",
+		"9f190604-3bfd-1e30-e653-c65195a8f783",
+		"5adc5d99-9d14-0682-2301-9c8337767120",
+		"d707c363-7482-f1ab-65bf-33a4f818c724",
+		"2e276b85-2d60-5ddb-3bfb-ab96f99c804a",
+		"1aa6397b-d6c7-c8f8-dabe-280fcada9f5c",
+		"8c9958af-68bf-d029-7fb7-91db714b3a99",
+		"426076a0-1995-62ff-aea4-a86897726e56"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 0,
+	"owner": "10970717",
+	"public": false,
+	"requests": [
 		{
-			"name": "CreateAccount",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"Masha\",\r\n    \"password\": \"Masha\",\r\n    \"name\": \"Masha\",\r\n    \"LastName\":\"Nesic\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/user/add-account",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"add-account"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Login",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"username\": \"Masha\",\n\t\"password\": \"Masha\"\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/user/login",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetSpecificUser",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjAzMDcsImV4cCI6MTYxMDQ2MjEwNywiaWF0IjoxNjEwNDYwMzA3fQ.QpmnG7i241C-Xj1MbWopGlKLIvrZg_xgdlZroQ-2Hx0"
-					}
-				],
-				"url": {
-					"raw": "https://localhost:44301/api/user/get-user/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"get-user",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetUserByUsername",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA1NTk2MzYsImV4cCI6MTYxMDU2MTQzNiwiaWF0IjoxNjEwNTU5NjM2fQ.FwC_r68WPI47lIKArTMBw5F1iaYf3oek8gSAn31TG3k",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://localhost:44301/api/user/get-user-username/Masha",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"get-user-username",
-						"Masha"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetUsers",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MTAyMjk0MTYsImV4cCI6MTYxMDIzMTIxNiwiaWF0IjoxNjEwMjI5NDE2fQ.yyznkwjKcWYp4P2sQAXmiogNHr2dH_m5iZ3ABj9-l5Q"
-					}
-				],
-				"url": {
-					"raw": "https://localhost:44301/api/user/get-users",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"get-users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "EditUserInfo",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"UserId\" : 2,\r\n    \"name\" : \"Masica\",\r\n    \"LastName\" : \"Nesiceva\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/user/edit-info",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"edit-info"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ChangePassword",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"UserId\" : 2,\r\n    \"OldPassword\" : \"Masha\",\r\n    \"NewPassword\" : \"MashaBre\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/user/change-password",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"change-password"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ChangePasswordTempRoute",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"UserId\" : 2,\r\n    \"OldPassword\" : \"\",\r\n    \"NewPassword\" : \"Masha\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/user/change-password-temp",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"change-password-temp"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DeletePicture",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/user/delete-picture/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"user",
-						"delete-picture",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetSpecificTeam",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/team/get-team/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"get-team",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetTeams",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/team/get-teams",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"get-teams"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetUserTeams",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/team/get-teams/user/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"get-teams",
-						"user",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CreateTeam",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"Milicin tim\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/team/creator/1/create-team",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"creator",
-						"1",
-						"create-team"
-					]
-				}
-			},
-			"response": []
-		},
-		{
+			"id": "0fe0f0b1-5c57-ae5d-263f-d7ba46443b3e",
 			"name": "EditTeamInfo",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"TeamId\" : 1,\r\n    \"Name\" : \"Masin tim bre\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/team/edit-info",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"edit-info"
-					]
-				}
-			},
-			"response": []
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"TeamId\" : 1,\r\n    \"Name\" : \"Masin tim bre\"\r\n}",
+			"url": "https://localhost:44301/api/team/edit-info",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
 		},
 		{
-			"name": "AddUserToTeam",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/team/add-user/1/4",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"add-user",
-						"1",
-						"4"
-					]
-				}
-			},
-			"response": []
+			"id": "132af641-4f3d-90e7-f476-0d6c57d84b94",
+			"name": "GetTeams",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/team/get-teams",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
 		},
 		{
-			"name": "AddTeamToTeam",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/team/add-team/3/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"add-team",
-						"3",
-						"1"
-					]
-				}
-			},
-			"response": []
+			"id": "1627da82-7df7-612a-b24e-442e27bae00f",
+			"name": "ChangePassword",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"UserId\" : 2,\r\n    \"OldPassword\" : \"Masha\",\r\n    \"NewPassword\" : \"MashaBre\"\r\n}",
+			"url": "https://localhost:44301/api/user/change-password",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
 		},
 		{
-			"name": "RemoveUserFromTeam",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/team/remove-user/1/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"team",
-						"remove-user",
-						"1",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetSpecificTrip",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjAzMDcsImV4cCI6MTYxMDQ2MjEwNywiaWF0IjoxNjEwNDYwMzA3fQ.QpmnG7i241C-Xj1MbWopGlKLIvrZg_xgdlZroQ-2Hx0",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://localhost:44301/api/trip/get-trip/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"get-trip",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetTripAdditionalInfo",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0Njk1NDksImV4cCI6MTYxMDQ3MTM0OSwiaWF0IjoxNjEwNDY5NTQ5fQ.RtqXwlCGpp2DTlpWp7a_Wv44mnI8vE01iYtDCvHa0y8",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://localhost:44301/api/trip/get-trip-additional-info/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"get-trip-additional-info",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetUserTrips",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/trip/get-trips/user/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"get-trips",
-						"user",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CreateTrip",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjAzMDcsImV4cCI6MTYxMDQ2MjEwNywiaWF0IjoxNjEwNDYwMzA3fQ.QpmnG7i241C-Xj1MbWopGlKLIvrZg_xgdlZroQ-2Hx0"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"Idemo u Afriku\",\r\n    \"description\" : \"Da sadimo papriku\",\r\n    \"from\": \"2021-08-01\",\r\n    \"to\": \"2021-08-31\",\r\n    \"tripCategory\" : \"Sea\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/trip/creator/2/create-trip",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"creator",
-						"2",
-						"create-trip"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AddItemToPackingList",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjY2NzcsImV4cCI6MTYxMDQ2ODQ3NywiaWF0IjoxNjEwNDY2Njc3fQ.hf_CzvOCfZRBlZF1BFE3PekrcbEbC7Jwubcv1R2mG0I",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"item\" : \"Really big hat\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/trip/add-to-trip-packing-list/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"add-to-trip-packing-list",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "EditTripInfo",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"tripId\": 1,\r\n    \"name\" : \"Idemo u Afrikicu\",\r\n    \"description\" : \"Da sadimo paprikicu\",\r\n    \"from\": \"2021-08-02\",\r\n    \"to\": \"2021-08-30\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/trip/edit-info",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"edit-info"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AddUserToTrip",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/trip/add-user/1/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"add-user",
-						"1",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AddTeamToTrip",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/trip/add-team/1/3",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"add-team",
-						"1",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "RemoveUserFromTrip",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDg4MTMsImV4cCI6MTYxMDY1MDYxMywiaWF0IjoxNjEwNjQ4ODEzfQ.M6_iCxrEZOgjXUqkutp2IwLdlClY4nrNV_RWhm0Jqvc",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://localhost:44301/api/trip/remove-user/3/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"trip",
-						"remove-user",
-						"3",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetAvailableDecorations",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDIzODAsImV4cCI6MTYxMDY0NDE4MCwiaWF0IjoxNjEwNjQyMzgwfQ.-QS3QgVGQawFKRqrX2zws54Fvg9GRUQr_dG1LSVkgLs",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://localhost:44301/api/add-on/get-available-decorations/3",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"add-on",
-						"get-available-decorations",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CreateAddOn",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"tripId\" : 3,\r\n    \"addOnType\" : \"Wine\",\r\n    \"price\" : 3,\r\n    \"description\" : \"Tasty.\",\r\n    \"lvl1DependId\" : 10,\r\n    \"lvl2DependId\" : 13\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/add-on/create-add-on",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"add-on",
-						"create-add-on"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "EditAddOn",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"addOnId\" : 4,\r\n    \"description\": \"Very good aquapark\",\r\n    \"price\": 25\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/add-on/edit-add-on",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"add-on",
-						"edit-add-on"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DeleteAddOn",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://localhost:44301/api/add-on/delete-add-on/3/3",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"add-on",
-						"delete-add-on",
-						"3",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetTripAddOns",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDg4MTMsImV4cCI6MTYxMDY1MDYxMywiaWF0IjoxNjEwNjQ4ODEzfQ.M6_iCxrEZOgjXUqkutp2IwLdlClY4nrNV_RWhm0Jqvc",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://localhost:44301/api/add-on/get-add-ons/3",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"add-on",
-						"get-add-ons",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetSpecificItem",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/item/get-item/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"get-item",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetUserItems",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/item/get-items/user/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"get-items",
-						"user",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetTripItems",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/item/get-items/trip/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"get-items",
-						"trip",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetUserTripItems",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/item/get-items/user/1/trip/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"get-items",
-						"user",
-						"1",
-						"trip",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CreateItem",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"paprika\",\r\n    \"description\" : \"zuta, fina ali ljuta\",\r\n    \"amount\" : 100,\r\n    \"unit\" : \"komada\",\r\n    \"userId\" : 3,\r\n    \"tripId\" :1\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/item/create-item",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"create-item"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DeleteItem",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/item/delete-item/3",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"delete-item",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "EditItemInfo",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"itemId\" : 2,\r\n    \"name\" : \"paradajz\",\r\n    \"description\" : \"Lepi paradajz\",\r\n    \"amount\" : 30,\r\n    \"unit\" : \"kg\"\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/item/edit-item",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"edit-item"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ChangeUserForItem",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/item/change-user/2/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"change-user",
-						"2",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ChangeCheckedForItem",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/item/change-checked/2",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"item",
-						"change-checked",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetSpecificLocation",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/location/get-location/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"location",
-						"get-location",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetTripLocations",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/location/get-trip-locations/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"location",
-						"get-trip-locations",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CreateLocation",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Budimpesta\",\n\t\"description\": \"Prelepo mesto\",\n\t\"latitude\": 42.120,\n\t\"longitude\": 22.223,\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\",\n    \"tripId\": 1\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/location/create-location",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"location",
-						"create-location"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DeleteLocation",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/location/delete-location/3",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"location",
-						"delete-location",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "EditLocation",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"locationId\":3,\n\t\"name\":\"Kairo, Egipat\",\n\t\"description\":\"Blizu Nila, savrseno\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\"\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/location/edit-location",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"location",
-						"edit-location"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetSpecificAccommodation",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/accommodation/get-accommodation/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"accommodation",
-						"get-accommodation",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetLocationAccommodations",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/accommodation/get-location-accommodations/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"accommodation",
-						"get-location-accommodations",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CreateAccommodation",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"type\":\"Room\",\n\t\"name\": \"Trokrevetna\",\n\t\"description\": \"U finom apartmanu\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\",\n    \"address\": \"Abdul Naser 23, Kairo\",\n    \"locationId\": 4\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/accommodation/create-accommodation",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"accommodation",
-						"create-accommodation"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DeleteAccommodation",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/accommodation/delete-accommodation/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"accommodation",
-						"delete-accommodation",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "EditAccommodation",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"accommodationId\": 2,\n\t\"type\":\"Hotel\",\n\t\"name\": \"Ceo hotel za naaas\",\n\t\"description\": \"Najbolja zurka ikada!\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\",\n    \"address\": \"Ngakvo Kano 23/15, Ndzamena\",\n    \"locationId\": 3\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/accommodation/edit-accommodation",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"accommodation",
-						"edit-accommodation"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CreateAccommodationPicture",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"accommodationId\":1,\n\t\"picture\":\"\"\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/accommodation/add-picture",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"accommodation",
-						"add-picture"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetAccommodationPictures",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/accommodation/get-pictures/accommodation/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"accommodation",
-						"get-pictures",
-						"accommodation",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DeleteAccommodationPicture",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/accommodation/delete-picture/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"accommodation",
-						"delete-picture",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CheckIfVoted",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/vote/check-voted/5/1",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"vote",
-						"check-voted",
-						"5",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Vote",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"positive\" : true,\r\n    \"userId\" : 1,\r\n    \"votableId\" : 13\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/vote/vote",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"vote",
-						"vote"
-					]
-				}
-			},
-			"response": []
-		},
-		{
+			"id": "1aa6397b-d6c7-c8f8-dabe-280fcada9f5c",
 			"name": "ChangeVote",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"voteId\": 4,\r\n    \"positive\": false\r\n}"
-				},
-				"url": {
-					"raw": "https://localhost:44301/api/vote/change-vote",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"vote",
-						"change-vote"
-					]
-				}
-			},
-			"response": []
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"voteId\": 4,\r\n    \"positive\": false\r\n}",
+			"url": "https://localhost:44301/api/vote/change-vote",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
 		},
 		{
-			"name": "DeleteVote",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/vote/remove-vote/4",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"vote",
-						"remove-vote",
-						"4"
-					]
+			"id": "223386a8-2e28-dd27-7e8c-4bc95f78c3c6",
+			"name": "CreateTrip",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "POST",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjAzMDcsImV4cCI6MTYxMDQ2MjEwNywiaWF0IjoxNjEwNDYwMzA3fQ.QpmnG7i241C-Xj1MbWopGlKLIvrZg_xgdlZroQ-2Hx0",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"name\" : \"Idemo u Afriku\",\r\n    \"description\" : \"Da sadimo papriku\",\r\n    \"from\": \"2021-08-01\",\r\n    \"to\": \"2021-08-31\",\r\n    \"tripCategory\" : \"Sea\"\r\n}",
+			"url": "https://localhost:44301/api/trip/creator/2/create-trip",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjAzMDcsImV4cCI6MTYxMDQ2MjEwNywiaWF0IjoxNjEwNDYwMzA3fQ.QpmnG7i241C-Xj1MbWopGlKLIvrZg_xgdlZroQ-2Hx0"
 				}
-			},
-			"response": []
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
 		},
 		{
+			"id": "257e7657-f845-b8a6-a710-f91b44170eec",
+			"name": "CreateAccount",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "POST",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"username\": \"Masha\",\r\n    \"password\": \"Masha\",\r\n    \"name\": \"Masha\",\r\n    \"LastName\":\"Nesic\"\r\n}",
+			"url": "https://localhost:44301/api/user/add-account",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "2e276b85-2d60-5ddb-3bfb-ab96f99c804a",
+			"name": "Vote",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "POST",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"positive\" : true,\r\n    \"userId\" : 1,\r\n    \"votableId\" : 13\r\n}",
+			"url": "https://localhost:44301/api/vote/vote",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "2ffb7425-addb-d0ce-feae-6e9f63df9a29",
+			"name": "EditLocation",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "Content-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\n\t\"locationId\":3,\n\t\"name\":\"Kairo, Egipat\",\n\t\"description\":\"Blizu Nila, savrseno\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\"\n}",
+			"url": "https://localhost:44301/api/location/edit-location",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "3893080f-9921-5f08-67b5-d57a831cdb10",
+			"name": "CreateAccommodation",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "POST",
+			"headers": "Content-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\n\t\"type\":\"Room\",\n\t\"name\": \"Trokrevetna\",\n\t\"description\": \"U finom apartmanu\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\",\n    \"address\": \"Abdul Naser 23, Kairo\",\n    \"locationId\": 4\n}",
+			"url": "https://localhost:44301/api/accommodation/create-accommodation",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "409693bf-8235-c768-4cee-aa7c6f32a544",
+			"name": "GetUserTeams",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/team/get-teams/user/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "42339ee7-6286-474b-89f2-6f884ad9b109",
+			"name": "DeleteAccommodation",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "DELETE",
+			"headers": "",
+			"dataMode": "params",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/accommodation/delete-accommodation/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "426076a0-1995-62ff-aea4-a86897726e56",
 			"name": "GetVotes",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:44301/api/vote/get-votes/5/false",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"vote",
-						"get-votes",
-						"5",
-						"false"
-					]
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/vote/get-votes/5/false",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "48884a36-2234-fb56-41da-26f51fc6737f",
+			"name": "ChangeUserForItem",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/item/change-user/2/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "4b198abd-2a01-1eda-c19d-3bbc63892204",
+			"name": "DeleteLocation",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "DELETE",
+			"headers": "",
+			"dataMode": "params",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/location/delete-location/3",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "4d0c1284-4232-e925-daa3-78492ec97510",
+			"name": "GetSpecificTeam",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/team/get-team/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "4e9e7c5b-81ae-4e9e-beea-3e75a8a52e4a",
+			"name": "AddUserToTeam",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/team/add-user/1/4",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "4f1b795b-f477-b3fa-ce38-cec8d3f5b12f",
+			"name": "GetTripAddOns",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDg4MTMsImV4cCI6MTYxMDY1MDYxMywiaWF0IjoxNjEwNjQ4ODEzfQ.M6_iCxrEZOgjXUqkutp2IwLdlClY4nrNV_RWhm0Jqvc",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/add-on/get-add-ons/3",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDg4MTMsImV4cCI6MTYxMDY1MDYxMywiaWF0IjoxNjEwNjQ4ODEzfQ.M6_iCxrEZOgjXUqkutp2IwLdlClY4nrNV_RWhm0Jqvc",
+					"type": "text"
 				}
-			},
-			"response": []
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "509e04a6-31b6-379a-2f68-3a2f71fad4eb",
+			"name": "Login",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "POST",
+			"headers": "Content-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\n\t\"username\": \"Masha\",\n\t\"password\": \"Masha\"\n}",
+			"url": "https://localhost:44301/api/user/login",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "583cc97f-167f-2aa0-34f7-b85fc8c3cd58",
+			"name": "RemoveUserFromTrip",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDg4MTMsImV4cCI6MTYxMDY1MDYxMywiaWF0IjoxNjEwNjQ4ODEzfQ.M6_iCxrEZOgjXUqkutp2IwLdlClY4nrNV_RWhm0Jqvc",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/trip/remove-user/3/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDg4MTMsImV4cCI6MTYxMDY1MDYxMywiaWF0IjoxNjEwNjQ4ODEzfQ.M6_iCxrEZOgjXUqkutp2IwLdlClY4nrNV_RWhm0Jqvc",
+					"type": "text"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "5adc5d99-9d14-0682-2301-9c8337767120",
+			"name": "DeleteAccommodationPicture",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "DELETE",
+			"headers": "",
+			"dataMode": "params",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/accommodation/delete-picture/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "5ddd0c85-c6f7-dcec-5a6b-a21ee7eff68c",
+			"name": "GetUserTrips",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/trip/get-trips/user/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "6f616d58-e5d8-7a66-426a-75ddfbe2366d",
+			"name": "GetUserTripItems",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/item/get-items/user/1/trip/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "7867e213-0f96-74e7-9747-41738c5df9f9",
+			"name": "GetTripLocations",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/location/get-trip-locations/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "79b403cf-a35b-8460-a13d-d08b8ce4f422",
+			"name": "GetSpecificAccommodation",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/accommodation/get-accommodation/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "7b0210ba-e663-734f-87c0-2f0228ae3655",
+			"name": "EditAccommodation",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "Content-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\n\t\"accommodationId\": 2,\n\t\"type\":\"Hotel\",\n\t\"name\": \"Ceo hotel za naaas\",\n\t\"description\": \"Najbolja zurka ikada!\",\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\",\n    \"address\": \"Ngakvo Kano 23/15, Ndzamena\",\n    \"locationId\": 3\n}",
+			"url": "https://localhost:44301/api/accommodation/edit-accommodation",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "812d1b33-3890-b854-6af4-82683cec368a",
+			"name": "RemoveUserFromTeam",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/team/remove-user/1/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "82183afb-57f2-4f8e-6091-db72acd118ee",
+			"name": "GetUserByUsername",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA1NTk2MzYsImV4cCI6MTYxMDU2MTQzNiwiaWF0IjoxNjEwNTU5NjM2fQ.FwC_r68WPI47lIKArTMBw5F1iaYf3oek8gSAn31TG3k",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/user/get-user-username/Masha",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA1NTk2MzYsImV4cCI6MTYxMDU2MTQzNiwiaWF0IjoxNjEwNTU5NjM2fQ.FwC_r68WPI47lIKArTMBw5F1iaYf3oek8gSAn31TG3k",
+					"type": "text"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "88670c05-85f2-cdec-6547-f83df069d8f3",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2Mzg3NjgsImV4cCI6MTYxMDY0MDU2OCwiaWF0IjoxNjEwNjM4NzY4fQ.bZHsOSHWDJy0tshKG6TijCcGMiiC7yWcA9UbUQYMpkE\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2Mzg3NjgsImV4cCI6MTYxMDY0MDU2OCwiaWF0IjoxNjEwNjM4NzY4fQ.bZHsOSHWDJy0tshKG6TijCcGMiiC7yWcA9UbUQYMpkE",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://localhost:44301/api/user/logout/3",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"data": null,
+			"dataMode": "params",
+			"name": "Logout",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1610650697269,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "887bfd73-e28e-710b-aba5-b548651165f9",
+			"name": "GetTripItems",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/item/get-items/trip/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "8ad0c269-e599-83fb-42eb-106a2bfa74ff",
+			"name": "AddTeamToTrip",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/trip/add-team/1/3",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "8c9958af-68bf-d029-7fb7-91db714b3a99",
+			"name": "DeleteVote",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "DELETE",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/vote/remove-vote/4",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "9003d3c1-51fa-c104-e897-1b20122d349d",
+			"name": "EditTripInfo",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"tripId\": 1,\r\n    \"name\" : \"Idemo u Afrikicu\",\r\n    \"description\" : \"Da sadimo paprikicu\",\r\n    \"from\": \"2021-08-02\",\r\n    \"to\": \"2021-08-30\"\r\n}",
+			"url": "https://localhost:44301/api/trip/edit-info",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "93e69bdd-cc82-18b0-065a-90c423155d26",
+			"name": "GetSpecificItem",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/item/get-item/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "980ea71f-bb92-391c-030d-0cc1c4affd91",
+			"name": "GetSpecificLocation",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/location/get-location/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "9b807009-2e07-3df4-c0d3-a37a19306cca",
+			"name": "EditUserInfo",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"UserId\" : 2,\r\n    \"name\" : \"Masica\",\r\n    \"LastName\" : \"Nesiceva\"\r\n}",
+			"url": "https://localhost:44301/api/user/edit-info",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "9f190604-3bfd-1e30-e653-c65195a8f783",
+			"name": "GetAccommodationPictures",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/accommodation/get-pictures/accommodation/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "a08ec54c-4cc9-e19a-842b-03973a77ac92",
+			"name": "GetUsers",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MTAyMjk0MTYsImV4cCI6MTYxMDIzMTIxNiwiaWF0IjoxNjEwMjI5NDE2fQ.yyznkwjKcWYp4P2sQAXmiogNHr2dH_m5iZ3ABj9-l5Q",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/user/get-users",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MTAyMjk0MTYsImV4cCI6MTYxMDIzMTIxNiwiaWF0IjoxNjEwMjI5NDE2fQ.yyznkwjKcWYp4P2sQAXmiogNHr2dH_m5iZ3ABj9-l5Q"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "a1a9c071-7cf2-7aef-07dd-822963f54df4",
+			"name": "EditAddOn",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"addOnId\" : 4,\r\n    \"description\": \"Very good aquapark\",\r\n    \"price\": 25\r\n}",
+			"url": "https://localhost:44301/api/add-on/edit-add-on",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
+					"type": "text"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "a2fb5a57-6246-4c32-cbfb-5cba5e7bc29b",
+			"name": "CreateLocation",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "POST",
+			"headers": "Content-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\n\t\"name\": \"Budimpesta\",\n\t\"description\": \"Prelepo mesto\",\n\t\"latitude\": 42.120,\n\t\"longitude\": 22.223,\n\t\"from\": \"2021-08-01\",\n    \"to\": \"2021-08-31\",\n    \"tripId\": 1\n}",
+			"url": "https://localhost:44301/api/location/create-location",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "a8b396b7-46b4-80ad-0dc9-0d8990463905",
+			"name": "CreateTeam",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "POST",
+			"headers": "Content-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"name\" : \"Milicin tim\"\r\n}",
+			"url": "https://localhost:44301/api/team/creator/1/create-team",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "a9c209a0-27b0-68b2-f12b-fe03048997b9",
+			"name": "GetLocationAccommodations",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/accommodation/get-location-accommodations/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "ae6ad41e-74cf-08ba-d8d0-0edf35c9667f",
+			"name": "CreateAddOn",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "POST",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"tripId\" : 3,\r\n    \"addOnType\" : \"Wine\",\r\n    \"price\" : 3,\r\n    \"description\" : \"Tasty.\",\r\n    \"lvl1DependId\" : 10,\r\n    \"lvl2DependId\" : 13\r\n}",
+			"url": "https://localhost:44301/api/add-on/create-add-on",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
+					"type": "text"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "b32204f5-359c-945c-5f80-7c0eb6e84533",
+			"name": "AddUserToTrip",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/trip/add-user/1/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "bb6d6a8e-a0e8-ee18-71df-5795df4a2210",
+			"name": "GetAvailableDecorations",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDIzODAsImV4cCI6MTYxMDY0NDE4MCwiaWF0IjoxNjEwNjQyMzgwfQ.-QS3QgVGQawFKRqrX2zws54Fvg9GRUQr_dG1LSVkgLs",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/add-on/get-available-decorations/3",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDIzODAsImV4cCI6MTYxMDY0NDE4MCwiaWF0IjoxNjEwNjQyMzgwfQ.-QS3QgVGQawFKRqrX2zws54Fvg9GRUQr_dG1LSVkgLs",
+					"type": "text"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "bf0be908-13eb-d9c5-3cae-203c0ec48a47",
+			"name": "AddTeamToTeam",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/team/add-team/3/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "c000fce0-731d-7ced-1418-efbd4c088904",
+			"name": "EditItemInfo",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"itemId\" : 2,\r\n    \"name\" : \"paradajz\",\r\n    \"description\" : \"Lepi paradajz\",\r\n    \"amount\" : 30,\r\n    \"unit\" : \"kg\"\r\n}",
+			"url": "https://localhost:44301/api/item/edit-item",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "c2bf9328-c0e9-c3ee-7ed0-ff5e99c545fd",
+			"name": "ChangeCheckedForItem",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/item/change-checked/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "c434362b-e612-533b-5abd-2777597229b8",
+			"name": "AddItemToPackingList",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjY2NzcsImV4cCI6MTYxMDQ2ODQ3NywiaWF0IjoxNjEwNDY2Njc3fQ.hf_CzvOCfZRBlZF1BFE3PekrcbEbC7Jwubcv1R2mG0I",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"item\" : \"Really big hat\"\r\n}",
+			"url": "https://localhost:44301/api/trip/add-to-trip-packing-list/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjY2NzcsImV4cCI6MTYxMDQ2ODQ3NywiaWF0IjoxNjEwNDY2Njc3fQ.hf_CzvOCfZRBlZF1BFE3PekrcbEbC7Jwubcv1R2mG0I",
+					"type": "text"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "ca97a26d-8e0f-7b5f-3cd1-c616f6270f1a",
+			"name": "CreateAccommodationPicture",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "POST",
+			"headers": "Content-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\n\t\"accommodationId\":1,\n\t\"picture\":\"\"\n}",
+			"url": "https://localhost:44301/api/accommodation/add-picture",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "cbe83a5e-302f-33ee-cf01-0865e590bbca",
+			"name": "GetSpecificTrip",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjAzMDcsImV4cCI6MTYxMDQ2MjEwNywiaWF0IjoxNjEwNDYwMzA3fQ.QpmnG7i241C-Xj1MbWopGlKLIvrZg_xgdlZroQ-2Hx0",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/trip/get-trip/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjAzMDcsImV4cCI6MTYxMDQ2MjEwNywiaWF0IjoxNjEwNDYwMzA3fQ.QpmnG7i241C-Xj1MbWopGlKLIvrZg_xgdlZroQ-2Hx0",
+					"type": "text"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "d707c363-7482-f1ab-65bf-33a4f818c724",
+			"name": "CheckIfVoted",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/vote/check-voted/5/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "d83db5e5-10d5-2d6a-6be9-85db8a8ec48b",
+			"name": "DeleteAddOn",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "DELETE",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/add-on/delete-add-on/3/3",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
+					"type": "text"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "e20d7a06-e73c-5370-808d-4e85daae2ce8",
+			"name": "GetTripAdditionalInfo",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0Njk1NDksImV4cCI6MTYxMDQ3MTM0OSwiaWF0IjoxNjEwNDY5NTQ5fQ.RtqXwlCGpp2DTlpWp7a_Wv44mnI8vE01iYtDCvHa0y8",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/trip/get-trip-additional-info/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0Njk1NDksImV4cCI6MTYxMDQ3MTM0OSwiaWF0IjoxNjEwNDY5NTQ5fQ.RtqXwlCGpp2DTlpWp7a_Wv44mnI8vE01iYtDCvHa0y8",
+					"type": "text"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "ee4c4496-7a90-8715-88ec-1aea6239f32f",
+			"name": "DeletePicture",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "PUT",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/user/delete-picture/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "f1bdd3eb-af37-b06f-ff7b-25ff56038e97",
+			"name": "GetUserItems",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/item/get-items/user/1",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "f6516999-2eb6-54a8-774a-2a6abd7b7875",
+			"name": "GetSpecificUser",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "GET",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjAzMDcsImV4cCI6MTYxMDQ2MjEwNywiaWF0IjoxNjEwNDYwMzA3fQ.QpmnG7i241C-Xj1MbWopGlKLIvrZg_xgdlZroQ-2Hx0",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/user/get-user/2",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA0NjAzMDcsImV4cCI6MTYxMDQ2MjEwNywiaWF0IjoxNjEwNDYwMzA3fQ.QpmnG7i241C-Xj1MbWopGlKLIvrZg_xgdlZroQ-2Hx0"
+				}
+			],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "fe58d21c-ece0-fc4b-1d66-8baaa0bbf4a8",
+			"name": "CreateItem",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "POST",
+			"headers": "",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"name\" : \"paprika\",\r\n    \"description\" : \"zuta, fina ali ljuta\",\r\n    \"amount\" : 100,\r\n    \"unit\" : \"komada\",\r\n    \"userId\" : 3,\r\n    \"tripId\" :1\r\n}",
+			"url": "https://localhost:44301/api/item/create-item",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
+		},
+		{
+			"id": "ff3bf2a1-098b-9523-14d6-a43b227ff0c9",
+			"name": "DeleteItem",
+			"description": "",
+			"collectionId": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193",
+			"method": "DELETE",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://localhost:44301/api/item/delete-item/3",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "5cebf59d-d5a7-d3ef-f682-71ea8b3c5193"
 		}
 	]
 }
