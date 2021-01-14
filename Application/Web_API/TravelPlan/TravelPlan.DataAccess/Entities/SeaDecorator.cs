@@ -10,5 +10,15 @@ namespace TravelPlan.DataAccess.Entities
         [ForeignKey("Decorator")]
         public int DecoratorId { get; set; }
         public SeaAddOn Decorator { get; set; }
+
+        public override void SetDecoratorId(int id)
+        {
+            this.DecoratorId = id;
+        }
+
+        public override int GetDecoratorId()
+        {
+            return this.DecoratorId;
+        }
     }
 }

@@ -13,5 +13,13 @@ namespace TravelPlan.DataAccess.Entities
         public int Price { get; set; }
         public int VotableId { get; set; }
         public virtual Votable Votable { get; set; }
+
+        public virtual void SetDecoratorId(int id)
+        { }
+
+        public virtual int GetDecoratorId()
+        {
+            return 0;
+        }
     }
 }

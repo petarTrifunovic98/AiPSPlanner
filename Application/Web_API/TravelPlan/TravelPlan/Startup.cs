@@ -45,6 +45,7 @@ namespace TravelPlan
             services.AddTransient<IAccommodationService, AccommodationService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IVoteService, VoteService>();
+            services.AddTransient<IAddOnService, AddOnService>();
             services.AddTransient<ITokenManager, TokenManager>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapper(typeof(UserProfiles));

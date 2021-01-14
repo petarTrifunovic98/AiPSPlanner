@@ -134,6 +134,17 @@ namespace TravelPlan.Repository
             }
         }
 
+        private IAddOnRepository _addOnRepository;
+        public IAddOnRepository AddOnRepository
+        {
+            get
+            {
+                if (this._addOnRepository == null)
+                    this._addOnRepository = new AddOnRepository(_context);
+                return this._addOnRepository;
+            }
+        }
+
         public void Dispose()
         {
             if(!_disposed)

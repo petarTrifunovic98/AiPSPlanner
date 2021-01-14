@@ -66,7 +66,7 @@ namespace TravelPlan.DataAccess
 
             modelBuilder.Entity<SeaDecorator>()
                 .HasOne(a => a.Decorator)
-                .WithOne()
+                .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }   
