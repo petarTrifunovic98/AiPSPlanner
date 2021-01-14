@@ -16,6 +16,18 @@ namespace TravelPlan.DTOs.Profiles
                     dest.Votable,
                     opt => opt.MapFrom(
                         src => src.Votable))
+                .ForMember(dest =>
+                    dest.Lvl1DependId,
+                    opt => opt.MapFrom(
+                        src => src.GetLvl1DependId()))
+                .ForMember(dest =>
+                    dest.Lvl2DependId,
+                    opt => opt.MapFrom(
+                        src => src.GetLvl2DependId()))
+                .ForMember(dest =>
+                    dest.Type,
+                    opt => opt.MapFrom(
+                        src => src.GetType().Name))
                 .ReverseMap();
 
             CreateMap<AddOnCreateDTO, Cruise>();

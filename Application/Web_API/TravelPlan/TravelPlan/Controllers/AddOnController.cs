@@ -84,5 +84,20 @@ namespace TravelPlan.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("get-add-ons/{tripId}")]
+        public async Task<ActionResult> GetTripAddOns(int tripId)
+        {
+            try
+            {
+                List<AddOnDTO> result = await _addOnService.GetTripAddOns(tripId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

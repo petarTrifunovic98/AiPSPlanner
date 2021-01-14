@@ -14,5 +14,6 @@ namespace TravelPlan.Contracts.RepositoryContracts
         Task<Trip> GetTripWithILocations(int id);
         Task<IEnumerable<Trip>> GetUserTrips(User user);
         Task<TripType> GetTripTripType(int tripId);
+        Task<AddOn> GetTripFirstAddOn(int tripId);
     }
 }

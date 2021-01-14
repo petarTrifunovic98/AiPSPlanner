@@ -12,5 +12,6 @@ namespace TravelPlan.Contracts.ServiceContracts
         Task<AddOnDTO> EditAddOn(AddOnEditDTO addOnInfo);
         Task<AddOnDTO> CreateAddOn(AddOnCreateDTO newAddOn);
         Task<bool> DeleteAddOn(int addOnId, int tripId);
+        Task<List<AddOnDTO>> GetTripAddOns(int tripId);
     }
 }

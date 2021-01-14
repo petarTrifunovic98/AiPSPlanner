@@ -219,5 +219,20 @@ namespace TravelPlan.Services.BusinessLogicServices
                 return true;
             }
         }
+
+        public async Task<List<AddOnDTO>> GetTripAddOns(int tripId)
+        {
+            using(_unitOfWork)
+            {
+                List<AddOnDTO> retList = new List<AddOnDTO>();
+                AddOn addOn = await _unitOfWork.TripRepository.GetTripFirstAddOn(tripId);
+                while(addOn.GetDecoratorId() != 0)
+                {
+                    retList.Add(_mapper.Map<AddOn, AddOnDTO>(addOn));
+                    addOn = await _unitOfWork.AddOnRepository.GetAddOnWithVotable(addOn.GetDecoratorId());
+                }
+                return retList;
+            }
+        }
     }
 }

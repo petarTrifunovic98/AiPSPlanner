@@ -707,13 +707,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDIzODAsImV4cCI6MTYxMDY0NDE4MCwiaWF0IjoxNjEwNjQyMzgwfQ.-QS3QgVGQawFKRqrX2zws54Fvg9GRUQr_dG1LSVkgLs",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"tripId\" : 3,\r\n    \"addOnType\" : \"Wine\",\r\n    \"price\" : 3,\r\n    \"description\" : \"Red.\",\r\n    \"lvl1DependId\" : 3,\r\n    \"lvl2DependId\" : 7\r\n}",
+					"raw": "{\r\n    \"tripId\" : 3,\r\n    \"addOnType\" : \"Wine\",\r\n    \"price\" : 3,\r\n    \"description\" : \"Tasty.\",\r\n    \"lvl1DependId\" : 10,\r\n    \"lvl2DependId\" : 13\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -743,13 +743,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDIzODAsImV4cCI6MTYxMDY0NDE4MCwiaWF0IjoxNjEwNjQyMzgwfQ.-QS3QgVGQawFKRqrX2zws54Fvg9GRUQr_dG1LSVkgLs",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"addOnId\" : 3,\r\n    \"description\": \"Very good cruise\",\r\n    \"price\": 25\r\n}",
+					"raw": "{\r\n    \"addOnId\" : 4,\r\n    \"description\": \"Very good aquapark\",\r\n    \"price\": 25\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -767,6 +767,35 @@
 						"api",
 						"add-on",
 						"edit-add-on"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAddOn",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:44301/api/add-on/delete-add-on/3/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"add-on",
+						"delete-add-on",
+						"3",
+						"3"
 					]
 				}
 			},
@@ -1440,18 +1469,18 @@
 			"response": []
 		},
 		{
-			"name": "DeleteAddOn",
+			"name": "GetTripAddOns",
 			"request": {
-				"method": "DELETE",
+				"method": "GET",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDg4MTMsImV4cCI6MTYxMDY1MDYxMywiaWF0IjoxNjEwNjQ4ODEzfQ.M6_iCxrEZOgjXUqkutp2IwLdlClY4nrNV_RWhm0Jqvc",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "https://localhost:44301/api/add-on/delete-add-on/3/3",
+					"raw": "https://localhost:44301/api/add-on/get-add-ons/3",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -1460,8 +1489,7 @@
 					"path": [
 						"api",
 						"add-on",
-						"delete-add-on",
-						"3",
+						"get-add-ons",
 						"3"
 					]
 				}

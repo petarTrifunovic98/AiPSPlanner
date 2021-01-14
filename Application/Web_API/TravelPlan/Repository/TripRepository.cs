@@ -62,5 +62,13 @@ namespace TravelPlan.Repository
         {
             return await _dbSet.Where(trip => trip.TripId == tripId).Select(trip => trip.TripType).FirstOrDefaultAsync();
         }
+
+        public async Task<AddOn> GetTripFirstAddOn(int tripId)
+        {
+            return await _dbSet.Where(trip => trip.TripId == tripId)
+                               .Include(trip => trip.AddOn)
+                               .ThenInclude(addOn => addOn.Votable)
+                               .Select(trip => trip.AddOn).FirstOrDefaultAsync();
+        }
     }
 }
