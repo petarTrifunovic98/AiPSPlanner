@@ -8,5 +8,10 @@ namespace TravelPlan.DataAccess.Entities
     {
         public new Cruise Decorator { get; set; }
         public int Lvl1DependId { get; set; }
+
+        public override int GetLvl1DependId()
+        {
+            return this.Lvl1DependId;
+        }
     }
 }

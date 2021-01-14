@@ -21,5 +21,15 @@ namespace TravelPlan.DataAccess.Entities
         {
             return 0;
         }
+
+        public virtual int GetLvl1DependId()
+        {
+            return 0;
+        }
+
+        public virtual int GetLvl2DependId()
+        {
+            return 0;
+        }
     }
 }

@@ -160,5 +160,64 @@ namespace TravelPlan.Services.BusinessLogicServices
                 default: return null;
             }
         }
+
+        public async Task<bool> DeleteAddOn(int addOnId, int tripId)
+        {
+            using(_unitOfWork)
+            {
+                if (addOnId <= 0)
+                    return false;
+
+                AddOn prevAddOn = null;
+                Trip trip = await _unitOfWork.TripRepository.FindByID(tripId);
+                AddOn currAddOn = await _unitOfWork.AddOnRepository.GetAddOnWithVotable(trip.AddOnId);
+                while(true)
+                {
+                    if(currAddOn.GetDecoratorId() == 0)
+                        break;
+
+                    if(currAddOn.AddOnId == addOnId)
+                    {
+                        if(prevAddOn == null)
+                        {
+                            trip.AddOnId = currAddOn.GetDecoratorId();
+                            _unitOfWork.TripRepository.Update(trip);
+                        }
+                        else
+                        {
+                            prevAddOn.SetDecoratorId(currAddOn.GetDecoratorId());
+                            _unitOfWork.AddOnRepository.Update(prevAddOn);
+                        }
+
+                        _unitOfWork.AddOnRepository.Delete(currAddOn.AddOnId);
+                        _unitOfWork.VotableRepository.Delete(currAddOn.VotableId);
+                        await _unitOfWork.Save();
+                        break;
+                    }
+
+                    if (currAddOn.GetLvl1DependId() == addOnId || currAddOn.GetLvl2DependId() == addOnId)
+                    {
+                        if (prevAddOn == null)
+                        {
+                            trip.AddOnId = currAddOn.GetDecoratorId();
+                            _unitOfWork.TripRepository.Update(trip);
+                        }
+                        else
+                        {
+                            prevAddOn.SetDecoratorId(currAddOn.GetDecoratorId());
+                            _unitOfWork.AddOnRepository.Update(prevAddOn);
+                        }
+                        
+                        _unitOfWork.AddOnRepository.Delete(currAddOn.AddOnId);
+                        _unitOfWork.VotableRepository.Delete(currAddOn.VotableId);
+                        await _unitOfWork.Save();
+                    }
+                    else
+                        prevAddOn = currAddOn;
+                    currAddOn = await _unitOfWork.AddOnRepository.GetAddOnWithVotable(prevAddOn.GetDecoratorId());
+                }
+                return true;
+            }
+        }
     }
 }

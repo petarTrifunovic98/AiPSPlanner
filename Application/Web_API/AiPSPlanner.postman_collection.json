@@ -713,7 +713,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"tripId\" : 3,\r\n    \"addOnType\" : \"Wine\",\r\n    \"price\" : 3,\r\n    \"description\" : \"Red.\",\r\n    \"lvl1DependId\" : 7,\r\n    \"lvl2DependId\" : 3\r\n}",
+					"raw": "{\r\n    \"tripId\" : 3,\r\n    \"addOnType\" : \"Wine\",\r\n    \"price\" : 3,\r\n    \"description\" : \"Red.\",\r\n    \"lvl1DependId\" : 3,\r\n    \"lvl2DependId\" : 7\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -731,6 +731,42 @@
 						"api",
 						"add-on",
 						"create-add-on"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditAddOn",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDIzODAsImV4cCI6MTYxMDY0NDE4MCwiaWF0IjoxNjEwNjQyMzgwfQ.-QS3QgVGQawFKRqrX2zws54Fvg9GRUQr_dG1LSVkgLs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"addOnId\" : 3,\r\n    \"description\": \"Very good cruise\",\r\n    \"price\": 25\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/add-on/edit-add-on",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"add-on",
+						"edit-add-on"
 					]
 				}
 			},
@@ -1404,27 +1440,18 @@
 			"response": []
 		},
 		{
-			"name": "EditAddOn",
+			"name": "DeleteAddOn",
 			"request": {
-				"method": "PUT",
+				"method": "DELETE",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDIzODAsImV4cCI6MTYxMDY0NDE4MCwiaWF0IjoxNjEwNjQyMzgwfQ.-QS3QgVGQawFKRqrX2zws54Fvg9GRUQr_dG1LSVkgLs",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDY0MTMsImV4cCI6MTYxMDY0ODIxMywiaWF0IjoxNjEwNjQ2NDEzfQ.8-cYl4KFDuBDz3AoohLEA_eV0IGjVxWb27QLQsKTp6U",
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"addOnId\" : 3,\r\n    \"description\": \"Very good cruise\",\r\n    \"price\": 25\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "https://localhost:44301/api/add-on/edit-add-on",
+					"raw": "https://localhost:44301/api/add-on/delete-add-on/3/3",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -1433,7 +1460,9 @@
 					"path": [
 						"api",
 						"add-on",
-						"edit-add-on"
+						"delete-add-on",
+						"3",
+						"3"
 					]
 				}
 			},

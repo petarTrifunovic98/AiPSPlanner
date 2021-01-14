@@ -112,7 +112,6 @@ namespace TravelPlan.Services.BusinessLogicServices
                                 _unitOfWork.AccommodationRepository.Delete(accommodation.AccommodationId);
                             }
                             _unitOfWork.VotableRepository.Delete(location.VotableId);
-                            //_unitOfWork.LocationRepository.Delete(location.LocationId);
                         }
                         _unitOfWork.TripRepository.Delete(tripId);
                     }

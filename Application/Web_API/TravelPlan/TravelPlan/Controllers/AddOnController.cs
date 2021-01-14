@@ -68,5 +68,21 @@ namespace TravelPlan.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete]
+        [Route("delete-add-on/{addOnId}/{tripId}")]
+        public async Task<ActionResult> DeleteAddOn(int addOnId, int tripId)
+        {
+            try
+            {
+                if (await _addOnService.DeleteAddOn(addOnId, tripId))
+                    return Ok();
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
