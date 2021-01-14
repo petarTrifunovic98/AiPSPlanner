@@ -653,9 +653,15 @@
 			"name": "RemoveUserFromTrip",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDg4MTMsImV4cCI6MTYxMDY1MDYxMywiaWF0IjoxNjEwNjQ4ODEzfQ.M6_iCxrEZOgjXUqkutp2IwLdlClY4nrNV_RWhm0Jqvc",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "https://localhost:44301/api/trip/remove-user/1/1",
+					"raw": "https://localhost:44301/api/trip/remove-user/3/2",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -665,8 +671,8 @@
 						"api",
 						"trip",
 						"remove-user",
-						"1",
-						"1"
+						"3",
+						"2"
 					]
 				}
 			},
@@ -795,6 +801,34 @@
 						"add-on",
 						"delete-add-on",
 						"3",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTripAddOns",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDg4MTMsImV4cCI6MTYxMDY1MDYxMywiaWF0IjoxNjEwNjQ4ODEzfQ.M6_iCxrEZOgjXUqkutp2IwLdlClY4nrNV_RWhm0Jqvc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:44301/api/add-on/get-add-ons/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"add-on",
+						"get-add-ons",
 						"3"
 					]
 				}
@@ -1463,34 +1497,6 @@
 						"get-votes",
 						"5",
 						"false"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetTripAddOns",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTA2NDg4MTMsImV4cCI6MTYxMDY1MDYxMywiaWF0IjoxNjEwNjQ4ODEzfQ.M6_iCxrEZOgjXUqkutp2IwLdlClY4nrNV_RWhm0Jqvc",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://localhost:44301/api/add-on/get-add-ons/3",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "44301",
-					"path": [
-						"api",
-						"add-on",
-						"get-add-ons",
-						"3"
 					]
 				}
 			},

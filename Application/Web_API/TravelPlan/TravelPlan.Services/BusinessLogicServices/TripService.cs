@@ -113,7 +113,20 @@ namespace TravelPlan.Services.BusinessLogicServices
                             }
                             _unitOfWork.VotableRepository.Delete(location.VotableId);
                         }
+
+                        AddOn addOn = await _unitOfWork.AddOnRepository.GetAddOnWithVotable(trip.AddOnId);
+                        while(addOn.GetDecoratorId() != 0)
+                        {
+                            trip.AddOnId = addOn.GetDecoratorId();
+                            _unitOfWork.TripRepository.Update(trip);
+                            _unitOfWork.AddOnRepository.Delete(addOn.AddOnId);
+                            _unitOfWork.VotableRepository.Delete(addOn.VotableId);
+                            addOn = await _unitOfWork.AddOnRepository.GetAddOnWithVotable(trip.AddOnId);
+                        }
+
                         _unitOfWork.TripRepository.Delete(tripId);
+                        _unitOfWork.AddOnRepository.Delete(addOn.AddOnId);
+                        _unitOfWork.VotableRepository.Delete(addOn.VotableId);
                     }
 
                     await _unitOfWork.Save();
