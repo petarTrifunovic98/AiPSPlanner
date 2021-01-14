@@ -14,6 +14,8 @@ using TravelPlan.DTOs.DTOs;
 using TravelPlan.Services.AuthentificationService;
 using TravelPlan.Helpers;
 using System.Linq;
+using System.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -23,13 +25,15 @@ namespace TravelPlan.Services.BusinessLogicServices
         private readonly IMapper _mapper;
         private readonly AppSettings _appSettings;
         private readonly ITokenManager _tokenManager;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings, ITokenManager tokenManager)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings, ITokenManager tokenManager, IHttpContextAccessor contextAccessor)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _appSettings = appSettings.Value;
             _tokenManager = tokenManager;
+            _contextAccessor = contextAccessor;
         }
 
         public async Task<UserAuthenticateResponseDTO> AddUserAccount(UserRegisterDTO userInfo)
@@ -63,24 +67,17 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
-        public async Task LogUserOut(int userId)
+        public async Task<bool> LogUserOut(int userId)
         {
-            string token = _tokenManager.GetCurrentAsync();
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ClockSkew = TimeSpan.Zero
-            }, out SecurityToken validatedToken);
+            User user = (User)_contextAccessor.HttpContext.Items["User"];
+            int tokenId = user.UserId;
 
-            var jwtToken = (JwtSecurityToken)validatedToken;
-            int tokenId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
             if (tokenId == userId)
+            { 
                 await _tokenManager.DeactivateCurrentAsync();
+                return true;
+            }
+            return false;
         }
 
         public async Task<UserDTO> EditUserInfo(UserEditDTO userInfo)
@@ -159,18 +156,6 @@ namespace TravelPlan.Services.BusinessLogicServices
             {
                 User user = await _unitOfWork.UserRepository.GetUserByUsername(username);
                 return _mapper.Map<User, UserBasicDTO>(user);
-            }
-        }
-
-        public async Task ChangePasswordTemp(UserChangePassDTO userInfo)
-        {
-            using (_unitOfWork)
-            {
-                User user = await _unitOfWork.UserRepository.FindByID(userInfo.UserId);
-
-                user.Password = PasswordEncryptionService.EncryptPassword(userInfo.NewPassword, _appSettings.SaltLength);
-                _unitOfWork.UserRepository.Update(user);
-                await _unitOfWork.Save();
             }
         }
     }

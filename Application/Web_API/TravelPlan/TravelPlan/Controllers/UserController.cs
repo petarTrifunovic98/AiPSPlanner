@@ -63,8 +63,9 @@ namespace TravelPlan.Controllers
         { 
             try
             {
-                await _userService.LogUserOut(userId);
-                return Ok();
+                if(await _userService.LogUserOut(userId))
+                    return Ok();
+                return BadRequest("Unauthorized");
             }
             catch (Exception ex)
             {
@@ -161,22 +162,6 @@ namespace TravelPlan.Controllers
                 if(user != null)
                     return Ok(user);
                 return BadRequest("A user with a provided username does not exist.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [AllowAnonymous]
-        [HttpPut]
-        [Route("change-password-temp")]
-        public async Task<ActionResult> ChangePasswordTemp(UserChangePassDTO userInfo)
-        {
-            try
-            {
-                await _userService.ChangePasswordTemp(userInfo);
-                return Ok();
             }
             catch (Exception ex)
             {
