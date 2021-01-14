@@ -10,13 +10,12 @@ namespace TravelPlan.Contracts.ServiceContracts
     {
         Task<UserAuthenticateResponseDTO> AddUserAccount(UserRegisterDTO userInfo);
         Task<UserAuthenticateResponseDTO> LogUserIn(UserLoginDTO userInfo);
-        Task LogUserOut(int userId);
+        Task<bool> LogUserOut(int userId);
         Task<UserDTO> EditUserInfo(UserEditDTO userInfo);
         Task<bool> ChangePassword(UserChangePassDTO userInfo);
         Task<bool> DeletePicture(int userID);
         Task<IEnumerable<UserDTO>> GetUsers();
         Task<UserDTO> GetSpecificUser(int userId);
-        Task ChangePasswordTemp(UserChangePassDTO userInfo);
         Task<UserBasicDTO> GetUserByUsername(String username);
     }
 }
