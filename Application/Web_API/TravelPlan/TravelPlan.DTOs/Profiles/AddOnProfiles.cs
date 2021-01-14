@@ -41,6 +41,20 @@ namespace TravelPlan.DTOs.Profiles
             CreateMap<AddOnCreateDTO, Aquapark>();
             CreateMap<AddOnCreateDTO, Waterboard>();
             CreateMap<AddOnCreateDTO, SunBeds>();
+            CreateMap<AddOnCreateDTO, SkiPass>();
+            CreateMap<AddOnCreateDTO, SkiEquipment>();
+            CreateMap<AddOnCreateDTO, Snowboard>();
+            CreateMap<AddOnCreateDTO, Skis>();
+            CreateMap<AddOnCreateDTO, SkiPoles>();
+            CreateMap<AddOnCreateDTO, SkiBoots>();
+            CreateMap<AddOnCreateDTO, BikeRent>();
+            CreateMap<AddOnCreateDTO, ScooterRent>();
+            CreateMap<AddOnCreateDTO, Walk>();
+            CreateMap<AddOnCreateDTO, TourGuide>();
+            CreateMap<AddOnCreateDTO, TrainTour>();
+            CreateMap<AddOnCreateDTO, Meal>();
+            CreateMap<AddOnCreateDTO, Pogaca>();
+            CreateMap<AddOnCreateDTO, Schnapps>();
         }
     }
 }

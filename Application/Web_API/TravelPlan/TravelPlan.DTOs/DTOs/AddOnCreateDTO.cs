@@ -16,7 +16,22 @@ namespace TravelPlan.DTOs.DTOs
         Tea,
         Juice,
         Wine,
-        Dessert
+        Dessert,
+        SkiPass,
+        SkiEquipment,
+        Snowboard,
+        Skis,
+        SkiPoles,
+        SkiBoots,
+        Sled,
+        BikeRent,
+        ScooterRent,
+        Walk,
+        TourGuide,
+        TrainTour,
+        Meal,
+        Pogaca,
+        Schnapps
     }
 
     public class AddOnCreateDTO

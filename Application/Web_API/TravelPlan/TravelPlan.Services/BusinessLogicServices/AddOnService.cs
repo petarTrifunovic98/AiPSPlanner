@@ -75,7 +75,22 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             if (WinterList == null)
             {
-                WinterList = new List<DecorationAvailableDTO>();
+                DecorationAvailableDTO snowboard = new DecorationAvailableDTO(AddOnType.Snowboard.ToString(), true, false);
+                DecorationAvailableDTO skis = new DecorationAvailableDTO(AddOnType.Skis.ToString(), true, false);
+                DecorationAvailableDTO skiPoles = new DecorationAvailableDTO(AddOnType.SkiPoles.ToString(), true, false);
+                DecorationAvailableDTO skiBoots = new DecorationAvailableDTO(AddOnType.SkiBoots.ToString(), true, false);
+                DecorationAvailableDTO sled = new DecorationAvailableDTO(AddOnType.Sled.ToString(), true, false);
+                DecorationAvailableDTO skiEquipment = new DecorationAvailableDTO(AddOnType.SkiEquipment.ToString(), false, false);
+                skiEquipment.NextLvlDecorations.Add(snowboard);
+                skiEquipment.NextLvlDecorations.Add(skis);
+                skiEquipment.NextLvlDecorations.Add(skiPoles);
+                skiEquipment.NextLvlDecorations.Add(skiBoots);
+                skiEquipment.NextLvlDecorations.Add(sled);
+                WinterList = new List<DecorationAvailableDTO>
+                {
+                    skiEquipment,
+                    new DecorationAvailableDTO(AddOnType.SkiPass.ToString(), false, false)
+                };
             }
             return WinterList;
         }
@@ -84,7 +99,23 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             if (SpaList == null)
             {
-                SpaList = new List<DecorationAvailableDTO>();
+                DecorationAvailableDTO schnapps = new DecorationAvailableDTO(AddOnType.Schnapps.ToString(), true, true);
+                DecorationAvailableDTO pogaca = new DecorationAvailableDTO(AddOnType.Pogaca.ToString(), true, true);
+                DecorationAvailableDTO meal = new DecorationAvailableDTO(AddOnType.Meal.ToString(), true, false);
+                meal.NextLvlDecorations.Add(schnapps);
+                meal.NextLvlDecorations.Add(pogaca);
+                DecorationAvailableDTO trainTour = new DecorationAvailableDTO(AddOnType.TrainTour.ToString(), false, false);
+                trainTour.NextLvlDecorations.Add(meal);
+                DecorationAvailableDTO tourGuide = new DecorationAvailableDTO(AddOnType.TourGuide.ToString(), true, false);
+                DecorationAvailableDTO walk = new DecorationAvailableDTO(AddOnType.Walk.ToString(), false, false);
+                walk.NextLvlDecorations.Add(tourGuide);
+                SpaList = new List<DecorationAvailableDTO>
+                {
+                    trainTour,
+                    walk,
+                    new DecorationAvailableDTO(AddOnType.BikeRent.ToString(), false, false),
+                    new DecorationAvailableDTO(AddOnType.ScooterRent.ToString(), false, false)
+                };
             }
             return SpaList;
         }
@@ -157,6 +188,21 @@ namespace TravelPlan.Services.BusinessLogicServices
                 case (AddOnType.Aquapark): return _mapper.Map<AddOnCreateDTO, Aquapark>(newAddOn);
                 case (AddOnType.Waterboard): return _mapper.Map<AddOnCreateDTO, Waterboard>(newAddOn);
                 case (AddOnType.Sunbeds): return _mapper.Map<AddOnCreateDTO, SunBeds>(newAddOn);
+                case (AddOnType.SkiPass): return _mapper.Map<AddOnCreateDTO, SkiPass>(newAddOn);
+                case (AddOnType.SkiEquipment): return _mapper.Map<AddOnCreateDTO, SkiEquipment>(newAddOn);
+                case (AddOnType.Snowboard): return _mapper.Map<AddOnCreateDTO, Snowboard>(newAddOn);
+                case (AddOnType.Skis): return _mapper.Map<AddOnCreateDTO, Skis>(newAddOn);
+                case (AddOnType.SkiPoles): return _mapper.Map<AddOnCreateDTO, SkiPoles>(newAddOn);
+                case (AddOnType.SkiBoots): return _mapper.Map<AddOnCreateDTO, SkiBoots>(newAddOn);
+                case (AddOnType.Sled): return _mapper.Map<AddOnCreateDTO, Sled>(newAddOn);
+                case (AddOnType.BikeRent): return _mapper.Map<AddOnCreateDTO, BikeRent>(newAddOn);
+                case (AddOnType.ScooterRent): return _mapper.Map<AddOnCreateDTO, ScooterRent>(newAddOn);
+                case (AddOnType.Walk): return _mapper.Map<AddOnCreateDTO, Walk>(newAddOn);
+                case (AddOnType.TourGuide): return _mapper.Map<AddOnCreateDTO, TourGuide>(newAddOn);
+                case (AddOnType.TrainTour): return _mapper.Map<AddOnCreateDTO, TrainTour>(newAddOn);
+                case (AddOnType.Meal): return _mapper.Map<AddOnCreateDTO, Meal>(newAddOn);
+                case (AddOnType.Pogaca): return _mapper.Map<AddOnCreateDTO, Pogaca>(newAddOn);
+                case (AddOnType.Schnapps): return _mapper.Map<AddOnCreateDTO, Schnapps>(newAddOn);
                 default: return null;
             }
         }

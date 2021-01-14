@@ -6,9 +6,9 @@ using TravelPlan.DataAccess.Entities;
 
 namespace TravelPlan.DataAccess
 {
-    public class TravelPlanDbContext: DbContext
+    public class TravelPlanDbContext : DbContext
     {
-        public TravelPlanDbContext(DbContextOptions<TravelPlanDbContext> options): base(options)
+        public TravelPlanDbContext(DbContextOptions<TravelPlanDbContext> options) : base(options)
         { }
 
         public DbSet<User> Users { get; set; }
@@ -45,6 +45,27 @@ namespace TravelPlan.DataAccess
         public DbSet<LunchDecorator> LunchDecorators { get; set; }
         public DbSet<Wine> Wines { get; set; }
         public DbSet<Dessert> Desserts { get; set; }
+        public DbSet<WinterDecorator> WinterDecorators { get; set; }
+        public DbSet<SkiPass> SkiPasses { get; set; }
+        public DbSet<SkiEquipment> SkiEquipment { get; set; }
+        public DbSet<SkiEquipmentDecorator> SkiEquipmentDecorators { get; set; }
+        public DbSet<Snowboard> Snowboards { get; set; }
+        public DbSet<Skis> Skis { get; set; }
+        public DbSet<SkiPoles> SkiPoles { get; set; }
+        public DbSet<SkiBoots> SkiBoots { get; set; }
+        public DbSet<Sled> Sleds { get; set; }
+        public DbSet<SpaDecorator> SpaDecorators { get; set; }
+        public DbSet<BikeRent> BikeRents { get; set; }
+        public DbSet<ScooterRent> ScooterRents { get; set; }
+        public DbSet<Walk> Walks { get; set; }
+        public DbSet<TrainTour> TrainTours { get; set; }
+        public DbSet<WalkDecorator> WalkDecorators { get; set; }
+        public DbSet<TourGuide> TourGuides { get; set; }
+        public DbSet<TrainTourDecorator> TrainTourDecorators { get; set; }
+        public DbSet<Meal> Meals { get; set; }
+        public DbSet<MealDecorator> MealDecorators { get; set; }
+        public DbSet<Pogaca> Pogace { get; set; }
+        public DbSet<Schnapps> Schnapps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -65,6 +86,16 @@ namespace TravelPlan.DataAccess
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<SeaDecorator>()
+                .HasOne(a => a.Decorator)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<WinterDecorator>()
+                .HasOne(a => a.Decorator)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<SpaDecorator>()
                 .HasOne(a => a.Decorator)
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
