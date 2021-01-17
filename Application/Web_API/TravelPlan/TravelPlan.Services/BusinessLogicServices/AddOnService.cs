@@ -260,7 +260,11 @@ namespace TravelPlan.Services.BusinessLogicServices
                     }
                     else
                         prevAddOn = currAddOn;
-                    currAddOn = await _unitOfWork.AddOnRepository.GetAddOnWithVotable(prevAddOn.GetDecoratorId());
+
+                    if (prevAddOn == null)
+                        currAddOn = await _unitOfWork.AddOnRepository.GetAddOnWithVotable(trip.AddOnId);
+                    else
+                        currAddOn = await _unitOfWork.AddOnRepository.GetAddOnWithVotable(prevAddOn.GetDecoratorId());
                 }
                 return true;
             }

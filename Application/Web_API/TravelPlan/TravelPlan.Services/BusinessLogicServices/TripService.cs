@@ -45,6 +45,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 trip.AddOn = factory.CreateAddOn();
                 trip.TripType = factory.CreateTripType();
 
+                await _unitOfWork.TripTypeRepository.Create(trip.TripType);
                 await _unitOfWork.TripRepository.Create(trip);
                 _unitOfWork.UserRepository.Update(user);
                 await _unitOfWork.Save();

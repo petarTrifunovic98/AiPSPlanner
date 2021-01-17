@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelPlan.DataAccess;
 
 namespace TravelPlan.DataAccess.Migrations
 {
     [DbContext(typeof(TravelPlanDbContext))]
-    partial class TravelPlanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210117124133_trip_trip_type")]
+    partial class trip_trip_type
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,9 +246,15 @@ namespace TravelPlan.DataAccess.Migrations
                     b.Property<DateTime>("To")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("TripTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("TripId");
 
                     b.HasIndex("AddOnId");
+
+                    b.HasIndex("TripTypeId")
+                        .IsUnique();
 
                     b.ToTable("Trips");
                 });
@@ -269,9 +277,6 @@ namespace TravelPlan.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TripTypeId");
-
-                    b.HasIndex("TripId")
-                        .IsUnique();
 
                     b.ToTable("TripTypes");
 
@@ -819,18 +824,15 @@ namespace TravelPlan.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AddOn");
-                });
-
-            modelBuilder.Entity("TravelPlan.DataAccess.Entities.TripType", b =>
-                {
-                    b.HasOne("TravelPlan.DataAccess.Entities.Trip", "Trip")
-                        .WithOne("TripType")
-                        .HasForeignKey("TravelPlan.DataAccess.Entities.TripType", "TripId")
+                    b.HasOne("TravelPlan.DataAccess.Entities.TripType", "TripType")
+                        .WithOne("Trip")
+                        .HasForeignKey("TravelPlan.DataAccess.Entities.Trip", "TripTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Trip");
+                    b.Navigation("AddOn");
+
+                    b.Navigation("TripType");
                 });
 
             modelBuilder.Entity("TravelPlan.DataAccess.Entities.Vote", b =>
@@ -915,8 +917,11 @@ namespace TravelPlan.DataAccess.Migrations
                     b.Navigation("ItemList");
 
                     b.Navigation("Locations");
+                });
 
-                    b.Navigation("TripType");
+            modelBuilder.Entity("TravelPlan.DataAccess.Entities.TripType", b =>
+                {
+                    b.Navigation("Trip");
                 });
 
             modelBuilder.Entity("TravelPlan.DataAccess.Entities.User", b =>
