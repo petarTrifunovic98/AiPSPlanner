@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using TravelPlan.Contracts;
 
 namespace TravelPlan.Services.MessagingService
 {

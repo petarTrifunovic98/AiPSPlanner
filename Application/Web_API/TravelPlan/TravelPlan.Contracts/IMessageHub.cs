@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TravelPlan.Services.MessagingService
+namespace TravelPlan.Contracts
 {
     public interface IMessageHub
     {
