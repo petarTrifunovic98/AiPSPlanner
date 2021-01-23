@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using TravelPlan.Services.AuthentificationService;
 using TravelPlan.Services.BusinessLogicServices;
 using Microsoft.AspNetCore.Http;
+using TravelPlan.Services.MessagingService;
 
 namespace TravelPlan
 {
@@ -49,6 +50,7 @@ namespace TravelPlan
             services.AddTransient<ITokenManager, TokenManager>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapper(typeof(UserProfiles));
+            services.AddSignalR();
             services.AddControllers().AddMvcOptions(x => x.Filters.Add(new AuthorizeAttribute()));
             services.AddCors(options =>
             {
@@ -116,6 +118,7 @@ namespace TravelPlan
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MessageHub>("/travel-plan-hub");
             });
         }
     }
