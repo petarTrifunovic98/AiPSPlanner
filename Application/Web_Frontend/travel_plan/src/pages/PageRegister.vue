@@ -119,7 +119,7 @@
             <router-link :to = "'/'">
                 <span>Home</span>
             </router-link>
-            &nbsp;Â·&nbsp;
+            &nbsp;·&nbsp;
             <router-link :to = "'/login'">
                 <span>Login</span>
             </router-link>

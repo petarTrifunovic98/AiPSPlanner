@@ -61,7 +61,7 @@
             <router-link :to = "'/'">
               <span>Home</span>
             </router-link>
-            &nbsp;Â·&nbsp;
+            &nbsp;·&nbsp;
             <router-link :to = "'/register'">Sign Up</router-link>
           </p>
         </div>
