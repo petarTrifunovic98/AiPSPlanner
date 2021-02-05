@@ -1,10 +1,8 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class = "page-wrapper bg-light">
+      <router-view />
     </div>
-    <router-view/>
   </div>
 </template>
 
@@ -28,5 +26,60 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.cover {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.hero {
+  position: relative;
+}
+
+.hero-body {
+  padding: 3rem 1.5rem;
+}
+
+.hero-bg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1531263060782-b024de9b9793?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.page-wrapper
+{
+  min-height: 93vh;
+}
+
+.top-div
+{
+  background-color: rgba(138, 141, 145, 0.767);
+  height: 12vh;
+  color: white;
+  padding: 27px;
+  padding-left:100px;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.please
+{
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 1000000000;
+}
+
+.input-padding
+{
+  padding:5px;
 }
 </style>
