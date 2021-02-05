@@ -30,5 +30,19 @@ namespace TravelPlan.Repository
             User user = await _dbSet.FirstOrDefaultAsync(user => user.Username == username);
             return user;
         }
+
+        public int GetUnseenNotificationNumber(int userId)
+        {
+            return _dbSet.Where(user => user.UserId == userId)
+                         .Select(user => user.MyNotifications)
+                         .FirstOrDefault()
+                         .Where(notification => !notification.Seen)
+                         .Count();
+        }
+
+        public async Task<ICollection<Notification>> GetNotifications(int userId)
+        {
+            return await _dbSet.Where(user => user.UserId == userId).Select(user => user.MyNotifications).FirstOrDefaultAsync();
+        }
     }
 }

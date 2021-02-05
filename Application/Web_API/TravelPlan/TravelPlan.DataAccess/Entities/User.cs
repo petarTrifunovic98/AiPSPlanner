@@ -31,6 +31,8 @@ namespace TravelPlan.DataAccess.Entities
 
         public virtual ICollection<Trip> MyTrips { get; set; }
 
+        public virtual ICollection<Notification> MyNotifications { get; set; }
+
         public List<User> GetUsers()
         {
             List<User> ret = new List<User>();

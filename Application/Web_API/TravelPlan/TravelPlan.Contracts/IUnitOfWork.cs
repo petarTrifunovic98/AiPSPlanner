@@ -20,6 +20,7 @@ namespace TravelPlan.Contracts
         IRepositoryBase<AccommodationPicture> AccommodationPictureRepository { get; }
         IRepositoryBase<TripType> TripTypeRepository { get; }
         IAddOnRepository AddOnRepository { get; }
+        IRepositoryBase<Notification> NotificationRepository { get; }
 
         Task<bool> Save();
     }

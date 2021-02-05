@@ -145,6 +145,17 @@ namespace TravelPlan.Repository
             }
         }
 
+        private IRepositoryBase<Notification> _notificationRepository;
+        public IRepositoryBase<Notification> NotificationRepository
+        {
+            get
+            {
+                if (this._notificationRepository == null)
+                    this._notificationRepository = new RepositoryBase<Notification>(_context);
+                return this._notificationRepository;
+            }
+        }
+
         public void Dispose()
         {
             if(!_disposed)

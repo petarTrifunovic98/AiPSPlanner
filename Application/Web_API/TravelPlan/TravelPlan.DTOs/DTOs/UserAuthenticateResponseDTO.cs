@@ -12,5 +12,6 @@ namespace TravelPlan.DTOs.DTOs
         public string LastName { get; set; }
         public string Picture { get; set; }
         public string Token { get; set; }
+        public int UnseenNotifications { get; set; }
     }
 }

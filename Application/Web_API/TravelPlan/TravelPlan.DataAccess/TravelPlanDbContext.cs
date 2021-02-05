@@ -66,6 +66,7 @@ namespace TravelPlan.DataAccess
         public DbSet<MealDecorator> MealDecorators { get; set; }
         public DbSet<Pogaca> Pogace { get; set; }
         public DbSet<Schnapps> Schnapps { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

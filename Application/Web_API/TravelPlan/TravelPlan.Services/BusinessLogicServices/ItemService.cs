@@ -46,6 +46,15 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.ItemRepository.Create(item);
                 _unitOfWork.UserRepository.Update(user);
                 _unitOfWork.TripRepository.Update(trip);
+
+                Notification notification = new Notification();
+                notification.Seen = false;
+                notification.ItemName = item.Name;
+                notification.Type = NotificationType.Added;
+                notification.User = user;
+                notification.UserId = user.UserId;
+                await _unitOfWork.NotificationRepository.Create(notification);
+
                 await _unitOfWork.Save();
 
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
@@ -68,6 +77,15 @@ namespace TravelPlan.Services.BusinessLogicServices
                 _unitOfWork.TripRepository.Update(trip);
 
                 _unitOfWork.ItemRepository.Delete(itemId);
+
+                Notification notification = new Notification();
+                notification.Seen = false;
+                notification.ItemName = item.Name;
+                notification.Type = NotificationType.Removed;
+                notification.User = user;
+                notification.UserId = user.UserId;
+                await _unitOfWork.NotificationRepository.Create(notification);
+
                 await _unitOfWork.Save();
 
                 return true;
@@ -84,6 +102,14 @@ namespace TravelPlan.Services.BusinessLogicServices
                 item.Amount = itemInfo.Amount;
                 item.Unit = itemInfo.Unit;
                 _unitOfWork.ItemRepository.Update(item);
+
+                Notification notification = new Notification();
+                notification.Seen = false;
+                notification.ItemName = item.Name;
+                notification.Type = NotificationType.Edited;
+                notification.UserId = item.UserId;
+                await _unitOfWork.NotificationRepository.Create(notification);
+
                 await _unitOfWork.Save();
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
                 return retItem;
@@ -111,6 +137,21 @@ namespace TravelPlan.Services.BusinessLogicServices
                 _unitOfWork.UserRepository.Update(user);
                 _unitOfWork.UserRepository.Update(newUser);
                 _unitOfWork.ItemRepository.Update(item);
+
+                Notification notification_old = new Notification();
+                notification_old.Seen = false;
+                notification_old.ItemName = item.Name;
+                notification_old.Type = NotificationType.Removed;
+                notification_old.UserId = user.UserId;
+                await _unitOfWork.NotificationRepository.Create(notification_old);
+
+                Notification notification_new = new Notification();
+                notification_new.Seen = false;
+                notification_new.ItemName = item.Name;
+                notification_new.Type = NotificationType.Added;
+                notification_new.UserId = newUserId;
+                await _unitOfWork.NotificationRepository.Create(notification_new);
+
                 await _unitOfWork.Save();
 
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
@@ -126,6 +167,14 @@ namespace TravelPlan.Services.BusinessLogicServices
                 item.Checked = !item.Checked;
 
                 _unitOfWork.ItemRepository.Update(item);
+
+                Notification notification = new Notification();
+                notification.Seen = false;
+                notification.ItemName = item.Name;
+                notification.Type = NotificationType.Edited;
+                notification.UserId = item.UserId;
+                await _unitOfWork.NotificationRepository.Create(notification);
+
                 await _unitOfWork.Save();
 
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);

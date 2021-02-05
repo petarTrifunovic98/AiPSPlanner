@@ -54,6 +54,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.Save();
                 UserAuthenticateResponseDTO returnUser = _mapper.Map<User, UserAuthenticateResponseDTO>(newUser);
                 returnUser.Token = _tokenManager.GenerateToken(newUser.UserId);
+                returnUser.UnseenNotifications = _unitOfWork.UserRepository.GetUnseenNotificationNumber(newUser.UserId);
                 return returnUser;
             }
         }
@@ -70,6 +71,7 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 UserAuthenticateResponseDTO returnUser = _mapper.Map<User, UserAuthenticateResponseDTO>(user);
                 returnUser.Token = _tokenManager.GenerateToken(user.UserId);
+                returnUser.UnseenNotifications = _unitOfWork.UserRepository.GetUnseenNotificationNumber(user.UserId);
                 return returnUser;
             }
         }
