@@ -48,7 +48,7 @@ namespace TravelPlan.Controllers
             {
                 UserAuthenticateResponseDTO result = await _userService.LogUserIn(userInfo);
                 if (result == null)
-                    return BadRequest("Wrong password");
+                    return BadRequest("Wrong email or password");
                 return Ok(result);
             }
             catch (Exception ex)

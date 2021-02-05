@@ -16,6 +16,8 @@ using TravelPlan.Helpers;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
+using TravelPlan.Services.MessagingService;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -26,14 +28,17 @@ namespace TravelPlan.Services.BusinessLogicServices
         private readonly AppSettings _appSettings;
         private readonly ITokenManager _tokenManager;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IHubContext<MessageHub, IMessageHub> _messageHub;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings, ITokenManager tokenManager, IHttpContextAccessor contextAccessor)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings, ITokenManager tokenManager, IHttpContextAccessor contextAccessor,
+            IHubContext<MessageHub, IMessageHub> messageHub)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _appSettings = appSettings.Value;
             _tokenManager = tokenManager;
             _contextAccessor = contextAccessor;
+            _messageHub = messageHub;
         }
 
         public async Task<UserAuthenticateResponseDTO> AddUserAccount(UserRegisterDTO userInfo)
@@ -58,6 +63,8 @@ namespace TravelPlan.Services.BusinessLogicServices
             using(_unitOfWork)
             {
                 User user = await _unitOfWork.UserRepository.GetUserByUsername(userInfo.Username);
+                if (user == null)
+                    return null;
                 if (!PasswordEncryptionService.IsPasswordCorrect(user.Password, userInfo.Password, _appSettings.SaltLength))
                     return null;
 
