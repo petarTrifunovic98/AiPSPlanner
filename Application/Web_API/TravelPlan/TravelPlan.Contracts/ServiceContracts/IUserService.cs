@@ -17,5 +17,6 @@ namespace TravelPlan.Contracts.ServiceContracts
         Task<IEnumerable<UserDTO>> GetUsers();
         Task<UserDTO> GetSpecificUser(int userId);
         Task<UserBasicDTO> GetUserByUsername(String username);
+        Task<bool> RequesTripEdit(int tripId, int userId);
     }
 }

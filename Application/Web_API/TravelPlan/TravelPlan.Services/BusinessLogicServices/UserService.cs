@@ -18,6 +18,7 @@ using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using TravelPlan.Services.MessagingService;
+using StackExchange.Redis;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -30,8 +31,8 @@ namespace TravelPlan.Services.BusinessLogicServices
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IHubContext<MessageHub, IMessageHub> _messageHub;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings, ITokenManager tokenManager, IHttpContextAccessor contextAccessor,
-            IHubContext<MessageHub, IMessageHub> messageHub)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings, ITokenManager tokenManager, 
+            IHttpContextAccessor contextAccessor, IHubContext<MessageHub, IMessageHub> messageHub)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -165,6 +166,20 @@ namespace TravelPlan.Services.BusinessLogicServices
             {
                 User user = await _unitOfWork.UserRepository.GetUserByUsername(username);
                 return _mapper.Map<User, UserBasicDTO>(user);
+            }
+        }
+
+        public async Task<bool> RequesTripEdit(int tripId, int userId)
+        {
+            using (_unitOfWork)
+            {
+                long requestsInList = await _unitOfWork.UserRepository.RequestTripEdit(tripId, userId);
+                if(requestsInList == 1)
+                {
+                    await _unitOfWork.UserRepository.SetEditRightHolder(tripId, userId);
+                    return true;
+                }
+                return false;
             }
         }
     }

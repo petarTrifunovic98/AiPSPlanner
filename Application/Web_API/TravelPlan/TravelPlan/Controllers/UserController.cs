@@ -161,7 +161,22 @@ namespace TravelPlan.Controllers
                 UserBasicDTO user = await _userService.GetUserByUsername(username);
                 if(user != null)
                     return Ok(user);
-                return BadRequest("A user with a provided username does not exist.");
+                return BadRequest("A user with the provided username does not exist.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("request-edit/trip/{tripId}/user/{userId}")]
+        public async Task<ActionResult> RequestTripEdit(int tripId, int userId)
+        {
+            try
+            {
+                bool editRightsGiven = await _userService.RequesTripEdit(tripId, userId);
+                return Ok(editRightsGiven);
             }
             catch (Exception ex)
             {

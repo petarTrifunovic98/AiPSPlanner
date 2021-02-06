@@ -12,11 +12,13 @@ namespace TravelPlan.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly TravelPlanDbContext _context;
+        private readonly IRedisConnectionBuilder _redisConnectionBuilder;
         private bool _disposed = false;
 
-        public UnitOfWork(TravelPlanDbContext context)
+        public UnitOfWork(TravelPlanDbContext context, IRedisConnectionBuilder redisConnectionBuilder)
         {
             _context = context;
+            _redisConnectionBuilder = redisConnectionBuilder;
         }
 
 
@@ -27,7 +29,7 @@ namespace TravelPlan.Repository
             get
             {
                 if (this._userRepository == null)
-                    this._userRepository = new UserRepository(_context);
+                    this._userRepository = new UserRepository(_context, _redisConnectionBuilder);
                 return this._userRepository;
             }
         }

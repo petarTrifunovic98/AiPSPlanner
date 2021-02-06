@@ -23,6 +23,7 @@ using TravelPlan.Services.AuthentificationService;
 using TravelPlan.Services.BusinessLogicServices;
 using Microsoft.AspNetCore.Http;
 using TravelPlan.Services.MessagingService;
+using TravelPlan.Services.RedisServices;
 
 namespace TravelPlan
 {
@@ -50,6 +51,7 @@ namespace TravelPlan
             services.AddTransient<INotificationService, NotificationService>();
             services.AddTransient<ITokenManager, TokenManager>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IRedisConnectionBuilder, RedisConnectionBuilder>();
             services.AddAutoMapper(typeof(UserProfiles));
             services.AddSignalR();
             services.AddControllers().AddMvcOptions(x => x.Filters.Add(new AuthorizeAttribute()));
