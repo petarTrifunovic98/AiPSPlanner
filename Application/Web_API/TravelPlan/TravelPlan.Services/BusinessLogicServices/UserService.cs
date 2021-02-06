@@ -29,18 +29,16 @@ namespace TravelPlan.Services.BusinessLogicServices
         private readonly AppSettings _appSettings;
         private readonly ITokenManager _tokenManager;
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly IHubContext<MessageHub, IMessageHub> _messageHub;
         private readonly IEditRightsAuthorization _editRightsAuthorization;
 
         public UserService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings, ITokenManager tokenManager, 
-            IHttpContextAccessor contextAccessor, IHubContext<MessageHub, IMessageHub> messageHub, IEditRightsAuthorization editRightsAuthorization)
+            IHttpContextAccessor contextAccessor, IEditRightsAuthorization editRightsAuthorization)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _appSettings = appSettings.Value;
             _tokenManager = tokenManager;
             _contextAccessor = contextAccessor;
-            _messageHub = messageHub;
             _editRightsAuthorization = editRightsAuthorization;
         }
 
