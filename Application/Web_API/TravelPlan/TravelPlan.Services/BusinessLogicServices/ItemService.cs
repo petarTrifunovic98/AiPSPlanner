@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,7 @@ using TravelPlan.Contracts;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Services.MessagingService;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -14,11 +16,13 @@ namespace TravelPlan.Services.BusinessLogicServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private MessageControllerService _messageControllerService;
 
-        public ItemService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ItemService(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<MessageHub> hubContext)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _messageControllerService = new MessageControllerService(hubContext);
         }
 
         public async Task<ItemDTO> CreateItem(ItemCreateDTO newItem)
@@ -58,6 +62,13 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.Save();
 
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
+                await _messageControllerService.NotifyOnTripChanges(newItem.TripId, "AddItem", retItem);
+                NotificationItemDTO notificationItem = new NotificationItemDTO()
+                {
+                    Notification = _mapper.Map<Notification, NotificationDTO>(notification),
+                    Item = retItem
+                };
+                await _messageControllerService.NotifyOnItemChanges(newItem.UserId, "AddItemNotification", notificationItem);
                 return retItem;
             }
         }
@@ -88,6 +99,13 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 await _unitOfWork.Save();
 
+                await _messageControllerService.NotifyOnTripChanges(trip.TripId, "RemoveItem", item.ItemId);
+                NotificationItemDeleteDTO notificationItemDelete = new NotificationItemDeleteDTO()
+                {
+                    Notification = _mapper.Map<Notification, NotificationDTO>(notification),
+                    ItemToDelete = item.ItemId
+                };
+                await _messageControllerService.NotifyOnItemChanges(user.UserId, "RemoveItemNotification", notificationItemDelete);
                 return true;
             }
         }
@@ -112,6 +130,13 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 await _unitOfWork.Save();
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
+                await _messageControllerService.NotifyOnTripChanges(item.TripId, "EditItem", retItem);
+                NotificationItemDTO notificationItem = new NotificationItemDTO()
+                {
+                    Notification = _mapper.Map<Notification, NotificationDTO>(notification),
+                    Item = retItem
+                };
+                await _messageControllerService.NotifyOnItemChanges(item.UserId, "EditItemNotification", notificationItem);
                 return retItem;
             }
         }
@@ -155,6 +180,20 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.Save();
 
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
+               
+                await _messageControllerService.NotifyOnTripChanges(trip.TripId, "EditItem", retItem);
+                NotificationItemDeleteDTO notificationItemDelete = new NotificationItemDeleteDTO()
+                {
+                    Notification = _mapper.Map<Notification, NotificationDTO>(notification_old),
+                    ItemToDelete = item.ItemId
+                };
+                await _messageControllerService.NotifyOnItemChanges(user.UserId, "RemoveItemNotification", notificationItemDelete);
+                NotificationItemDTO notificationItem = new NotificationItemDTO()
+                {
+                    Notification = _mapper.Map<Notification, NotificationDTO>(notification_new),
+                    Item = retItem
+                };
+                await _messageControllerService.NotifyOnItemChanges(newUserId, "AddItemNotification", notificationItem);
                 return retItem;
             }
         }
@@ -178,6 +217,13 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.Save();
 
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
+                await _messageControllerService.NotifyOnTripChanges(item.TripId, "AddItem", retItem);
+                NotificationItemDTO notificationItem = new NotificationItemDTO()
+                {
+                    Notification = _mapper.Map<Notification, NotificationDTO>(notification),
+                    Item = retItem
+                };
+                await _messageControllerService.NotifyOnItemChanges(item.UserId, "AddItemNotification", notificationItem);
                 return retItem;
             }
         }

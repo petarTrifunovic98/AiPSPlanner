@@ -15,3 +15,18 @@ RemoveAccommodation		int				Id obrisanog smeštaja
 EditAccommodation		AccommodationDOT		Smeštaj koji je menjan
 AddAccommodationPicture		AccommodationPictureDTO		Dodata slika
 RemoveAccommodationPicture	int				Id obrisane slike
+AddItem				ItemDTO				Dodati item
+EditItem			ItemDTO				Menjani item
+RemoveItem			int				Id obrisanog item-a
+
+
+
+
+- Notifikacije o promeni u item-ima - Grupa: "User"+userId
+
+
+Naziv				Prosleđena vrednost		Objašnjenje vraćene vrednosti
+______________________________________________________________________________________________________________________________________________________
+AddItemNotification		NotificationItemDTO		Sadrži NotificationDTO objekat koji prenosi obaveštenje i ItemDTO koji prenosi dodati objekat
+EditItemNotification		NotificationItemDTO		Slično kao metoda iznad samo se u item prenosi menjani item	
+RemoveItemNotification		NotificationItemDeleteDTO	Nosi NotificationDTO objekat i id obrisanog itema		
