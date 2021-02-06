@@ -53,12 +53,12 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpPut]
-        [Route("edit-add-on")]
-        public async Task<ActionResult> EditAddOn([FromBody] AddOnEditDTO addOnInfo)
+        [Route("edit-add-on/{tripId}")]
+        public async Task<ActionResult> EditAddOn(int tripId, [FromBody] AddOnEditDTO addOnInfo)
         {
             try
             {
-                AddOnDTO result = await _addOnService.EditAddOn(addOnInfo);
+                AddOnDTO result = await _addOnService.EditAddOn(addOnInfo, tripId);
                 if (result != null)
                     return Ok(result);
                 return BadRequest("Invalid add on information");

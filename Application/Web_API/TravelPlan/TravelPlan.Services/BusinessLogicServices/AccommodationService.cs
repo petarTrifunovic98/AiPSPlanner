@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
 using TravelPlan.Helpers;
+using TravelPlan.Services.MessagingService;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -16,11 +18,13 @@ namespace TravelPlan.Services.BusinessLogicServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private MessageControllerService _messageControllerService;
 
-        public AccommodationService(IUnitOfWork unitOfWork, IMapper mapper)
+        public AccommodationService(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<MessageHub> hubContext)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _messageControllerService = new MessageControllerService(hubContext);
         }
 
         public async Task<AccommodationDTO> CreateAccommodation(AccommodationCreateDTO newAccommodation)
@@ -49,7 +53,9 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.AccommodationRepository.Create(accommodation);
                 await _unitOfWork.Save();
 
-                return _mapper.Map<Accommodation, AccommodationDTO>(accommodation);
+                AccommodationDTO retValue = _mapper.Map<Accommodation, AccommodationDTO>(accommodation);
+                await _messageControllerService.NotifyOnTripChanges(location.TripId, "AddAccommodation", retValue);
+                return retValue;
             }
         }
 
@@ -57,10 +63,11 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             using (_unitOfWork)
             {
-                Accommodation accommodation = await _unitOfWork.AccommodationRepository.FindByID(accommodationId);
+                Accommodation accommodation = await _unitOfWork.AccommodationRepository.GetAccommodationWithLocation(accommodationId);
                 _unitOfWork.VotableRepository.Delete(accommodation.VotableId);
                 _unitOfWork.AccommodationRepository.Delete(accommodationId);
                 await _unitOfWork.Save();
+                await _messageControllerService.NotifyOnTripChanges(accommodation.Location.TripId, "RemoveAccommodation", accommodationId);
                 return true;
             }
         }
@@ -87,7 +94,9 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 await _unitOfWork.Save();
 
-                return _mapper.Map<Accommodation, AccommodationDTO>(accommodation);
+                AccommodationDTO retValue = _mapper.Map<Accommodation, AccommodationDTO>(accommodation);
+                await _messageControllerService.NotifyOnTripChanges(location.TripId, "EditAccommodation", retValue);
+                return retValue;
             }
         }
 
@@ -113,7 +122,7 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             using (_unitOfWork)
             {
-                Accommodation accommodation = await _unitOfWork.AccommodationRepository.FindByID(picture.AccommodationId);
+                Accommodation accommodation = await _unitOfWork.AccommodationRepository.GetAccommodationWithLocation(picture.AccommodationId);
                 AccommodationPicture accommodationPicture = new AccommodationPicture
                 {
                     AccommodationPictureId = 0,
@@ -137,6 +146,7 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 AccommodationPictureDTO res = _mapper.Map<AccommodationPicture, AccommodationPictureDTO>(accommodationPicture);
                 res.Picture = picture.Picture;
+                await _messageControllerService.NotifyOnTripChanges(accommodation.Location.TripId, "AddAccommodationPicture", res);
                 return res;
             }
         }
@@ -154,8 +164,11 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             using (_unitOfWork)
             {
+                AccommodationPicture accommodationPicture = await _unitOfWork.AccommodationPictureRepository.FindByID(pictureId);
+                Accommodation accommodation = await _unitOfWork.AccommodationRepository.GetAccommodationWithLocation(accommodationPicture.AccommodationId);
                 _unitOfWork.AccommodationPictureRepository.Delete(pictureId);
                 await _unitOfWork.Save();
+                await _messageControllerService.NotifyOnTripChanges(accommodation.Location.TripId, "RemoveAccommodationPicture", pictureId);
             }
         }
     }

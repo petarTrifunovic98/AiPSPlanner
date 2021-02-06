@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,7 @@ using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
 using TravelPlan.Helpers;
 using TravelPlan.Services.BusinessLogicServices.AbstractFactoryServices;
+using TravelPlan.Services.MessagingService;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -16,11 +18,13 @@ namespace TravelPlan.Services.BusinessLogicServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private MessageControllerService _messageControllerService;
 
-        public TripService(IUnitOfWork unitOfWork, IMapper mapper)
+        public TripService(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<MessageHub> hubContext)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _messageControllerService = new MessageControllerService(hubContext);
         }
 
         public async Task<TripDTO> CreateTrip(int userId, TripCreateDTO newTrip)
@@ -93,6 +97,8 @@ namespace TravelPlan.Services.BusinessLogicServices
                 _unitOfWork.TripRepository.Update(trip);
                 await _unitOfWork.Save();
                 TripDTO returnTrip = _mapper.Map<Trip, TripDTO>(trip);
+                TripBasicDTO notificationTrip = _mapper.Map<Trip, TripBasicDTO>(trip);
+                await _messageControllerService.NotifyOnTripChanges(trip.TripId, "EditTripInfo", notificationTrip);
                 return returnTrip;
             }
         }

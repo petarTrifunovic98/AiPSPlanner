@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
 using TravelPlan.Helpers;
+using TravelPlan.Services.MessagingService;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -16,11 +18,13 @@ namespace TravelPlan.Services.BusinessLogicServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private MessageControllerService _messageControllerService;
 
-        public LocationService(IUnitOfWork unitOfWork, IMapper mapper)
+        public LocationService(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<MessageHub> hubContext)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _messageControllerService = new MessageControllerService(hubContext);
         }
 
         public async Task<LocationDTO> CreateLocation(LocationCreateDTO newLocation)
@@ -49,7 +53,10 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.LocationRepository.Create(location);
                 await _unitOfWork.Save();
 
-                return _mapper.Map<Location, LocationDTO>(location);
+                LocationDTO retValue = _mapper.Map<Location, LocationDTO>(location);
+                await _messageControllerService.NotifyOnTripChanges(location.TripId, "AddLocation", retValue);
+
+                return retValue;
             }
         }
 
@@ -66,6 +73,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 _unitOfWork.VotableRepository.Delete(location.VotableId);
                 _unitOfWork.LocationRepository.Delete(locationId);
                 await _unitOfWork.Save();
+                await _messageControllerService.NotifyOnTripChanges(location.TripId, "RemoveLocation", locationId);
                 return true;
             }
         }
@@ -99,7 +107,9 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 await _unitOfWork.Save();
 
-                return _mapper.Map<Location, LocationDTO>(location);
+                LocationDTO retValue = _mapper.Map<Location, LocationDTO>(location);
+                await _messageControllerService.NotifyOnTripChanges(location.TripId, "EditLocation", retValue);
+                return retValue;
             }
         }
 

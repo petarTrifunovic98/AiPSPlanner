@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,7 @@ using TravelPlan.Contracts;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Services.MessagingService;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -14,15 +16,17 @@ namespace TravelPlan.Services.BusinessLogicServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private MessageControllerService _messageControllerService;
 
         private static List<DecorationAvailableDTO> SeaList;
         private static List<DecorationAvailableDTO> WinterList;
         private static List<DecorationAvailableDTO> SpaList;
 
-        public AddOnService(IUnitOfWork unitOfWork, IMapper mapper)
+        public AddOnService(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<MessageHub> hubContext)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _messageControllerService = new MessageControllerService(hubContext);
         }
 
         public async Task<List<DecorationAvailableDTO>> GetAvailableDecorations(int tripId)
@@ -120,7 +124,7 @@ namespace TravelPlan.Services.BusinessLogicServices
             return SpaList;
         }
 
-        public async Task<AddOnDTO> EditAddOn(AddOnEditDTO addOnInfo)
+        public async Task<AddOnDTO> EditAddOn(AddOnEditDTO addOnInfo, int tripId)
         {
             using(_unitOfWork)
             {
@@ -129,7 +133,9 @@ namespace TravelPlan.Services.BusinessLogicServices
                 addOn.Description = addOnInfo.Description;
                 _unitOfWork.AddOnRepository.Update(addOn);
                 await _unitOfWork.Save();
-                return _mapper.Map<AddOn, AddOnDTO>(addOn);
+                AddOnDTO retValue = _mapper.Map<AddOn, AddOnDTO>(addOn);
+                await _messageControllerService.NotifyOnTripChanges(tripId, "EditAddOn", retValue);
+                return retValue;
             }
         }
 
@@ -169,7 +175,9 @@ namespace TravelPlan.Services.BusinessLogicServices
                 currAddOn.SetDecoratorId(addOn.AddOnId);
                 _unitOfWork.AddOnRepository.Update(currAddOn);
                 await _unitOfWork.Save();
-                return _mapper.Map<AddOn, AddOnDTO>(addOn);
+                AddOnDTO retValue = _mapper.Map<AddOn, AddOnDTO>(addOn);
+                await _messageControllerService.NotifyOnTripChanges(newAddOn.TripId, "AddAddOn", retValue);
+                return retValue;
             }
         }
 
@@ -214,6 +222,8 @@ namespace TravelPlan.Services.BusinessLogicServices
                 if (addOnId <= 0)
                     return false;
 
+                List<int> deletedIds = new List<int>();
+
                 AddOn prevAddOn = null;
                 Trip trip = await _unitOfWork.TripRepository.FindByID(tripId);
                 AddOn currAddOn = await _unitOfWork.AddOnRepository.GetAddOnWithVotable(trip.AddOnId);
@@ -238,6 +248,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                         _unitOfWork.AddOnRepository.Delete(currAddOn.AddOnId);
                         _unitOfWork.VotableRepository.Delete(currAddOn.VotableId);
                         await _unitOfWork.Save();
+                        deletedIds.Add(currAddOn.AddOnId);
                         break;
                     }
 
@@ -256,6 +267,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                         
                         _unitOfWork.AddOnRepository.Delete(currAddOn.AddOnId);
                         _unitOfWork.VotableRepository.Delete(currAddOn.VotableId);
+                        deletedIds.Add(currAddOn.AddOnId);
                         await _unitOfWork.Save();
                     }
                     else
@@ -266,6 +278,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                     else
                         currAddOn = await _unitOfWork.AddOnRepository.GetAddOnWithVotable(prevAddOn.GetDecoratorId());
                 }
+                await _messageControllerService.NotifyOnTripChanges(tripId, "RemoveAddOn", deletedIds);
                 return true;
             }
         }

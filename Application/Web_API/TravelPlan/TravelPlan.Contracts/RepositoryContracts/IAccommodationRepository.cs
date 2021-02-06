@@ -10,5 +10,6 @@ namespace TravelPlan.Contracts.RepositoryContracts
     {
         Task<Accommodation> GetAccommodationWithVotable(int AccommodationId);
         Task<IEnumerable<AccommodationPicture>> GetAccommodationPictures(int accommodationId);
+        Task<Accommodation> GetAccommodationWithLocation(int accommodationId);
     }
 }

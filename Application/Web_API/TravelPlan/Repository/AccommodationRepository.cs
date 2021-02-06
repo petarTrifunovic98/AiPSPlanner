@@ -17,7 +17,8 @@ namespace TravelPlan.Repository
 
         public async Task<Accommodation> GetAccommodationWithVotable(int AccommodationId)
         {
-            Accommodation accommodation = await _dbSet.Include(accommodation => accommodation.Votable).FirstOrDefaultAsync(accommodation => accommodation.AccommodationId == AccommodationId);
+            Accommodation accommodation = await _dbSet.Include(accommodation => accommodation.Votable)
+                                                      .FirstOrDefaultAsync(accommodation => accommodation.AccommodationId == AccommodationId);
             return accommodation;
         }
 
@@ -26,6 +27,13 @@ namespace TravelPlan.Repository
             IEnumerable<AccommodationPicture> pictures = await _dbSet.Where(accommodation => accommodation.AccommodationId == accommodationId)
                                                                      .Select(accommodation => accommodation.Pictures).FirstOrDefaultAsync();
             return pictures;
+        }
+
+        public async Task<Accommodation> GetAccommodationWithLocation(int accommodationId)
+        {
+            return await _dbSet.Include(accommodation => accommodation.Location)
+                               .Where(accommodation => accommodation.AccommodationId == accommodationId)
+                               .FirstOrDefaultAsync();
         }
     }
 }

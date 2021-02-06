@@ -1,0 +1,17 @@
+- Notifikacije o promeni u putovanju - Grupa: "Trip"+tripId
+
+
+Naziv				Prosleđena vrednost		Objašnjenje vraćene vrednosti
+________________________________________________________________________________________________________________
+AddAddOn			AddOnDTO			Kreirani novi AddOn
+RemoveAddOn			List<int> 			Lista id-jeva svih AddOn-ova koji su obrisani
+EditAddOn			AddOnDTO			AddOn koji je izmenjen
+EditTripInfo			TripBasicDTO			Osnovne info o tripu koje su menjane
+AddLocation			LocationDTO			Nova lokacija
+RemoveLocation			int				Id obrisane lokacije
+EditLocation			LocationDTO			Lokacija koja je menjana
+AddAccommodation		AccommodationDTO		Smeštaj koji je kreiran
+RemoveAccommodation		int				Id obrisanog smeštaja
+EditAccommodation		AccommodationDOT		Smeštaj koji je menjan
+AddAccommodationPicture		AccommodationPictureDTO		Dodata slika
+RemoveAccommodationPicture	int				Id obrisane slike
