@@ -63,5 +63,28 @@ namespace TravelPlan.Repository
             IDatabase redisDb = _redisConnection.GetDatabase();
             await redisDb.StringSetAsync($"trip:{tripId}:edit.rights.holder", userId);
         }
+
+        public async Task<string> GetNextRightHolder(int tripId)
+        {
+            IDatabase redisDb = _redisConnection.GetDatabase();
+            await redisDb.ListLeftPopAsync($"trip:{tripId}:edit.requests");
+            RedisValue[] values = await redisDb.ListRangeAsync($"trip:{tripId}:edit.requests", 0, 0);
+            string nextUserId = values[0].ToString();
+            return nextUserId;
+        }
+
+        public async Task RemoveUserFromRequestQueue(int tripId, int userId)
+        {
+            IDatabase redisDb = _redisConnection.GetDatabase();
+            await redisDb.ListRemoveAsync($"trip:{tripId}:edit.requests", userId);
+        }
+
+        public async Task<string> GetCurrentRightHolder(int tripId)
+        {
+            IDatabase redisDb = _redisConnection.GetDatabase();
+            RedisValue value =  await redisDb.StringGetAsync($"trip:{tripId}:edit.rights.holder");
+            string currentRightHolder = value.ToString();
+            return currentRightHolder;
+        }
     }
 }

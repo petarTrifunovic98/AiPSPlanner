@@ -30,9 +30,10 @@ namespace TravelPlan.Services.BusinessLogicServices
         private readonly ITokenManager _tokenManager;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IHubContext<MessageHub, IMessageHub> _messageHub;
+        private readonly IEditRightsAuthorization _editRightsAuthorization;
 
         public UserService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings, ITokenManager tokenManager, 
-            IHttpContextAccessor contextAccessor, IHubContext<MessageHub, IMessageHub> messageHub)
+            IHttpContextAccessor contextAccessor, IHubContext<MessageHub, IMessageHub> messageHub, IEditRightsAuthorization editRightsAuthorization)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -40,6 +41,7 @@ namespace TravelPlan.Services.BusinessLogicServices
             _tokenManager = tokenManager;
             _contextAccessor = contextAccessor;
             _messageHub = messageHub;
+            _editRightsAuthorization = editRightsAuthorization;
         }
 
         public async Task<UserAuthenticateResponseDTO> AddUserAccount(UserRegisterDTO userInfo)
@@ -169,7 +171,7 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
-        public async Task<bool> RequesTripEdit(int tripId, int userId)
+        public async Task<bool> RequestTripEdit(int tripId, int userId)
         {
             using (_unitOfWork)
             {
@@ -180,6 +182,30 @@ namespace TravelPlan.Services.BusinessLogicServices
                     return true;
                 }
                 return false;
+            }
+        }
+
+        public async Task ReleaseTripEdit(int tripId)
+        {
+            using (_unitOfWork)
+            {
+                string currentId = await _unitOfWork.UserRepository.GetCurrentRightHolder(tripId);
+                bool hasRights = _editRightsAuthorization.HasEditRights(currentId);
+
+                string nextUserIdString = await _unitOfWork.UserRepository.GetNextRightHolder(tripId);
+                if(!string.IsNullOrEmpty(nextUserIdString))
+                {
+                    await _unitOfWork.UserRepository.SetEditRightHolder(tripId, int.Parse(nextUserIdString));
+                    //inform the next user through his client that he/she now holds the edit rights for this trip
+                }
+            }
+        }
+
+        public async Task LeaveRequestEditQueue(int tripId, int userId)
+        {
+            using (_unitOfWork)
+            {
+                await _unitOfWork.UserRepository.RemoveUserFromRequestQueue(tripId, userId);
             }
         }
     }
