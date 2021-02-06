@@ -175,8 +175,38 @@ namespace TravelPlan.Controllers
         {
             try
             {
-                bool editRightsGiven = await _userService.RequesTripEdit(tripId, userId);
+                bool editRightsGiven = await _userService.RequestTripEdit(tripId, userId);
                 return Ok(editRightsGiven);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("release-edit/trip/{tripId}/")]
+        public async Task<ActionResult> ReleaseTripEdit(int tripId)
+        {
+            try
+            {
+                await _userService.ReleaseTripEdit(tripId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("cancel-edit-request/trip/{tripId}/user/{userId}")]
+        public async Task<ActionResult> CancelTripEditRequest(int tripId, int userId)
+        {
+            try
+            {
+                await _userService.LeaveRequestEditQueue(tripId, userId);
+                return Ok();
             }
             catch (Exception ex)
             {
