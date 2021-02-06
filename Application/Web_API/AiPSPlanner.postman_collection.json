@@ -947,33 +947,31 @@
 		},
 		{
 			"id": "a9e3d934-975e-51a2-e869-595b3ef6d6bb",
-			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjE5NDQsImV4cCI6MTYxMjYyMzc0NCwiaWF0IjoxNjEyNjIxOTQ0fQ.x_tH7ZkpZJ1lqQkpMvh2ZTGABZrJvnJouYi7sgXqD9s\n",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjkzMzUsImV4cCI6MTYxMjYzMTEzNSwiaWF0IjoxNjEyNjI5MzM1fQ.xr0B58aXa0fNgmB1JaZJ4JYTBVDlp8Qr4zhFHziGtj8\n",
 			"headerData": [
 				{
 					"key": "Authorization",
-					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjE5NDQsImV4cCI6MTYxMjYyMzc0NCwiaWF0IjoxNjEyNjIxOTQ0fQ.x_tH7ZkpZJ1lqQkpMvh2ZTGABZrJvnJouYi7sgXqD9s",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjkzMzUsImV4cCI6MTYxMjYzMTEzNSwiaWF0IjoxNjEyNjI5MzM1fQ.xr0B58aXa0fNgmB1JaZJ4JYTBVDlp8Qr4zhFHziGtj8",
 					"description": "",
 					"enabled": true
 				}
 			],
-			"url": "https://localhost:44301/api/user/release-edit/trip/9",
+			"url": "https://localhost:44301/api/edit-rights/release-edit/trip/9",
 			"queryParams": [],
+			"preRequestScript": null,
 			"pathVariables": {},
 			"pathVariableData": [],
-			"preRequestScript": null,
 			"method": "DELETE",
-			"collectionId": "eedc88e4-325d-744c-4105-0ec98f44507d",
 			"data": null,
 			"dataMode": "params",
-			"name": "ReleaseTripEdit",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1612622908032,
-			"version": 2,
-			"responses": [],
 			"tests": null,
 			"currentHelper": "normal",
-			"helperAttributes": {}
+			"helperAttributes": {},
+			"time": 1612629688831,
+			"name": "ReleaseTripEdit",
+			"description": "",
+			"collectionId": "eedc88e4-325d-744c-4105-0ec98f44507d",
+			"responses": []
 		},
 		{
 			"id": "aa0814ad-4625-b479-7ad4-13671e4f0bf7",
@@ -1172,33 +1170,31 @@
 		},
 		{
 			"id": "d1e24b23-cd9c-e4a7-4fb1-8bd30a384710",
-			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjE5NDQsImV4cCI6MTYxMjYyMzc0NCwiaWF0IjoxNjEyNjIxOTQ0fQ.x_tH7ZkpZJ1lqQkpMvh2ZTGABZrJvnJouYi7sgXqD9s\n",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjkzMzUsImV4cCI6MTYxMjYzMTEzNSwiaWF0IjoxNjEyNjI5MzM1fQ.xr0B58aXa0fNgmB1JaZJ4JYTBVDlp8Qr4zhFHziGtj8\n",
 			"headerData": [
 				{
 					"key": "Authorization",
-					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjE5NDQsImV4cCI6MTYxMjYyMzc0NCwiaWF0IjoxNjEyNjIxOTQ0fQ.x_tH7ZkpZJ1lqQkpMvh2ZTGABZrJvnJouYi7sgXqD9s",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjkzMzUsImV4cCI6MTYxMjYzMTEzNSwiaWF0IjoxNjEyNjI5MzM1fQ.xr0B58aXa0fNgmB1JaZJ4JYTBVDlp8Qr4zhFHziGtj8",
 					"description": "",
 					"enabled": true
 				}
 			],
-			"url": "https://localhost:44301/api/user/cancel-edit-request/trip/9/user/4",
+			"url": "https://localhost:44301/api/edit-rights/cancel-edit-request/trip/9/user/4",
 			"queryParams": [],
+			"preRequestScript": null,
 			"pathVariables": {},
 			"pathVariableData": [],
-			"preRequestScript": null,
 			"method": "DELETE",
-			"collectionId": "eedc88e4-325d-744c-4105-0ec98f44507d",
 			"data": null,
 			"dataMode": "params",
-			"name": "CancelTripEditRequest",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1612622946296,
-			"version": 2,
-			"responses": [],
 			"tests": null,
 			"currentHelper": "normal",
-			"helperAttributes": {}
+			"helperAttributes": {},
+			"time": 1612629690676,
+			"name": "CancelTripEditRequest",
+			"description": "",
+			"collectionId": "eedc88e4-325d-744c-4105-0ec98f44507d",
+			"responses": []
 		},
 		{
 			"id": "d2c922aa-8bce-d321-076d-6ffdbda426ca",
@@ -1305,33 +1301,31 @@
 		},
 		{
 			"id": "e5ff0746-7185-e6f6-b206-e26c507cf52c",
-			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjE5NDQsImV4cCI6MTYxMjYyMzc0NCwiaWF0IjoxNjEyNjIxOTQ0fQ.x_tH7ZkpZJ1lqQkpMvh2ZTGABZrJvnJouYi7sgXqD9s\n",
+			"headers": "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjkzMzUsImV4cCI6MTYxMjYzMTEzNSwiaWF0IjoxNjEyNjI5MzM1fQ.xr0B58aXa0fNgmB1JaZJ4JYTBVDlp8Qr4zhFHziGtj8\n",
 			"headerData": [
 				{
 					"key": "Authorization",
-					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjE5NDQsImV4cCI6MTYxMjYyMzc0NCwiaWF0IjoxNjEyNjIxOTQ0fQ.x_tH7ZkpZJ1lqQkpMvh2ZTGABZrJvnJouYi7sgXqD9s",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MTI2MjkzMzUsImV4cCI6MTYxMjYzMTEzNSwiaWF0IjoxNjEyNjI5MzM1fQ.xr0B58aXa0fNgmB1JaZJ4JYTBVDlp8Qr4zhFHziGtj8",
 					"description": "",
 					"enabled": true
 				}
 			],
-			"url": "https://localhost:44301/api/user/request-edit/trip/9/user/1",
+			"url": "https://localhost:44301/api/edit-rights/request-edit/trip/9/user/3",
 			"queryParams": [],
+			"preRequestScript": null,
 			"pathVariables": {},
 			"pathVariableData": [],
-			"preRequestScript": null,
 			"method": "POST",
-			"collectionId": "eedc88e4-325d-744c-4105-0ec98f44507d",
 			"data": null,
 			"dataMode": "params",
-			"name": "RequestTripEdit",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1612622962952,
-			"version": 2,
-			"responses": [],
 			"tests": null,
 			"currentHelper": "normal",
-			"helperAttributes": {}
+			"helperAttributes": {},
+			"time": 1612629691659,
+			"name": "RequestTripEdit",
+			"description": "",
+			"collectionId": "eedc88e4-325d-744c-4105-0ec98f44507d",
+			"responses": []
 		},
 		{
 			"id": "fba1ae2a-1c38-7a0a-0dca-0c7e87c3bcb6",

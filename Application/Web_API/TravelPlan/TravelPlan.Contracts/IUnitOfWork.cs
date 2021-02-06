@@ -21,6 +21,7 @@ namespace TravelPlan.Contracts
         IRepositoryBase<TripType> TripTypeRepository { get; }
         IAddOnRepository AddOnRepository { get; }
         IRepositoryBase<Notification> NotificationRepository { get; }
+        IEditRightsRepository EditRightsRepository { get; }
 
         Task<bool> Save();
     }

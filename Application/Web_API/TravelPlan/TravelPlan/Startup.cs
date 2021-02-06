@@ -40,7 +40,7 @@ namespace TravelPlan
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IEditRightsAuthorization, EditRightsAuthorization>();
+            services.AddScoped<IEditRightsService, EditRightsService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<ITripService, TripService>();

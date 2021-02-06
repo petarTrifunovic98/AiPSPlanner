@@ -29,7 +29,7 @@ namespace TravelPlan.Repository
             get
             {
                 if (this._userRepository == null)
-                    this._userRepository = new UserRepository(_context, _redisConnectionBuilder);
+                    this._userRepository = new UserRepository(_context);
                 return this._userRepository;
             }
         }
@@ -155,6 +155,17 @@ namespace TravelPlan.Repository
                 if (this._notificationRepository == null)
                     this._notificationRepository = new RepositoryBase<Notification>(_context);
                 return this._notificationRepository;
+            }
+        }
+
+        private IEditRightsRepository _editRightsRepository;
+        public IEditRightsRepository EditRightsRepository
+        {
+            get
+            {
+                if (this._editRightsRepository == null)
+                    this._editRightsRepository = new EditRightsRepository(_redisConnectionBuilder);
+                return this._editRightsRepository;
             }
         }
 

@@ -14,12 +14,9 @@ namespace TravelPlan.Repository
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        private readonly IConnectionMultiplexer _redisConnection;
+        public UserRepository(TravelPlanDbContext context) :base(context)
+        { }
 
-        public UserRepository(TravelPlanDbContext context, IRedisConnectionBuilder redisConnectionBuilder) :base(context)
-        {
-            _redisConnection = redisConnectionBuilder.Connection;
-        }
         public bool UsernameTaken(string username)
         {
             return _dbSet.Any(u => u.Username == username);
@@ -49,42 +46,6 @@ namespace TravelPlan.Repository
         public async Task<ICollection<Notification>> GetNotifications(int userId)
         {
             return await _dbSet.Where(user => user.UserId == userId).Select(user => user.MyNotifications).FirstOrDefaultAsync();
-        }
-
-        public async Task<long> RequestTripEdit(int tripId, int userId)
-        {
-            IDatabase redisDb = _redisConnection.GetDatabase();
-            long requestsNum = await redisDb.ListRightPushAsync($"trip:{tripId}:edit.requests", userId);
-            return requestsNum;
-        }
-
-        public async Task SetEditRightHolder(int tripId, int userId)
-        {
-            IDatabase redisDb = _redisConnection.GetDatabase();
-            await redisDb.StringSetAsync($"trip:{tripId}:edit.rights.holder", userId);
-        }
-
-        public async Task<string> GetNextRightHolder(int tripId)
-        {
-            IDatabase redisDb = _redisConnection.GetDatabase();
-            await redisDb.ListLeftPopAsync($"trip:{tripId}:edit.requests");
-            RedisValue[] values = await redisDb.ListRangeAsync($"trip:{tripId}:edit.requests", 0, 0);
-            string nextUserId = values[0].ToString();
-            return nextUserId;
-        }
-
-        public async Task RemoveUserFromRequestQueue(int tripId, int userId)
-        {
-            IDatabase redisDb = _redisConnection.GetDatabase();
-            await redisDb.ListRemoveAsync($"trip:{tripId}:edit.requests", userId);
-        }
-
-        public async Task<string> GetCurrentRightHolder(int tripId)
-        {
-            IDatabase redisDb = _redisConnection.GetDatabase();
-            RedisValue value =  await redisDb.StringGetAsync($"trip:{tripId}:edit.rights.holder");
-            string currentRightHolder = value.ToString();
-            return currentRightHolder;
         }
     }
 }
