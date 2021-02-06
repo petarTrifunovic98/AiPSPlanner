@@ -77,7 +77,16 @@ namespace TravelPlan.Services.BusinessLogicServices
                 if (!DateManagerService.checkFromToDates(locationInfo.From, locationInfo.To))
                     return null;
 
-                Location location = await _unitOfWork.LocationRepository.FindByID(locationInfo.LocationId);
+                Location location = await _unitOfWork.LocationRepository.GetLocationWithAccommodations(locationInfo.LocationId);
+                if(location.Accommodations != null)
+                {
+                    foreach(Accommodation accommodation in location.Accommodations)
+                    {
+                        if (!DateManagerService.checkParentChildDates(locationInfo.From, locationInfo.To, accommodation.From, accommodation.To))
+                            return null;
+                    }
+                }
+
                 Trip trip = await _unitOfWork.TripRepository.FindByID(location.TripId);
 
                 location.Name = locationInfo.Name;

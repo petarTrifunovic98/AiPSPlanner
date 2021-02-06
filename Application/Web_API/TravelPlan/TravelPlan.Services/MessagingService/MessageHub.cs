@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using TravelPlan.Contracts;
 
 namespace TravelPlan.Services.MessagingService
 {
-    public class MessageHub : Hub<IMessageHub>
+    public class MessageHub : Hub
     {
-        public async Task TestHubMethod(string message)
+        public async Task NotifyOnTripChanges(int tripId, String method, Object object_to_send)
         {
-            //TestMethod - metoda IMessageHub interfejsa
-            await Clients.All.TestMethod(message);
+            await Clients.Group("Trip" + tripId).SendAsync(method, object_to_send);
         }
     }
 }
