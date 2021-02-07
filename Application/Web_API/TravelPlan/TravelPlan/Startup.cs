@@ -54,14 +54,17 @@ namespace TravelPlan
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IRedisConnectionBuilder, RedisConnectionBuilder>();
             services.AddAutoMapper(typeof(UserProfiles));
-            services.AddSignalR();
             services.AddControllers().AddMvcOptions(x => x.Filters.Add(new AuthorizeAttribute()));
             services.AddCors(options =>
             {
                 options.AddPolicy("CORS", builder =>
                 {
-                    builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                    builder.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed((host) => true).AllowCredentials();
                 });
+            });
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
             });
             services.AddMvc().AddJsonOptions(options =>
             {
@@ -122,7 +125,7 @@ namespace TravelPlan
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<MessageHub>("/travel-plan-hub");
+                endpoints.MapHub<MessageHub>("travel-plan-hub");
             });
         }
     }
