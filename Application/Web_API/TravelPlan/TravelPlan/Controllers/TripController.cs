@@ -13,9 +13,11 @@ namespace TravelPlan.API.Controllers
     public class TripController : ControllerBase
     {
         private readonly ITripService _tripService;
-        public TripController(ITripService tripService)
+        private readonly IEditRightsService _editRightsService;
+        public TripController(ITripService tripService, IEditRightsService editRightsService)
         {
             _tripService = tripService;
+            _editRightsService = editRightsService;
         }
 
         [HttpPost]
@@ -41,6 +43,8 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripInfo.TripId))
+                    return BadRequest("You can't currently edit this trip.");
                 TripDTO result = await _tripService.EditTripInfo(tripInfo);
                 if (result != null)
                     return Ok(result);
@@ -58,6 +62,8 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 if (await _tripService.RemoveUserFromTrip(tripId, userId))
                     return Ok();
                 return BadRequest();
@@ -74,6 +80,8 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 TripDTO trip = await _tripService.AddMemberToTrip(tripId, memberId, false);
                 if (trip != null)
                     return Ok(trip);
@@ -91,6 +99,8 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 TripDTO trip = await _tripService.AddMemberToTrip(tripId, memberId, true);
                 if (trip != null)
                     return Ok(trip);
@@ -153,6 +163,8 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 TripAdditionalInfoDTO tripInfo = await _tripService.AddItemToPackingList(tripId, item);
                 return Ok(tripInfo);
             }

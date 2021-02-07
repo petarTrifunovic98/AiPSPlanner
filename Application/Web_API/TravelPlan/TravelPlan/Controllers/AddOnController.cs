@@ -13,9 +13,11 @@ namespace TravelPlan.API.Controllers
     public class AddOnController : ControllerBase
     {
         private readonly IAddOnService _addOnService;
-        public AddOnController(IAddOnService addOnService)
+        private readonly IEditRightsService _editRightsService;
+        public AddOnController(IAddOnService addOnService, IEditRightsService editRightsService)
         {
             _addOnService = addOnService;
+            _editRightsService = editRightsService;
         }
 
         [HttpGet]
@@ -41,6 +43,8 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(newAddOn.TripId))
+                    return BadRequest("You can't currently edit this trip.");
                 AddOnDTO result = await _addOnService.CreateAddOn(newAddOn);
                 if (result != null)
                     return Ok(result);
@@ -58,6 +62,8 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 AddOnDTO result = await _addOnService.EditAddOn(addOnInfo, tripId);
                 if (result != null)
                     return Ok(result);
@@ -75,6 +81,8 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 if (await _addOnService.DeleteAddOn(addOnId, tripId))
                     return Ok();
                 return BadRequest();

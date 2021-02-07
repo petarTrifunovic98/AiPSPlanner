@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using TravelPlan.Contracts;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
+using TravelPlan.Services.MessagingService;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -13,10 +15,13 @@ namespace TravelPlan.Services.BusinessLogicServices
     {
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IUnitOfWork _unitOfWork;
-        public EditRightsService(IHttpContextAccessor contextAccessor, IUnitOfWork unitOfWork)
+        private MessageControllerService _messageControllerService;
+
+        public EditRightsService(IHttpContextAccessor contextAccessor, IUnitOfWork unitOfWork, IHubContext<MessageHub> hubContext)
         {
             _contextAccessor = contextAccessor;
             _unitOfWork = unitOfWork;
+            _messageControllerService = new MessageControllerService(hubContext);
         }
 
         public async Task<bool> HasEditRights(int tripId)
@@ -52,7 +57,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 if (!string.IsNullOrEmpty(nextUserIdString))
                 {
                     await _unitOfWork.EditRightsRepository.SetEditRightHolder(tripId, int.Parse(nextUserIdString));
-                    //inform the next user through his client that he/she now holds the edit rights for this trip
+                    await _messageControllerService.SendNotification(int.Parse(nextUserIdString), "EditRightsNotification", tripId);
                 }
             }
         }

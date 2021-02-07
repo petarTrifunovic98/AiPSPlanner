@@ -13,17 +13,21 @@ namespace TravelPlan.API.Controllers
     public class AccommodationController : ControllerBase
     {
         private readonly IAccommodationService _accommodationService;
-        public AccommodationController(IAccommodationService accommodationService)
+        private readonly IEditRightsService _editRightsService;
+        public AccommodationController(IAccommodationService accommodationService, IEditRightsService editRightsService)
         {
             _accommodationService = accommodationService;
+            _editRightsService = editRightsService;
         }
 
         [HttpPost]
-        [Route("create-accommodation")]
-        public async Task<ActionResult> CreateAccommodation(AccommodationCreateDTO newAccommodation)
+        [Route("create-accommodation/{tripId}")]
+        public async Task<ActionResult> CreateAccommodation(int tripId, [FromBody]AccommodationCreateDTO newAccommodation)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 AccommodationDTO result = await _accommodationService.CreateAccommodation(newAccommodation);
                 if (result != null)
                     return Ok(result);
@@ -36,11 +40,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpDelete]
-        [Route("delete-accommodation/{accommodationId}")]
-        public async Task<ActionResult> DeleteAccommodation(int accommodationId)
+        [Route("delete-accommodation/{accommodationId}/{tripId}")]
+        public async Task<ActionResult> DeleteAccommodation(int accommodationId, int tripId)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 await _accommodationService.DeleteAccommodation(accommodationId);
                 return Ok();
             }
@@ -51,11 +57,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpPut]
-        [Route("edit-accommodation")]
-        public async Task<ActionResult> EditAccommodation(AccommodationEditDTO accommodationInfo)
+        [Route("edit-accommodation/{tripId}")]
+        public async Task<ActionResult> EditAccommodation(int tripId, [FromBody]AccommodationEditDTO accommodationInfo)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 AccommodationDTO result = await _accommodationService.EditAccommodationInfo(accommodationInfo);
                 if (result != null)
                     return Ok(result);
@@ -96,11 +104,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpPost]
-        [Route("add-picture")]
-        public async Task<ActionResult> AddAccommodationPicture(AccommodationPictureCreateDTO picture)
+        [Route("add-picture/{tripId}")]
+        public async Task<ActionResult> AddAccommodationPicture(int tripId, [FromBody]AccommodationPictureCreateDTO picture)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 AccommodationPictureDTO accommodationPicture = await _accommodationService.AddAccommodationPicture(picture);
                 return Ok(accommodationPicture);
             }
@@ -126,11 +136,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpDelete]
-        [Route("delete-picture/{pictureId}")]
-        public async Task<ActionResult> DeleteAccommodationPicture(int pictureId)
+        [Route("delete-picture/{pictureId}/{tripId}")]
+        public async Task<ActionResult> DeleteAccommodationPicture(int pictureId, int tripId)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 await _accommodationService.DeleteAccommodationPicture(pictureId);
                 return Ok();
             }

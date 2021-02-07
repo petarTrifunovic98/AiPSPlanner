@@ -13,17 +13,21 @@ namespace TravelPlan.API.Controllers
     public class LocationController: ControllerBase
     {
         private readonly ILocationService _locationService;
-        public LocationController(ILocationService locationService)
+        private readonly IEditRightsService _editRightsService;
+        public LocationController(ILocationService locationService, IEditRightsService editRightsService)
         {
             _locationService = locationService;
+            _editRightsService = editRightsService;
         }
 
         [HttpPost]
         [Route("create-location")]
-        public async Task<ActionResult> CreateLocation(LocationCreateDTO newLocation)
+        public async Task<ActionResult> CreateLocation([FromBody]LocationCreateDTO newLocation)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(newLocation.TripId))
+                    return BadRequest("You can't currently edit this trip.");
                 LocationDTO result = await _locationService.CreateLocation(newLocation);
                 if (result != null)
                     return Ok(result);
@@ -36,11 +40,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpDelete]
-        [Route("delete-location/{locationId}")]
-        public async Task<ActionResult> DeleteLocation(int locationId)
+        [Route("delete-location/{locationId}/{tripId}")]
+        public async Task<ActionResult> DeleteLocation(int locationId, int tripId)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 await _locationService.DeleteLocation(locationId);
                 return Ok();
             }
@@ -51,11 +57,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpPut]
-        [Route("edit-location")]
-        public async Task<ActionResult> EditLocation(LocationEditDTO locationInfo)
+        [Route("edit-location/{tripId}")]
+        public async Task<ActionResult> EditLocation(int tripId, [FromBody]LocationEditDTO locationInfo)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 LocationDTO result = await _locationService.EditLocationInfo(locationInfo);
                 if (result != null)
                     return Ok(result);

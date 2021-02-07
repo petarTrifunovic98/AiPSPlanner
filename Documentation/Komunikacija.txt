@@ -35,3 +35,4 @@ AddItemNotification		NotificationItemDTO		Sadrži NotificationDTO objekat koji p
 EditItemNotification		NotificationItemDTO		Slično kao metoda iznad samo se u item prenosi menjani item	
 RemoveItemNotification		NotificationItemDeleteDTO	Nosi NotificationDTO objekat i id obrisanog itema	
 AddToTripNotification		NotificationTripDTO		Nosi NotificationDTO objekat i tripDTO objekat	
+EditRightsNotification		int				Id putovanja za koje je korisnik upravo dobio edit rights

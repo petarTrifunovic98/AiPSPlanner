@@ -13,9 +13,11 @@ namespace TravelPlan.API.Controllers
     public class VoteController : ControllerBase
     {
         private readonly IVoteService _voteService;
-        public VoteController(IVoteService voteService)
+        private readonly IEditRightsService _editRightsService;
+        public VoteController(IVoteService voteService, IEditRightsService editRightsService)
         {
             _voteService = voteService;
+            _editRightsService = editRightsService;
         }
 
         [HttpGet]
@@ -36,11 +38,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpPost]
-        [Route("vote")]
-        public async Task<ActionResult> Vote([FromBody] VoteCreateDTO newVote)
+        [Route("vote/{tripId}")]
+        public async Task<ActionResult> Vote(int tripId, [FromBody] VoteCreateDTO newVote)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 VoteDTO retValue = await _voteService.Vote(newVote);
                 if (retValue == null)
                     return BadRequest("You already voted for this item");
@@ -53,11 +57,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpPut]
-        [Route("change-vote")]
-        public async Task<ActionResult> ChangeVote([FromBody] VoteEditDTO voteInfo)
+        [Route("change-vote/{tripId}")]
+        public async Task<ActionResult> ChangeVote(int tripId, [FromBody] VoteEditDTO voteInfo)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 VoteDTO retValue = await _voteService.EditVote(voteInfo);
                 if (retValue == null)
                     return BadRequest("Vote does not exist");
@@ -70,11 +76,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpDelete]
-        [Route("remove-vote/{voteId}")]
-        public async Task<ActionResult> RemoveVote(int voteId)
+        [Route("remove-vote/{voteId}/{tripId}")]
+        public async Task<ActionResult> RemoveVote(int voteId, int tripId)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 VotableDTO retValue = await _voteService.RemoveVote(voteId);
                 if (retValue == null)
                     return BadRequest("Vote does not exist");

@@ -13,9 +13,11 @@ namespace TravelPlan.API.Controllers
     public class ItemController : ControllerBase
     {
         private readonly IItemService _itemService;
-        public ItemController(IItemService itemService)
+        private readonly IEditRightsService _editRightsService;
+        public ItemController(IItemService itemService, IEditRightsService editRightsService)
         {
             _itemService = itemService;
+            _editRightsService = editRightsService;
         }
 
         [HttpPost]
@@ -24,6 +26,8 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(newItem.TripId))
+                    return BadRequest("You can't currently edit this trip.");
                 ItemDTO result = await _itemService.CreateItem(newItem);
                 if (result != null)
                     return Ok(result);
@@ -36,11 +40,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpDelete]
-        [Route("delete-item/{itemId}")]
-        public async Task<ActionResult> DeleteItem(int itemId)
+        [Route("delete-item/{itemId}/{tripId}")]
+        public async Task<ActionResult> DeleteItem(int itemId, int tripId)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 if (await _itemService.DeleteItem(itemId))
                     return Ok();
                 return BadRequest();
@@ -52,11 +58,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpPut]
-        [Route("edit-item")]
-        public async Task<ActionResult> EditItem([FromBody] ItemEditDTO itemInfo)
+        [Route("edit-item/{tripId}")]
+        public async Task<ActionResult> EditItem(int tripId, [FromBody] ItemEditDTO itemInfo)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 ItemDTO result = await _itemService.EditItemInfo(itemInfo);
                 if (result != null)
                     return Ok(result);
@@ -69,11 +77,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpPut]
-        [Route("change-user/{itemId}/{newUserId}")]
-        public async Task<ActionResult> ChangeUser(int itemId, int newUserId)
+        [Route("change-user/{itemId}/{newUserId}/{tripId}")]
+        public async Task<ActionResult> ChangeUser(int itemId, int newUserId, int tripId)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 ItemDTO result = await _itemService.ChangeUser(itemId, newUserId);
                 if (result != null)
                     return Ok(result);
@@ -86,11 +96,13 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpPut]
-        [Route("change-checked/{itemId}")]
-        public async Task<ActionResult> ChangeChecked(int itemId)
+        [Route("change-checked/{itemId}/{tripId}")]
+        public async Task<ActionResult> ChangeChecked(int itemId, int tripId)
         {
             try
             {
+                if (!await _editRightsService.HasEditRights(tripId))
+                    return BadRequest("You can't currently edit this trip.");
                 ItemDTO result = await _itemService.un_checkItem(itemId);
                 if (result != null)
                     return Ok(result);
