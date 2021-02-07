@@ -11,7 +11,7 @@ namespace TravelPlan.DTOs.DTOs
 
         public NotificationType Type { get; set; }
 
-        public String ItemName { get; set; }
+        public String RelatedObjectName { get; set; }
 
         public bool Seen { get; set; }
     }

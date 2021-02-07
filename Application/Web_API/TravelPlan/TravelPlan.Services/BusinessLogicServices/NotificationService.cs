@@ -67,12 +67,12 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
-        public async Task<bool> DeleteSeenNotifications(int userId)
+        public async Task<bool> DeleteSeenNotifications(int userId, bool itemRelated) //needs testing
         {
             ICollection<Notification> notifications = await _unitOfWork.UserRepository.GetNotifications(userId);
             foreach(Notification notification in notifications)
             {
-                if(notification.Seen)
+                if(notification.Seen && (itemRelated ^ (notification.Type == NotificationType.NewTrip)))
                     _unitOfWork.NotificationRepository.Delete(notification.NotificationId);
             }
             await _unitOfWork.Save();

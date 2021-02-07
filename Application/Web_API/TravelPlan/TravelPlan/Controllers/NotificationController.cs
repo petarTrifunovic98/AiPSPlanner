@@ -74,12 +74,12 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpDelete]
-        [Route("delete-seen/{userId}")]
-        public async Task<ActionResult> DeleteMySeenNotifications(int userId)
+        [Route("delete-seen/{userId}/{itemRelated}")]
+        public async Task<ActionResult> DeleteMySeenNotifications(int userId, bool itemRelated)
         {
             try
             {
-                return Ok(await _notificationService.DeleteSeenNotifications(userId));
+                return Ok(await _notificationService.DeleteSeenNotifications(userId, itemRelated));
             }
             catch (Exception ex)
             {

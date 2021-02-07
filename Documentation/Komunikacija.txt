@@ -2,7 +2,7 @@
 
 
 Naziv				Prosleđena vrednost		Objašnjenje vraćene vrednosti
-________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________________
 AddAddOn			AddOnDTO			Kreirani novi AddOn
 RemoveAddOn			List<int> 			Lista id-jeva svih AddOn-ova koji su obrisani
 EditAddOn			AddOnDTO			AddOn koji je izmenjen
@@ -18,6 +18,10 @@ RemoveAccommodationPicture	int				Id obrisane slike
 AddItem				ItemDTO				Dodati item
 EditItem			ItemDTO				Menjani item
 RemoveItem			int				Id obrisanog item-a
+AddMemberToTrip			List<UserBasicDTO>		Lista korisnika koji su dodati u trip, s' tim što nije filtrirana,
+								u njoj se nalaze možda i neki user-i koji su već u trip-u, pa treba na Front-u
+								da se filtrira. Ako to predstavlja problem, može da se izmeni da se filtrira na Back-u
+RemoveUserFromTrip		int				Id korisnika koji je napustio putovanje
 
 
 
@@ -26,7 +30,8 @@ RemoveItem			int				Id obrisanog item-a
 
 
 Naziv				Prosleđena vrednost		Objašnjenje vraćene vrednosti
-______________________________________________________________________________________________________________________________________________________
+_____________________________________________________________________________________________________________________________________________________________
 AddItemNotification		NotificationItemDTO		Sadrži NotificationDTO objekat koji prenosi obaveštenje i ItemDTO koji prenosi dodati objekat
 EditItemNotification		NotificationItemDTO		Slično kao metoda iznad samo se u item prenosi menjani item	
-RemoveItemNotification		NotificationItemDeleteDTO	Nosi NotificationDTO objekat i id obrisanog itema		
+RemoveItemNotification		NotificationItemDeleteDTO	Nosi NotificationDTO objekat i id obrisanog itema	
+AddToTripNotification		NotificationTripDTO		Nosi NotificationDTO objekat i tripDTO objekat	

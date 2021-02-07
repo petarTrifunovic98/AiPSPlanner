@@ -11,6 +11,7 @@ using TravelPlan.DTOs.DTOs;
 using TravelPlan.Helpers;
 using TravelPlan.Services.BusinessLogicServices.AbstractFactoryServices;
 using TravelPlan.Services.MessagingService;
+using System.Linq;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -147,6 +148,8 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                     await _unitOfWork.Save();
 
+                    await _messageControllerService.NotifyOnTripChanges(tripId, "RemoveUserFromTrip", userId);
+
                     return true;
                 }
 
@@ -177,10 +180,28 @@ namespace TravelPlan.Services.BusinessLogicServices
                             user.MyTrips = new List<Trip>();
                         user.MyTrips.Add(trip);
                         _unitOfWork.UserRepository.Update(user);
+                        Notification notification = new Notification()
+                        {
+                            Seen = false,
+                            RelatedObjectName = trip.Name,
+                            Type = NotificationType.NewTrip,
+                            User = user,
+                            UserId = user.UserId
+                        };
+                        await _unitOfWork.NotificationRepository.Create(notification);
+                        NotificationTripDTO notificationTrip = new NotificationTripDTO()
+                        {
+                            Notification = _mapper.Map<Notification, NotificationDTO>(notification),
+                            Trip = _mapper.Map<Trip, TripDTO>(trip)
+                        };
+                        await _messageControllerService.SendNotification(user.UserId, "AddToTripNotification", notificationTrip);
                     }
                 }
                 _unitOfWork.TripRepository.Update(trip);
                 await _unitOfWork.Save();
+
+                await _messageControllerService.NotifyOnTripChanges(trip.TripId, "AddMemberToTrip", 
+                    member.GetUsers().Select(user => _mapper.Map<User, UserBasicDTO>(user)));
 
                 TripDTO retTrip = _mapper.Map<Trip, TripDTO>(trip);
                 return retTrip;

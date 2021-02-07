@@ -53,8 +53,8 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 Notification notification = new Notification();
                 notification.Seen = false;
-                notification.ItemName = item.Name;
-                notification.Type = NotificationType.Added;
+                notification.RelatedObjectName = item.Name;
+                notification.Type = NotificationType.AddedItem;
                 notification.User = user;
                 notification.UserId = user.UserId;
                 await _unitOfWork.NotificationRepository.Create(notification);
@@ -68,7 +68,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                     Notification = _mapper.Map<Notification, NotificationDTO>(notification),
                     Item = retItem
                 };
-                await _messageControllerService.NotifyOnItemChanges(newItem.UserId, "AddItemNotification", notificationItem);
+                await _messageControllerService.SendNotification(newItem.UserId, "AddItemNotification", notificationItem);
                 return retItem;
             }
         }
@@ -91,8 +91,8 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 Notification notification = new Notification();
                 notification.Seen = false;
-                notification.ItemName = item.Name;
-                notification.Type = NotificationType.Removed;
+                notification.RelatedObjectName = item.Name;
+                notification.Type = NotificationType.RemovedItem;
                 notification.User = user;
                 notification.UserId = user.UserId;
                 await _unitOfWork.NotificationRepository.Create(notification);
@@ -105,7 +105,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                     Notification = _mapper.Map<Notification, NotificationDTO>(notification),
                     ItemToDelete = item.ItemId
                 };
-                await _messageControllerService.NotifyOnItemChanges(user.UserId, "RemoveItemNotification", notificationItemDelete);
+                await _messageControllerService.SendNotification(user.UserId, "RemoveItemNotification", notificationItemDelete);
                 return true;
             }
         }
@@ -123,8 +123,8 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 Notification notification = new Notification();
                 notification.Seen = false;
-                notification.ItemName = item.Name;
-                notification.Type = NotificationType.Edited;
+                notification.RelatedObjectName = item.Name;
+                notification.Type = NotificationType.EditedItem;
                 notification.UserId = item.UserId;
                 await _unitOfWork.NotificationRepository.Create(notification);
 
@@ -136,7 +136,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                     Notification = _mapper.Map<Notification, NotificationDTO>(notification),
                     Item = retItem
                 };
-                await _messageControllerService.NotifyOnItemChanges(item.UserId, "EditItemNotification", notificationItem);
+                await _messageControllerService.SendNotification(item.UserId, "EditItemNotification", notificationItem);
                 return retItem;
             }
         }
@@ -165,15 +165,15 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 Notification notification_old = new Notification();
                 notification_old.Seen = false;
-                notification_old.ItemName = item.Name;
-                notification_old.Type = NotificationType.Removed;
+                notification_old.RelatedObjectName = item.Name;
+                notification_old.Type = NotificationType.RemovedItem;
                 notification_old.UserId = user.UserId;
                 await _unitOfWork.NotificationRepository.Create(notification_old);
 
                 Notification notification_new = new Notification();
                 notification_new.Seen = false;
-                notification_new.ItemName = item.Name;
-                notification_new.Type = NotificationType.Added;
+                notification_new.RelatedObjectName = item.Name;
+                notification_new.Type = NotificationType.AddedItem;
                 notification_new.UserId = newUserId;
                 await _unitOfWork.NotificationRepository.Create(notification_new);
 
@@ -187,13 +187,13 @@ namespace TravelPlan.Services.BusinessLogicServices
                     Notification = _mapper.Map<Notification, NotificationDTO>(notification_old),
                     ItemToDelete = item.ItemId
                 };
-                await _messageControllerService.NotifyOnItemChanges(user.UserId, "RemoveItemNotification", notificationItemDelete);
+                await _messageControllerService.SendNotification(user.UserId, "RemoveItemNotification", notificationItemDelete);
                 NotificationItemDTO notificationItem = new NotificationItemDTO()
                 {
                     Notification = _mapper.Map<Notification, NotificationDTO>(notification_new),
                     Item = retItem
                 };
-                await _messageControllerService.NotifyOnItemChanges(newUserId, "AddItemNotification", notificationItem);
+                await _messageControllerService.SendNotification(newUserId, "AddItemNotification", notificationItem);
                 return retItem;
             }
         }
@@ -209,8 +209,8 @@ namespace TravelPlan.Services.BusinessLogicServices
 
                 Notification notification = new Notification();
                 notification.Seen = false;
-                notification.ItemName = item.Name;
-                notification.Type = NotificationType.Edited;
+                notification.RelatedObjectName = item.Name;
+                notification.Type = NotificationType.EditedItem;
                 notification.UserId = item.UserId;
                 await _unitOfWork.NotificationRepository.Create(notification);
 
@@ -223,7 +223,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                     Notification = _mapper.Map<Notification, NotificationDTO>(notification),
                     Item = retItem
                 };
-                await _messageControllerService.NotifyOnItemChanges(item.UserId, "AddItemNotification", notificationItem);
+                await _messageControllerService.SendNotification(item.UserId, "AddItemNotification", notificationItem);
                 return retItem;
             }
         }

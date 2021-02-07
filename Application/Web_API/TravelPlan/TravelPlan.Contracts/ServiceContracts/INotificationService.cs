@@ -12,6 +12,6 @@ namespace TravelPlan.Contracts.ServiceContracts
         Task<ICollection<NotificationDTO>> GetNotifications(int userId);
         Task<bool> SeenMyNotifications(int userId);
         Task<bool> SeenANotification(int notificationId);
-        Task<bool> DeleteSeenNotifications(int userId);
+        Task<bool> DeleteSeenNotifications(int userId, bool itemRelated);
     }
 }

@@ -7,9 +7,10 @@ namespace TravelPlan.DataAccess.Entities
 {
     public enum NotificationType
     {
-        Removed,
-        Added,
-        Edited
+        RemovedItem,
+        AddedItem,
+        EditedItem,
+        NewTrip
     }
 
     public class Notification
@@ -19,7 +20,7 @@ namespace TravelPlan.DataAccess.Entities
 
         public NotificationType Type { get; set; }
 
-        public String ItemName { get; set; }
+        public String RelatedObjectName { get; set; }
 
         public bool Seen { get; set; }
 
