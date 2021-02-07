@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import PageRegister from "../pages/PageRegister.vue"
 import PageLogin from "../pages/PageLogin.vue"
 import PageMyTrips from "../pages/PageMyTrips.vue"
+import PageSpecificTrip from "../pages/PageSpecificTrip"
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,12 @@ const routes = [
     path: "/trips",
     name: "PageMyTrips",
     component: PageMyTrips
+  },
+  {
+    path: "/specific-trip/:id",
+    name: "PageSpecificTrip",
+    component: PageSpecificTrip,
+    props: true
   }
 ]
 
