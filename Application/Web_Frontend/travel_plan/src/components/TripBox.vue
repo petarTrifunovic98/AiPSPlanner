@@ -3,22 +3,22 @@
       <b-card-body>
         <div class="media-center">
           <p class="image is-96x96">
-            <img class="rounded-image" :src="'data:;base64,' + trip.icon">
+            <img class="rounded-image" :src="'data:;base64,' + tripProp.icon">
           </p>
         </div>
           
         <div class="info">
           <div class="info-element">
-            <span class="full-name-span">{{trip.name}}</span>
+            <span class="full-name-span">{{tripProp.name}}</span>
           </div>
           <div class="info-element">
-            <span>{{trip.description}}</span>
+            <span>{{tripProp.description}}</span>
           </div>
           <div class="info-element">
-            <span>{{trip.from | showTime}} - {{trip.to | showTime}}</span>
+            <span>{{tripProp.from | showTime}} - {{tripProp.to | showTime}}</span>
           </div>
         </div>
-          <button type="button" class="btn btn-primary dugme col-3"> View trip page </button>
+          <button type="button" class="btn btn-primary dugme col-3" @click="onViewTripPage"> View trip page </button>
       </b-card-body>
     </b-card>
 </template>
@@ -26,7 +26,7 @@
 <script>
 export default {
     props: {
-      trip: {
+      tripProp: {
         required: true, 
         type: Object
       }
@@ -40,6 +40,9 @@ export default {
       //   //prepraviti da se stranici kao prop prosledi user
       //   this.$router.push({name: "PageViewProfile", params: {id: this.user.id, user: this.user, RequestSelect:this.RequestSelect}})
       // },
+      onViewTripPage() {
+        this.$router.push({name: "PageSpecificTrip", params: {tripProp: this.tripProp, id: this.tripProp.tripId}})
+      }
     }
 }
 </script>

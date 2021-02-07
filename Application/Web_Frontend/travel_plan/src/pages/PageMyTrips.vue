@@ -9,7 +9,7 @@
     ></b-pagination>
     <div class="users" v-if="tripsPortion.length > 0">
       <TripBox
-        :trip="trip"
+        :tripProp="trip"
         v-for="trip in tripsPortion" 
         :key="trip.tripId"
       />
