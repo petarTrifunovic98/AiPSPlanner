@@ -228,6 +228,15 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
+        public async Task<TripDTO> GetTripWithLocations(int tripId)
+        {
+            using (_unitOfWork)
+            {
+                Trip trip = await _unitOfWork.TripRepository.GetTripWithILocations(tripId);
+                return _mapper.Map<Trip, TripDTO>(trip);
+            }
+        }
+
         public async Task<TripAdditionalInfoDTO> GetTripAdditionalInfo(int tripId)
         {
             using(_unitOfWork)

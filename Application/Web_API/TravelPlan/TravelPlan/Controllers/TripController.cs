@@ -133,7 +133,22 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
-                IEnumerable<TripDTO> trip = await _tripService.GetUserTrips(userId);
+                IEnumerable<TripDTO> trips = await _tripService.GetUserTrips(userId);
+                return Ok(trips);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("get-trip-with-locations/{tripId}")]
+        public async Task<ActionResult> GetTripWithLocations(int tripId)
+        {
+            try
+            {
+                TripDTO trip = await _tripService.GetTripWithLocations(tripId);
                 return Ok(trip);
             }
             catch (Exception ex)
