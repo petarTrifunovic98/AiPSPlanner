@@ -1,0 +1,19 @@
+- AddAddOn
+- RemoveAddOn
+- EditAddOn
++ EditTripInfo
++ AddLocation
++ RemoveLocation
++ EditLocation
+- AddAccommodation
+- RemoveAccommodation
+- EditAccommodation
+- AddAccommodationPicture
+- RemoveAccommodationPicture
+- AddItem
+- EditItem
+- RemoveItem
+- AddMemberToTrip	
+- RemoveUserFromTrip
+
+- Notifikacija

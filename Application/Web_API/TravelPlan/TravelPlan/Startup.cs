@@ -39,8 +39,8 @@ namespace TravelPlan
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IEditRightsService, EditRightsService>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IEditRightsService, EditRightsService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<ITripService, TripService>();
@@ -88,12 +88,12 @@ namespace TravelPlan
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
                 services.AddDbContext<TravelPlanDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ProdConnString")));
+                    options.UseSqlServer(Configuration.GetConnectionString("ProdConnString")), ServiceLifetime.Transient);
             }
             else if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
                 services.AddDbContext<TravelPlanDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DevelopConnString")));
+                    options.UseSqlServer(Configuration.GetConnectionString("DevelopConnString")), ServiceLifetime.Transient);
             }
 
             //NOTE: The following lines can be used to apply migrations during runtime.

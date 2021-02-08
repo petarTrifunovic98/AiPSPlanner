@@ -16,12 +16,27 @@ export default {
     Vue.prototype.startSignalR = () => {
       connection = new HubConnectionBuilder()
         .withUrl("https://localhost:44301/travel-plan-hub")
-        .configureLogging(LogLevel.Information)
+        .configureLogging(LogLevel.Debug)
         .build()
 
       addSignalREventListener('AddAddOn')
       addSignalREventListener('RemoveAddOn')
+      addSignalREventListener('EditAddOn')
       addSignalREventListener('EditTripInfo')
+      addSignalREventListener('AddLocation')
+      addSignalREventListener('RemoveLocation')
+      addSignalREventListener('EditLocation')
+      addSignalREventListener('AddAccommodation')
+      addSignalREventListener('RemoveAccommodation')
+      addSignalREventListener('EditAccommodation')
+      addSignalREventListener('AddAccommodationPicture')
+      addSignalREventListener('RemoveAccommodationPicture')
+      addSignalREventListener('AddItem')
+      addSignalREventListener('EditItem')
+      addSignalREventListener('RemoveItem')
+      addSignalREventListener('AddItemNotification')
+      addSignalREventListener('EditItemNotification')
+      addSignalREventListener('RemoveItemNotification')
 
       function addSignalREventListener(name) {
         connection.on(name, (payload) => {
@@ -37,6 +52,7 @@ export default {
           })
         return startedPromise
       }
+
       connection.onclose(() => {
         if (!manuallyClosed) start()
       })
@@ -61,6 +77,30 @@ export default {
       return startedPromise
         .then(() => connection.invoke('JoinTripGroup', tripId))
         .catch(console.error)
+    }
+
+    travelPlanHub.JoinItemGroup = (userId) => {
+      if (!startedPromise) return
+
+      return startedPromise
+        .then(() => connection.invoke('JoinItemGroup', userId))
+        .catch(console.error)
+    }
+
+    travelPlanHub.LeaveTripGroup = (tripId) => {
+      if(!startedPromise) return
+
+      return startedPromise
+      .then(() => connection.invoke('LeaveTripGroup', tripId))
+      .catch(console.error)
+    }
+
+    travelPlanHub.LeaveItemGroup = (userId) => {
+      if(!startedPromise) return
+
+      return startedPromise
+      .then(() => connection.invoke('LeaveItemGroup', userId))
+      .catch(console.error)
     }
   }
 }

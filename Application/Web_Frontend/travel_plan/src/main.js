@@ -12,8 +12,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 
 import moment from "moment"
-Vue.filter("showTime", function(date)
-{
+Vue.filter("showTime", function(date) {
   return moment(date).format("DD.MM.YYYY")
 })
 
