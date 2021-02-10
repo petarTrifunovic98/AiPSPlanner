@@ -32,10 +32,6 @@ namespace TravelPlan.DTOs.Profiles
                     opt => opt.MapFrom(
                         src => src.Pictures))
                 .ForMember(dest =>
-                    dest.Location,
-                    opt => opt.MapFrom(
-                        src => src.Location))
-                .ForMember(dest =>
                     dest.Votable,
                     opt => opt.MapFrom(
                         src => src.Votable))
@@ -43,6 +39,7 @@ namespace TravelPlan.DTOs.Profiles
 
             CreateMap<AccommodationCreateDTO, Accommodation>();
             CreateMap<AccommodationEditDTO, Accommodation>();
+            CreateMap<Accommodation, AccommodationRemoveDTO>();
         }
     }
 }

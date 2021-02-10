@@ -6,18 +6,27 @@
         style="max-width: 20rem;"
         class="mb-2"
       >
-        <b-card-title>{{item.name}}</b-card-title>
+        <b-card-title>
+          <span v-if="!inEditMode">{{item.name}}</span>
+          <input type="text" v-model="editingItem.name" v-else>
+        </b-card-title>
         <b-card-text>
-          {{item.description}}
+          <span v-if="!inEditMode">{{item.description}}</span>
+          <textarea v-else v-model="editingItem.description"></textarea>
         </b-card-text>
         <b-card-text>
-          {{item.amount}} {{item.unit}}
+          <span v-if="!inEditMode">{{item.amount}} {{item.unit}}</span>
+          <span v-else>
+            <input type="number" v-model="item.amount">
+            <input type="text" v-model="item.unit">
+          </span>
         </b-card-text>
         <b-card-text>
           {{item.user.name}} {{item.user.lastName}} ({{item.user.username}})
         </b-card-text>
-        <b-card-text>
-        </b-card-text>
+        <button type="button" class="btn btn-primary dugme" v-if="hasEditRights && !inEditMode" @click="toggleEditMode"> Edit </button>
+        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit"> Save </button>
+        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
       </b-card>
     </div>
   </div>
@@ -32,12 +41,32 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      inEditMode: false,
+      editingItem: JSON.parse(JSON.stringify(this.itemProp))
+    }
+  },
   computed: {
     item() {
       return this.itemProp
-    }
+    },
+    ...mapGetters({
+      hasEditRights: 'getHasEditRights'
+    })
   },
   methods: {
+    toggleEditMode() {
+      this.inEditMode = !this.inEditMode
+    },
+    cancelEdit() {
+      this.editingItem = JSON.parse(JSON.stringify(this.itemProp))
+      this.toggleEditMode()
+    },
+    saveEdit() {
+      this.$store.dispatch('putEditItemInfo', this.editingItem)
+      this.toggleEditMode()
+    }
   }
 }
 </script>

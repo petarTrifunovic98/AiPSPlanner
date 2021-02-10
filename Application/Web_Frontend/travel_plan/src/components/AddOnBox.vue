@@ -7,26 +7,24 @@
         class="mb-2"
       >
         <b-card-title>
-          <span v-if="!inEditMode">{{accommodation.name}}</span>
-          <input type="text" v-model="editingAccommodation.name" v-else>
+          <span v-if="!inEditMode">{{addOn.description}}</span>
+          <input type="text" v-model="editingAddOn.description" v-else>
         </b-card-title>
-        <b-card-sub-title>
-          <span v-if="!inEditMode">{{accommodation.type}}</span> <!-- promeniti na select -->
-          <input type="text" v-model="editingAccommodation.type" v-else>
-        </b-card-sub-title>
         <b-card-text>
-          <span v-if="!inEditMode">{{accommodation.description}}</span>
-          <textarea v-else v-model="editingAccommodation.description"></textarea>
+          <span v-if="!inEditMode">{{addOn.price}}</span>
+          <span v-else>
+            <input type="number" v-model="addOn.price">
+          </span>
         </b-card-text>
         <b-card-text>
-          <span v-if="!inEditMode">{{accommodation.address}}</span>
-          <input type="text" v-model="editingAccommodation.address" v-else>
+          {{addOn.type}}
         </b-card-text>
-        <b-card-text>
-          <span v-if="!inEditMode">{{accommodation.from | showTime}} - {{accommodation.to | showTime}}</span>
-          <input type="date" v-if="inEditMode" v-model="editingAccommodation.from">
-          <input type="date" v-if="inEditMode" v-model="editingAccommodation.to"> 
-        </b-card-text>
+        <div v-for="lvl1AddOn in addOn.lvl1" :key="lvl1AddOn.addOnId">
+          <AddOnBox :addOnProp="lvl1AddOn" :tripId="tripId"/>
+        </div>
+        <div v-for="lvl2AddOn in addOn.lvl2" :key="lvl2AddOn.addOnId">
+          <AddOnBox :addOnProp="lvl2AddOn" :tripId="tripId"/>
+        </div>
         <button type="button" class="btn btn-primary dugme" v-if="hasEditRights && !inEditMode" @click="toggleEditMode"> Edit </button>
         <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit"> Save </button>
         <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
@@ -37,10 +35,12 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex"
+import AddOnBox from "@/components/AddOnBox.vue"
 
 export default {
+  name: "AddOnBox",
   props: {
-    accommodationProp: {
+    addOnProp: {
       required: true
     },
     tripId: {
@@ -48,17 +48,18 @@ export default {
       type: Number
     }
   },
+  components: {
+    AddOnBox
+  },
   data() {
     return {
-      accommodationsLoaded: false,
-      accommodationsOpen: false,
       inEditMode: false,
-      editingAccommodation: JSON.parse(JSON.stringify(this.accommodationProp))
+      editingAddOn: JSON.parse(JSON.stringify(this.addOnProp))
     }
   },
   computed: {
-    accommodation() {
-      return this.accommodationProp
+    addOn() {
+      return this.addOnProp
     },
     ...mapGetters({
       hasEditRights: 'getHasEditRights'
@@ -69,12 +70,12 @@ export default {
       this.inEditMode = !this.inEditMode
     },
     cancelEdit() {
-      this.editingAccommodation = JSON.parse(JSON.stringify(this.accommodationProp))
+      this.editingAddOn = JSON.parse(JSON.stringify(this.addOnProp))
       this.toggleEditMode()
     },
     saveEdit() {
-      this.editingAccommodation.tripId = this.tripId
-      this.$store.dispatch('putEditAccommodation', this.editingAccommodation)
+      this.editingAddOn.tripId = this.tripId
+      this.$store.dispatch('putEditAddOn', this.editingAddOn)
       this.toggleEditMode()
     }
   }

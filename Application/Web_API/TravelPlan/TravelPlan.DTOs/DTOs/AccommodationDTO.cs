@@ -16,7 +16,6 @@ namespace TravelPlan.DTOs.DTOs
         public string Address { get; set; }
         public ICollection<AccommodationPictureDTO> Pictures { get; set; }
         public int LocationId { get; set; }
-        public virtual LocationDTO Location { get; set; }
         public int VotableId { get; set; }
         public virtual VotableDTO Votable { get; set; }
     }

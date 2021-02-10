@@ -2,6 +2,7 @@
   <div v-if="isDataLoaded" class="row">
     <div class="col-4" >
       <BasicInfo/>
+      <AddOns :tripId="trip.tripId"/>
     </div>
     <div class="col-4" >
       <Locations/>
@@ -21,6 +22,7 @@ import BasicInfo from "@/components/BasicInfo.vue"
 import AppendOnlyList from "@/components/AppendOnlyList.vue"
 import Locations from "@/components/Locations.vue"
 import Items from "@/components/Items.vue"
+import AddOns from "@/components/AddOns.vue"
 import { mapGetters, mapMutations } from "vuex"
 
 export default {
@@ -28,7 +30,8 @@ export default {
     BasicInfo,
     AppendOnlyList,
     Locations,
-    Items
+    Items,
+    AddOns
   },
   props: {
     tripProp: {
@@ -45,7 +48,8 @@ export default {
       tripAdditionalInfo: 'getTripAdditionalInfo',
       isDataLoaded: 'getIsDataLoaded',
       specificTrip: 'getSpecificTrip',
-      getAuthUserId: 'getAuthUserId'
+      getAuthUserId: 'getAuthUserId',
+      hasEditRights: 'getHasEditRights'
     })
   },
   methods: {
@@ -55,11 +59,31 @@ export default {
       this.trip.from = trip.from
       this.trip.to = trip.to
     },
+    leavePage(event) {
+      event.preventDefault()
+      console.log("Leave page")
+      if(this.hasEditRights) {
+        this.$store.dispatch('releaseEditRights', {
+          tripId: this.tripProp.tripId
+        })
+      }
+      else {
+        this.$store.dispatch('cancelEditRequest', {
+          tripId: this.tripProp.tripId,
+          userId: this.getAuthUserId
+        })
+      }
+      event.returnValue = ''
+      window.removeEventListener('beforeunload', this.leavePage)
+    },
     ...mapMutations({
       setSpecificTrip: 'setSpecificTrip'
     })
   },
   created() {
+    const that = this
+    window.addEventListener('beforeunload', this.leavePage)
+
     if(this.tripProp) {
       this.setSpecificTrip(this.tripProp)
     }
@@ -70,12 +94,28 @@ export default {
     }).then(() => {
       this.$store.dispatch('fillTripLocations', {
         tripId: this.tripProp.tripId
+      }).then(() => {
+        this.$store.dispatch('fillTripAddOns', {
+          tripId: this.tripProp.tripId
+        })
       })
     })
     
     this.$travelPlanHub.JoinTripGroup(this.tripProp.tripId)
   },
   destroyed() {
+    if(this.hasEditRights) {
+      this.$store.dispatch('releaseEditRights', {
+        tripId: this.tripProp.tripId
+      })
+    }
+    else {
+      this.$store.dispatch('cancelEditRequest', {
+        tripId: this.tripProp.tripId,
+        userId: this.getAuthUserId
+      })
+    }
+    window.removeEventListener('beforeunload', this.leavePage)
   }
 }
 </script>

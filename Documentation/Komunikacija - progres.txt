@@ -1,19 +1,19 @@
-- AddAddOn
-- RemoveAddOn
-- EditAddOn
++ AddAddOn -- radi, moze da se prezentuje, ali mora da se popravi da lici na nesto
++ RemoveAddOn
++ EditAddOn
 + EditTripInfo
 + AddLocation
 + RemoveLocation
 + EditLocation
-- AddAccommodation
-- RemoveAccommodation
-- EditAccommodation
-- AddAccommodationPicture
-- RemoveAccommodationPicture
-- AddItem
-- EditItem
-- RemoveItem
-- AddMemberToTrip	
-- RemoveUserFromTrip
++ AddAccommodation 
++ RemoveAccommodation
++ EditAccommodation
+--+ AddAccommodationPicture
+--+ RemoveAccommodationPicture
++ AddItem
++ EditItem
++ RemoveItem
+---+ AddMemberToTrip	
+---+ RemoveUserFromTrip
 
 - Notifikacija

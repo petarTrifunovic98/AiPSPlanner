@@ -28,7 +28,9 @@ namespace TravelPlan.Repository
             IDatabase redisDb = _redisConnection.GetDatabase();
             await redisDb.ListLeftPopAsync($"trip:{tripId}:edit.requests");
             RedisValue[] values = await redisDb.ListRangeAsync($"trip:{tripId}:edit.requests", 0, 0);
-            string nextUserId = values[0].ToString();
+            string nextUserId = null;
+            if(values.Length > 0)
+                nextUserId = values[0].ToString();
             return nextUserId;
         }
 

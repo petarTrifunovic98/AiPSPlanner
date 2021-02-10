@@ -30,21 +30,39 @@ export default {
     onRemoveLocation(locationId) {
       this.removeLocation(locationId)
     },
+    onAddAccommodation(accommodation) {
+      this.addAccommodation(accommodation)
+    },
+    onEditAccommodation(accommodation) {
+      this.editAccommodation(accommodation)
+    },
+    onRemoveAccommodation(accommodation) {
+      this.removeAccommodation(accommodation)
+    },
     ...mapMutations({
       addLocation: 'addLocationToSpecificTrip',
       editLocation: 'replaceEditedLocation',
-      removeLocation: 'removeLocationFromSpecificTrip'
+      removeLocation: 'removeLocationFromSpecificTrip',
+      addAccommodation: 'addAccommodationToLocation',
+      editAccommodation: 'editAccommodationForLocation',
+      removeAccommodation: 'removeAccommodationFromLocation'
     })
   },
   created() {
     this.$travelPlanHub.$on('AddLocation', this.onAddLocation)
     this.$travelPlanHub.$on('EditLocation', this.onEditLocation)
     this.$travelPlanHub.$on('RemoveLocation', this.onRemoveLocation)
+    this.$travelPlanHub.$on('AddAccommodation', this.onAddAccommodation)
+    this.$travelPlanHub.$on('EditAccommodation', this.onEditAccommodation)
+    this.$travelPlanHub.$on('RemoveAccommodation', this.onRemoveAccommodation)
   },
   destroyed() {
     this.$travelPlanHub.$off('AddLocation')
     this.$travelPlanHub.$off('EditLocation')
     this.$travelPlanHub.$off('RemoveLocation')
+    this.$travelPlanHub.$off('AddAccommodation')
+    this.$travelPlanHub.$off('EditAccommodation')
+    this.$travelPlanHub.$off('RemoveAccommodation')
   }
 }
 </script>

@@ -6,9 +6,13 @@
         style="max-width: 20rem;"
         class="mb-2"
       >
-        <b-card-title>{{location.name}}</b-card-title>
+        <b-card-title>
+          <span v-if="!inEditMode">{{location.name}}</span>
+          <input type="text" v-model="editingLocation.name" v-else>
+        </b-card-title>
         <b-card-text>
-          {{location.description}}
+          <span v-if="!inEditMode">{{location.description}}</span>
+          <textarea v-else v-model="editingLocation.description"></textarea>
         </b-card-text>
         <b-card-text>
           Longitude: {{location.longitude}}
@@ -17,11 +21,16 @@
           Latitude: {{location.latitude}}
         </b-card-text>
         <b-card-text>
-          {{location.from | showTime}} - {{location.to | showTime}}
+          <span v-if="!inEditMode">{{location.from | showTime}} - {{location.to | showTime}}</span>
+          <input type="date" v-if="inEditMode" v-model="editingLocation.from">
+          <input type="date" v-if="inEditMode" v-model="editingLocation.to"> 
         </b-card-text>
+        <button type="button" class="btn btn-primary dugme" v-if="hasEditRights && !inEditMode" @click="toggleEditMode"> Edit </button>
+        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit"> Save </button>
+        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
         <div v-if="accommodationsOpen">
           <div v-for="accommodation in accommodations" :key="accommodation.accommodationId">
-            <AccommodationBox :accommodationProp="accommodation"/>
+            <AccommodationBox :accommodationProp="accommodation" :tripId="location.tripId"/>
           </div>
         </div>
         <button type="button" class="btn btn-primary dugme" @click="showAccommodations" v-if="!accommodationsOpen"> View accommodations </button>
@@ -47,7 +56,9 @@ export default {
   data() {
     return {
       accommodationsLoaded: false,
-      accommodationsOpen: false
+      accommodationsOpen: false,
+      inEditMode: false,
+      editingLocation: JSON.parse(JSON.stringify(this.locationProp))
     }
   },
   computed: {
@@ -56,7 +67,10 @@ export default {
     },
     accommodations() {
       return this.locationProp.accommodations
-    }
+    },
+    ...mapGetters({
+      hasEditRights: 'getHasEditRights'
+    })
   },
   methods: {
     showAccommodations() {
@@ -75,18 +89,17 @@ export default {
     hideAccommodations() {
       this.accommodationsOpen = false
     },
-    onAddAccommodation(accommodation) {
-      this.addAccommodation(accommodation)
+    toggleEditMode() {
+      this.inEditMode = !this.inEditMode
     },
-    ...mapMutations({
-      addAccommodation: 'addAccommodationToLocation'
-    })
-  },
-  created() {
-    this.$travelPlanHub.$on('AddAccommodation', this.onAddAccommodation)
-  },
-  destroyed() {
-    this.$travelPlanHub.$off('AddAccommodation')
+    cancelEdit() {
+      this.editingLocation = JSON.parse(JSON.stringify(this.locationProp))
+      this.toggleEditMode()
+    },
+    saveEdit() {
+      this.$store.dispatch('putEditLocation', this.editingLocation)
+      this.toggleEditMode()
+    }
   }
 }
 </script>

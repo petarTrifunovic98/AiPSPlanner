@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TravelPlan.Contracts;
 using TravelPlan.Contracts.ServiceContracts;
@@ -67,7 +69,9 @@ namespace TravelPlan.Services.BusinessLogicServices
                 _unitOfWork.VotableRepository.Delete(accommodation.VotableId);
                 _unitOfWork.AccommodationRepository.Delete(accommodationId);
                 await _unitOfWork.Save();
-                await _messageControllerService.NotifyOnTripChanges(accommodation.Location.TripId, "RemoveAccommodation", accommodationId);
+
+                AccommodationRemoveDTO removeAcc = _mapper.Map<Accommodation, AccommodationRemoveDTO>(accommodation);
+                await _messageControllerService.NotifyOnTripChanges(accommodation.Location.TripId, "RemoveAccommodation", removeAcc);
                 return true;
             }
         }

@@ -13,7 +13,8 @@ export default new Vuex.Store({
     tripsPortion: [],
     tripAdditionalInfo: null,
     hasEditRights: false,
-    specificTrip: null
+    specificTrip: null,
+    tripAddOns: []
   },
   getters: {
     getIsDataLoaded: state => {
@@ -48,6 +49,9 @@ export default new Vuex.Store({
     },
     getSpecificTripItems: state => {
       return state.specificTrip.itemList
+    },
+    getTripAddOns: state => {
+      return state.tripAddOns
     }
   },
   mutations: {
@@ -79,6 +83,22 @@ export default new Vuex.Store({
     setTripLocations(state, locations) {
       state.specificTrip.locations = locations
     },
+    setTripAddOns(state, addOns) {
+      state.tripAddOns = {}
+      addOns.slice(0).reverse().map(addOn => {
+        if(addOn.lvl1DependId == 0 && addOn.lvl2DependId == 0) {
+          state.tripAddOns[String(addOn.addOnId)] = addOn
+          state.tripAddOns[String(addOn.addOnId)]["lvl1"] = {}
+        }
+        else if(addOn.lvl2DependId == 0) {
+          state.tripAddOns[String(addOn.lvl1DependId)]["lvl1"][String(addOn.addOnId)] = addOn
+          state.tripAddOns[String(addOn.lvl1DependId)]["lvl1"][String(addOn.addOnId)]["lvl2"] = {}
+        }
+        else {
+          state.tripAddOns[String(addOn.lvl1DependId)]["lvl1"][String(addOn.lvl2DependId)]["lvl2"][String(addOn.addOnId)] = addOn
+        }
+      })
+    },
     setLocationAccommodations(state, {data, locationId}) {
       const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == locationId)
       state.specificTrip.locations[locationIndex].accommodations = data
@@ -94,8 +114,12 @@ export default new Vuex.Store({
     },
     replaceEditedLocation(state, location) {
       const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == location.locationId)
-      if(locationIndex > -1)
-        state.specificTrip.locations.splice(locationIndex, 1, location)
+      if(locationIndex > -1) {
+        state.specificTrip.locations[locationIndex].name = location.name
+        state.specificTrip.locations[locationIndex].description = location.description
+        state.specificTrip.locations[locationIndex].from = location.from
+        state.specificTrip.locations[locationIndex].to = location.to
+      }
     },
     removeLocationFromSpecificTrip(state, locationId) {
       const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == locationId)
@@ -122,6 +146,79 @@ export default new Vuex.Store({
     addAccommodationToLocation(state, accommodation) {
       const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == accommodation.locationId)
       state.specificTrip.locations[locationIndex].accommodations.push(accommodation)
+    },
+    editAccommodationForLocation(state, accommodation) {
+      const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == accommodation.locationId)
+      if(locationIndex > -1) {
+        const accommodationIndex = state.specificTrip.locations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodation.accommodationId)
+        if(accommodationIndex > -1)
+          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].type = accommodation.type
+          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].name = accommodation.name
+          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].description = accommodation.description
+          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].from = accommodation.from
+          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].to = accommodation.to
+          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].address = accommodation.address
+      }
+    },
+    removeAccommodationFromLocation(state, accommodation) {
+      const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == accommodation.locationId)
+      if(locationIndex > -1) {
+        const accommodationIndex = state.specificTrip.locations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodation.accommodationId)
+        if(accommodationIndex > -1)
+          state.specificTrip.locations[locationIndex].accommodations.splice(accommodationIndex, 1)
+      }
+    },
+    addAddOnToTrip(state, addOn) {
+      if(addOn.lvl1DependId == 0 && addOn.lvl2DependId == 0) {
+        addOn["lvl1"] = {}
+        Vue.set(state.tripAddOns, String(addOn.addOnId), addOn)
+      }
+      else if(addOn.lvl2DependId == 0) {
+        const topLevelAddOn = JSON.parse(JSON.stringify(state.tripAddOns[String(addOn.lvl1DependId)]))
+        topLevelAddOn["lvl1"][String(addOn.addOnId)] = addOn
+        topLevelAddOn["lvl1"][String(addOn.addOnId)]["lvl2"] = {}
+        Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
+      }
+      else {
+        const topLevelAddOn = JSON.parse(JSON.stringify(state.tripAddOns[String(addOn.lvl1DependId)]))
+        topLevelAddOn["lvl1"][String(addOn.lvl2DependId)]["lvl2"][String(addOn.addOnId)] = addOn
+        Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
+      }
+    },
+    editAddOnForTrip(state, addOn) {
+      if(addOn.lvl1DependId == 0 && addOn.lvl2DependId == 0) {
+        const topLevelAddOn = JSON.parse(JSON.stringify(state.tripAddOns[addOn.addOnId]))
+        topLevelAddOn.description = addOn.description
+        topLevelAddOn.price = addOn.price
+        Vue.set(state.tripAddOns, String(addOn.addOnId), topLevelAddOn)
+      }
+      else if(addOn.lvl2DependId == 0) {
+        const topLevelAddOn = JSON.parse(JSON.stringify(state.tripAddOns[String(addOn.lvl1DependId)]))
+        topLevelAddOn["lvl1"][String(addOn.addOnId)].description = addOn.description
+        topLevelAddOn["lvl1"][String(addOn.addOnId)].price = addOn.price
+        Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
+      }
+      else {
+        const topLevelAddOn = JSON.parse(JSON.stringify(state.tripAddOns[String(addOn.lvl1DependId)]))
+        topLevelAddOn["lvl1"][String(addOn.lvl2DependId)]["lvl2"][String(addOn.addOnId)].description = addOn.description
+        topLevelAddOn["lvl1"][String(addOn.lvl2DependId)]["lvl2"][String(addOn.addOnId)].price = addOn.price
+        Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
+      }
+    },
+    removeAddOnsFromTrip(state, addOn) {
+      if(addOn.lvl1DependId == 0 && addOn.lvl2DependId == 0) {
+        Vue.delete(state.tripAddOns, String(addOn.addOnId))
+      }
+      else if(addOn.lvl2DependId == 0) {
+        const topLevelAddOn = JSON.parse(JSON.stringify(state.tripAddOns[String(addOn.lvl1DependId)]))
+        Vue.delete(topLevelAddOn["lvl1"], String(addOn.addOnId))
+        Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
+      }
+      else {
+        const topLevelAddOn = JSON.parse(JSON.stringify(state.tripAddOns[String(addOn.lvl1DependId)]))
+        Vue.delete(topLevelAddOn["lvl1"][String(addOn.lvl2DependId)]["lvl2"], String(addOn.addOnId))
+        Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
+      }
     }
   },
   actions: {
@@ -224,6 +321,42 @@ export default new Vuex.Store({
       })
     },
 
+    releaseEditRights({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/edit-rights/release-edit/trip/" + payload.tripId, {
+        method: "DELETE",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(() => {
+            commit("setHasEditRights", false)
+          })
+        }
+        else {
+        }
+      })
+    },
+
+    cancelEditRequest({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/edit-rights/cancel-edit-request/trip/" + payload.tripId + "/user/" + payload.userId, {
+        method: "DELETE",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(() => {
+            console.log("Canceled edit request")
+          })
+        }
+        else {
+        }
+      })
+    },
+
     fillTripAdditionalInfo({commit}, payload) {
       commit("setDataLoaded", false)
       fetch("https://" + this.state.host + ":44301/api/trip/get-trip-additional-info/" + payload.tripId, {
@@ -304,6 +437,128 @@ export default new Vuex.Store({
           commit("setDataLoaded", true)
         }
       })
+    },
+
+    fillTripAddOns({commit}, payload) {
+      commit("setDataLoaded", false)
+      fetch("https://" + this.state.host + ":44301/api/add-on/get-add-ons/" + payload.tripId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setTripAddOns", data)
+            commit("setDataLoaded", true)
+          })
+        }
+        else {
+          commit("setDataLoaded", true)
+        }
+      })
+    },
+
+    putEditLocation({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/location/edit-location/" + payload.tripId, {
+        method: "PUT",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify( {
+          "locationId" : payload.locationId,
+          "name" : payload.name,
+          "description": payload.description,
+          "from": payload.from,
+          "to": payload.to
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("Location edited")
+          })
+        }
+        else {
+        }
+      }).catch(err => console.log(err))
+    },
+
+    putEditAccommodation({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/accommodation/edit-accommodation/" + payload.tripId, {
+        method: "PUT",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify( {
+          "accommodationId" : payload.accommodationId,
+          "type" : payload.type,
+          "name" : payload.name,
+          "description": payload.description,
+          "from": payload.from,
+          "to": payload.to,
+          "address" : payload.address,
+          "locationId" : payload.locationId
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("Accommodation edited")
+          })
+        }
+        else {
+        }
+      }).catch(err => console.log(err))
+    },
+
+    putEditItemInfo({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/item/edit-item/" + payload.tripId, {
+        method: "PUT",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify( {
+          "itemId" : payload.itemId,
+          "name" : payload.name,
+          "description": payload.description,
+          "amount" : payload.amount,
+          "unit" : payload.unit
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("Item info edited")
+          })
+        }
+        else {
+        }
+      }).catch(err => console.log(err))
+    },
+
+    putEditAddOn({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/add-on/edit-add-on/" + payload.tripId, {
+        method: "PUT",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify( {
+          "addOnId" : payload.addOnId,
+          "description": payload.description,
+          "price" : payload.price
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("Add-on edited")
+          })
+        }
+        else {
+        }
+      }).catch(err => console.log(err))
     }
   },
   modules: {

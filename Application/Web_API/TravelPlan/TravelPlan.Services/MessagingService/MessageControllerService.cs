@@ -16,10 +16,9 @@ namespace TravelPlan.Services.MessagingService
             _hubContext = hubContext;
         }
 
-        public async Task<string> NotifyOnTripChanges(int tripId, String method, Object object_to_send)
+        public async Task NotifyOnTripChanges(int tripId, String method, Object object_to_send)
         {
             await _hubContext.Clients.Group("Trip" + tripId).SendAsync(method, object_to_send);
-            return "Trip changed";
         }
 
         public async Task SendNotification(int userId, String method, Object notification)
