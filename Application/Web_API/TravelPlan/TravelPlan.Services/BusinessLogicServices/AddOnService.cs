@@ -225,8 +225,6 @@ namespace TravelPlan.Services.BusinessLogicServices
                 if (addOnId <= 0)
                     return false;
 
-                //List<int> deletedIds = new List<int>();
-                //List<AddOnDTO> deletedAddOns = new List<AddOnDTO>();
                 AddOnDTO deletedAddOn = null;
 
                 AddOn prevAddOn = null;
@@ -253,8 +251,6 @@ namespace TravelPlan.Services.BusinessLogicServices
                         _unitOfWork.AddOnRepository.Delete(currAddOn.AddOnId);
                         _unitOfWork.VotableRepository.Delete(currAddOn.VotableId);
                         await _unitOfWork.Save();
-                        //deletedIds.Add(currAddOn.AddOnId);
-                        //deletedAddOns.Add(_mapper.Map<AddOn, AddOnDTO>(currAddOn));
                         deletedAddOn = _mapper.Map<AddOn, AddOnDTO>(currAddOn);
                         break;
                     }

@@ -1,5 +1,8 @@
 <template>
   <div class="col-12 wrapper">
+    <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
+      Items:
+    </div>
     <div v-for="item in tripItems" :key="item.itemId">
       <ItemBox :itemProp="item"/>
     </div>

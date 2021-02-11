@@ -29,6 +29,9 @@
         <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit"> Save </button>
         <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
         <div v-if="accommodationsOpen">
+          <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
+            Accommodations:
+          </div>
           <div v-for="accommodation in accommodations" :key="accommodation.accommodationId">
             <AccommodationBox :accommodationProp="accommodation" :tripId="location.tripId"/>
           </div>

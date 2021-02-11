@@ -1,5 +1,8 @@
 <template>
   <div class="col-12 wrapper">
+    <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
+      Add-ons:
+    </div>
     <div v-for="addOn in tripAddOns" :key="addOn.addOnId">
       <AddOnBox :addOnProp="addOn" :tripId="tripId" />
     </div>

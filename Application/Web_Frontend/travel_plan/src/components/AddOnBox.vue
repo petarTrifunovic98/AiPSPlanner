@@ -19,15 +19,15 @@
         <b-card-text>
           {{addOn.type}}
         </b-card-text>
+        <button type="button" class="btn btn-primary dugme" v-if="hasEditRights && !inEditMode" @click="toggleEditMode"> Edit </button>
+        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit"> Save </button>
+        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
         <div v-for="lvl1AddOn in addOn.lvl1" :key="lvl1AddOn.addOnId">
           <AddOnBox :addOnProp="lvl1AddOn" :tripId="tripId"/>
         </div>
         <div v-for="lvl2AddOn in addOn.lvl2" :key="lvl2AddOn.addOnId">
           <AddOnBox :addOnProp="lvl2AddOn" :tripId="tripId"/>
         </div>
-        <button type="button" class="btn btn-primary dugme" v-if="hasEditRights && !inEditMode" @click="toggleEditMode"> Edit </button>
-        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit"> Save </button>
-        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
       </b-card>
     </div>
   </div>

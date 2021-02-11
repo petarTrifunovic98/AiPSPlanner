@@ -1,5 +1,8 @@
 <template>
   <div class="col-12 wrapper">
+    <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
+      Locations:
+    </div>
     <div v-for="location in tripLocations" :key="location.locationId">
       <LocationBox :locationProp="location"/>
     </div>

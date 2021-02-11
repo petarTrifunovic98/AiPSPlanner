@@ -1,6 +1,9 @@
 <template>
   <div v-if="isDataLoaded" class="row">
     <div class="col-4" >
+      <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
+        Basic info:
+      </div>
       <BasicInfo/>
       <AddOns :tripId="trip.tripId"/>
     </div>
@@ -9,6 +12,7 @@
     </div>
     <div class="col-4" >
       <Items/>
+      <Travelers/>
     </div>
   </div>
   <div v-else>
@@ -23,6 +27,7 @@ import AppendOnlyList from "@/components/AppendOnlyList.vue"
 import Locations from "@/components/Locations.vue"
 import Items from "@/components/Items.vue"
 import AddOns from "@/components/AddOns.vue"
+import Travelers from "@/components/Travelers.vue"
 import { mapGetters, mapMutations } from "vuex"
 
 export default {
@@ -31,7 +36,8 @@ export default {
     AppendOnlyList,
     Locations,
     Items,
-    AddOns
+    AddOns,
+    Travelers
   },
   props: {
     tripProp: {

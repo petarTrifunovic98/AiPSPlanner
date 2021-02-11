@@ -50,6 +50,9 @@ export default new Vuex.Store({
     getSpecificTripItems: state => {
       return state.specificTrip.itemList
     },
+    getSpecificTripTravelers: state => {
+      return state.specificTrip.travelers
+    },
     getTripAddOns: state => {
       return state.tripAddOns
     }
@@ -166,6 +169,16 @@ export default new Vuex.Store({
         const accommodationIndex = state.specificTrip.locations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodation.accommodationId)
         if(accommodationIndex > -1)
           state.specificTrip.locations[locationIndex].accommodations.splice(accommodationIndex, 1)
+      }
+    },
+    addTravelerToSpecificTrip(state, addedTravelers) {
+      addedTravelers = addedTravelers.filter(traveler => state.specificTrip.travelers.findIndex(t => t.userId == traveler.userId) < 0)
+      state.specificTrip.travelers = state.specificTrip.travelers.concat(addedTravelers)
+    },
+    removeTravelerFromSpecificTrip(state, travelerId) {
+      const travelerIndex = state.specificTrip.travelers.findIndex(traveler => traveler.userId == travelerId)
+      if(travelerIndex > -1) {
+        state.specificTrip.travelers.splice(travelerIndex, 1)
       }
     },
     addAddOnToTrip(state, addOn) {
@@ -554,6 +567,31 @@ export default new Vuex.Store({
         if(response.ok) {
           response.json().then(data => {
             console.log("Add-on edited")
+          })
+        }
+        else {
+        }
+      }).catch(err => console.log(err))
+    },
+
+    putEditTripInfo({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/trip/edit-info", {
+        method: "PUT",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify( {
+          "tripId" : payload.tripId,
+          "name": payload.name,
+          "description": payload.description,
+          "from": payload.from,
+          "to": payload.to,
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("Trip info edited")
           })
         }
         else {

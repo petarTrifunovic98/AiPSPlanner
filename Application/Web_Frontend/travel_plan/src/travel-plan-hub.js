@@ -19,21 +19,31 @@ export default {
         .configureLogging(LogLevel.Debug)
         .build()
 
+      
+      addSignalREventListener('EditTripInfo')
+
       addSignalREventListener('AddAddOn')
       addSignalREventListener('RemoveAddOn')
       addSignalREventListener('EditAddOn')
-      addSignalREventListener('EditTripInfo')
+
       addSignalREventListener('AddLocation')
       addSignalREventListener('RemoveLocation')
       addSignalREventListener('EditLocation')
+
       addSignalREventListener('AddAccommodation')
       addSignalREventListener('RemoveAccommodation')
       addSignalREventListener('EditAccommodation')
+
       addSignalREventListener('AddAccommodationPicture')
       addSignalREventListener('RemoveAccommodationPicture')
+
       addSignalREventListener('AddItem')
       addSignalREventListener('EditItem')
       addSignalREventListener('RemoveItem')
+      
+      addSignalREventListener('AddMemberToTrip')
+      addSignalREventListener('RemoveUserFromTrip')
+
       addSignalREventListener('AddItemNotification')
       addSignalREventListener('EditItemNotification')
       addSignalREventListener('RemoveItemNotification')

@@ -6,13 +6,22 @@
         style="max-width: 20rem;"
         class="mb-2"
       >
-        <b-card-title>{{tripInfo.name}}</b-card-title>
+        <b-card-title>
+          <span v-if="!inEditMode">{{tripInfo.name}}</span>
+          <input type="text" v-model="editingInfo.name" v-else>
+        </b-card-title>
         <b-card-text>
-          {{tripInfo.description}}
+          <span v-if="!inEditMode">{{tripInfo.description}}</span>
+          <textarea v-else v-model="editingInfo.description"></textarea>
         </b-card-text>
         <b-card-text>
-          {{tripInfo.from | showTime}} - {{tripInfo.to | showTime}}
+          <span v-if="!inEditMode">{{tripInfo.from | showTime}} - {{tripInfo.to | showTime}}</span>
+          <input type="date" v-if="inEditMode" v-model="editingInfo.from">
+          <input type="date" v-if="inEditMode" v-model="editingInfo.to"> 
         </b-card-text>
+        <button type="button" class="btn btn-primary dugme" v-if="hasEditRights && !inEditMode" @click="toggleEditMode"> Edit </button>
+        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit"> Save </button>
+        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
       </b-card>
     </div>
   </div>
@@ -22,15 +31,33 @@
 import { mapGetters, mapMutations } from "vuex"
 
 export default {
+  data() {
+    return {
+      inEditMode: false,
+      editingInfo: JSON.parse(JSON.stringify(this.$store.getters["getSpecificTripBasicInfo"]))
+    }
+  },
   computed: {
     ...mapGetters({
       isDataLoaded: 'getIsDataLoaded',
-      tripInfo: 'getSpecificTripBasicInfo'
+      tripInfo: 'getSpecificTripBasicInfo',
+      hasEditRights: 'getHasEditRights'
     })
   },
   methods: {
     onTripInfoEdited(tripInfo) {
       this.setSpecificTripBasicInfo(tripInfo)
+    },
+    toggleEditMode() {
+      this.inEditMode = !this.inEditMode
+    },
+    cancelEdit() {
+      this.editingInfo = JSON.parse(JSON.stringify(this.$store.getters["getSpecificTripBasicInfo"]))
+      this.toggleEditMode()
+    },
+    saveEdit() {
+      this.$store.dispatch('putEditTripInfo', this.editingInfo)
+      this.toggleEditMode()
     },
     ...mapMutations({
       setSpecificTripBasicInfo: 'setSpecificTripBasicInfo'
