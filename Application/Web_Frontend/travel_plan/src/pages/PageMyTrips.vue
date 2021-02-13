@@ -61,6 +61,10 @@ export default {
   },
   created() {
     this.onCreate()
+    if(this.$store.state.notificationNumber == -1)
+    {
+        this.$store.dispatch("getNotificationNumber")
+    }
   },
   // watch: {
   //   $route() {

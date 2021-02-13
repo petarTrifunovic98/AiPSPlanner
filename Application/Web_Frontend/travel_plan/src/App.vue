@@ -1,15 +1,45 @@
 <template>
   <div id="app">
+    <TheNavbar class="please"/>
     <div class = "page-wrapper bg-light">
       <router-view />
     </div>
+    <TheFooter/>
   </div>
 </template>
 
 <script>
+import TheFooter from "@/components/TheFooter"
+import TheNavbar from "@/components/TheNavbar"
 export default {
+  components: {
+    TheFooter,
+    TheNavbar
+  },
+  data()
+  {
+    return{
+      user:
+      {
+        userId: -1,
+        token: "",
+        username: ""
+      }
+    }
+  },
   created() {
     this.startSignalR()
+    this.user.username = this.$cookie.get('username');
+    if(this.user.username != null)
+    {     
+      this.$store.state.isLogedIn = true
+      this.user.userId = this.$cookie.get('id');
+      this.$store.state.authUser = this.user
+      this.user.token = this.$cookie.get('token');
+      this.$store.state.token =  this.$cookie.get('token');
+      this.$store.dispatch("getUserById", this.user)
+      this.$store.dispatch("getNotificationNumber")
+    }
   }
 }
 </script>

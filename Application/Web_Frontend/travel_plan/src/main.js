@@ -19,6 +19,9 @@ Vue.filter("showTime", function(date) {
 import TravelPlanHub from './travel-plan-hub'
 Vue.use(TravelPlanHub)
 
+import VueCookie from 'vue-cookie'
+Vue.use(VueCookie)
+
 Vue.config.productionTip = false
 
 new Vue({

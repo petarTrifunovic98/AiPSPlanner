@@ -39,6 +39,14 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
+        public int GetNotificationNumber(int userId)
+        {
+            using (_unitOfWork)
+            {
+                return _unitOfWork.UserRepository.GetUnseenNotificationNumber(userId);
+            }
+        }
+
         public async Task<bool> SeenMyNotifications(int userId)
         {
             using(_unitOfWork)

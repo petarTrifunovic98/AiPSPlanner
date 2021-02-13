@@ -18,8 +18,22 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpGet]
+        [Route("get-notification-number/{userId}")]
+        public ActionResult GetNotificationNumber(int userId)
+        {
+            try
+            {
+                return Ok(_notificationService.GetNotificationNumber(userId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("get-notification/{notificationId}")]
-        public async Task<ActionResult> GetNotifications(int notificationId)
+        public async Task<ActionResult> GetNotification(int notificationId)
         {
             try
             {

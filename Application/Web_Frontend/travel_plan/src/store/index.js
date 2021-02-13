@@ -9,12 +9,14 @@ export default new Vuex.Store({
     host: "localhost",
     token: null,
     authUser: null,
+    isLogedIn: false,
     isDataLoaded: true,
     tripsPortion: [],
     tripAdditionalInfo: null,
     hasEditRights: false,
     specificTrip: null,
-    tripAddOns: []
+    tripAddOns: [],
+    notificationNumber: -1
   },
   getters: {
     getIsDataLoaded: state => {
@@ -22,6 +24,9 @@ export default new Vuex.Store({
     },
     getAuthUserId: state => {
       return state.authUser.userId
+    },
+    getIsLogedIn: state => {
+      return state.isLogedIn
     },
     getTripsPortion: state => {
       return state.tripsPortion
@@ -70,6 +75,10 @@ export default new Vuex.Store({
         username: userInfo.username,
         picture: userInfo.picture
       }
+    },
+    setIsLogedIn(state, isLogedIn)
+    {
+      state.isLogedIn = isLogedIn
     },
     setTripsPortion(state, trips) {
       state.tripsPortion = trips
@@ -253,6 +262,10 @@ export default new Vuex.Store({
           response.json().then(data => {
             commit("setAuthUser", data)
             commit("setDataLoaded", true)
+            commit("setIsLogedIn", true)
+            Vue.cookie.set('token',data['token'], { expires: '2h' });
+            Vue.cookie.set('id',this.state.authUser.userId, { expires: '2h' });
+            Vue.cookie.set('username',this.state.authUser.username, { expires: '2h' });
             router.push("/trips")
           })
         }
@@ -278,11 +291,10 @@ export default new Vuex.Store({
           response.json().then(data => {
             commit("setAuthUser", data)
             commit("setDataLoaded", true)
-            // Vue.cookie.set('token',data['token']);
-            // Vue.cookie.set('id',this.state.authUser.id, { expires: '1h' });
-            // Vue.cookie.set('ime',this.state.authUser.first_name, { expires: '1h' });
-            // Vue.cookie.set('prezime',this.state.authUser.last_name, { expires: '1h' });
-            // Vue.cookie.set('admin',this.state.isAdmin, { expires: '1h' });
+            commit("setIsLogedIn", true)           
+            Vue.cookie.set('token',data['token'], { expires: '2h' });
+            Vue.cookie.set('id',this.state.authUser.userId, { expires: '2h' });
+            Vue.cookie.set('username',this.state.authUser.username, { expires: '2h' });
             router.push('/trips')
           })
         }
@@ -593,6 +605,77 @@ export default new Vuex.Store({
           response.json().then(data => {
             console.log("Trip info edited")
           })
+        }
+        else {
+        }
+      }).catch(err => console.log(err))
+    },
+
+    getUserById({commit}, payload){
+      fetch("https://" + this.state.host + ":44301/api/user/get-user/" + payload.userId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            this.state.authUser = data
+            if(router.currentRoute["path"] == "/401")
+              router.back();
+            if(router.currentRoute["path"] == "/" || router.currentRoute["path"] == "/login" || router.currentRoute["path"] == "/register")
+            {
+              router.push("/trips");
+            }
+          })
+        }
+        else {
+        }
+      }).catch(err => console.log(err))
+    },
+
+    getNotificationNumber(){
+      fetch("https://" + this.state.host + ":44301/api/notifications/get-notification-number/" + this.state.authUser.userId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            this.state.notificationNumber = data
+          })
+        }
+        else {
+        }
+      }).catch(err => console.log(err))
+    },
+
+    logoutUser()
+    {
+      fetch("https://" + this.state.host + ":44301/api/user/logout/" + this.state.authUser.userId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+            this.state.authUser = null
+            this.state.token = null
+            this.state.notificationNumber = -1
+            this.state.isLogedIn = false
+            this.state.tripsPortion = []
+            this.state.tripAdditionalInfo = null
+            this.state.hasEditRights = false
+            this.state.specificTrip = null
+            this.state.tripAddOns = []
+
+            Vue.cookie.delete('id');
+            Vue.cookie.delete('token');
+            Vue.cookie.delete('username');         
         }
         else {
         }
