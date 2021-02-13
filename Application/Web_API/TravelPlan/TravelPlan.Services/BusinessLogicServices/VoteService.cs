@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using TravelPlan.Contracts;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Services.MessagingService;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -15,11 +17,13 @@ namespace TravelPlan.Services.BusinessLogicServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private MessageControllerService _messageControllerService;
 
-        public VoteService(IUnitOfWork unitOfWork, IMapper mapper)
+        public VoteService(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<MessageHub> hubContext)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _messageControllerService = new MessageControllerService(hubContext);
         }
 
         public async Task<VoteEditDTO> HaveIVotedFor(int votableId, int userId)
@@ -34,7 +38,7 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
-        public async Task<VoteDTO> Vote(VoteCreateDTO newVote)
+        public async Task<VoteDTO> Vote(VoteCreateDTO newVote, int tripId)
         {
             using (_unitOfWork)
             {
@@ -55,11 +59,13 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.VoteRepository.Create(vote);
                 await _unitOfWork.Save();
 
+                await _messageControllerService.NotifyOnTripChanges(tripId, "ChangeVotable", _mapper.Map<Votable, VotableDTO>(votable));
+
                 return _mapper.Map<Vote, VoteDTO>(vote);
             }
         }
 
-        public async Task<VoteDTO> EditVote(VoteEditDTO voteInfo)
+        public async Task<VoteDTO> EditVote(VoteEditDTO voteInfo, int tripId)
         {
             using (_unitOfWork)
             {
@@ -78,16 +84,18 @@ namespace TravelPlan.Services.BusinessLogicServices
                         votable.NegativeVotes--;
                         votable.PositiveVotes++;
                     }
+
+                    await _messageControllerService.NotifyOnTripChanges(tripId, "ChangeVotable", _mapper.Map<Votable, VotableDTO>(votable));
                 }
 
                 vote.Positive = voteInfo.Positive;
                 await _unitOfWork.Save();
-                
+
                 return _mapper.Map<Vote, VoteDTO>(vote);
             }
         }
 
-        public async Task<VotableDTO> RemoveVote(int voteId)
+        public async Task<VotableDTO> RemoveVote(int voteId, int tripId)
         {
             using (_unitOfWork)
             {
@@ -103,6 +111,8 @@ namespace TravelPlan.Services.BusinessLogicServices
                 _unitOfWork.VotableRepository.Update(votable);
                 _unitOfWork.VoteRepository.Delete(voteId);
                 await _unitOfWork.Save();
+
+                await _messageControllerService.NotifyOnTripChanges(tripId, "ChangeVotable", _mapper.Map<Votable, VotableDTO>(votable));
 
                 return _mapper.Map<Votable, VotableDTO>(votable);
             }

@@ -22,6 +22,8 @@ AddMemberToTrip			List<UserBasicDTO>		Lista korisnika koji su dodati u trip, s' 
 								u njoj se nalaze možda i neki user-i koji su već u trip-u, pa treba na Front-u
 								da se filtrira. Ako to predstavlja problem, može da se izmeni da se filtrira na Back-u
 RemoveUserFromTrip		int				Id korisnika koji je napustio putovanje
+ChangeVotable			VotableDTO			Objekat koji sadrži Id votable-a za koji je odnos glasova promenjen i trenutni broj
+								pozitivnih i negativnih glasova
 
 
 

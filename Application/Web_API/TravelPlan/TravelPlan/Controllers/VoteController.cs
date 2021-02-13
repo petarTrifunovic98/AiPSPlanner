@@ -45,7 +45,7 @@ namespace TravelPlan.API.Controllers
             {
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest("You can't currently edit this trip.");
-                VoteDTO retValue = await _voteService.Vote(newVote);
+                VoteDTO retValue = await _voteService.Vote(newVote, tripId);
                 if (retValue == null)
                     return BadRequest("You already voted for this item");
                 return Ok(retValue);
@@ -64,7 +64,7 @@ namespace TravelPlan.API.Controllers
             {
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest("You can't currently edit this trip.");
-                VoteDTO retValue = await _voteService.EditVote(voteInfo);
+                VoteDTO retValue = await _voteService.EditVote(voteInfo, tripId);
                 if (retValue == null)
                     return BadRequest("Vote does not exist");
                 return Ok(retValue);
@@ -83,7 +83,7 @@ namespace TravelPlan.API.Controllers
             {
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest("You can't currently edit this trip.");
-                VotableDTO retValue = await _voteService.RemoveVote(voteId);
+                VotableDTO retValue = await _voteService.RemoveVote(voteId, tripId);
                 if (retValue == null)
                     return BadRequest("Vote does not exist");
                 return Ok(retValue);
