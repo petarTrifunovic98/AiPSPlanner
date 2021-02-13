@@ -168,5 +168,19 @@ namespace TravelPlan.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("get-users-substring/{substring}")]
+        public async Task<ActionResult> SearchUsersByString(String substring)
+        {
+            try
+            {
+                return Ok(await _userService.SearchUsersByString(substring));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -168,5 +168,14 @@ namespace TravelPlan.Services.BusinessLogicServices
                 return _mapper.Map<User, UserBasicDTO>(user);
             }
         }
+
+        public async Task<List<UserBasicDTO>> SearchUsersByString(String substring)
+        {
+            using(_unitOfWork)
+            {
+                return (await _unitOfWork.UserRepository.GetUsersWithSubstring(substring))
+                    .Select(user => _mapper.Map<User, UserBasicDTO>(user)).ToList();
+            }
+        }
     }
 }

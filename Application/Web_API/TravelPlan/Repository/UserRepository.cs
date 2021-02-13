@@ -47,5 +47,13 @@ namespace TravelPlan.Repository
         {
             return await _dbSet.Where(user => user.UserId == userId).Select(user => user.MyNotifications).FirstOrDefaultAsync();
         }
+
+        public async Task<List<User>> GetUsersWithSubstring(String substring)
+        {
+            return await _dbSet.Where(user => user.Name.Contains(substring) || 
+                                              user.LastName.Contains(substring) || 
+                                              user.Username.Contains(substring))
+                               .ToListAsync();
+        }
     }
 }
