@@ -18,7 +18,8 @@ export default new Vuex.Store({
     tripAddOns: [],
     notificationNumber: -1,
     user: null,
-    wrongOriginalPass: false
+    wrongOriginalPass: false,
+    myItems: null
   },
   getters: {
     getIsDataLoaded: state => {
@@ -694,6 +695,7 @@ export default new Vuex.Store({
             this.state.specificTrip = null
             this.state.tripAddOns = []
             this.state.user = null
+            this.state.myItems = null
 
             Vue.cookie.delete('id');
             Vue.cookie.delete('token');
@@ -751,12 +753,40 @@ export default new Vuex.Store({
           if(p.ok) {
             this.state.isDataLoaded = true
             this.state.wrongOriginalPass = false
+            router.push("/");
+            router.push({name: "PageViewProfile", 
+              params: {
+                id: this.state.authUser.userId, 
+                user: this.state.authUser
+            }})
           }
           else {
               this.state.isDataLoaded = true
               this.state.wrongOriginalPass = true
           }
 
+      })
+    },
+
+    fillMyItems({commit})
+    {
+      commit("setDataLoaded", false)
+      fetch("https://" + this.state.host + ":44301/api/item/get-items/user/" + this.state.authUser.userId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setDataLoaded", true)
+            this.state.myItems = data
+          })
+        }
+        else {
+          commit("setDataLoaded", true)
+        }
       })
     }
   },

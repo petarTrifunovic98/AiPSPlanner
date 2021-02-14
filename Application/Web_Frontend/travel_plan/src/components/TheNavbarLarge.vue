@@ -19,6 +19,14 @@
                             <span class = "brojka" v-if="notificationNumber > 0"> {{notificationNumber}} </span>
                             <span class = "ikonica"> Notifications </span>
                         </router-link>
+                        <router-link :to="'/'" class="dropdown-item">
+                            <img src = "../assets/map.svg" class="slicshka">
+                            <span class = "ikonica"> My trips </span>
+                        </router-link>
+                        <router-link :to="'/items'" class="dropdown-item">
+                            <img src = "../assets/checklist.svg" class="slicshka">
+                            <span class = "ikonica"> My items </span>
+                        </router-link>
                     </div>
                 </li>
             </div>
@@ -221,6 +229,11 @@ export default {
     .naziv
     {
         margin-top: 7px;
+    }
+    .slicshka
+    {
+        width: 23px;
+        height: 23px;
     }
     @media only screen and (max-width: 1088px)
     {

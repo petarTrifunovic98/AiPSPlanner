@@ -143,7 +143,7 @@ export default {
             console.log("Data is loaded")
           if(!vm.$store.wrongOriginalPass)
           {             
-            vm.$emit('saveEditChanges')
+            vm.$emit('save-edit-changes')
             console.log("Password is correct")
           }
         }

@@ -17,7 +17,7 @@
     <ChangePass
       v-if="componentToShow == 'Pass'"
       :user="$store.state.authUser"
-      @saveEditChanges="editSaved"
+      @save-edit-changes="editSaved"
       @cancelChanges="componentToShow = 'Info'"
     />
   </div>
@@ -65,7 +65,7 @@ export default {
   methods: {
     editSaved() {
       console.log("SAVED")
-      componentToShow = 'Info'
+      this.componentToShow = 'Info'
     },
     changedRoute() {
       this.$store.state.user = null
