@@ -1,12 +1,5 @@
 <template>
-  <div class="wrapper">
-    <b-pagination 
-      v-model="currentPage" 
-      :total-rows="10" 
-      :per-page="perPage" 
-      align="center"
-      class="pag-top"
-    ></b-pagination>
+  <div class="wrapper" v-if="isDataLoaded">
     <div class="users" v-if="tripsPortion.length > 0">
       <TripBox
         :tripProp="trip"
@@ -14,20 +7,19 @@
         :key="trip.tripId"
       />
     </div>
-    <b-pagination 
-      v-model="currentPage" :total-rows="10" 
-      :per-page="perPage" align="center" class="pag-bottom">
-    </b-pagination>
   </div>
+  <Spinner v-else />
 </template>
 
 <script>
-import TripBox from "@/components/TripBox"
 import { mapGetters } from "vuex"
+import TripBox from "@/components/TripBox"
+import Spinner from "@/components/Spinner.vue"
 
 export default {
   components: {
-    TripBox
+    TripBox,
+    Spinner
   },
   data() {
     return {
@@ -39,6 +31,7 @@ export default {
   computed: {
     ...mapGetters({
       tripsPortion: 'getTripsPortion',
+      isDataLoaded: 'getIsDataLoaded',
       authUserId: 'getAuthUserId'
     })
   },

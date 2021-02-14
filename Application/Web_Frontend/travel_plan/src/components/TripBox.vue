@@ -1,5 +1,5 @@
 <template>
-    <b-card class="col-6" border-variant="primary" no-body>
+    <b-card border-variant="primary" no-body>
       <b-card-body>
         <div class="media-center">
           <p class="image is-96x96">
@@ -12,13 +12,13 @@
             <span class="full-name-span">{{tripProp.name}}</span>
           </div>
           <div class="info-element">
-            <span>{{tripProp.description}}</span>
+            <span class="desc">{{tripProp.description}}</span>
           </div>
           <div class="info-element">
             <span>{{tripProp.from | showTime}} - {{tripProp.to | showTime}}</span>
           </div>
         </div>
-          <button type="button" class="btn btn-primary dugme col-3" @click="onViewTripPage"> View trip page </button>
+          <button type="button" class="btn btn-primary dugme" @click="onViewTripPage"> View trip page </button>
       </b-card-body>
     </b-card>
 </template>
@@ -54,6 +54,8 @@ export default {
     margin-top: 7px;
     height: fit-content;
     align-self: center;
+    max-width:100%;
+    justify-self: stretch;
   }
 
   .dodaj-dugme
@@ -94,8 +96,9 @@ export default {
   }
 
   .card {
-    margin: 10px 15% 10px 15%;
+    margin: 10px 30% 10px 30%;
     border-radius: 15px;
+    width: 60%;
   }
 
   .rating-grade {
@@ -129,7 +132,6 @@ export default {
   .info-element {
     display:flex;
     flex-direction: row;
-    word-break:break-all;
     margin: 5px 0 0 5px;
     align-items: center;
   }
@@ -138,14 +140,23 @@ export default {
     word-break:normal;
   }
 
-  .full-name-span:hover {
-    cursor: pointer !important;
-    text-decoration: underline;
-    color:lightseagreen;
+  .full-name-span {
+    font-weight: bold;
+    font-size: 20px;
+    text-overflow: ellipsis;
   }
 
-  @media only screen and (max-width:650px)
+  .desc {
+    margin-right: 20%;
+    align-self: center;
+  }
+
+  @media only screen and (max-width:700px)
   {
+    .dugme {
+      margin-top: 20px;
+    }
+
     .card-footer {
       flex-direction: column;
     }
@@ -159,7 +170,7 @@ export default {
     .card {
       margin:10px 10% 0 10%;
       font-size: 15px;
-      
+      width: 80%;
     }
 
     .grade-label {
@@ -168,6 +179,10 @@ export default {
     
     .info {
       margin-left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .info-element {
@@ -180,6 +195,9 @@ export default {
       width:80%;
     }
 
+    .desc {
+      margin-right: 0px;
+    }
   }
 
   /* @media only screen and (max-width:500px)
