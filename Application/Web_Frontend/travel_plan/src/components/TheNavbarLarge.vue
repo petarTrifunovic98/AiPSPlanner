@@ -2,10 +2,10 @@
     <nav class="navigacija">
         <div class = "navigacija-beginning">
             <router-link :to = "'/'" class="navbar-item" v-if="!isLogedIn">
-                <h1 class="title is-4">TravelPlan</h1>
+                <h1 class="title is-4 naziv">TravelPlan</h1>
             </router-link>
             <router-link :to = "'/trips'" class="navbar-item" v-else>
-                <h1 class="title is-4">TravelPlan</h1>
+                <h1 class="title is-4 naziv">TravelPlan</h1>
             </router-link>
             <div class="navbar-start" v-if="isLogedIn">
                 <li class="nav-item dropdown">
@@ -86,7 +86,7 @@ export default {
         return {
             name: "PageViewProfile", 
             params: {
-                id: this.$store.state.authUser.id, 
+                id: this.$store.state.authUser.userId, 
                 user: this.$store.state.authUser
             }
         }
@@ -217,6 +217,10 @@ export default {
         margin-top: 15px;
         height: 12px;
         width: 12px;
+    }
+    .naziv
+    {
+        margin-top: 7px;
     }
     @media only screen and (max-width: 1088px)
     {

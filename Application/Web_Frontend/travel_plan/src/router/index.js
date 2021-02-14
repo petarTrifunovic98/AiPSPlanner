@@ -7,6 +7,7 @@ import PageSpecificTrip from "../pages/PageSpecificTrip.vue"
 import PageWelcome from "../pages/PageWelcome.vue"
 import PageNotAuthenticated from "../pages/PageNotAuthenticated.vue"
 import PageNotFound from "../pages/PageNotFound.vue"
+import PageViewProfile from "../pages/PageViewProfile.vue"
 import store from "@/store"
 
 Vue.use(VueRouter)
@@ -72,6 +73,19 @@ const routes = [
         else
             next({name: 'PageNotAuthenticated'})
     }
+  },
+  {
+      path: "/profile/:id",
+      name: "PageViewProfile",
+      component: PageViewProfile,
+      props: true,
+      beforeEnter(to,from,next)
+      {
+          if(store.state.isLogedIn)
+              next()
+          else
+              next({name: 'PageNotAuthenticated'})
+      }
   },
   {
     path: '/401',
