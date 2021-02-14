@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 wrapper">
+  <div class="col-12 wrapper" v-if="tripLocations">
     <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
       Locations:
     </div>
@@ -7,20 +7,24 @@
       <LocationBox :locationProp="location"/>
     </div>
   </div>
+  <Spinner v-else />
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex"
 import LocationBox from "@/components/LocationBox.vue"
+import Spinner from "@/components/Spinner.vue"
 
 export default {
   components: {
-    LocationBox
+    LocationBox,
+    Spinner
   },
   computed: {
     ...mapGetters({
       isDataLoaded: 'getIsDataLoaded',
-      tripLocations: 'getSpecificTripLocations'
+      tripLocations: 'getSpecificTripLocations',
+      specificTrip: 'getSpecificTrip'
     })
   },
   methods: {
@@ -48,7 +52,8 @@ export default {
       removeLocation: 'removeLocationFromSpecificTrip',
       addAccommodation: 'addAccommodationToLocation',
       editAccommodation: 'editAccommodationForLocation',
-      removeAccommodation: 'removeAccommodationFromLocation'
+      removeAccommodation: 'removeAccommodationFromLocation',
+      setLocations: 'setTripLocations'
     })
   },
   created() {
@@ -66,6 +71,7 @@ export default {
     this.$travelPlanHub.$off('AddAccommodation')
     this.$travelPlanHub.$off('EditAccommodation')
     this.$travelPlanHub.$off('RemoveAccommodation')
+    this.setLocations(null)
   }
 }
 </script>

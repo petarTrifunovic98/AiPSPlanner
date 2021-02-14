@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 wrapper">
+  <div class="col-12 wrapper" v-if="tripAddOns">
     <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
       Add-ons:
     </div>
@@ -7,11 +7,13 @@
       <AddOnBox :addOnProp="addOn" :tripId="tripId" />
     </div>
   </div>
+  <Spinner v-else />
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex"
 import AddOnBox from "@/components/AddOnBox.vue"
+import Spinner from "@/components/Spinner.vue"
 
 export default {
   props: {
@@ -21,7 +23,8 @@ export default {
     }
   },
   components: {
-    AddOnBox
+    AddOnBox,
+    Spinner
   },
   computed: {
     ...mapGetters({
@@ -45,7 +48,8 @@ export default {
     ...mapMutations({
       addAddOn: 'addAddOnToTrip',
       editAddOn: 'editAddOnForTrip',
-      removeAddOn: 'removeAddOnsFromTrip'
+      removeAddOn: 'removeAddOnsFromTrip',
+      setAddOns: 'setTripAddOns'
     })
   },
   created() {
@@ -57,6 +61,7 @@ export default {
     this.$travelPlanHub.$off('AddAddOn')
     this.$travelPlanHub.$off('EditAddOn')
     this.$travelPlanHub.$off('RemoveAddOn')
+    this.setAddOns(null)
   }
 }
 </script>

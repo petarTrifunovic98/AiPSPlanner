@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from "../router/index"
+import TravelPlanHub from "../travel-plan-hub"
 
 Vue.use(Vuex)
+Vue.use(TravelPlanHub)
 
 export default new Vuex.Store({
   state: {
@@ -13,9 +15,10 @@ export default new Vuex.Store({
     isDataLoaded: true,
     tripsPortion: [],
     tripAdditionalInfo: null,
-    hasEditRights: false,
+    hasEditRights: null,
     specificTrip: null,
-    tripAddOns: [],
+    tripLocations: null,
+    tripAddOns: null,
     notificationNumber: -1,
     user: null,
     wrongOriginalPass: false,
@@ -53,7 +56,7 @@ export default new Vuex.Store({
       }
     },
     getSpecificTripLocations: state => {
-      return state.specificTrip.locations
+      return state.tripLocations
     },
     getSpecificTripItems: state => {
       return state.specificTrip.itemList
@@ -96,9 +99,13 @@ export default new Vuex.Store({
       state.specificTrip = trip
     },
     setTripLocations(state, locations) {
-      state.specificTrip.locations = locations
+      state.tripLocations = locations
     },
     setTripAddOns(state, addOns) {
+      if(addOns == null) {
+        state.tripAddOns = null
+        return
+      }
       state.tripAddOns = {}
       addOns.slice(0).reverse().map(addOn => {
         if(addOn.lvl1DependId == 0 && addOn.lvl2DependId == 0) {
@@ -115,8 +122,8 @@ export default new Vuex.Store({
       })
     },
     setLocationAccommodations(state, {data, locationId}) {
-      const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == locationId)
-      state.specificTrip.locations[locationIndex].accommodations = data
+      const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == locationId)
+      state.tripLocations[locationIndex].accommodations = data
     },
     setSpecificTripBasicInfo(state, tripInfo) {
       state.specificTrip.name = tripInfo.name
@@ -125,21 +132,21 @@ export default new Vuex.Store({
       state.specificTrip.to = tripInfo.to
     },
     addLocationToSpecificTrip(state, location) {
-      state.specificTrip.locations.push(location)
+      state.tripLocations.push(location)
     },
     replaceEditedLocation(state, location) {
-      const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == location.locationId)
+      const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == location.locationId)
       if(locationIndex > -1) {
-        state.specificTrip.locations[locationIndex].name = location.name
-        state.specificTrip.locations[locationIndex].description = location.description
-        state.specificTrip.locations[locationIndex].from = location.from
-        state.specificTrip.locations[locationIndex].to = location.to
+        state.tripLocations[locationIndex].name = location.name
+        state.tripLocations[locationIndex].description = location.description
+        state.tripLocations[locationIndex].from = location.from
+        state.tripLocations[locationIndex].to = location.to
       }
     },
     removeLocationFromSpecificTrip(state, locationId) {
-      const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == locationId)
+      const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == locationId)
       if(locationIndex > -1)
-        state.specificTrip.locations.splice(locationIndex, 1)
+        state.tripLocations.splice(locationIndex, 1)
     },
     addItemToSpecificTrip(state, item) {
       state.specificTrip.itemList.push(item)
@@ -159,28 +166,28 @@ export default new Vuex.Store({
         state.specificTrip.itemList.splice(itemIndex, 1)
     },
     addAccommodationToLocation(state, accommodation) {
-      const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == accommodation.locationId)
-      state.specificTrip.locations[locationIndex].accommodations.push(accommodation)
+      const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == accommodation.locationId)
+      state.tripLocations[locationIndex].accommodations.push(accommodation)
     },
     editAccommodationForLocation(state, accommodation) {
-      const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == accommodation.locationId)
+      const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == accommodation.locationId)
       if(locationIndex > -1) {
-        const accommodationIndex = state.specificTrip.locations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodation.accommodationId)
+        const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodation.accommodationId)
         if(accommodationIndex > -1)
-          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].type = accommodation.type
-          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].name = accommodation.name
-          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].description = accommodation.description
-          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].from = accommodation.from
-          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].to = accommodation.to
-          state.specificTrip.locations[locationIndex].accommodations[accommodationIndex].address = accommodation.address
+          state.tripLocations[locationIndex].accommodations[accommodationIndex].type = accommodation.type
+          state.tripLocations[locationIndex].accommodations[accommodationIndex].name = accommodation.name
+          state.tripLocations[locationIndex].accommodations[accommodationIndex].description = accommodation.description
+          state.tripLocations[locationIndex].accommodations[accommodationIndex].from = accommodation.from
+          state.tripLocations[locationIndex].accommodations[accommodationIndex].to = accommodation.to
+          state.tripLocations[locationIndex].accommodations[accommodationIndex].address = accommodation.address
       }
     },
     removeAccommodationFromLocation(state, accommodation) {
-      const locationIndex = state.specificTrip.locations.findIndex(loc => loc.locationId == accommodation.locationId)
+      const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == accommodation.locationId)
       if(locationIndex > -1) {
-        const accommodationIndex = state.specificTrip.locations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodation.accommodationId)
+        const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodation.accommodationId)
         if(accommodationIndex > -1)
-          state.specificTrip.locations[locationIndex].accommodations.splice(accommodationIndex, 1)
+          state.tripLocations[locationIndex].accommodations.splice(accommodationIndex, 1)
       }
     },
     addTravelerToSpecificTrip(state, addedTravelers) {
@@ -328,6 +335,27 @@ export default new Vuex.Store({
       })
     },
 
+    fillSpecificTrip({commit}, payload) {
+      commit("setDataLoaded", false)
+      fetch("https://" + this.state.host + ":44301/api/trip/get-trip/" + payload.tripId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setSpecificTrip", data)
+            commit("setDataLoaded", true)
+          })
+        }
+        else {
+          commit("setDataLoaded", true)
+        }
+      })
+    },
+
     requestTripEdit({commit}, payload) {
       commit("setDataLoaded", false)
       fetch("https://" + this.state.host + ":44301/api/edit-rights/request-edit/trip/" + payload.tripId + "/user/" + payload.userId, {
@@ -340,6 +368,9 @@ export default new Vuex.Store({
         if(response.ok) {
           response.json().then(data => {
             commit("setHasEditRights", data)
+            if(data == false) {
+              
+            }
             commit("setDataLoaded", true)
           })
         }
@@ -358,9 +389,7 @@ export default new Vuex.Store({
         }
       }).then(response => {
         if(response.ok) {
-          response.json().then(() => {
-            commit("setHasEditRights", false)
-          })
+          commit("setHasEditRights", null)
         }
         else {
         }
@@ -376,9 +405,7 @@ export default new Vuex.Store({
         }
       }).then(response => {
         if(response.ok) {
-          response.json().then(() => {
-            console.log("Canceled edit request")
-          })
+          commit("setHasEditRights", null)
         }
         else {
         }

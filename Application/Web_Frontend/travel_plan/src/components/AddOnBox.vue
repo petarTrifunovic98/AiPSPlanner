@@ -13,7 +13,7 @@
         <b-card-text>
           <span v-if="!inEditMode">{{addOn.price}}</span>
           <span v-else>
-            <input type="number" v-model="addOn.price">
+            <input type="number" v-model="editingAddOn.price">
           </span>
         </b-card-text>
         <b-card-text>
@@ -76,6 +76,7 @@ export default {
     saveEdit() {
       this.editingAddOn.tripId = this.tripId
       this.$store.dispatch('putEditAddOn', this.editingAddOn)
+      this.$travelPlanHub.$emit('EditAddOn', this.editingAddOn)
       this.toggleEditMode()
     }
   }
