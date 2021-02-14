@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 wrapper">
+  <div class="col-12 wrapper" v-if="specificTrip">
     <div>
       <b-card
         tag="article"
@@ -25,23 +25,34 @@
       </b-card>
     </div>
   </div>
+  <Spinner v-else />
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex"
+import Spinner from "@/components/Spinner.vue"
 
 export default {
+  props: {
+    tripInfo: {
+      type: Object,
+      required: true
+    }
+  },
+  components: {
+    Spinner
+  },
   data() {
     return {
       inEditMode: false,
-      editingInfo: JSON.parse(JSON.stringify(this.$store.getters["getSpecificTripBasicInfo"]))
+      editingInfo: JSON.parse(JSON.stringify(this.tripInfo))
     }
   },
   computed: {
     ...mapGetters({
       isDataLoaded: 'getIsDataLoaded',
-      tripInfo: 'getSpecificTripBasicInfo',
-      hasEditRights: 'getHasEditRights'
+      hasEditRights: 'getHasEditRights',
+      specificTrip: 'getSpecificTrip'
     })
   },
   methods: {
@@ -57,6 +68,7 @@ export default {
     },
     saveEdit() {
       this.$store.dispatch('putEditTripInfo', this.editingInfo)
+      this.onTripInfoEdited(this.editingInfo)
       this.toggleEditMode()
     },
     ...mapMutations({

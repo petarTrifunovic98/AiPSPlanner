@@ -4,8 +4,8 @@
       <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
         Basic info:
       </div>
-      <BasicInfo/>
-      <AddOns :tripId="trip.tripId"/>
+      <BasicInfo :tripInfo="tripInfo" v-if="tripInfo"/>
+      <AddOns :tripId="parseInt(tripId)"/>
     </div>
     <div class="col-4" >
       <Locations/>
@@ -41,12 +41,13 @@ export default {
   },
   props: {
     tripProp: {
-      required: true
+      required: false
     }
   },
   data() {
     return {
-      trip: this.tripProp
+      trip: this.tripProp,
+      tripId: this.$route.params.id
     }
   },
   computed: {
@@ -56,7 +57,32 @@ export default {
       specificTrip: 'getSpecificTrip',
       getAuthUserId: 'getAuthUserId',
       hasEditRights: 'getHasEditRights'
-    })
+    }),
+    tripInfo() {
+      if(!this.specificTrip) {
+        return null
+      }
+      else {
+        return {
+          tripId: this.specificTrip.tripId,
+          name: this.specificTrip.name,
+          description: this.specificTrip.description,
+          from: this.specificTrip.from,
+          to: this.specificTrip.to
+        }
+      }
+    }
+    // tripId() {
+    //   return this.$route.params.id
+    // }
+  },
+  watch: {
+    hasEditRights(newValue, oldValue) {
+      if(newValue == false) {
+        this.$travelPlanHub.JoinTripGroup(parseInt(this.tripId))
+        console.log("joined")
+      }
+    }
   },
   methods: {
     onTripInfoEdited(trip) {
@@ -70,12 +96,12 @@ export default {
       console.log("Leave page")
       if(this.hasEditRights) {
         this.$store.dispatch('releaseEditRights', {
-          tripId: this.tripProp.tripId
+          tripId: this.tripId
         })
       }
       else {
         this.$store.dispatch('cancelEditRequest', {
-          tripId: this.tripProp.tripId,
+          tripId: this.tripId,
           userId: this.getAuthUserId
         })
       }
@@ -93,34 +119,36 @@ export default {
     if(this.tripProp) {
       this.setSpecificTrip(this.tripProp)
     }
+    else 
+      this.$store.dispatch('fillSpecificTrip', {tripId: this.tripId})
 
     this.$store.dispatch('requestTripEdit', {
-      tripId: this.tripProp.tripId,
+      tripId: this.tripId,
       userId: this.getAuthUserId
     }).then(() => {
       this.$store.dispatch('fillTripLocations', {
-        tripId: this.tripProp.tripId
+        tripId: this.tripId
       }).then(() => {
         this.$store.dispatch('fillTripAddOns', {
-          tripId: this.tripProp.tripId
+          tripId: this.tripId
         })
       })
     })
-    
-    this.$travelPlanHub.JoinTripGroup(this.tripProp.tripId)
   },
-  destroyed() {
+  beforeDestroy() {
     if(this.hasEditRights) {
       this.$store.dispatch('releaseEditRights', {
-        tripId: this.tripProp.tripId
+        tripId: this.tripId
       })
     }
     else {
+      this.$travelPlanHub.LeaveTripGroup(this.tripId)
       this.$store.dispatch('cancelEditRequest', {
-        tripId: this.tripProp.tripId,
+        tripId: this.tripId,
         userId: this.getAuthUserId
       })
     }
+    this.setSpecificTrip(null)
     window.removeEventListener('beforeunload', this.leavePage)
   }
 }

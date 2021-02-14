@@ -75,6 +75,7 @@ export default {
     saveEdit() {
       this.editingAccommodation.tripId = this.tripId
       this.$store.dispatch('putEditAccommodation', this.editingAccommodation)
+      this.$travelPlanHub.$emit('EditAccommodation', this.editingAccommodation)
       this.toggleEditMode()
     }
   }

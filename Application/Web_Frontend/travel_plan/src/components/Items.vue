@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 wrapper">
+  <div class="col-12 wrapper" v-if="specificTrip">
     <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
       Items:
     </div>
@@ -7,20 +7,24 @@
       <ItemBox :itemProp="item"/>
     </div>
   </div>
+  <Spinner v-else />
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex"
 import ItemBox from "@/components/ItemBox.vue"
+import Spinner from "@/components/Spinner.vue"
 
 export default {
   components: {
-    ItemBox
+    ItemBox,
+    Spinner
   },
   computed: {
     ...mapGetters({
       isDataLoaded: 'getIsDataLoaded',
-      tripItems: 'getSpecificTripItems'
+      tripItems: 'getSpecificTripItems',
+      specificTrip: 'getSpecificTrip'
     })
   },
   methods: {

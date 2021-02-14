@@ -17,8 +17,8 @@
         <b-card-text>
           <span v-if="!inEditMode">{{item.amount}} {{item.unit}}</span>
           <span v-else>
-            <input type="number" v-model="item.amount">
-            <input type="text" v-model="item.unit">
+            <input type="number" v-model="editingItem.amount">
+            <input type="text" v-model="editingItem.unit">
           </span>
         </b-card-text>
         <b-card-text>
@@ -65,6 +65,7 @@ export default {
     },
     saveEdit() {
       this.$store.dispatch('putEditItemInfo', this.editingItem)
+      this.$travelPlanHub.$emit('EditItem', this.editingItem)
       this.toggleEditMode()
     }
   }

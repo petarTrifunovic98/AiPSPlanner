@@ -101,6 +101,7 @@ export default {
     },
     saveEdit() {
       this.$store.dispatch('putEditLocation', this.editingLocation)
+      this.$travelPlanHub.$emit('EditLocation', this.editingLocation)
       this.toggleEditMode()
     }
   }
