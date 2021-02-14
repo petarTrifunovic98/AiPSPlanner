@@ -36,7 +36,11 @@ namespace TravelPlan.DTOs.Profiles
 
             CreateMap<UserEditDTO, User>();
 
-            CreateMap<User, UserAuthenticateResponseDTO>();
+            CreateMap<User, UserAuthenticateResponseDTO>()
+                .ForMember(dest =>
+                    dest.Picture,
+                    opt => opt.MapFrom(
+                        src => PictureManagerService.LoadImageFromFile(src.Picture)));
         }
     }
 }
