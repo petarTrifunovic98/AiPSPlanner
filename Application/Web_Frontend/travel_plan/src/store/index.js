@@ -19,7 +19,10 @@ export default new Vuex.Store({
     specificTrip: null,
     tripLocations: null,
     tripAddOns: null,
-    notificationNumber: -1
+    notificationNumber: -1,
+    user: null,
+    wrongOriginalPass: false,
+    myItems: null
   },
   getters: {
     getIsDataLoaded: state => {
@@ -662,6 +665,25 @@ export default new Vuex.Store({
       }).catch(err => console.log(err))
     },
 
+    getUserInfo({commit}, payload)
+    {
+      fetch("https://" + this.state.host + ":44301/api/user/get-user/" + payload.userId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            this.state.user = data
+          })
+        }
+        else {
+        }
+      }).catch(err => console.log(err))
+    },
+
     getNotificationNumber(){
       fetch("https://" + this.state.host + ":44301/api/notifications/get-notification-number/" + this.state.authUser.userId, {
         method: "GET",
@@ -699,6 +721,8 @@ export default new Vuex.Store({
             this.state.hasEditRights = false
             this.state.specificTrip = null
             this.state.tripAddOns = []
+            this.state.user = null
+            this.state.myItems = null
 
             Vue.cookie.delete('id');
             Vue.cookie.delete('token');
@@ -707,6 +731,90 @@ export default new Vuex.Store({
         else {
         }
       }).catch(err => console.log(err))
+    },
+
+    editUser({commit}, {pictureChanged}) {
+      fetch("https://" + this.state.host + ":44301/api/user/edit-info/", {
+          method: 'PUT',
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": this.state.token
+          },
+          body: JSON.stringify({
+              "UserId": this.state.authUser.userId,
+              "Name": this.state.authUser.name,
+              "LastName": this.state.authUser.lastName,
+              "Picture": pictureChanged ? this.state.authUser.picture : null
+          })
+      }).then(p => {
+
+          if(p.ok) {
+              p.json().then(data=> {
+                  //console.log(data)
+                  //console.log(this.state.authUser)
+              })
+          }
+          else {
+              //console.log("error")
+          }
+
+      })
+    },
+
+    changePassword({commit}, {newPassword, oldPassword})
+    {
+      this.state.isDataLoaded = false
+      fetch("https://" + this.state.host + ":44301/api/user/change-password", {
+          method: 'PUT',
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": this.state.token
+          },
+          body: JSON.stringify({
+              "UserId": this.state.authUser.userId,
+              "OldPassword": oldPassword,
+              "NewPassword": newPassword
+          })
+      }).then(p => {
+
+          if(p.ok) {
+            this.state.isDataLoaded = true
+            this.state.wrongOriginalPass = false
+            router.push("/");
+            router.push({name: "PageViewProfile", 
+              params: {
+                id: this.state.authUser.userId, 
+                user: this.state.authUser
+            }})
+          }
+          else {
+              this.state.isDataLoaded = true
+              this.state.wrongOriginalPass = true
+          }
+
+      })
+    },
+
+    fillMyItems({commit})
+    {
+      commit("setDataLoaded", false)
+      fetch("https://" + this.state.host + ":44301/api/item/get-items/user/" + this.state.authUser.userId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setDataLoaded", true)
+            this.state.myItems = data
+          })
+        }
+        else {
+          commit("setDataLoaded", true)
+        }
+      })
     }
   },
   modules: {

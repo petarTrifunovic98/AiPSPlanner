@@ -10,6 +10,12 @@
             <router-link :to="goToProfile()" >
               <li class="stavka-navigacije"> Profile </li>
             </router-link>
+            <router-link :to="'/'" >
+              <li class="stavka-navigacije"> My trips </li>
+            </router-link>
+            <router-link :to="'/items'" >
+              <li class="stavka-navigacije"> My items </li>
+            </router-link>
             <li class="stavka-navigacije" @click="odjaviSe"> Log out </li>
           </ul>
         </div>
@@ -76,7 +82,7 @@
         return {
             name: "PageViewProfile", 
             params: {
-                id: this.$store.state.authUser.id, 
+                id: this.$store.state.authUser.userId, 
                 user: this.$store.state.authUser
             }
         }

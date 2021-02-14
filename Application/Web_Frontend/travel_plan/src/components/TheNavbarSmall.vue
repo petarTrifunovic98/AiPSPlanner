@@ -24,6 +24,14 @@
                                 <img src = "../assets/profile.svg">
                                 <span class = "ikonica"> Profile </span>
                             </router-link>
+                            <router-link :to="'/'" class="dropdown-item">
+                                <img src = "../assets/map.svg" class="slicshka">
+                                <span class = "ikonica"> My trips </span>
+                            </router-link>
+                            <router-link :to="'/items'" class="dropdown-item">
+                                <img src = "../assets/checklist.svg" class="slicshka">
+                                <span class = "ikonica"> My items </span>
+                            </router-link>
                             <div class="dropdown-divider"></div>
                             <a @click="odjaviSe" class="dropdown-item">
                                 <img src = "../assets/logout.svg">
@@ -72,7 +80,7 @@ export default {
         return {
             name: "PageViewProfile", 
             params: {
-                id: this.$store.state.authUser.id, 
+                id: this.$store.state.authUser.userId, 
                 user: this.$store.state.authUser
             }
         }
@@ -181,5 +189,10 @@ export default {
         margin-top: 9px;
         height: 12px;
         width: 12px;
+    }
+    .slicshka
+    {
+        width: 23px;
+        height: 23px;
     }
 </style>
