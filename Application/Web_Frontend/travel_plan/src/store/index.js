@@ -22,7 +22,9 @@ export default new Vuex.Store({
     notificationNumber: -1,
     user: null,
     wrongOriginalPass: false,
-    myItems: null
+    myItems: null,
+    myTeams: null,
+    notifications: null
   },
   getters: {
     getIsDataLoaded: state => {
@@ -723,6 +725,8 @@ export default new Vuex.Store({
             this.state.tripAddOns = []
             this.state.user = null
             this.state.myItems = null
+            this.state.myTeams = null
+            this.state.notifications = null
 
             Vue.cookie.delete('id');
             Vue.cookie.delete('token');
@@ -813,6 +817,68 @@ export default new Vuex.Store({
         }
         else {
           commit("setDataLoaded", true)
+        }
+      })
+    },
+
+    fillNotifications({commit})
+    {
+      commit("setDataLoaded", false)
+      fetch("https://" + this.state.host + ":44301/api/notifications/get-user-notifications/" + this.state.authUser.userId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setDataLoaded", true)
+            this.state.notifications = data
+          })
+        }
+        else {
+          commit("setDataLoaded", true)
+        }
+      })
+    },
+
+    seenNotifications()
+    {
+      fetch("https://" + this.state.host + ":44301/api/notifications/seen-notifications/" + this.state.authUser.userId, {
+        method: "PUT",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("seen notifications")
+          })
+        }
+        else {
+         console.log("Error seeing notifications")
+        }
+      })
+    },
+
+    deleteSeenNotifications({commit}, itemRelated)
+    {
+      fetch("https://" + this.state.host + ":44301/api/notifications/delete-seen/" + this.state.authUser.userId + "/" + itemRelated, {
+        method: "DELETE",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("delete notifications")
+          })
+        }
+        else {
+         console.log("Error deleting notifications")
         }
       })
     }

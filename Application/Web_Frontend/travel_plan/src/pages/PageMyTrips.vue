@@ -58,6 +58,7 @@ export default {
     {
         this.$store.dispatch("getNotificationNumber")
     }
+    this.$store.dispatch('deleteSeenNotifications', false)
   },
   // watch: {
   //   $route() {

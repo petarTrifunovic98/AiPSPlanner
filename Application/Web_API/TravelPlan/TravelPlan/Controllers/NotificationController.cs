@@ -59,7 +59,7 @@ namespace TravelPlan.API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("seen-notifications/{userId}")]
         public async Task<ActionResult> SeenMyNotifications(int userId)
         {
@@ -73,7 +73,7 @@ namespace TravelPlan.API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("seen-a-notification/{notificationId}")]
         public async Task<ActionResult> SeenANotification(int notificationId)
         {

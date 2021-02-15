@@ -2,7 +2,7 @@
     <Spinner v-if="!isDataLoaded" />
     <div class = "wrapper" v-else>
         <div class = "items">
-            <span v-if="ItemList.length == 0" class="no-items"> You currently have no assigned items </span>
+            <span v-if="TeamList.length == 0" class="no-items"> You currently have no assigned items </span>
             <table class="table smanji" v-else>
                 <thead>
                     <tr>
@@ -45,9 +45,9 @@ export default {
     },
     computed:
     {
-        ItemList()
+        TeamList()
         {
-            return this.$store.state.myItems
+            return this.$store.state.myTeams
         },
         isDataLoaded()
         {
@@ -58,22 +58,15 @@ export default {
     {
         goToTrip(tripId)
         {
-            this.$router.push(
-            {
-                name: "PageSpecificTrip", 
-                params: {
-                    id: tripId
-                }
-            })
+
         }
     },
     created()
     {
-        if(this.ItemList == null)
+        if(this.TeamList == null)
         {
-            this.$store.dispatch('fillMyItems')
+            this.$store.dispatch('fillMyTeams')
         }
-        this.$store.dispatch('deleteSeenNotifications', true)
     }
 }
 </script>
