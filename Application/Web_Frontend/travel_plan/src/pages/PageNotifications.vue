@@ -37,6 +37,7 @@ export default {
             this.$store.dispatch("fillNotifications");
         }
         this.$store.dispatch("seenNotifications");
+        this.$store.state.notificationNumber = 0
     }
 }
 </script>
