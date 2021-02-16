@@ -1,10 +1,12 @@
 <template>
-  <div class="col-12 wrapper" v-if="specificTrip">
-    <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
+  <div class="wrapper" v-if="specificTrip">
+    <div class="section-title">
       Items:
     </div>
-    <div v-for="item in tripItems" :key="item.itemId">
-      <ItemBox :itemProp="item"/>
+    <div style="display:flex; flex-wrap: wrap;">
+      <div v-for="item in tripItems" :key="item.itemId">
+        <ItemBox :itemProp="item"/>
+      </div>
     </div>
   </div>
   <Spinner v-else />
@@ -59,5 +61,17 @@ export default {
 <style scoped>
 .wrapper {
   width:100%;
+}
+
+.section-title {
+  width:100%; 
+  border:3px solid lightskyblue; 
+  border-top-left-radius:20px; 
+  border-top-right-radius:20px; 
+  border-radius: 20px;
+  margin-bottom:10px; 
+  font-weight: bold; 
+  font-size: 20px;
+  padding: 0px 20px;
 }
 </style>

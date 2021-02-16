@@ -1,34 +1,32 @@
 <template>
-  <div v-if="isDataLoaded" class="row">
-    <div class="col-4" >
-      <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
-        Basic info:
-      </div>
+  <div v-if="isDataLoaded" class="main-wrap">
+    <div class="a-row primary-row">
       <BasicInfo :tripInfo="tripInfo" v-if="tripInfo"/>
-      <AddOns :tripId="parseInt(tripId)"/>
-    </div>
-    <div class="col-4" >
-      <Locations/>
-    </div>
-    <div class="col-4" >
-      <Items/>
       <Travelers/>
     </div>
+    <div class="a-row" >
+      <AddOns :tripId="parseInt(tripId)"/>
+    </div>
+    <div class="a-row" >
+      <Locations/>
+    </div>
+    <div class="a-row" >
+      <Items/>
+    </div>
   </div>
-  <div v-else>
-    <div>Loading...</div>
-  </div>
+  <Spinner v-else />
 </template>
 
 <script>
 import * as signalR from '@aspnet/signalr'
+import { mapGetters, mapMutations } from "vuex"
 import BasicInfo from "@/components/BasicInfo.vue"
 import AppendOnlyList from "@/components/AppendOnlyList.vue"
 import Locations from "@/components/Locations.vue"
 import Items from "@/components/Items.vue"
 import AddOns from "@/components/AddOns.vue"
 import Travelers from "@/components/Travelers.vue"
-import { mapGetters, mapMutations } from "vuex"
+import Spinner from "@/components/Spinner.vue"
 
 export default {
   components: {
@@ -37,7 +35,8 @@ export default {
     Locations,
     Items,
     AddOns,
-    Travelers
+    Travelers,
+    Spinner
   },
   props: {
     tripProp: {
@@ -155,5 +154,26 @@ export default {
 </script>
 
 <style scoped>
+
+.main-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.a-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 20px;
+  border-radius: 20px;
+  margin: 30px 5%;
+  align-items: center;
+  box-shadow: 5px 10px 10px lightgray;
+}
+
+.primary-row {
+  border-top: 30px solid lightskyblue;
+  border-bottom: 30px solid lightskyblue;
+}
 
 </style>
