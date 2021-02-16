@@ -828,6 +828,27 @@ export default new Vuex.Store({
       })
     },
 
+    fillMyTeams({commit}){
+      commit("setDataLoaded", false)
+      fetch("https://" + this.state.host + ":44301/api/team/get-teams/user/" + this.state.authUser.userId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setDataLoaded", true)
+            this.state.myTeams = data
+          })
+        }
+        else {
+          commit("setDataLoaded", true)
+        }
+      })
+    },
+
     fillNotifications({commit})
     {
       commit("setDataLoaded", false)
@@ -932,7 +953,7 @@ export default new Vuex.Store({
         }
       })
     },
-
+    
     postAddItem({commit}, newItem) {
       fetch("https://" + this.state.host + ":44301/api/item/create-item/", {
         method: 'POST',
@@ -1008,6 +1029,70 @@ export default new Vuex.Store({
         }
         else {
           console.log(response)
+          }
+        })
+      }
+    },
+
+    createTeam({commit}, payload)
+    {
+      fetch("https://" + this.state.host + ":44301/api/team/creator/" + this.state.authUser.userId + "/create-team", {
+        method: 'POST',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify({
+          "name": payload.name
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            if(this.state.myTeams != null)
+              this.state.myTeams.push(data);
+          })
+        }
+        else {
+          }
+      })
+    },
+    
+    editTeamInfo({commit}, payload)
+    {
+      fetch("https://" + this.state.host + ":44301/api/team/edit-info", {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify({
+          "name": payload.name,
+          "teamId": payload.teamId
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("ok")
+          })
+        }
+        else {
+          }
+      })
+    },
+  
+    leaveTeam({commit}, payload)
+    {
+      fetch("https://" + this.state.host + ":44301/api/team/remove-user/" + payload.teamId + "/" + this.state.authUser.userId, {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          console.log("left team")
+        }
+        else {
         }
       })
     }

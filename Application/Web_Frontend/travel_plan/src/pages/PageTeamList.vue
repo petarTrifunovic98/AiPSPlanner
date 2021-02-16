@@ -1,47 +1,25 @@
 <template>
     <Spinner v-if="!isDataLoaded" />
     <div class = "wrapper" v-else>
-        <div class = "items">
-            <span v-if="TeamList.length == 0" class="no-items"> You currently have no assigned items </span>
-            <table class="table smanji" v-else>
-                <thead>
-                    <tr>
-                        <th  class="poravnanje" scope="col"><span>Name</span></th>
-                        <th  class="poravnanje" scope="col"><span>Amount</span></th>
-                        <th  class="poravnanje" scope="col"><span>Unit</span></th>
-                        <th  class="poravnanje" scope="col"><span>Checked</span></th>
-                        <th  class="poravnanje" scope="col"><span></span></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in ItemList" :key="item.itemId">
-                        <td class="poravnanje"> <span  v-b-popover.hover.bottom="item.description"> {{item.name}} </span> </td>
-                        <td class="poravnanje">
-                            <span> {{item.amount}} </span>
-                        </td>
-                        <td class="poravnanje">
-                            <span> {{item.unit}} </span>
-                        </td>
-                        <td class="poravnanje">
-                            <img src="../assets/finished.svg" v-if="item.checked"/>
-                            <img src="../assets/failed.svg" v-else/>
-                        </td>
-                        <td class="poravnanje">
-                            <a @click="goToTrip(item.tripId)"><img src="../assets/trip.svg" v-b-popover.hover.top="'Trip: ' + item.trip.name + '. Click to go to trip page for more info.'" class="ikonica"/></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="novi-tim">
+            <NewTeam />
+        </div>
+        <div class="timovi">
+            <TeamList :editable="true"/>
         </div>
     </div>
 </template>
 
 <script>
 import Spinner from "@/components/Spinner"
+import NewTeam from "@/components/NewTeam"
+import TeamList from "@/components/TeamList"
 export default {
     components:
     {
-        Spinner
+        Spinner,
+        NewTeam,
+        TeamList
     },
     computed:
     {
@@ -52,13 +30,6 @@ export default {
         isDataLoaded()
         {
             return this.$store.state.isDataLoaded
-        }
-    },
-    methods:
-    {
-        goToTrip(tripId)
-        {
-
         }
     },
     created()
@@ -72,16 +43,26 @@ export default {
 </script>
 
 <style scoped>
-.wrapper
-  {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding-top: 20px;
-    padding-left:10px;
-    padding-right:10px;
-  }
+    .wrapper
+    {
+        padding-top:10px;
+        padding-bottom: 10px;
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+    }
+    .timovi
+    {
+        width: 94%;
+    }
+    .novi-tim
+    {
+        width: 420px;
+        margin-top: 100px;
+        padding:15px
+    }
   
   .body {
     background-color: #f8f9fa!important;
@@ -123,15 +104,19 @@ export default {
         height: 28px;
     }
 
-    @media only screen and (max-width: 440px)
+    @media only screen and (max-width: 1100px)
     {
-        .smanji
+        .wrapper
         {
-            font-size: 12px;
+            flex-direction: column;
+            align-content: center;
+            align-items: center;
         }
-        .labelDiv
+        .novi-tim
         {
-            font-size:16px; 
+            width: 90%;
+            margin-top:20px;
+            padding:0px;
         }
     }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="col-12 wrapper">
-    <img :src="'data:;base64,' + travelerProp.picture" v-if="travelerProp.picture" class="rounded-image">
-    <img :src="require('../assets/no-picture.png')" v-else class="rounded-image">
-     {{travelerProp.name}} {{travelerProp.lastName}}
+    <img :src="'data:;base64,' + travelerProp.picture" v-if="travelerProp.picture" class="rounded-image" v-b-popover.hover.right="travelerProp.username">
+    <img :src="require('../assets/no-picture.png')" v-else class="rounded-image" v-b-popover.hover.right="travelerProp.username">
+    <span> {{travelerProp.name}} {{travelerProp.lastName}} </span>
   </div>
 </template>
 

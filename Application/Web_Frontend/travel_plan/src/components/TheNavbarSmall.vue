@@ -32,6 +32,10 @@
                                 <img src = "../assets/checklist.svg" class="slicshka">
                                 <span class = "ikonica"> My items </span>
                             </router-link>
+                            <router-link :to="'/teams'" class="dropdown-item">
+                                <img src = "../assets/team.svg" class="slicshka">
+                                <span class = "ikonica"> My teams </span>
+                            </router-link>
                             <div class="dropdown-divider"></div>
                             <a @click="odjaviSe" class="dropdown-item">
                                 <img src = "../assets/logout.svg">

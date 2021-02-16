@@ -16,6 +16,9 @@
             <router-link :to="'/items'" >
               <li class="stavka-navigacije"> My items </li>
             </router-link>
+            <router-link :to="'/teams'" >
+              <li class="stavka-navigacije"> My teams </li>
+            </router-link>
             <li class="stavka-navigacije" @click="odjaviSe"> Log out </li>
           </ul>
         </div>
