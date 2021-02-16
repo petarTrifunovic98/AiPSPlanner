@@ -10,6 +10,7 @@ import PageNotFound from "../pages/PageNotFound.vue"
 import PageViewProfile from "../pages/PageViewProfile.vue"
 import PageItemList from "../pages/PageItemList.vue"
 import PageNotifications from "../pages/PageNotifications.vue"
+import PageTeamList from "../pages/PageTeamList.vue"
 import store from "@/store"
 
 Vue.use(VueRouter)
@@ -67,6 +68,18 @@ const routes = [
     path: "/items",
     name: "PageItemList",
     component: PageItemList,
+    beforeEnter(to,from,next)
+    {
+        if(store.state.isLogedIn)
+            next()
+        else
+            next({name: 'PageNotAuthenticated'})
+    }
+  },
+  {
+    path: "/teams",
+    name: "PageTeamList",
+    component: PageTeamList,
     beforeEnter(to,from,next)
     {
         if(store.state.isLogedIn)
