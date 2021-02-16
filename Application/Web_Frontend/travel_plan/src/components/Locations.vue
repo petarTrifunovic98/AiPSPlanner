@@ -3,9 +3,13 @@
     <div class="section-title">
       Locations:
     </div>
+    <button style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" @click="addFormOpen = !addFormOpen" v-text="addFormOpen ? 'Hide form' : 'Add a new location'"></button>
+    <div style="width: fit-content;" v-if="addFormOpen">
+      <LocationBox :modeAddNew="true"/>
+    </div>
     <div style="display:flex; flex-wrap: wrap;">
       <div v-for="location in tripLocations" :key="location.locationId">
-        <LocationBox :locationProp="location"/>
+        <LocationBox :locationProp="location" :modeAddNew="false"/>
       </div>
     </div>
   </div>
@@ -22,11 +26,17 @@ export default {
     LocationBox,
     Spinner
   },
+  data() {
+    return {
+      addFormOpen: false
+    }
+  },
   computed: {
     ...mapGetters({
       isDataLoaded: 'getIsDataLoaded',
       tripLocations: 'getSpecificTripLocations',
-      specificTrip: 'getSpecificTrip'
+      specificTrip: 'getSpecificTrip',
+      hasEditRights: 'getHasEditRights'
     })
   },
   methods: {
