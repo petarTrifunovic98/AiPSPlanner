@@ -925,6 +925,46 @@ export default new Vuex.Store({
         else {
         }
       })
+    },
+
+    editTeamInfo({commit}, payload)
+    {
+      fetch("https://" + this.state.host + ":44301/api/team/edit-info", {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify({
+          "name": payload.name,
+          "teamId": payload.teamId
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("ok")
+          })
+        }
+        else {
+        }
+      })
+    },
+
+    leaveTeam({commit}, payload)
+    {
+      fetch("https://" + this.state.host + ":44301/api/team/remove-user/" + payload.teamId + "/" + this.state.authUser.userId, {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          console.log("left team")
+        }
+        else {
+        }
+      })
     }
   },
   modules: {

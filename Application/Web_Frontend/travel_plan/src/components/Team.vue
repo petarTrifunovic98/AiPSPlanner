@@ -1,7 +1,17 @@
 <template>
     <div class="userService">
         <div class="telo">
-            <div class="ime-tima"> {{team.name}} </div>
+            <div class="ime-tima"> 
+                <span v-if="!isEditing"> {{team.name}} </span>
+                <input v-model="newName" v-else class="unos">
+                <a v-if="!isEditing" @click="isEditing = true"> <img  class = "slika" src="../assets/edit_black.svg"> </a>
+                <button type="button" :disabled="invalidNewName" class="btn btn-success dugme" v-if="isEditing" @click="saveChanges">
+                    <img src="../assets/finished.svg"> 
+                </button>
+                <button type="button" class="btn btn-danger dugme" v-if="isEditing" @click="cancel">
+                    <img src="../assets/failed.svg"> 
+                </button>
+            </div>
             <div class="members"> 
                 <div v-for="traveler in team.members" :key="traveler.userId">
                     <b-card-text class="common-header">
@@ -15,8 +25,15 @@
                     </b-card-text>
                 </div>
             </div>
+            <div class="dugmici">
+                <button type="button" class="btn btn-primary dugmeS" @click="addMember">
+                    <img  class = "ikonica" src="../assets/plus.png">
+                    Add member
+                </button>
+                <button type="button" class="btn btn-danger dugmeS" @click="showModal = true">Leave team</button>
+            </div>
         </div>
-        <ModalAreYouSure :naslov="'Leaving the team'"
+        <ModalAreYouSure :naslov="'Leave the team'"
                          :tekst="'Are you sure you want to leave this team?'"
                          @close="showModal = false" @yes="leaveTeam" v-if="showModal"/>
     </div>
@@ -42,7 +59,16 @@ export default {
     data()
     {
         return{
-            showModal: false
+            showModal: false,
+            isEditing: false,
+            newName: this.team.name
+        }
+    },
+    computed:
+    {
+        invalidNewName()
+        {
+            return !this.newName
         }
     },
     methods:
@@ -61,21 +87,27 @@ export default {
         },
         saveChanges()
         {
-            this.userService.max_dist = this.maxDist
-            this.userService.min_rating = this.minRating
-            this.userService.payment_ammount = this.paymentAmount
-            this.userService.payment_type = this.paymentType
             this.isEditing = false
-            console.log(this.userService)
-            this.$store.dispatch("updateUserService", this.userService)
+            this.team.name = this.newName
+            this.$store.dispatch("editTeamInfo", {name: this.newName, teamId: this.team.teamId})
         },
         cancel()
         {
-            this.maxDist = this.userService.max_dist
-            this.scale = (this.userService.min_rating - 1) * 25
-            this.paymentAmount = this.userService.payment_ammount
-            this.paymentType = this.userService.payment_type
             this.isEditing = false
+            this.newName = this.team.name
+        },
+        leaveTeam()
+        {
+            this.$store.state.myTeams.forEach((team, index) =>
+            {
+                if(team.teamId == this.team.teamId)
+                    this.$store.state.myTeams.splice(index,1)
+            })
+            this.$store.dispatch("leaveTeam", {teamId: this.team.teamId})
+        },
+        addMember()
+        {
+
         }
     }  
 }
@@ -144,14 +176,14 @@ export default {
         font-weight: 750;
         color: rgb(48, 89, 165);
     }
-    .grid-div
+    .dugmici
     {
-        margin-left: 15px;
-        height: 150px;
-        width: 295px;
-        padding-top: 7px;
+        margin-top: 15px;
+        width: 100%;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
     }
     .row-div
     {
@@ -180,13 +212,13 @@ export default {
         flex-direction: row;
         justify-content: center;
     }
-    .dugmeS
+    .dugme
     {
-        height: 25px;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 25px;
-        padding-top: 0px;
+        margin-left: 10px;
+        width: 40px;
+        padding: 0px;
+        padding-top: 3px;
+        padding-bottom: 3px;
     }
     .input-polje
     {
@@ -195,15 +227,16 @@ export default {
         text-align: center;
         height: 25px;
     }
-    .vece
+    .unos
     {
-        width:80px;
+        width:80%;
     }
     
-    .skala
+    .slika
     {
-        width:100px;
-        margin-right: 7px;
+        width:18px;
+        height:18px;
+        margin-left: 20px;
     }
 
     .ime-tima
@@ -213,6 +246,11 @@ export default {
         font-weight: 700;
         padding: 7px;
         width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 5px;
     }
 
     .members
@@ -221,6 +259,13 @@ export default {
         flex-direction: column;
         align-items: flex-start;
         width: 100%;
+    }
+
+    .ikonica
+    {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
     }
     @media only screen and (max-width: 450px)
     {
