@@ -3,9 +3,13 @@
     <div class="section-title">
       Items:
     </div>
+    <button style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" @click="addFormOpen = !addFormOpen" v-text="addFormOpen ? 'Hide form' : 'Add a new item'"></button>
+    <div style="width: fit-content;" v-if="addFormOpen">
+      <ItemBox :modeAddNew="true" @addedNew="addFormOpen = false"/>
+    </div>
     <div style="display:flex; flex-wrap: wrap;">
       <div v-for="item in tripItems" :key="item.itemId">
-        <ItemBox :itemProp="item"/>
+        <ItemBox :itemProp="item" :modeAddNew="false"/>
       </div>
     </div>
   </div>
@@ -22,11 +26,17 @@ export default {
     ItemBox,
     Spinner
   },
+  data() {
+    return {
+      addFormOpen: false
+    }
+  },
   computed: {
     ...mapGetters({
       isDataLoaded: 'getIsDataLoaded',
       tripItems: 'getSpecificTripItems',
-      specificTrip: 'getSpecificTrip'
+      specificTrip: 'getSpecificTrip',
+      hasEditRights: 'getHasEditRights'
     })
   },
   methods: {

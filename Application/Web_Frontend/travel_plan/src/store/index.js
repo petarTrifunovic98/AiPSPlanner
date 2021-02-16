@@ -48,6 +48,9 @@ export default new Vuex.Store({
     getSpecificTrip: state => {
       return state.specificTrip
     },
+    getSpecificTripId: state => {
+      return state.specificTrip.tripId
+    },
     getSpecificTripBasicInfo: state => {
       return {
         tripId: state.specificTrip.tripId,
@@ -160,6 +163,10 @@ export default new Vuex.Store({
         state.specificTrip.itemList[itemIndex].description = item.description
         state.specificTrip.itemList[itemIndex].amount = item.amount
         state.specificTrip.itemList[itemIndex].unit = item.unit
+        state.specificTrip.itemList[itemIndex].userId = item.userId
+        state.specificTrip.itemList[itemIndex].checked = item.checked
+        if(item.user)
+          state.specificTrip.itemList[itemIndex].user = item.user
       }
     },
     removeItemFromSpecificTrip(state, itemId) {
@@ -904,6 +911,129 @@ export default new Vuex.Store({
       })
     },
 
+    postAddLocation({commit}, newLocation) {
+      fetch("https://" + this.state.host + ":44301/api/location/create-location/", {
+        method: 'POST',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify({
+          "name": newLocation.name,
+          "description": newLocation.description,
+          "latitude": newLocation.latitude,
+          "longitude": newLocation.longitude,
+          "from": newLocation.from,
+          "to": newLocation.to,
+          "tripId": newLocation.tripId
+        })
+      }).then(response => {
+        if(response.ok) {
+          console.log("Location added")
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    deleteLocation({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/location/delete-location/" + payload.locationId + "/" + payload.tripId, {
+        method: 'DELETE',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          console.log("Location deleted")
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+    
+    postAddItem({commit}, newItem) {
+      fetch("https://" + this.state.host + ":44301/api/item/create-item/", {
+        method: 'POST',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify({
+          "name": newItem.name,
+          "description": newItem.description,
+          "amount": newItem.amount,
+          "unit": newItem.unit,
+          "userId": newItem.userId,
+          "tripId": newItem.tripId
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("Item added")
+            commit("addItemToSpecificTrip", data)
+          })
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    deleteItem({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/item/delete-item/" + payload.itemId + "/" + payload.tripId, {
+        method: 'DELETE',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          console.log("Item deleted")
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    putChangeItemUser({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/item/change-user/" + payload.itemId + "/" + payload.newUserId + "/" + payload.tripId, {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          console.log("Item user changed")
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    putChangeCheckedItem({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/item/change-checked/" + payload.itemId + "/" + payload.tripId, {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          console.log("Item checked status changed")
+        }
+        else {
+          console.log(response)
+          }
+        })
+      }
+    },
+
     createTeam({commit}, payload)
     {
       fetch("https://" + this.state.host + ":44301/api/team/creator/" + this.state.authUser.userId + "/create-team", {
@@ -923,10 +1053,10 @@ export default new Vuex.Store({
           })
         }
         else {
-        }
+          }
       })
     },
-
+    
     editTeamInfo({commit}, payload)
     {
       fetch("https://" + this.state.host + ":44301/api/team/edit-info", {
@@ -946,10 +1076,10 @@ export default new Vuex.Store({
           })
         }
         else {
-        }
+          }
       })
     },
-
+  
     leaveTeam({commit}, payload)
     {
       fetch("https://" + this.state.host + ":44301/api/team/remove-user/" + payload.teamId + "/" + this.state.authUser.userId, {

@@ -217,7 +217,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.Save();
 
                 ItemDTO retItem = _mapper.Map<Item, ItemDTO>(item);
-                await _messageControllerService.NotifyOnTripChanges(item.TripId, "AddItem", retItem);
+                await _messageControllerService.NotifyOnTripChanges(item.TripId, "EditItem", retItem);
                 NotificationItemDTO notificationItem = new NotificationItemDTO()
                 {
                     Notification = _mapper.Map<Notification, NotificationDTO>(notification),
