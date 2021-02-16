@@ -1,28 +1,36 @@
 <template>
-  <div class="col-12 wrapper" v-if="specificTrip">
+  <div class="wrapper" v-if="specificTrip">
     <div>
-      <b-card
+      <div
         tag="article"
-        style="max-width: 20rem;"
-        class="mb-2"
       >
         <b-card-title>
-          <span v-if="!inEditMode">{{tripInfo.name}}</span>
-          <input type="text" v-model="editingInfo.name" v-else>
+          <span v-if="!inEditMode" class="big-text">{{tripInfo.name}}</span>
+          <b-form-input type="text" v-model="editingInfo.name" v-else style="width:fit-content;"></b-form-input>
         </b-card-title>
         <b-card-text>
           <span v-if="!inEditMode">{{tripInfo.description}}</span>
-          <textarea v-else v-model="editingInfo.description"></textarea>
+          <b-form-textarea v-else v-model="editingInfo.description" rows="3" no-resize style="width:fit-content;"></b-form-textarea>
         </b-card-text>
-        <b-card-text>
+        <b-card-text style="display:flex; align-items:center;">
+          <img src="../assets/calendar.svg" style="height:20px; width:20px; margin-right:10px;">
           <span v-if="!inEditMode">{{tripInfo.from | showTime}} - {{tripInfo.to | showTime}}</span>
-          <input type="date" v-if="inEditMode" v-model="editingInfo.from">
-          <input type="date" v-if="inEditMode" v-model="editingInfo.to"> 
+          <div style="display:flex;" v-if="inEditMode">
+            <b-form-datepicker 
+              v-model="editingInfo.from" style="width:fit-content;" 
+              :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }">
+            </b-form-datepicker>
+            <span style="text-align:center; margin: 3px 3px 0px 3px;"> - </span>
+            <b-form-datepicker 
+              v-model="editingInfo.to" style="width:fit-content;"
+              :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }">
+            </b-form-datepicker>
+          </div>
         </b-card-text>
         <button type="button" class="btn btn-primary dugme" v-if="hasEditRights && !inEditMode" @click="toggleEditMode"> Edit </button>
         <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit"> Save </button>
         <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
-      </b-card>
+      </div>
     </div>
   </div>
   <Spinner v-else />
@@ -92,5 +100,15 @@ export default {
   width:48px;
   object-fit:cover;
   margin-bottom: 10px;
+}
+
+.wrapper {
+  margin: 20px;
+  flex-grow: 1;
+}
+
+.big-text {
+  font-weight: bold;
+  font-size: 30px;
 }
 </style>

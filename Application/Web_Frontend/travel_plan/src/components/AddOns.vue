@@ -1,10 +1,12 @@
 <template>
-  <div class="col-12 wrapper" v-if="tripAddOns">
-    <div style="margin-top:30px; font-weight: bold; font-size: 30px;">
-      Add-ons:
+  <div class="wrapper" v-if="tripAddOns">
+    <div class="section-title">
+      Add-ons
     </div>
-    <div v-for="addOn in tripAddOns" :key="addOn.addOnId">
-      <AddOnBox :addOnProp="addOn" :tripId="tripId" />
+    <div style="display:flex; flex-wrap: wrap;">
+      <div v-for="addOn in tripAddOns" :key="addOn.addOnId">
+        <AddOnBox :addOnProp="addOn" :tripId="tripId" :level="1" />
+      </div>
     </div>
   </div>
   <Spinner v-else />
@@ -69,5 +71,17 @@ export default {
 <style scoped>
 .wrapper {
   width:100%;
+}
+
+.section-title {
+  width:100%; 
+  border:3px solid lightskyblue; 
+  border-top-left-radius:20px; 
+  border-top-right-radius:20px; 
+  border-radius: 20px;
+  margin-bottom:10px; 
+  font-weight: bold; 
+  font-size: 20px;
+  padding: 0px 20px;
 }
 </style>
