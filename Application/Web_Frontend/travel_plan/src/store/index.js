@@ -1029,9 +1029,8 @@ export default new Vuex.Store({
         }
         else {
           console.log(response)
-          }
-        })
-      }
+        }
+      })
     },
 
     createTeam({commit}, payload)
@@ -1098,5 +1097,6 @@ export default new Vuex.Store({
     }
   },
   modules: {
+
   }
 })
