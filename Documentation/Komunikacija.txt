@@ -27,6 +27,16 @@ ChangeVotable			VotableDTO			Objekat koji sadrži Id votable-a za koji je odnos 
 
 
 
+- Notifikacije o promeni u timu - Grupa: "Team"+teamId
+
+
+Naziv				Prosleđena vrednost		Objašnjenje vraćene vrednosti
+_______________________________________________________________________________________________________________________________________
+EditTeamName			TeamEditDTO			Sadrži id tima i novo ime
+RemoveUserFromTeam		int				Id korisnika koji je napustio tim
+AddMemberToTeam			List<UserBasticDTO>		Lista korisnika dodatih u tim (nefiltrirana, ista priča kao za trip)
+
+
 
 - Notifikacije o promeni u item-ima - Grupa: "User"+userId
 
@@ -38,3 +48,4 @@ EditItemNotification		NotificationItemDTO		Slično kao metoda iznad samo se u it
 RemoveItemNotification		NotificationItemDeleteDTO	Nosi NotificationDTO objekat i id obrisanog itema	
 AddToTripNotification		NotificationTripDTO		Nosi NotificationDTO objekat i tripDTO objekat	
 EditRightsNotification		int				Id putovanja za koje je korisnik upravo dobio edit rights
+AddToTeamNotification		TeamDTO				DTO tima u koji je korisnik upravo dodat

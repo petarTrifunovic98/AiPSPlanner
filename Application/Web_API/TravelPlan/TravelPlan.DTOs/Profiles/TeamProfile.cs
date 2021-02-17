@@ -19,6 +19,7 @@ namespace TravelPlan.DTOs.Profiles
                 .ReverseMap();
 
             CreateMap<CreateTeamDTO, Team>();
+            CreateMap<Team, TeamEditDTO>();
         }
     }
 }

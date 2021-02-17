@@ -30,7 +30,11 @@ namespace TravelPlan.DTOs.Profiles
                     opt => opt.MapFrom(
                         src => PictureManagerService.LoadImageFromFile(src.Picture)));
 
-            CreateMap<User, UserBasicDTO>();
+            CreateMap<User, UserBasicDTO>()
+                .ForMember(dest =>
+                    dest.Picture,
+                    opt => opt.MapFrom(
+                        src => PictureManagerService.LoadImageFromFile(src.Picture)));
 
             CreateMap<UserRegisterDTO, User>();
 

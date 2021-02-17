@@ -107,7 +107,13 @@ export default {
         },
         addMember()
         {
-
+            this.$router.push({
+                name: "PageAddMember", 
+                params: {
+                    id: this.team.teamId, 
+                    type: "teams"
+                }
+            })
         }
     }  
 }

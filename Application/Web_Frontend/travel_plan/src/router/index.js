@@ -11,6 +11,7 @@ import PageViewProfile from "../pages/PageViewProfile.vue"
 import PageItemList from "../pages/PageItemList.vue"
 import PageNotifications from "../pages/PageNotifications.vue"
 import PageTeamList from "../pages/PageTeamList.vue"
+import PageAddMember from "../pages/PageAddMember.vue"
 import store from "@/store"
 
 Vue.use(VueRouter)
@@ -117,6 +118,19 @@ const routes = [
       path: "/profile/:id",
       name: "PageViewProfile",
       component: PageViewProfile,
+      props: true,
+      beforeEnter(to,from,next)
+      {
+          if(store.state.isLogedIn)
+              next()
+          else
+              next({name: 'PageNotAuthenticated'})
+      }
+  },
+  {
+      path: "/add-member/:type/:id",
+      name: "PageAddMember",
+      component: PageAddMember,
       props: true,
       beforeEnter(to,from,next)
       {

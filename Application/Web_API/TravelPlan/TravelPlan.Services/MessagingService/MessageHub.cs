@@ -26,6 +26,12 @@ namespace TravelPlan.Services.MessagingService
             return "Joined group \"User" + userId + "\"";
         }
 
+        public async Task<string> JoinTeamGroup(int teamId)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, "Team" + teamId);
+            return "Joined group \"Team" + teamId + "\"";
+        }
+
         public async Task<string> LeaveTripGroup(int tripId)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "Trip" + tripId);
@@ -36,6 +42,12 @@ namespace TravelPlan.Services.MessagingService
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "User" + userId);
             return "Left group \"User" + userId + "\"";
+        }
+
+        public async Task<string> LeaveTeamGroup(int teamId)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, "Team" + teamId);
+            return "Left group \"Team" + teamId + "\"";
         }
     }
 }

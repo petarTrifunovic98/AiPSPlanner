@@ -24,7 +24,8 @@ export default new Vuex.Store({
     wrongOriginalPass: false,
     myItems: null,
     myTeams: null,
-    notifications: null
+    notifications: null,
+    searchedUsers: null
   },
   getters: {
     getIsDataLoaded: state => {
@@ -734,6 +735,7 @@ export default new Vuex.Store({
             this.state.myItems = null
             this.state.myTeams = null
             this.state.notifications = null
+            this.state.searchedUsers = null
 
             Vue.cookie.delete('id');
             Vue.cookie.delete('token');
@@ -1092,6 +1094,100 @@ export default new Vuex.Store({
           console.log("left team")
         }
         else {
+        }
+      })
+    },
+
+    addUserToTeam({commit}, payload){
+      fetch("https://" + this.state.host + ":44301/api/team/add-user/" + payload.objectId + "/" + payload.memberId, {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("User added to team")
+            console.log(data)
+            this.state.myTeams.forEach((element, index) => {
+              if(element.teamId == payload.objectId)
+              {
+                this.state.myTeams[index].members = data.members;
+              }
+            });
+          })
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    addTeamToTeam({commit}, payload){
+      fetch("https://" + this.state.host + ":44301/api/team/add-team/" + payload.objectId + "/" + payload.memberId, {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("Team added to team")
+            console.log(data)
+            this.state.myTeams.forEach((element, index) => {
+              if(element.teamId == payload.objectId)
+              {
+                this.state.myTeams[index].members = data.members;
+              }
+            });
+          })
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    addUserToTrip({commit}, payload){
+      fetch("https://" + this.state.host + ":44301/api/trip/add-user/" + payload.objectId + "/" + payload.memberId, {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("User added to trip")
+            console.log(data)
+            // Add travelers to the right trip
+          })
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    addTeamToTrip({commit}, payload){
+      fetch("https://" + this.state.host + ":44301/api/trip/add-team/" + payload.objectId + "/" + payload.memberId, {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("User added to trip")
+            console.log(data)
+            // Add travelers to the right trip
+          })
+        }
+        else {
+          console.log(response)
         }
       })
     }

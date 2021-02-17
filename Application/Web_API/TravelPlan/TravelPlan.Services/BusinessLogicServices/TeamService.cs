@@ -7,6 +7,8 @@ using TravelPlan.Contracts;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Services.MessagingService;
+using Microsoft.AspNetCore.SignalR;
 
 namespace TravelPlan.Services.BusinessLogicServices
 {
@@ -14,11 +16,13 @@ namespace TravelPlan.Services.BusinessLogicServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private MessageControllerService _messageControllerService;
 
-        public TeamService(IUnitOfWork unitOfWork, IMapper mapper)
+        public TeamService(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<MessageHub> hubContext)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _messageControllerService = new MessageControllerService(hubContext);
         }
         public async Task<TeamDTO> CreateTeam(int userId, CreateTeamDTO newTeam)
         {
@@ -51,6 +55,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 _unitOfWork.TeamRepository.Update(team);
                 await _unitOfWork.Save();
                 TeamDTO returnTeam = _mapper.Map<Team, TeamDTO>(team);
+                await _messageControllerService.NotifyOnTeamChanges(teamInfo.TeamId, "EditTeamName", _mapper.Map<Team, TeamEditDTO>(team));
                 return returnTeam;
             }
         }
@@ -73,6 +78,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                         _unitOfWork.TeamRepository.Delete(teamId);
 
                     await _unitOfWork.Save();
+                    await _messageControllerService.NotifyOnTeamChanges(teamId, "RemoveUserFromTeam", userId);
 
                     return true;
                 }
@@ -104,12 +110,15 @@ namespace TravelPlan.Services.BusinessLogicServices
                             user.MyTeams = new List<Team>();
                         user.MyTeams.Add(team);
                         _unitOfWork.UserRepository.Update(user);
+                        await _messageControllerService.SendNotification(user.UserId, "AddToTeamNotification", _mapper.Map<Team, TeamDTO>(team));
                     }
                 }
                 _unitOfWork.TeamRepository.Update(team);
                 await _unitOfWork.Save();
 
                 TeamDTO retTeam = _mapper.Map<Team, TeamDTO>(team);
+                await _messageControllerService.NotifyOnTeamChanges(teamId, "AddMemberToTeam", 
+                                                    member.GetUsers().Select(user => _mapper.Map<User, UserBasicDTO>(user)));
                 return retTeam;
             }
         }

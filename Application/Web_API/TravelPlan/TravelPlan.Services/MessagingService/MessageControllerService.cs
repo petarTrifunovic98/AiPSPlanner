@@ -21,6 +21,11 @@ namespace TravelPlan.Services.MessagingService
             await _hubContext.Clients.Group("Trip" + tripId).SendAsync(method, object_to_send);
         }
 
+        public async Task NotifyOnTeamChanges(int teamId, String method, Object object_to_send)
+        {
+            await _hubContext.Clients.Group("Team" + teamId).SendAsync(method, object_to_send);
+        }
+
         public async Task SendNotification(int userId, String method, Object notification)
         {
             await _hubContext.Clients.Group("User" + userId).SendAsync(method, notification);
