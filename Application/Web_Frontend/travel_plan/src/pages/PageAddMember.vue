@@ -21,6 +21,26 @@
                     <TeamViewOnly v-for="team in teamList" :key="team.teamId" :team="team" @clicked="selectMember"
                                   :class="selectedMember == team.teamId ? 'selektovano' : 'standard'" />
                 </div>
+                <div class="user-div" v-if="user">
+                    <div class="search-div"> 
+                        <input class="searchbar" v-model="searchString" />
+                        <button type="button" class="btn btn-primary dugme" @click="search" :disabled="!searchString">
+                            <img  class = "ikonica" src="../assets/search.png">
+                            Search users
+                        </button>
+                    </div>
+                    <Spinner v-if="!isDataLoaded" />
+                    <span v-if="!searchedUsers" class="natpis"> Search for users </span>
+                    <span v-if="searchedUsers && isDataLoaded && userList.length == 0" class="natpis"> No such users exist </span>
+                    <div class="user-list-div" v-if="searchedUsers && isDataLoaded && userList.length > 0">
+                        <div v-for="user in userList" :key="user.userId" @click="selectedMember = user.userId"
+                             :class="'single-user' + (selectedMember == user.userId? ' selektovano': ' standard')">
+                            <img :src="'data:;base64,' + user.picture" v-if="user.picture" class="rounded-image">
+                            <img :src="require('../assets/no-picture.png')" v-else class="rounded-image">
+                            <span class="user-info"> {{user.name}} {{user.lastName}} ({{user.username}})</span>
+                        </div>
+                    </div>
+                </div>
                 <button type="button" class="btn btn-success dugmeAdd" @click="showModal = true" :disabled="selectedMember == -1">
                     <img  class = "ikonica" src="../assets/plus.png">
                     Add
@@ -47,7 +67,8 @@ export default {
             user: true,
             selectedMember: -1,
             showModal: false,
-            searchedUsers: false
+            searchedUsers: false,
+            searchString: ""
         }
     },
     computed:
@@ -67,6 +88,10 @@ export default {
         userList()
         {
             return this.$store.state.searchedUsers
+        },
+        isDataLoaded()
+        {
+            return this.$store.state.isDataLoaded
         }
     },
     methods:
@@ -122,6 +147,15 @@ export default {
             }
             this.$store.dispatch(endpoint, {objectId: this.objectId, memberId: this.selectedMember})
             this.showModal = false
+            this.selectedMember = -1
+            this.searchedUsers = false
+        },
+        search()
+        {
+            this.selectedMember = -1
+            this.searchedUsers = true
+            this.$store.dispatch('searchUsers', this.searchString)
+            this.searchString = ""
         }
     },
     components:
@@ -183,6 +217,7 @@ export default {
         width: fit-content;
         margin-left: 20px;
         margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .content-div
@@ -213,5 +248,79 @@ export default {
     .selektovano
     {
         border:3px solid red;
+    }
+
+    .user-div
+    {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .search-div
+    {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .searchbar
+    {
+        width: 60%;
+    }
+
+    .natpis
+    {
+        width: 100%;
+        text-align: center;
+        font-size: 24px;
+        font-style: italic;
+        color: darkgrey;
+        height: 100px;
+        padding-top: 50px;
+    }
+
+    .user-list-div
+    {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;     
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+
+    .single-user
+    {
+        width: fit-content;
+        padding: 15px;
+        background-color: white;
+        border-radius: 6px;
+        display: flex;
+        flex-direction: row;
+        margin-left: 30px;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .rounded-image 
+    {
+        border-radius: 15px;
+        border: 2px solid grey;
+        height:80px;
+        width:80px;
+        object-fit:cover;
+        margin-right: 30px;
+    }
+
+    .user-info
+    {
+        font-size: 20px;
+        font-weight: 600;
     }
 </style>

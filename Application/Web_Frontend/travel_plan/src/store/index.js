@@ -1239,6 +1239,27 @@ export default new Vuex.Store({
           console.log(response)
         }
       })
+    },
+
+    searchUsers({commit}, payload){
+      commit("setDataLoaded", false)
+      fetch("https://" + this.state.host + ":44301/api/user/get-users-substring/" + payload, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setDataLoaded", true)
+            this.state.searchedUsers = data
+          })
+        }
+        else {
+          commit("setDataLoaded", true)
+        }
+      })
     }
   },
   modules: {

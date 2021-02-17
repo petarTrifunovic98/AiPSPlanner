@@ -15,13 +15,15 @@
             <div class="members"> 
                 <div v-for="traveler in team.members" :key="traveler.userId">
                     <b-card-text class="common-header">
-                        <img :src="'data:;base64,' + traveler.picture" v-if="traveler.picture" class="rounded-image">
-                        <img :src="require('../assets/no-picture.png')" v-else class="rounded-image">
-                        <div style="width:fit-content;">
-                            {{traveler.name}} 
-                            {{traveler.lastName}}
-                            ({{traveler.username}})
-                        </div>
+                        <a @click="goToTraveler(traveler.userId)" v-if="traveler.picture"><img :src="'data:;base64,' + traveler.picture" class="rounded-image"></a>
+                        <a @click="goToTraveler(traveler.userId)" v-else><img :src="require('../assets/no-picture.png')" class="rounded-image"></a>
+                        <a @click="goToTraveler(traveler.userId)">
+                            <div style="width:fit-content;">
+                                {{traveler.name}} 
+                                {{traveler.lastName}}
+                                ({{traveler.username}})
+                         </div>
+                        </a>
                     </b-card-text>
                 </div>
             </div>
@@ -112,6 +114,15 @@ export default {
                 params: {
                     id: this.team.teamId, 
                     type: "teams"
+                }
+            })
+        },
+        goToTraveler(id)
+        {
+            this.$router.push({
+                name: "PageViewProfile", 
+                params: {
+                    id: id
                 }
             })
         }
