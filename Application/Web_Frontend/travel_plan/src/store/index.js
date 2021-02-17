@@ -931,7 +931,10 @@ export default new Vuex.Store({
         })
       }).then(response => {
         if(response.ok) {
-          console.log("Location added")
+          response.json().then(data => {
+            console.log("Location added")
+            commit("addLocationToSpecificTrip", data)
+          })
         }
         else {
           console.log(response)
@@ -949,6 +952,52 @@ export default new Vuex.Store({
       }).then(response => {
         if(response.ok) {
           console.log("Location deleted")
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    postAddAccommodation({commit}, {tripId, newAccommodation}) {
+      fetch("https://" + this.state.host + ":44301/api/accommodation/create-accommodation/" + tripId, {
+        method: 'POST',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify({
+          "type": newAccommodation.type,
+          "name": newAccommodation.name,
+          "description": newAccommodation.description,
+          "from": newAccommodation.from,
+          "to": newAccommodation.to,
+          "address": newAccommodation.address,
+          "locationId": newAccommodation.locationId
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("Accommodation added")
+            commit("addAccommodationToLocation", data)
+          })
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    deleteAccommodation({commit}, {tripId, accRemovalInfo}) {
+      fetch("https://" + this.state.host + ":44301/api/accommodation/delete-accommodation/" + accRemovalInfo.accommodationId + "/" + tripId, {
+        method: 'DELETE',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          console.log("Accommodation deleted")
         }
         else {
           console.log(response)
