@@ -3,13 +3,27 @@
     <div class="section-title">
       Locations:
     </div>
-    <button style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" @click="addFormOpen = !addFormOpen" v-text="addFormOpen ? 'Hide form' : 'Add a new location'"></button>
-    <div style="width: fit-content;" v-if="addFormOpen">
+    <button 
+      style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" 
+      @click="toggleLocationForm" v-text="addLocationFormOpen ? 
+      'Hide new location form' : 'Add a new location'">
+    </button>
+    <button 
+      style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" 
+      @click="toggleAccommodationForm" v-text="addAccommodationFormOpen ? 
+      'Hide new accommodaiton form' : 'Add a new accommodation'">
+    </button>
+    <div style="width: fit-content;" v-if="addLocationFormOpen">
       <LocationBox :modeAddNew="true"/>
+    </div>
+    <div style="width: fit-content;" v-if="addAccommodationFormOpen">
+      <AccommodationBox :modeAddNew="true" :chosenLocationId="chosenLocId"/>
     </div>
     <div style="display:flex; flex-wrap: wrap;">
       <div v-for="location in tripLocations" :key="location.locationId">
-        <LocationBox :locationProp="location" :modeAddNew="false"/>
+        <LocationBox 
+          :locationProp="location" :modeAddNew="false" :canChoose="addAccommodationFormOpen"
+          :chosenLocationId="chosenLocId" @chosenLocation="setChosenLocId"/>
       </div>
     </div>
   </div>
@@ -19,16 +33,20 @@
 <script>
 import { mapGetters, mapMutations } from "vuex"
 import LocationBox from "@/components/LocationBox.vue"
+import AccommodationBox from "@/components/AccommodationBox.vue"
 import Spinner from "@/components/Spinner.vue"
 
 export default {
   components: {
     LocationBox,
+    AccommodationBox,
     Spinner
   },
   data() {
     return {
-      addFormOpen: false
+      addLocationFormOpen: false,
+      addAccommodationFormOpen: false,
+      chosenLocId: -1
     }
   },
   computed: {
@@ -40,6 +58,23 @@ export default {
     })
   },
   methods: {
+    toggleLocationForm() {
+      if(!this.addLocationFormOpen) {
+        this.addAccommodationFormOpen = false
+        this.chosenLocId = -1
+      }
+      this.addLocationFormOpen = !this.addLocationFormOpen
+    },
+    toggleAccommodationForm() {
+      if(!this.addAccommodationFormOpen)
+        this.addLocationFormOpen = false
+      else
+        this.chosenLocId = -1
+      this.addAccommodationFormOpen = !this.addAccommodationFormOpen
+    },
+    setChosenLocId(id) {
+      this.chosenLocId = id
+    },
     onAddLocation(location) {
       this.addLocation(location)
     },

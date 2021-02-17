@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
-    <div class='big-margins'>
+    <div :class="['big-margins', isChosen ? 'chosen': '']">
       <b-card-header class="header-lvl-1 common-header">
-        <span v-if="!inEditMode && !modeAddNew">{{location.name}}</span>
+        <span :class="canChoose ? 'choosable' : ''" @click="chooseLocation" v-if="!inEditMode && !modeAddNew">{{location.name}}</span>
         <b-form-input type="text" v-model="editingLocation.name" v-else style="width:fit-content;" placeholder="Enter location name..."></b-form-input>
         <div>
           <img src="../assets/edit_item.png" v-b-popover.hover.top="'Edit location'" class="action-img" v-if="hasEditRights && !inEditMode && !modeAddNew" @click="toggleEditMode">
@@ -48,8 +48,10 @@
           <div style="margin: 30px 0px 10px 0px; font-weight: bold; font-style:italic; font-size: 20px;" v-else>
             No accommodations
           </div>
-          <div v-for="accommodation in accommodations" :key="accommodation.accommodationId">
-            <AccommodationBox :accommodationProp="accommodation" :tripId="location.tripId"/>
+          <div style="display:flex; flex-wrap:wrap;">
+            <div v-for="accommodation in accommodations" :key="accommodation.accommodationId">
+              <AccommodationBox :accommodationProp="accommodation" :tripId="location.tripId" :modeAddNew="false"/>
+            </div>
           </div>
         </div>
         <button type="button" class="btn btn-primary dugme" @click="showAccommodations" v-if="!accommodationsOpen && !modeAddNew"> View accommodations </button>
@@ -81,6 +83,14 @@ export default {
     modeAddNew: {
       required: true,
       type: Boolean
+    },
+    chosenLocationId: {
+      required: false,
+      type: Number
+    },
+    canChoose: {
+      required: false,
+      type: Boolean
     }
   },
   data() {
@@ -109,12 +119,17 @@ export default {
         if(this.editingLocation.name == "" || this.editingLocation.description == "" || 
           this.editingLocation.latitude == "" || this.editingLocation.longitude == "" || 
           this.editingLocation.from == "" || this.editingLocation.to == "")
-          return true;
+          return true
         else 
-          return false;
+          return false
       }
       else 
-        return false;
+        return false
+    },
+    isChosen() {
+      if(!this.modeAddNew && !this.inEditMode && (this.chosenLocationId == this.locationProp.locationId))
+        return true
+      return false
     },
     ...mapGetters({
       hasEditRights: 'getHasEditRights',
@@ -140,6 +155,7 @@ export default {
     },
     toggleEditMode() {
       this.inEditMode = !this.inEditMode
+      this.$emit("chosenLocation", -1)
     },
     cancelEdit() {
       this.editingLocation = JSON.parse(JSON.stringify(this.locationProp))
@@ -155,7 +171,7 @@ export default {
       this.editingLocation.longitude = parseFloat(this.editingLocation.longitude)
       this.editingLocation.tripId = this.tripId
       this.$store.dispatch('postAddLocation', this.editingLocation)
-      this.$travelPlanHub.$emit('AddLocation', this.editingLocation)
+      this.$emit("addedNew", "addedNew")
       this.restoreEditingLocation()
     },
     deleteOne() {
@@ -165,9 +181,14 @@ export default {
       }
       this.$store.dispatch('deleteLocation', payload)
       this.$travelPlanHub.$emit('RemoveLocation', payload.locationId)
+      this.$emit("chosenLocation", -1)
     },
     restoreEditingLocation() {
       this.editingLocation = { name: "", description: "", latitude: "", longitude: "", from: "", to: ""}
+    },
+    chooseLocation() {
+      if(this.canChoose)
+        this.$emit("chosenLocation", this.locationProp.locationId)
     }
   }
 }
@@ -256,5 +277,15 @@ export default {
   width:20px; 
   margin-left:10px; 
   cursor: pointer;
+}
+
+.choosable:hover {
+  cursor: pointer;
+  color: blue;
+}
+
+.chosen {
+  background-color: rgb(185, 255, 185);
+  border-radius: 10px;
 }
 </style>
