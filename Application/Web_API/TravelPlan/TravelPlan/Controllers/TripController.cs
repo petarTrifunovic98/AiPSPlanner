@@ -178,8 +178,6 @@ namespace TravelPlan.API.Controllers
         {
             try
             {
-                if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
                 TripAdditionalInfoDTO tripInfo = await _tripService.AddItemToPackingList(tripId, item);
                 return Ok(tripInfo);
             }

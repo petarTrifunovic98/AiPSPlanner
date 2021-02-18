@@ -1404,6 +1404,34 @@ export default new Vuex.Store({
           commit("setDataLoaded", true)
         }
       })
+    },
+
+    createTrip({commit}, payload){
+      commit("setDataLoaded", false)
+      fetch("https://" + this.state.host + ":44301/api/trip/creator/" + this.state.authUser.userId + "/create-trip", {
+        method: 'POST',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify({
+          "name": payload.name,
+          "description": payload.description,
+          "from": payload.from,
+          "to": payload.to,
+          "tripCategory": payload.tripCategory
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setDataLoaded", true)
+            router.push("/")
+          })
+        }
+        else {
+          commit("setDataLoaded", true)
+        }
+      })
     }
   },
   modules: {

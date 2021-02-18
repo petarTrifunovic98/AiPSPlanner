@@ -114,7 +114,8 @@ export default {
         text-align: center;
         font-size: 20px;
         font-weight: 600;
-        margin-bottom: 10px;font-style: italic;
+        margin-bottom: 10px;
+        font-style: italic;
     }
 
     .one-item

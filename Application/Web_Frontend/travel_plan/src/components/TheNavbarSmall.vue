@@ -24,6 +24,10 @@
                                 <img src = "../assets/profile.svg">
                                 <span class = "ikonica"> Profile </span>
                             </router-link>
+                            <router-link :to="'/new-trip'" class="dropdown-item">
+                                <img src = "../assets/add.svg">
+                                <span class = "ikonica"> New trip </span>
+                            </router-link>
                             <router-link :to="'/'" class="dropdown-item">
                                 <img src = "../assets/map.svg" class="slicshka">
                                 <span class = "ikonica"> My trips </span>

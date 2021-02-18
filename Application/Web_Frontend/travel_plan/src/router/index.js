@@ -13,6 +13,7 @@ import PageNotifications from "../pages/PageNotifications.vue"
 import PageTeamList from "../pages/PageTeamList.vue"
 import PageAddMember from "../pages/PageAddMember.vue"
 import PageTripAdditionalInfo from "../pages/PageTripAdditionalInfo.vue"
+import PageNewTrip from "../pages/PageNewTrip.vue"
 import store from "@/store"
 
 Vue.use(VueRouter)
@@ -94,6 +95,18 @@ const routes = [
     path: "/notifications",
     name: "PageNotifications",
     component: PageNotifications,
+    beforeEnter(to,from,next)
+    {
+        if(store.state.isLogedIn)
+            next()
+        else
+            next({name: 'PageNotAuthenticated'})
+    }
+  },
+  {
+    path: "/new-trip",
+    name: "PageNewTrip",
+    component: PageNewTrip,
     beforeEnter(to,from,next)
     {
         if(store.state.isLogedIn)

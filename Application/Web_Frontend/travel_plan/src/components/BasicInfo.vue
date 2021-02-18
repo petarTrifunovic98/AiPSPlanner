@@ -28,7 +28,7 @@
           </div>
         </b-card-text>
         <button type="button" class="btn btn-primary dugme" v-if="hasEditRights && !inEditMode" @click="toggleEditMode"> Edit </button>
-        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit"> Save </button>
+        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit" :disabled="invalidDates"> Save </button>
         <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
       </div>
     </div>
@@ -61,7 +61,11 @@ export default {
       isDataLoaded: 'getIsDataLoaded',
       hasEditRights: 'getHasEditRights',
       specificTrip: 'getSpecificTrip'
-    })
+    }),
+    invalidDates()
+    {
+      return this.editingInfo.to < this.editingInfo.from
+    }
   },
   methods: {
     onTripInfoEdited(tripInfo) {

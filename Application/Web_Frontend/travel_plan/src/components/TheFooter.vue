@@ -10,6 +10,9 @@
             <router-link :to="goToProfile()" >
               <li class="stavka-navigacije"> Profile </li>
             </router-link>
+            <router-link :to="'/new-trip'" >
+              <li class="stavka-navigacije"> New trip </li>
+            </router-link>
             <router-link :to="'/'" >
               <li class="stavka-navigacije"> My trips </li>
             </router-link>
