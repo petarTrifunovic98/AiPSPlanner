@@ -93,6 +93,12 @@ export default {
     onRemoveAccommodation(accommodation) {
       this.removeAccommodation(accommodation)
     },
+    onAddAccommodationPicture(picture) {
+      this.addAccommodationPicture(picture)
+    },
+    onRemoveaccommodationPicture(pictureInfo) {
+      this.removeAccommodationPicture(pictureInfo)
+    },
     ...mapMutations({
       addLocation: 'addLocationToSpecificTrip',
       editLocation: 'replaceEditedLocation',
@@ -100,6 +106,8 @@ export default {
       addAccommodation: 'addAccommodationToLocation',
       editAccommodation: 'editAccommodationForLocation',
       removeAccommodation: 'removeAccommodationFromLocation',
+      addAccommodationPicture: 'addPictureToAccommodation',
+      removeAccommodationPicture: 'removePictureFromAccommodation',
       setLocations: 'setTripLocations'
     })
   },
@@ -110,6 +118,8 @@ export default {
     this.$travelPlanHub.$on('AddAccommodation', this.onAddAccommodation)
     this.$travelPlanHub.$on('EditAccommodation', this.onEditAccommodation)
     this.$travelPlanHub.$on('RemoveAccommodation', this.onRemoveAccommodation)
+    this.$travelPlanHub.$on('AddAccommodationPicture', this.onAddAccommodationPicture)
+    this.$travelPlanHub.$on('RemoveAccommodationPicture', this.onRemoveaccommodationPicture)
   },
   destroyed() {
     this.$travelPlanHub.$off('AddLocation')

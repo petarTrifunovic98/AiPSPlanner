@@ -16,9 +16,9 @@ namespace TravelPlan.DTOs.Profiles
 
             CreateMap<AccommodationPicture, AccommodationPictureDTO>()
                 .ForMember(dest =>
-                    dest.Accommodation,
+                    dest.LocationId,
                     opt => opt.MapFrom(
-                        src => src.Accommodation))
+                        src => src.Accommodation.LocationId))
                 .ForMember(dest => 
                     dest.Picture,
                     opt=>opt.MapFrom(

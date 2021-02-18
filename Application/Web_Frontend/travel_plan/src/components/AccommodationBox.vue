@@ -44,9 +44,31 @@
             </b-form-datepicker>
           </div>
         </b-card-text>
+        <b-card-text v-if="picturesOpen && !modeAddNew">
+          <div style="margin: 30px 0px 10px 0px; font-weight: bold; font-size: 20px;" v-if="pictures && pictures.length > 0">
+            Pictures:
+          </div>
+          <div style="margin: 30px 0px 10px 0px; font-weight: bold; font-style:italic; font-size: 20px;" v-else>
+            No pictures
+          </div>
+          <div v-if="pictures" class="img-container">
+            <div v-for="(picture, ind) in pictures" :key="picture.accommodationPictureId" class="removable-img">
+              <img 
+                class="expandable-image" :src="'data:;base64,' + picture.picture" @click="expandPicture(ind)"/>
+              <img v-if="hasEditRights" src="../assets/delete_item.png" class="action-img" style="margin: 0px;" v-b-popover.hover.top="'Delete image'" @click="beginDeletePicture(picture.accommodationPictureId)">
+            </div>
+
+            <img class="expandable-image" src='@/assets/add.svg' @click="$refs.file.click()" v-if="hasEditRights">
+            <input type="file" ref="file" style="display: none" accept="image/*" @change="pictureSelected" v-if="hasEditRights"/>
+
+            <LightBox :media="expandedPictures" v-if="pictureExpanded" :startAt="clickedPicture" @onClosed="pictureExpanded = false"></LightBox>
+          </div>
+        </b-card-text>
         <b-card-text v-if="modeAddNew" class="common-header" style="justify-content:center; max-width:none; width:100%;">
           <div class="icon-simulation" v-b-popover.hover.top="'Click on the name of the location you wish to add the accommodation to'"> ? </div>
         </b-card-text>
+        <button type="button" class="btn btn-primary dugme" @click="showPictures" v-if="!picturesOpen && !modeAddNew"> View pictures </button>
+        <button type="button" class="btn btn-primary dugme" @click="hidePictures" v-else-if="!modeAddNew"> Hide pictures </button>
       </b-card-body>
     </div>
     <ModalAreYouSure 
@@ -54,16 +76,23 @@
       :tekst="'Are you sure you want to delete this accommodation?'"
       @close="openModalDelete = false" @yes="deleteOne" v-if="openModalDelete"
     />
+    <ModalAreYouSure 
+      :naslov="'Delete picture'"
+      :tekst="'Are you sure you want to delete this picture?'"
+      @close="openModalDeletePicture = false" @yes="deletePicture" v-if="openModalDeletePicture"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex"
 import ModalAreYouSure from "@/components/ModalAreYouSure.vue"
+import LightBox from "vue-image-lightbox"
 
 export default {
   components: {
-    ModalAreYouSure
+    ModalAreYouSure,
+    LightBox
   },
   props: {
     accommodationProp: {
@@ -80,17 +109,34 @@ export default {
   },
   data() {
     return {
+      picturesOpen: false,
+      picturesLoaded: false,
+      clickedPicture: null,
+      pictureExpanded: false,
       inEditMode: false,
       editingAccommodation: this.modeAddNew ? 
         { name: "", type: "", description: "", address: "", from: "", to: "" } :
         JSON.parse(JSON.stringify(this.accommodationProp)),
       openModalDelete: false,
+      openModalDeletePicture: false,
+      pictureToDeleteId: -1,
       selectedType: 0
     }
   },
   computed: {
     accommodation() {
       return this.accommodationProp
+    },
+    pictures() {
+      return this.accommodationProp.pictures
+    },
+    expandedPictures() {
+      return this.pictures.map(pic => {
+        return {
+          thumb: 'data:;base64,' + pic.picture,
+          src: 'data:;base64,' + pic.picture
+        }
+      })
     },
     saveDisabled() {
       if(this.modeAddNew) {
@@ -119,6 +165,42 @@ export default {
     })
   },
   methods: {
+    showPictures() {
+      if(!this.picturesLoaded) {
+        this.$store.dispatch('fillAccommodationPictures', {
+          accommodationId: this.accommodationProp.accommodationId,
+          locationId: this.accommodationProp.locationId
+        }).then(() => {
+          this.picturesLoaded = true
+          this.picturesOpen = true
+        })
+      }
+      else {
+        this.picturesOpen = true
+      }
+    },
+    hidePictures() {
+      this.picturesOpen = false
+    },
+    expandPicture(index) {
+      this.clickedPicture = index
+      this.pictureExpanded = true
+    },
+    pictureSelected(e) {
+      const file = e.target.files[0];
+      e.target.value = null
+      this.addImage(file);
+    },
+    addImage(file) {
+      if(!file.type.match('image*')) {
+        console.log('not an image!');
+      }
+      else {
+        const reader = new FileReader();
+        reader.onload = (e) => this.addNewPicture(e.target.result);
+        reader.readAsDataURL(file);
+      }
+    },
     toggleEditMode() {
       this.inEditMode = !this.inEditMode
     },
@@ -157,6 +239,34 @@ export default {
     restoreEditingAccommodation() {
       this.editingAccommodation = { name: "", type: "0", description: "", address: "", from: "", to: "" }
       this.selectedType = 0
+    },
+    addNewPicture(picture) {
+      const splitted = picture.split(',')
+      let payload = {
+        accommodationId: this.accommodationProp.accommodationId,
+        tripId: this.tripId,
+        locationId: this.accommodationProp.locaitonId,
+        picture: splitted[1]
+      }
+      this.$store.dispatch('postAddAccommodationPicture', payload)
+    },
+    beginDeletePicture(pictureId) {
+      this.pictureToDeleteId = pictureId
+      this.openModalDeletePicture = true
+    },
+    deletePicture() {
+      let payload = {
+        tripId: this.tripId,
+        deleteInfo: {
+          accommodationPictureId: this.pictureToDeleteId,
+          picture: null,
+          accommodationId: this.accommodationProp.accommodationId,
+          locationId: this.accommodationProp.locationId
+        }
+      }
+      this.$store.dispatch('deleteAccommodationPicture', payload)
+      this.$travelPlanHub.$emit('RemoveAccommodationPicture', payload.deleteInfo)
+      this.openModalDeletePicture = false
     }
   }
 }
@@ -257,5 +367,29 @@ export default {
   border-radius: 30px;
   cursor:context-menu;
   color: green;
+}
+
+.expandable-image {
+  margin: 5px;
+  width: 60px;
+  height: 60px;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+.expandable-image:hover {
+  cursor: pointer;
+  border-color: black;
+}
+
+.removable-img {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  align-items: center;
+}
+
+.img-container {
+  display: flex;
 }
 </style>

@@ -9,6 +9,6 @@ namespace TravelPlan.DTOs.DTOs
         public int AccommodationPictureId { get; set; }
         public string Picture { get; set; }
         public int AccommodationId { get; set; }
-        public AccommodationDTO Accommodation { get;set;}
+        public int LocationId { get;set;}
     }
 }

@@ -175,9 +175,11 @@ namespace TravelPlan.Services.BusinessLogicServices
             {
                 AccommodationPicture accommodationPicture = await _unitOfWork.AccommodationPictureRepository.FindByID(pictureId);
                 Accommodation accommodation = await _unitOfWork.AccommodationRepository.GetAccommodationWithLocation(accommodationPicture.AccommodationId);
+                AccommodationPictureDTO deleteInfo = _mapper.Map<AccommodationPicture, AccommodationPictureDTO>(accommodationPicture);
+                deleteInfo.Picture = "";
                 _unitOfWork.AccommodationPictureRepository.Delete(pictureId);
                 await _unitOfWork.Save();
-                await _messageControllerService.NotifyOnTripChanges(accommodation.Location.TripId, "RemoveAccommodationPicture", pictureId);
+                await _messageControllerService.NotifyOnTripChanges(accommodation.Location.TripId, "RemoveAccommodationPicture", deleteInfo);
             }
         }
     }
