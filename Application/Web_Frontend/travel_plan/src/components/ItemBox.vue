@@ -29,13 +29,13 @@
         </div>
         <b-card-text class="common-header" v-if="!inEditModeUser && !modeAddNew">
           <div class="common-header" style="justify-content: left;">
-            <img :src="'data:;base64,' + item.user.picture" v-if="item.user.picture" class="rounded-image">
-            <img :src="require('../assets/no-picture.png')" v-else class="rounded-image">
-            <div style="width:fit-content;">
+            <a @click="goToProfile" v-if="item.user.picture"><img :src="'data:;base64,' + item.user.picture" class="rounded-image"></a>
+            <a @click="goToProfile" v-else><img :src="require('../assets/no-picture.png')" class="rounded-image"></a>
+            <a @click="goToProfile"><div style="width:fit-content;">
               {{item.user.name}} 
               {{item.user.lastName}}
               ({{item.user.username}})
-            </div>
+            </div></a>
           </div>
           <img src="../assets/edit_item.png" v-b-popover.hover.top="'Change user'" class="action-img" @click="toggleEditModeUser" v-if="hasEditRights">
         </b-card-text>
@@ -184,6 +184,14 @@ export default {
     },
     restoreEditingItem() {
       this.editingItem = { name: "", description: "", amount: 1, unit: "", userId: -1, user: {} }
+    },
+    goToProfile(){
+      this.$router.push({
+        name: "PageViewProfile", 
+        params: {
+            id: this.item.user.userId
+        }
+      })
     }
   }
 }

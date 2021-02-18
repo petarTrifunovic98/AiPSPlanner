@@ -1,8 +1,8 @@
 <template>
   <div class="col-12 wrapper">
-    <img :src="'data:;base64,' + travelerProp.picture" v-if="travelerProp.picture" class="rounded-image" v-b-popover.hover.right="travelerProp.username">
-    <img :src="require('../assets/no-picture.png')" v-else class="rounded-image" v-b-popover.hover.right="travelerProp.username">
-    <span> {{travelerProp.name}} {{travelerProp.lastName}} </span>
+    <a @click="goToProfile" v-if="travelerProp.picture"><img :src="'data:;base64,' + travelerProp.picture" class="rounded-image" v-b-popover.hover.right="travelerProp.username"></a>
+    <a @click="goToProfile" v-else><img :src="require('../assets/no-picture.png')" class="rounded-image" v-b-popover.hover.right="travelerProp.username"></a>
+    <a @click="goToProfile"><span> {{travelerProp.name}} {{travelerProp.lastName}} </span></a>
   </div>
 </template>
 
@@ -11,6 +11,18 @@ export default {
   props: {
     travelerProp: {
       required: true
+    }
+  },
+  methods:
+  {
+    goToProfile()
+    {
+      this.$router.push({
+        name: "PageViewProfile", 
+        params: {
+            id: this.travelerProp.userId
+        }
+      })
     }
   }
 }
