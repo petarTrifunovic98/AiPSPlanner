@@ -481,6 +481,13 @@ export default new Vuex.Store({
         if(response.ok) {
           response.json().then(data => {
             commit("setTripAdditionalInfo", data)
+            this.state.tripAdditionalInfo.packingList = this.state.tripAdditionalInfo.packingList.map(element =>
+            {
+              var retValue = new Object()
+              retValue.item = element
+              retValue.checked = false
+              return retValue
+            })
             commit("setDataLoaded", true)
           })
         }
@@ -492,9 +499,10 @@ export default new Vuex.Store({
 
     addPackingListItem({commit}, payload) {
       fetch("https://" + this.state.host + ":44301/api/trip/add-to-trip-packing-list/" + payload.tripId, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
-          "Content-type" : "application/json"
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
         },
         body: JSON.stringify({
           "item": payload.item

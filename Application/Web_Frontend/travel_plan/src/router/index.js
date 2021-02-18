@@ -12,6 +12,7 @@ import PageItemList from "../pages/PageItemList.vue"
 import PageNotifications from "../pages/PageNotifications.vue"
 import PageTeamList from "../pages/PageTeamList.vue"
 import PageAddMember from "../pages/PageAddMember.vue"
+import PageTripAdditionalInfo from "../pages/PageTripAdditionalInfo.vue"
 import store from "@/store"
 
 Vue.use(VueRouter)
@@ -105,6 +106,19 @@ const routes = [
     path: "/specific-trip/:id",
     name: "PageSpecificTrip",
     component: PageSpecificTrip,
+    props: true,
+    beforeEnter(to,from,next)
+    {
+        if(store.state.isLogedIn)
+            next()
+        else
+            next({name: 'PageNotAuthenticated'})
+    }
+  },
+  {
+    path: "/trip-additional-info/:id",
+    name: "PageTripAdditionalInfo",
+    component: PageTripAdditionalInfo,
     props: true,
     beforeEnter(to,from,next)
     {

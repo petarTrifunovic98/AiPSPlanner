@@ -2,9 +2,11 @@
     <b-card border-variant="primary" no-body>
       <b-card-body>
         <div class="media-center">
-          <p class="image is-96x96">
-            <img class="rounded-image" :src="'data:;base64,' + tripProp.icon">
-          </p>
+          <a @click="goToAdditionalInfo">
+            <p class="image is-96x96">
+              <img class="rounded-image" :src="'data:;base64,' + tripProp.icon" v-b-popover.hover.bottom="'Click to view trip tips and tricks'">
+            </p>
+          </a>
         </div>
           
         <div class="info">
@@ -42,6 +44,10 @@ export default {
       // },
       onViewTripPage() {
         this.$router.push({name: "PageSpecificTrip", params: {tripProp: this.tripProp, id: this.tripProp.tripId}})
+      },
+      goToAdditionalInfo()
+      {
+        this.$router.push({name: "PageTripAdditionalInfo", params: {id: this.tripProp.tripId}})
       }
     }
 }
