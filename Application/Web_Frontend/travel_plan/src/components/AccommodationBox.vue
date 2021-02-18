@@ -12,10 +12,14 @@
         </div>
       </b-card-header>
       <b-card-body class="small-card">
-        <b-card-sub-title>
-          <span v-if="!inEditMode && !modeAddNew">{{accommodation.type}}</span> <!-- promeniti na select -->
-          <input type="text" v-model="editingAccommodation.type" v-else>
-        </b-card-sub-title>
+        <b-card-text>
+          <span v-if="!inEditMode && !modeAddNew" style="font-weight:bold;"> {{accommodation.type}}</span>
+          <b-form-select v-model="selectedType" size="sm" style="width:fit-content;" v-else>
+            <b-form-select-option v-for="(type, ind) in accommodationTypesOptions" :key="ind" :value="ind">
+              {{type}}
+            </b-form-select-option>
+          </b-form-select>
+        </b-card-text>
         <b-card-text>
           <span v-if="!inEditMode && !modeAddNew">{{accommodation.description}}</span>
           <b-form-textarea v-else v-model="editingAccommodation.description" rows="3" no-resize placeholder="Enter accommodation description..."></b-form-textarea>
@@ -78,9 +82,10 @@ export default {
     return {
       inEditMode: false,
       editingAccommodation: this.modeAddNew ? 
-        { name: "", type: "0", description: "", address: "", from: "", to: "" } :
+        { name: "", type: "", description: "", address: "", from: "", to: "" } :
         JSON.parse(JSON.stringify(this.accommodationProp)),
-      openModalDelete: false
+      openModalDelete: false,
+      selectedType: 0
     }
   },
   computed: {
@@ -91,7 +96,7 @@ export default {
       if(this.modeAddNew) {
         if(this.editingAccommodation.name == "" || this.editingAccommodation.description == ""
           || this.editingAccommodation.address == "" || this.editingAccommodation.from == ""
-          || this.editingAccommodation.to == "" || this.chosenLocationId == -1)
+          || this.editingAccommodation.to == "" || this.chosenLocationId == -1 || this.selectedType == 0)
           return true
         else
           return false
@@ -99,9 +104,18 @@ export default {
       else
         return false;
     },
+    accommodationTypesOptions() {
+      if(!this.accommodationTypes)
+        return []
+      else {
+        let ret = ['Choose accommodation type']
+        return ret.concat(this.accommodationTypes)
+      }
+    },
     ...mapGetters({
       hasEditRights: 'getHasEditRights',
-      tripId: 'getSpecificTripId'
+      tripId: 'getSpecificTripId',
+      accommodationTypes: 'getAccommodationTypes'
     })
   },
   methods: {
@@ -114,12 +128,14 @@ export default {
     },
     saveEdit() {
       this.editingAccommodation.tripId = this.tripId
+      this.editingAccommodation.type = this.accommodationTypesOptions[this.selectedType]
       this.$store.dispatch('putEditAccommodation', this.editingAccommodation)
       this.$travelPlanHub.$emit('EditAccommodation', this.editingAccommodation)
       this.toggleEditMode()
     },
     addNew() {
       this.editingAccommodation.locationId = this.chosenLocationId
+      this.editingAccommodation.type = this.accommodationTypesOptions[this.selectedType]
       this.$store.dispatch('postAddAccommodation', {
         tripId: this.tripId,
         newAccommodation: this.editingAccommodation
@@ -140,6 +156,7 @@ export default {
     },
     restoreEditingAccommodation() {
       this.editingAccommodation = { name: "", type: "0", description: "", address: "", from: "", to: "" }
+      this.selectedType = 0
     }
   }
 }
