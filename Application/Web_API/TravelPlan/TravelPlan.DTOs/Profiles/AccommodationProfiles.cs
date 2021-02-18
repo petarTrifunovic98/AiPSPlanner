@@ -35,6 +35,10 @@ namespace TravelPlan.DTOs.Profiles
                     dest.Votable,
                     opt => opt.MapFrom(
                         src => src.Votable))
+                .ForMember(dest =>
+                    dest.Type,
+                    opt => opt.MapFrom(
+                        src => src.Type.ToString()))
                 .ReverseMap();
 
             CreateMap<AccommodationCreateDTO, Accommodation>();

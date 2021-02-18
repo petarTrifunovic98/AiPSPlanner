@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper" v-if="tripLocations">
     <div class="section-title">
-      Locations:
+      Locations
     </div>
     <button 
       style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" 

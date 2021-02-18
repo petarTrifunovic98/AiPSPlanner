@@ -104,6 +104,11 @@ namespace TravelPlan.Services.BusinessLogicServices
             }
         }
 
+        public IEnumerable<string> GetAccommodationTypes()
+        {
+            return Enum.GetNames(typeof(AccommodationType));
+        }
+
         public async Task<AccommodationDTO> GetSpecificAccommodation(int accommodationId)
         {
             using(_unitOfWork)

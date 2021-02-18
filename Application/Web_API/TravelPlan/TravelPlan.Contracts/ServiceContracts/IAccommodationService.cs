@@ -11,6 +11,7 @@ namespace TravelPlan.Contracts.ServiceContracts
         Task<AccommodationDTO> CreateAccommodation(AccommodationCreateDTO newAccommodation);
         Task<bool> DeleteAccommodation(int accommodationId);
         Task<AccommodationDTO> EditAccommodationInfo(AccommodationEditDTO accommodationInfo);
+        IEnumerable<string> GetAccommodationTypes();
         Task<AccommodationDTO> GetSpecificAccommodation(int accommodationId);
         Task<List<AccommodationDTO>> GetAccommodationsForLocation(int locationId);
         Task<AccommodationPictureDTO> AddAccommodationPicture(AccommodationPictureCreateDTO picture);

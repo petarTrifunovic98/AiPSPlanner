@@ -76,6 +76,20 @@ namespace TravelPlan.API.Controllers
         }
 
         [HttpGet]
+        [Route("get-accommodation-types")]
+        public ActionResult GetAccommodationTypes()
+        {
+            try
+            {
+                return Ok(_accommodationService.GetAccommodationTypes());
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("get-accommodation/{accommodationId}")]
         public async Task<ActionResult> GetAccommodation(int accommodationId)
         {

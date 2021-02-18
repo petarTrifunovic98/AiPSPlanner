@@ -1,57 +1,81 @@
 <template>
   <div class="wrapper">
-    <div :class="level == 1 ? 'big-margins' : 'small-margins'">
+    <div :class="[(level == 1 || modeAddNew) ? 'big-margins' : 'small-margins', isChosen ? 'chosen': 'not-chosen']">
       <b-card-header :class="[headerClasses[level - 1], 'common-header']">
-        <span>{{addOn.type}}</span>
+        <span :class="canChoose ? 'choosable' : ''" v-if="!modeAddNew" @click="addOnChosen">{{addOn.type}}</span>
+        <b-form-select v-model="selectedDecoration" size="sm" style="width:fit-content;" v-else-if="modeAddNew">
+          <b-form-select-option v-for="(dec, ind) in availableDecorationsOptions" :key="ind" :value="ind">
+            {{dec}}
+          </b-form-select-option>
+        </b-form-select>
         <div>
-          <button type="button" class="btn btn-primary dugme" v-if="hasEditRights && !inEditMode" @click="toggleEditMode"> Edit </button>
-          <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit"> Save </button>
+          <img src="../assets/edit_item.png" v-b-popover.hover.top="'Edit add-on'" class="action-img" v-if="hasEditRights && !inEditMode && !modeAddNew" @click="toggleEditMode">
+          <button type="button" class="btn btn-primary dugme" v-if="inEditMode || modeAddNew" @click="modeAddNew ? addNew() : saveEdit()" :disabled="saveDisabled"  v-text="modeAddNew ? 'Add' : 'Save'"></button>
           <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
+          <img src="../assets/delete_item.png" v-b-popover.hover.top="'Delete location'" class="action-img" v-if="hasEditRights && !inEditMode && !modeAddNew" @click="openModalDelete = true">
         </div>
       </b-card-header>
       <b-card-body :class="level == 1 ? 'big-card' : 'small-card'">
-        <b-card-text>
-          <span v-if="!inEditMode">{{addOn.description}}</span>
+        <b-card-text style="margin-bottom: 20px;">
+          <span v-if="!inEditMode && !modeAddNew">{{addOn.description}}</span>
           <b-form-textarea v-model="editingAddOn.description" v-else rows="3" no-resize placeholder="Enter add-on description..."></b-form-textarea>
         </b-card-text>
         <b-card-text class="common-header" style="justify-content: left;">
           <img src="../assets/cash.svg" style="height: 20px; width:20px; margin-right: 10px;" >
-          <span v-if="!inEditMode">{{addOn.price}}</span>
+          <span v-if="!inEditMode && !modeAddNew">{{addOn.price}}</span>
           <b-form-input :type="'number'" v-model="editingAddOn.price" v-else style="width: 80px;" placeholder="Enter price..."></b-form-input>
         </b-card-text>
-        <div style="display:flex; flex-wrap:wrap;">
+        <div style="display:flex; flex-wrap:wrap;" v-if="!modeAddNew">
           <div v-for="lvl1AddOn in addOn.lvl1" :key="lvl1AddOn.addOnId">
-            <AddOnBox :addOnProp="lvl1AddOn" :tripId="tripId" :level="2"/>
+            <AddOnBox :modeAddNew="false" :canChoose="canChoose" :chosenAddOn="chosenAddOn" :addOnProp="lvl1AddOn" :tripId="tripId" :level="2" @addOnChosen="propagateAddOnChosen"/>
           </div>
         </div>
-        <div style="display:flex; flex-wrap:wrap">
+        <div style="display:flex; flex-wrap:wrap" v-if="!modeAddNew">
           <div v-for="lvl2AddOn in addOn.lvl2" :key="lvl2AddOn.addOnId">
-            <AddOnBox :addOnProp="lvl2AddOn" :tripId="tripId" :level="3"/>
+            <AddOnBox :modeAddNew="false" :canChoose="canChoose" :chosenAddOn="chosenAddOn" :addOnProp="lvl2AddOn" :tripId="tripId" :level="3" @addOnChosen="propagateAddOnChosen"/>
           </div>
         </div>
       </b-card-body>
-      <!-- </b-card> -->
     </div>
+    <ModalAreYouSure 
+      :naslov="'Delete add-on'"
+      :tekst="'Are you sure you want to delete this add-on?'"
+      @close="openModalDelete = false" @yes="deleteOne" v-if="openModalDelete"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex"
 import AddOnBox from "@/components/AddOnBox.vue"
+//import ModalAreYouSure from "@/components/ModalAreYouSure.vue"
 
 export default {
+  components: {
+  },
   name: "AddOnBox",
   props: {
     addOnProp: {
-      required: true
-    },
-    tripId: {
-      required: true,
-      type: Number
+      required: false
     },
     level: {
       required: true,
       type: Number
+    },
+    modeAddNew: {
+      required: true,
+      type: Boolean
+    },
+    chosenAddOn: {
+      required: false
+    },
+    canChoose: {
+      required: false,
+      type: Boolean
+    },
+    availableDecorations: {
+      required: false,
+      type: Array
     }
   },
   components: {
@@ -60,21 +84,51 @@ export default {
   data() {
     return {
       inEditMode: false,
-      editingAddOn: JSON.parse(JSON.stringify(this.addOnProp)),
-      headerClasses: ['header-lvl-1', 'header-lvl-2', 'header-lvl-3']
+      editingAddOn: this.modeAddNew ?
+        { type: "", description: "", price: "" } :
+        JSON.parse(JSON.stringify(this.addOnProp)),
+      headerClasses: ['header-lvl-1', 'header-lvl-2', 'header-lvl-3'],
+      openModalDelete: false,
+      selectedDecoration: 0
     }
   },
   computed: {
     addOn() {
       return this.addOnProp
     },
+    availableDecorationsOptions() {
+      let ret = ['Choose add-on type']
+      return ret.concat(this.modeAddNew ? this.availableDecorations : 
+        this.$store.getters.getAvailableDecorations(this.addOnProp))
+    },
+    saveDisabled() {
+      if(this.modeAddNew) {
+        if(this.editingAddOn.description == "" || this.editingAddOn.price == "" || this.selectedDecoration == 0)
+          return true
+        else
+          return false
+      }
+      else
+        return false
+    },
+    isChosen() {
+      if(!this.modeAddNew && !this.inEditMode && this.chosenAddOn != null &&
+      (this.chosenAddOn.addOnId == this.addOnProp.addOnId))
+        return true
+      return false
+    },
     ...mapGetters({
-      hasEditRights: 'getHasEditRights'
+      hasEditRights: 'getHasEditRights',
+      tripId: 'getSpecificTripId'
     })
   },
   methods: {
     toggleEditMode() {
       this.inEditMode = !this.inEditMode
+      this.$emit("addOnChosen", null)
+    },
+    propagateAddOnChosen(addOn) {
+      this.$emit("addOnChosen", addOn)
     },
     cancelEdit() {
       this.editingAddOn = JSON.parse(JSON.stringify(this.addOnProp))
@@ -85,7 +139,46 @@ export default {
       this.$store.dispatch('putEditAddOn', this.editingAddOn)
       this.$travelPlanHub.$emit('EditAddOn', this.editingAddOn)
       this.toggleEditMode()
+    },
+    addNew() {
+      this.editingAddOn.tripId = this.tripId
+      this.editingAddOn.type = this.availableDecorationsOptions[this.selectedDecoration]
+      if(!this.chosenAddOn) {
+        this.editingAddOn.lvl1DependId = 0
+        this.editingAddOn.lvl2DependId = 0
+      }
+      else if(this.chosenAddOn.lvl1DependId != 0) {
+        this.editingAddOn.lvl1DependId = this.chosenAddOn.lvl1DependId
+        this.editingAddOn.lvl2DependId = this.chosenAddOn.addOnId
+      }
+      else {
+        this.editingAddOn.lvl1DependId = this.chosenAddOn.addOnId
+        this.editingAddOn.lvl2DependId = 0
+      }
+      this.$store.dispatch('postAddAddOn', this.editingAddOn)
+      this.$emit("addedNew", "addedNew")
+      this.restoreEditingAccommodation()
+      this.$forceUpdate()
+    },
+    deleteOne() {
+      let payload = {
+        tripId: this.tripId,
+        addOnId: this.addOnProp.addOnId
+      }
+      this.$store.dispatch('deleteAddOn', payload)
+      this.$travelPlanHub.$emit('RemoveAddOn', this.addOnProp)
+      this.$emit("addOnChosen", null)
+    },
+    restoreEditingAccommodation() {
+      this.editingAddOn = { type: "", description: "", price: "" }
+    },
+    addOnChosen() {
+      if(this.canChoose)
+       this.$emit("addOnChosen", this.addOnProp)
     }
+  },
+  beforeCreate: function() {
+    this.$options.components.ModalAreYouSure = require("@/components/ModalAreYouSure.vue").default
   }
 }
 </script>
@@ -168,4 +261,25 @@ export default {
   max-width: 250px;
 }
 
+.action-img {
+  height:20px; 
+  width:20px; 
+  margin-left:10px; 
+  cursor: pointer;
+}
+
+.choosable:hover {
+  cursor: pointer;
+  color: blue;
+}
+
+.chosen {
+  background-color: rgb(185, 255, 185);
+  border-radius: 10px;
+}
+
+.not-chosen {
+  background-color: white;
+  border-radius: 10px;
+}
 </style>
