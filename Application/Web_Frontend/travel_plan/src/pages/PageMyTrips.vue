@@ -1,5 +1,12 @@
 <template>
   <div class="wrapper" v-if="isDataLoaded">
+    <div v-if="tripsPortion.length == 0" class="no-trips"> No trips yet </div>
+    <div v-if="tripsPortion.length == 0" class="button-div">
+      <button type="button" class="btn btn-success dugme" @click="goToNewTrip">
+        <img src="../assets/add.svg">
+          Create trip
+      </button>
+    </div>
     <div class="users" v-if="tripsPortion.length > 0">
       <TripBox
         :tripProp="trip"
@@ -50,6 +57,10 @@ export default {
       this.$store.dispatch('fillTripsPortion', {
         userId: this.authUserId
       })
+    },
+    goToNewTrip()
+    {
+      this.$router.push("/new-trip")
     }
   },
   created() {
@@ -228,6 +239,27 @@ export default {
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
+
+  .no-trips
+  {
+    width: 100%;
+    text-align: center;
+    font-size: 26px;
+    margin-top: 50px;
+    font-weight: 600;
+    font-style: italic;
+    color: grey;
+  }
+
+  .button-div
+  {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   @media only screen and (max-width:650px)
