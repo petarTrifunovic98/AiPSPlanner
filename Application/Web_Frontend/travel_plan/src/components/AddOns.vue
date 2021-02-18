@@ -3,9 +3,24 @@
     <div class="section-title">
       Add-ons
     </div>
+    <button 
+      style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" 
+      @click="toggleAddOnForm" v-text="addAddOnFormOpen ? 
+      'Hide new add-on form' : 'Add a new add-on'">
+    </button>
+    <div style="width: fit-content;" v-if="addAddOnFormOpen && canShowForm">
+      <AddOnBox 
+        :modeAddNew="true" :level="newAddOnLevel" :chosenAddOn="chosenAddOn"
+        :availableDecorations="availableDecorations"/>
+    </div>
+    <div style="width: fit-content;" v-else-if="addAddOnFormOpen">
+      <div class="message"> Choose another add-on! </div>
+    </div>
     <div style="display:flex; flex-wrap: wrap;">
       <div v-for="addOn in tripAddOns" :key="addOn.addOnId">
-        <AddOnBox :addOnProp="addOn" :tripId="tripId" :level="1" />
+        <AddOnBox 
+          :addOnProp="addOn" :modeAddNew="false" :level="1" :canChoose="addAddOnFormOpen"
+          :chosenAddOn="chosenAddOn" @addOnChosen="setChosenAddOn"/>
       </div>
     </div>
   </div>
@@ -28,24 +43,64 @@ export default {
     AddOnBox,
     Spinner
   },
+  data() {
+    return {
+      addAddOnFormOpen: false,
+      chosenAddOn: null
+    }
+  },
   computed: {
+    availableDecorations() {
+      return this.$store.getters.getAvailableDecorations(this.chosenAddOn)
+    },
+    newAddOnLevel() {
+      if(!this.chosenAddOn)
+        return 1
+      else if(this.chosenAddOn.lvl1DependId == 0 && this.chosenAddOn.lvl2DependId ==0)
+        return 3
+      else
+        return 2
+    },
+    canShowForm() {
+      if(this.availableDecorations && this.availableDecorations.length > 0)
+        return true
+      return false
+    },
     ...mapGetters({
       isDataLoaded: 'getIsDataLoaded',
-      tripAddOns: 'getTripAddOns'
+      tripAddOns: 'getTripAddOns',
+      hasEditRights: 'getHasEditRights',
+      allAvailableDecorations: 'getAvailableDecorations',
+      addOnWatch: 'getAddOnWatch'
     })
   },
+  watch: {
+    addOnWatch(newValue, oldValue) {
+      if(newValue) {
+        this.$forceUpdate()
+        this.$store.state.addOnWatch = null
+      }
+    }
+  },
   methods: {
+    toggleAddOnForm() {
+      this.addAddOnFormOpen = !this.addAddOnFormOpen
+    },
+    setChosenAddOn(addOn) {
+      this.chosenAddOn = addOn
+    },
+    
     onAddAddOn(addOn) {
       this.addAddOn(addOn)
-      this.$forceUpdate()
+      //this.$forceUpdate()
     },
     onEditAddOn(addOn) {
       this.editAddOn(addOn)
-      this.$forceUpdate()
+      //this.$forceUpdate()
     },
     onRemoveAddOn(addOnList) {
       this.removeAddOn(addOnList)
-      this.$forceUpdate()
+      //this.$forceUpdate()
     },
     ...mapMutations({
       addAddOn: 'addAddOnToTrip',
@@ -83,5 +138,15 @@ export default {
   font-weight: bold; 
   font-size: 20px;
   padding: 0px 20px;
+}
+
+.message {
+  font-size: 20px;
+  font-weight: bold;
+  font-style: italic;
+  margin: 20px;
+  padding: 10px;
+  border: 2px lightskyblue solid;
+  border-radius: 10px;
 }
 </style>

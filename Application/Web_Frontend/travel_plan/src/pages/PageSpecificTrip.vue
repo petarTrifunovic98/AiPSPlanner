@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isDataLoaded" class="main-wrap">
+  <div v-if="isDataLoaded && specificTrip" class="main-wrap">
     <div class="a-row primary-row">
       <BasicInfo :tripInfo="tripInfo" v-if="tripInfo"/>
       <Travelers/>
@@ -55,6 +55,7 @@ export default {
       isDataLoaded: 'getIsDataLoaded',
       specificTrip: 'getSpecificTrip',
       getAuthUserId: 'getAuthUserId',
+      accommodationTypes: 'getAccommodationTypes',
       hasEditRights: 'getHasEditRights'
     }),
     tripInfo() {
@@ -130,9 +131,16 @@ export default {
       }).then(() => {
         this.$store.dispatch('fillTripAddOns', {
           tripId: this.tripId
+        }).then(() => {
+          this.$store.dispatch('fillAvailableDecorations', {
+            tripId: this.tripId
+          })
         })
       })
     })
+
+    if(!this.accommodationTypes)
+      this.$store.dispatch('fillAccommodationTypes')
   },
   beforeDestroy() {
     if(this.hasEditRights) {

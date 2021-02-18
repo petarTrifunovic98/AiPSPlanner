@@ -25,7 +25,10 @@ export default new Vuex.Store({
     myItems: null,
     myTeams: null,
     notifications: null,
-    searchedUsers: null
+    searchedUsers: null,
+    allAvailableDecorations: null,
+    accommodationTypes: null,
+    addOnWatch: null
   },
   getters: {
     getIsDataLoaded: state => {
@@ -64,14 +67,49 @@ export default new Vuex.Store({
     getSpecificTripLocations: state => {
       return state.tripLocations
     },
+    getAccommodationTypes: state => {
+      return state.accommodationTypes
+    },
     getSpecificTripItems: state => {
       return state.specificTrip.itemList
     },
     getSpecificTripTravelers: state => {
       return state.specificTrip.travelers
     },
+    getAvailableDecorations: (state) => (addOn) => {
+      if(!state.tripAddOns)
+        return []
+      if(!addOn && !state.allAvailableDecorations) {
+        return []
+      }
+      else if(!addOn) {
+        return state.allAvailableDecorations.map(dec => dec.typeName)
+      }
+      else if(addOn) {
+        if(addOn.lvl1DependId == 0 && addOn.lvl2DependId == 0) {
+          let topLevelDec = state.allAvailableDecorations.find(dec => dec.typeName == addOn.type)
+          if(topLevelDec) {
+            return topLevelDec.nextLvlDecorations.map(dec => dec.typeName)
+          }
+        }
+        else if(addOn.lvl2DependId == 0) {
+          let topLevelType = state.tripAddOns[addOn.lvl1DependId].type
+          let topLevelDec = state.allAvailableDecorations.find(dec => dec.typeName == topLevelType) 
+          if(topLevelDec) {
+            let lvl2Dec = topLevelDec.nextLvlDecorations.find(dec => dec.typeName == addOn.type)
+            if(lvl2Dec) {
+              return lvl2Dec.nextLvlDecorations.map(dec => dec.typeName)
+            }
+          }
+        }
+      }
+      return []
+    },
     getTripAddOns: state => {
       return state.tripAddOns
+    },
+    getAddOnWatch: state => {
+      return state.addOnWatch
     }
   },
   mutations: {
@@ -107,6 +145,9 @@ export default new Vuex.Store({
     setTripLocations(state, locations) {
       state.tripLocations = locations
     },
+    setAvailableDecorations(state, data) {
+      state.allAvailableDecorations = data
+    },
     setTripAddOns(state, addOns) {
       if(addOns == null) {
         state.tripAddOns = null
@@ -126,6 +167,9 @@ export default new Vuex.Store({
           state.tripAddOns[String(addOn.lvl1DependId)]["lvl1"][String(addOn.lvl2DependId)]["lvl2"][String(addOn.addOnId)] = addOn
         }
       })
+    },
+    setAccommodationTypes(state, data) {
+      state.accommodationTypes = data
     },
     setLocationAccommodations(state, {data, locationId}) {
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == locationId)
@@ -226,6 +270,7 @@ export default new Vuex.Store({
         topLevelAddOn["lvl1"][String(addOn.lvl2DependId)]["lvl2"][String(addOn.addOnId)] = addOn
         Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
       }
+      state.addOnWatch = 1
     },
     editAddOnForTrip(state, addOn) {
       if(addOn.lvl1DependId == 0 && addOn.lvl2DependId == 0) {
@@ -246,6 +291,7 @@ export default new Vuex.Store({
         topLevelAddOn["lvl1"][String(addOn.lvl2DependId)]["lvl2"][String(addOn.addOnId)].price = addOn.price
         Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
       }
+      state.addOnWatch = 1
     },
     removeAddOnsFromTrip(state, addOn) {
       if(addOn.lvl1DependId == 0 && addOn.lvl2DependId == 0) {
@@ -261,6 +307,7 @@ export default new Vuex.Store({
         Vue.delete(topLevelAddOn["lvl1"][String(addOn.lvl2DependId)]["lvl2"], String(addOn.addOnId))
         Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
       }
+      state.addOnWatch = 1
     }
   },
   actions: {
@@ -484,6 +531,28 @@ export default new Vuex.Store({
       })
     },
 
+    fillAccommodationTypes({commit}) {
+      commit("setDataLoaded", false)
+      fetch("https://" + this.state.host + ":44301/api/accommodation/get-accommodation-types/", {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setAccommodationTypes", data)
+            commit("setDataLoaded", true)
+          })
+        }
+        else {
+          console.log(response)
+          commit("setDataLoaded", true)
+        }
+      })
+    },
+
     fillLocationAccommodations({commit}, payload) {
       fetch("https://" + this.state.host + ":44301/api/accommodation/get-location-accommodations/" + payload.locationId, {
         method: "GET",
@@ -499,6 +568,28 @@ export default new Vuex.Store({
           })
         }
         else {
+          commit("setDataLoaded", true)
+        }
+      })
+    },
+
+    fillAvailableDecorations({commit}, payload) {
+      commit("setDataLoaded", false)
+      fetch("https://" + this.state.host + ":44301/api/add-on/get-available-decorations/" + payload.tripId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setAvailableDecorations", data)
+            commit("setDataLoaded", true)
+          })
+        }
+        else {
+          console.log(response)
           commit("setDataLoaded", true)
         }
       })
@@ -1077,6 +1168,51 @@ export default new Vuex.Store({
       }).then(response => {
         if(response.ok) {
           console.log("Item checked status changed")
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    postAddAddOn({commit}, newAddOn) {
+      fetch("https://" + this.state.host + ":44301/api/add-on/create-add-on/", {
+        method: 'POST',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify({
+          "tripId": newAddOn.tripId,
+          "addOnType": newAddOn.type,
+          "price": newAddOn.price,
+          "description": newAddOn.description,
+          "lvl1DependId": newAddOn.lvl1DependId,
+          "lvl2DependId": newAddOn.lvl2DependId
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("Add-on added")
+            commit("addAddOnToTrip", data)
+          })
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    deleteAddOn({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/add-on/delete-add-on/" + payload.addOnId + "/" + payload.tripId, {
+        method: 'DELETE',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          console.log("Add-on deleted")
         }
         else {
           console.log(response)
