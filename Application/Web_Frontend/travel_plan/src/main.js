@@ -22,6 +22,10 @@ Vue.use(TravelPlanHub)
 import VueCookie from 'vue-cookie'
 Vue.use(VueCookie)
 
+import VueLazyLoad from 'vue-lazyload'
+require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
+Vue.use(VueLazyLoad)
+
 Vue.config.productionTip = false
 
 new Vue({

@@ -25,6 +25,10 @@
           <span v-if="!inEditMode && !modeAddNew">{{addOn.price}}</span>
           <b-form-input :type="'number'" v-model="editingAddOn.price" v-else style="width: 80px;" placeholder="Enter price..."></b-form-input>
         </b-card-text>
+        <b-card-text v-if="modeAddNew" class="common-header" style="justify-content:center; max-width:none; width:100%;">
+          <div class="icon-simulation" v-b-popover.hover.top='"Click on the title of the add-on you wish to decorate. " + 
+          "Click on \"Add-ons\" if you wish to decorate the trip itself."'> ? </div>
+        </b-card-text>
         <div style="display:flex; flex-wrap:wrap;" v-if="!modeAddNew">
           <div v-for="lvl1AddOn in addOn.lvl1" :key="lvl1AddOn.addOnId">
             <AddOnBox :modeAddNew="false" :canChoose="canChoose" :chosenAddOn="chosenAddOn" :addOnProp="lvl1AddOn" :tripId="tripId" :level="2" @addOnChosen="propagateAddOnChosen"/>
@@ -281,5 +285,16 @@ export default {
 .not-chosen {
   background-color: white;
   border-radius: 10px;
+}
+
+.icon-simulation {
+  width: fit-content;
+  font-size: 20px;
+  margin: 0px 10px;
+  border: 2px solid green;
+  padding: 0px 9px;
+  border-radius: 30px;
+  cursor:context-menu;
+  color: green;
 }
 </style>

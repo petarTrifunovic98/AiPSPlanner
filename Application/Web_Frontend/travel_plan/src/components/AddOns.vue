@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper" v-if="tripAddOns">
-    <div class="section-title">
+    <div :class="['section-title', addAddOnFormOpen ? 'choosable' : '']" @click="chooseTrip">
       Add-ons
     </div>
     <button 
@@ -57,9 +57,9 @@ export default {
       if(!this.chosenAddOn)
         return 1
       else if(this.chosenAddOn.lvl1DependId == 0 && this.chosenAddOn.lvl2DependId ==0)
-        return 3
-      else
         return 2
+      else
+        return 3
     },
     canShowForm() {
       if(this.availableDecorations && this.availableDecorations.length > 0)
@@ -85,11 +85,15 @@ export default {
   methods: {
     toggleAddOnForm() {
       this.addAddOnFormOpen = !this.addAddOnFormOpen
+      this.chosenAddOn = null
     },
     setChosenAddOn(addOn) {
       this.chosenAddOn = addOn
     },
-    
+    chooseTrip() {
+      if(this.addAddOnFormOpen)
+        this.chosenAddOn = null
+    },
     onAddAddOn(addOn) {
       this.addAddOn(addOn)
       //this.$forceUpdate()
@@ -148,5 +152,10 @@ export default {
   padding: 10px;
   border: 2px lightskyblue solid;
   border-radius: 10px;
+}
+
+.choosable:hover {
+  cursor: pointer;
+  color: blue;
 }
 </style>

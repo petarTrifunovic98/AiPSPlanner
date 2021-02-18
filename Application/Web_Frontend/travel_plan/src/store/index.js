@@ -175,6 +175,11 @@ export default new Vuex.Store({
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == locationId)
       state.tripLocations[locationIndex].accommodations = data
     },
+    setAccommodationPictures(state, {data, accommodationId, locationId}) {
+      const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == locationId)
+      const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodationId)
+      state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures = data
+    },
     setSpecificTripBasicInfo(state, tripInfo) {
       state.specificTrip.name = tripInfo.name
       state.specificTrip.description = tripInfo.description
@@ -243,6 +248,17 @@ export default new Vuex.Store({
         if(accommodationIndex > -1)
           state.tripLocations[locationIndex].accommodations.splice(accommodationIndex, 1)
       }
+    },
+    addPictureToAccommodation(state, data) {
+      const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == data.locationId)
+      const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == data.accommodationId)
+      state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures.push(data)
+    },
+    removePictureFromAccommodation(state, deleteInfo) {
+      const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == deleteInfo.locationId)
+      const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == deleteInfo.accommodationId)
+      const pictureIndex = state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures.findIndex(p => p.accommodationPictureId == deleteInfo.accommodationPictureId)
+      state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures.splice(pictureIndex, 1)
     },
     addTravelerToSpecificTrip(state, addedTravelers) {
       addedTravelers = addedTravelers.filter(traveler => state.specificTrip.travelers.findIndex(t => t.userId == traveler.userId) < 0)
@@ -572,6 +588,26 @@ export default new Vuex.Store({
         if(response.ok) {
           response.json().then(data => {
             commit("setLocationAccommodations", {'data': data, 'locationId': payload.locationId})
+            commit("setDataLoaded", true)
+          })
+        }
+        else {
+          commit("setDataLoaded", true)
+        }
+      })
+    },
+
+    fillAccommodationPictures({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/accommodation/get-pictures/accommodation/" + payload.accommodationId, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setAccommodationPictures", {'data': data, 'accommodationId': payload.accommodationId, 'locationId': payload.locationId})
             commit("setDataLoaded", true)
           })
         }
@@ -1097,6 +1133,47 @@ export default new Vuex.Store({
       }).then(response => {
         if(response.ok) {
           console.log("Accommodation deleted")
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    postAddAccommodationPicture({commit}, newPicture) {
+      fetch("https://" + this.state.host + ":44301/api/accommodation/add-picture/" + newPicture.tripId, {
+        method: 'POST',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify({
+          "accommodationId": newPicture.accommodationId,
+          "picture": newPicture.picture
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            console.log("Picture added")
+            commit("addPictureToAccommodation", data)
+          })
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    deleteAccommodationPicture({commit}, {tripId, deleteInfo}) {
+      fetch("https://" + this.state.host + ":44301/api/accommodation/delete-picture/" + deleteInfo.accommodationPictureId + "/" + tripId, {
+        method: 'DELETE',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          console.log("Picture deleted")
         }
         else {
           console.log(response)
