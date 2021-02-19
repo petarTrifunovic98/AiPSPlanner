@@ -29,6 +29,20 @@
           <div class="icon-simulation" v-b-popover.hover.top='"Click on the title of the add-on you wish to decorate. " + 
           "Click on \"Add-ons\" if you wish to decorate the trip itself."'> ? </div>
         </b-card-text>
+        <b-card-text v-if="!modeAddNew && !inEditMode && myVotable" style="display:flex; flex-direction:column;">
+          <div class="vote-div">
+            <img src="../assets/like.png" class="vote-pic" >
+            <span style="font-size: 20px; color:green;"> {{myVotable.positiveVotes}} </span>
+          </div>
+          <div class="vote-div">
+            <img src="../assets/dislike.png" class="vote-pic">
+            <span style="font-size: 20px; color:red;"> {{myVotable.negativeVotes}} </span>
+          </div>
+        </b-card-text>
+        <button 
+          type="button" class="btn btn-primary dugme" @click="openModalVotes = true" 
+          v-if="!modeAddNew && !inEditMode" style="margin-bottom:10px;" v-text="hasEditRights ? 'Vote or view votes' : 'View votes'">
+        </button>
         <div style="display:flex; flex-wrap:wrap;" v-if="!modeAddNew">
           <div v-for="lvl1AddOn in addOn.lvl1" :key="lvl1AddOn.addOnId">
             <AddOnBox :modeAddNew="false" :canChoose="canChoose" :chosenAddOn="chosenAddOn" :addOnProp="lvl1AddOn" :tripId="tripId" :level="2" @addOnChosen="propagateAddOnChosen"/>
@@ -46,13 +60,16 @@
       :tekst="'Are you sure you want to delete this add-on?'"
       @close="openModalDelete = false" @yes="deleteOne" v-if="openModalDelete"
     />
+    <ModalVotes 
+      :votableId="addOn.votable.votableId" :canVote="hasEditRights"
+      @close="openModalVotes = false" v-if="openModalVotes"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex"
 import AddOnBox from "@/components/AddOnBox.vue"
-//import ModalAreYouSure from "@/components/ModalAreYouSure.vue"
 
 export default {
   components: {
@@ -93,6 +110,7 @@ export default {
         JSON.parse(JSON.stringify(this.addOnProp)),
       headerClasses: ['header-lvl-1', 'header-lvl-2', 'header-lvl-3'],
       openModalDelete: false,
+      openModalVotes: false,
       selectedDecoration: 0
     }
   },
@@ -121,9 +139,13 @@ export default {
         return true
       return false
     },
+    myVotable() {
+      return this.votables.find(v => v.votableId == this.addOnProp.votable.votableId)
+    },
     ...mapGetters({
       hasEditRights: 'getHasEditRights',
-      tripId: 'getSpecificTripId'
+      tripId: 'getSpecificTripId',
+      votables: 'getVotables'
     })
   },
   methods: {
@@ -183,6 +205,7 @@ export default {
   },
   beforeCreate: function() {
     this.$options.components.ModalAreYouSure = require("@/components/ModalAreYouSure.vue").default
+    this.$options.components.ModalVotes = require("@/components/ModalVotes.vue").default
   }
 }
 </script>
@@ -296,5 +319,17 @@ export default {
   border-radius: 30px;
   cursor:context-menu;
   color: green;
+}
+
+.vote-pic {
+  height: 30px; 
+  width: 30px; 
+  margin-right: 15px;
+}
+
+.vote-div {
+  display:flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
 </style>

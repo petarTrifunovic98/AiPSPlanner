@@ -59,7 +59,7 @@ export default {
       addSignalREventListener('AddToTeamNotification')
 
       addSignalREventListener('EditRightsNotification')
-      
+
 
       function addSignalREventListener(name) {
         connection.on(name, (payload) => {
