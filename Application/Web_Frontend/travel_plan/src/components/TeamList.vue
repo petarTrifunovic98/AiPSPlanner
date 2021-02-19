@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import {mapMutations} from "vuex"
 import Team from "@/components/Team"
 export default {
     components:
