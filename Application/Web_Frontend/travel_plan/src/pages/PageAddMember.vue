@@ -120,7 +120,7 @@ export default {
             if(this.objectType == "teams")
                 this.$router.push("/teams")
             else
-                this.$router.push({name: "PageSpecificTrip", params: {id: this.objectId}})
+                this.$router.push({name: "PageSpecificTrip", params: {id: this.objectId, noEditRequest: true}})
         },
         selectMember(id)
         {

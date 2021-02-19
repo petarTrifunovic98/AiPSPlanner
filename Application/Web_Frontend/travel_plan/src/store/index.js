@@ -1586,6 +1586,23 @@ export default new Vuex.Store({
       })
     },
 
+    putRemoveTripMember({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/trip/remove-user/" + payload.tripId + "/" + payload.userId, {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          console.log("Left trip")
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
     searchUsers({commit}, payload){
       commit("setDataLoaded", false)
       fetch("https://" + this.state.host + ":44301/api/user/get-users-substring/" + payload, {
