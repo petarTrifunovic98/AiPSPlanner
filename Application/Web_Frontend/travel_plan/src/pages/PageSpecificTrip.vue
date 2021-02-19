@@ -100,6 +100,8 @@ export default {
         })
       }
       else {
+        this.$travelPlanHub.$off('ChangeVotable')
+        this.$travelPlanHub.LeaveTripGroup(this.tripId)
         this.$store.dispatch('cancelEditRequest', {
           tripId: this.tripId,
           userId: this.getAuthUserId
@@ -108,13 +110,19 @@ export default {
       event.returnValue = ''
       window.removeEventListener('beforeunload', this.leavePage)
     },
+    onVotableChanged(newVotable) {
+      this.changeVotable(newVotable)
+    },
     ...mapMutations({
-      setSpecificTrip: 'setSpecificTrip'
+      setSpecificTrip: 'setSpecificTrip',
+      setVotables: 'setVotables',
+      changeVotable: 'replaceVotable'
     })
   },
   created() {
     const that = this
     window.addEventListener('beforeunload', this.leavePage)
+    this.setVotables([])
 
     if(this.tripProp) {
       this.setSpecificTrip(this.tripProp)
@@ -139,6 +147,8 @@ export default {
       })
     })
 
+    this.$travelPlanHub.$on('ChangeVotable', this.onVotableChanged)
+
     if(!this.accommodationTypes)
       this.$store.dispatch('fillAccommodationTypes')
   },
@@ -149,6 +159,7 @@ export default {
       })
     }
     else {
+      this.$travelPlanHub.$off('ChangeVotable')
       this.$travelPlanHub.LeaveTripGroup(this.tripId)
       this.$store.dispatch('cancelEditRequest', {
         tripId: this.tripId,

@@ -41,6 +41,20 @@
             </b-form-datepicker>
           </div>
         </b-card-text>
+        <b-card-text v-if="!modeAddNew && !inEditMode && myVotable" style="display:flex; flex-direction:column;">
+          <div class="vote-div">
+            <img src="../assets/like.png" class="vote-pic" >
+            <span style="font-size: 20px; color:green;"> {{myVotable.positiveVotes}} </span>
+          </div>
+          <div class="vote-div">
+            <img src="../assets/dislike.png" class="vote-pic">
+            <span style="font-size: 20px; color:red;"> {{myVotable.negativeVotes}} </span>
+          </div>
+        </b-card-text>
+        <button 
+          type="button" class="btn btn-primary dugme" @click="openModalVotes = true" 
+          v-if="!modeAddNew && !inEditMode" style="margin-bottom:10px;" v-text="hasEditRights ? 'Vote or view votes' : 'View votes'">
+        </button>
         <div v-if="accommodationsOpen">
           <div style="margin: 30px 0px 10px 0px; font-weight: bold; font-size: 20px;" v-if="accommodations && accommodations.length > 0">
             Accommodations:
@@ -54,14 +68,20 @@
             </div>
           </div>
         </div>
-        <button type="button" class="btn btn-primary dugme" @click="showAccommodations" v-if="!accommodationsOpen && !modeAddNew"> View accommodations </button>
-        <button type="button" class="btn btn-primary dugme" @click="hideAccommodations" v-else-if="!modeAddNew"> Hide accommodations </button>
+        <div style="display:flex; flex-direction:column; width:fit-content;">
+          <button type="button" class="btn btn-primary dugme" @click="showAccommodations" v-if="!accommodationsOpen && !modeAddNew"> View accommodations </button>
+          <button type="button" class="btn btn-primary dugme" @click="hideAccommodations" v-else-if="!modeAddNew"> Hide accommodations </button>
+        </div>
       </b-card-body>
     </div>
     <ModalAreYouSure 
       :naslov="'Delete location'"
       :tekst="'Are you sure you want to delete this location?'"
       @close="openModalDelete = false" @yes="deleteOne" v-if="openModalDelete"
+    />
+    <ModalVotes 
+      :votableId="location.votable.votableId" :canVote="hasEditRights"
+      @close="openModalVotes = false" v-if="openModalVotes"
     />
   </div>
 </template>
@@ -70,11 +90,13 @@
 import { mapGetters, mapMutations } from "vuex"
 import AccommodationBox from "@/components/AccommodationBox.vue"
 import ModalAreYouSure from "@/components/ModalAreYouSure.vue"
+import ModalVotes from "@/components/ModalVotes.vue"
 
 export default {
   components: {
     AccommodationBox,
-    ModalAreYouSure
+    ModalAreYouSure,
+    ModalVotes
   },
   props: {
     locationProp: {
@@ -101,7 +123,8 @@ export default {
       editingLocation: this.modeAddNew ? 
         { name: "", description: "", latitude: "", longitude: "", from: "", to: ""} : 
         JSON.parse(JSON.stringify(this.locationProp)),
-      openModalDelete: false
+      openModalDelete: false,
+      openModalVotes: false
     }
   },
   computed: {
@@ -131,9 +154,13 @@ export default {
         return true
       return false
     },
+    myVotable() {
+      return this.votables.find(v => v.votableId == this.locationProp.votable.votableId)
+    },
     ...mapGetters({
       hasEditRights: 'getHasEditRights',
-      tripId: 'getSpecificTripId'
+      tripId: 'getSpecificTripId',
+      votables: 'getVotables'
     })
   },
   methods: {
@@ -287,5 +314,17 @@ export default {
 .chosen {
   background-color: rgb(185, 255, 185);
   border-radius: 10px;
+}
+
+.vote-pic {
+  height: 30px; 
+  width: 30px; 
+  margin-right: 15px;
+}
+
+.vote-div {
+  display:flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
 </style>

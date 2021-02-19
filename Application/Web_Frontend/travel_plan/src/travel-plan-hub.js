@@ -44,6 +44,8 @@ export default {
       addSignalREventListener('AddMemberToTrip')
       addSignalREventListener('RemoveUserFromTrip')
 
+      addSignalREventListener('ChangeVotable')
+
       addSignalREventListener('AddItemNotification')
       addSignalREventListener('EditItemNotification')
       addSignalREventListener('RemoveItemNotification')

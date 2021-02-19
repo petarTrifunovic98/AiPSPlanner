@@ -44,6 +44,20 @@
             </b-form-datepicker>
           </div>
         </b-card-text>
+        <b-card-text v-if="!modeAddNew && !inEditMode && myVotable" style="display:flex; flex-direction:column;">
+          <div class="vote-div">
+            <img src="../assets/like.png" class="vote-pic" >
+            <span style="font-size: 20px; color:green;"> {{myVotable.positiveVotes}} </span>
+          </div>
+          <div class="vote-div">
+            <img src="../assets/dislike.png" class="vote-pic">
+            <span style="font-size: 20px; color:red;"> {{myVotable.negativeVotes}} </span>
+          </div>
+        </b-card-text>
+        <button 
+          type="button" class="btn btn-primary dugme" @click="openModalVotes = true" 
+          v-if="!modeAddNew && !inEditMode" style="margin-bottom:10px;" v-text="hasEditRights ? 'Vote or view votes' : 'View votes'">
+        </button>
         <b-card-text v-if="picturesOpen && !modeAddNew">
           <div style="margin: 30px 0px 10px 0px; font-weight: bold; font-size: 20px;" v-if="pictures && pictures.length > 0">
             Pictures:
@@ -67,8 +81,10 @@
         <b-card-text v-if="modeAddNew" class="common-header" style="justify-content:center; max-width:none; width:100%;">
           <div class="icon-simulation" v-b-popover.hover.top="'Click on the name of the location you wish to add the accommodation to'"> ? </div>
         </b-card-text>
-        <button type="button" class="btn btn-primary dugme" @click="showPictures" v-if="!picturesOpen && !modeAddNew"> View pictures </button>
-        <button type="button" class="btn btn-primary dugme" @click="hidePictures" v-else-if="!modeAddNew"> Hide pictures </button>
+        <div style="display:flex; flex-direction:column; width:fit-content;">
+          <button type="button" class="btn btn-primary dugme" @click="showPictures" v-if="!picturesOpen && !modeAddNew"> View pictures </button>
+          <button type="button" class="btn btn-primary dugme" @click="hidePictures" v-else-if="!modeAddNew"> Hide pictures </button>
+        </div>
       </b-card-body>
     </div>
     <ModalAreYouSure 
@@ -81,6 +97,10 @@
       :tekst="'Are you sure you want to delete this picture?'"
       @close="openModalDeletePicture = false" @yes="deletePicture" v-if="openModalDeletePicture"
     />
+    <ModalVotes 
+      :votableId="accommodation.votable.votableId" :canVote="hasEditRights"
+      @close="openModalVotes = false" v-if="openModalVotes"
+    />
   </div>
 </template>
 
@@ -88,11 +108,13 @@
 import { mapGetters, mapMutations } from "vuex"
 import ModalAreYouSure from "@/components/ModalAreYouSure.vue"
 import LightBox from "vue-image-lightbox"
+import ModalVotes from "@/components/ModalVotes.vue"
 
 export default {
   components: {
     ModalAreYouSure,
-    LightBox
+    LightBox,
+    ModalVotes
   },
   props: {
     accommodationProp: {
@@ -119,6 +141,7 @@ export default {
         JSON.parse(JSON.stringify(this.accommodationProp)),
       openModalDelete: false,
       openModalDeletePicture: false,
+      openModalVotes: false,
       pictureToDeleteId: -1,
       selectedType: 0
     }
@@ -158,10 +181,14 @@ export default {
         return ret.concat(this.accommodationTypes)
       }
     },
+    myVotable() {
+      return this.votables.find(v => v.votableId == this.accommodationProp.votable.votableId)
+    },
     ...mapGetters({
       hasEditRights: 'getHasEditRights',
       tripId: 'getSpecificTripId',
-      accommodationTypes: 'getAccommodationTypes'
+      accommodationTypes: 'getAccommodationTypes',
+      votables: 'getVotables'
     })
   },
   methods: {
@@ -391,5 +418,17 @@ export default {
 
 .img-container {
   display: flex;
+}
+
+.vote-pic {
+  height: 30px; 
+  width: 30px; 
+  margin-right: 15px;
+}
+
+.vote-div {
+  display:flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
 </style>
