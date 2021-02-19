@@ -1052,7 +1052,7 @@ export default new Vuex.Store({
           if(p.ok) {
             this.state.isDataLoaded = true
             this.state.wrongOriginalPass = false
-            router.push("/");
+            router.push("/trips");
             router.push({name: "PageViewProfile", 
               params: {
                 id: this.state.authUser.userId, 
@@ -1626,7 +1626,7 @@ export default new Vuex.Store({
         if(response.ok) {
           response.json().then(data => {
             commit("setDataLoaded", true)
-            router.push("/")
+            router.push("/trips")
           })
         }
         else {
