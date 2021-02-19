@@ -1,8 +1,16 @@
 <template>
   <div v-if="isDataLoaded && specificTrip" class="main-wrap">
     <div class="a-row primary-row">
-      <BasicInfo :tripInfo="tripInfo" v-if="tripInfo"/>
-      <Travelers/>
+      <div style="flex-grow:1; display:flex; flex-direction:column; width:fit-content;">
+        <BasicInfo :tripInfo="tripInfo" v-if="tripInfo"/>
+        <button type="button" class="btn btn-danger leave-btn" @click="openModalLeave = true" v-if="hasEditRights">
+          Leave trip
+        </button>
+        <button type="button" class="btn btn-primary leave-btn" @click="backToTrips">
+          Back to trips
+        </button>
+      </div>
+      <Travelers @addMember="addMember"/>
     </div>
     <div class="a-row" >
       <AddOns :tripId="parseInt(tripId)"/>
@@ -13,6 +21,11 @@
     <div class="a-row" >
       <Items/>
     </div>
+    <ModalAreYouSure 
+      :naslov="'Leave trip'"
+      :tekst="'Are you sure you want to leave this trip?'"
+      @close="openModalLeave = false" @yes="leaveTrip" v-if="openModalLeave"
+    />
   </div>
   <Spinner v-else />
 </template>
@@ -27,6 +40,7 @@ import Items from "@/components/Items.vue"
 import AddOns from "@/components/AddOns.vue"
 import Travelers from "@/components/Travelers.vue"
 import Spinner from "@/components/Spinner.vue"
+import ModalAreYouSure from "@/components/ModalAreYouSure.vue"
 
 export default {
   components: {
@@ -36,28 +50,27 @@ export default {
     Items,
     AddOns,
     Travelers,
-    Spinner
+    Spinner,
+    ModalAreYouSure
   },
   props: {
     tripProp: {
       required: false
+    },
+    noEditRequest: {
+      required: false,
+      type: Boolean
     }
   },
   data() {
     return {
       trip: this.tripProp,
-      tripId: this.$route.params.id
+      tripId: this.$route.params.id,
+      releaseEdit: true,
+      openModalLeave: false
     }
   },
   computed: {
-    ...mapGetters({
-      tripAdditionalInfo: 'getTripAdditionalInfo',
-      isDataLoaded: 'getIsDataLoaded',
-      specificTrip: 'getSpecificTrip',
-      getAuthUserId: 'getAuthUserId',
-      accommodationTypes: 'getAccommodationTypes',
-      hasEditRights: 'getHasEditRights'
-    }),
     tripInfo() {
       if(!this.specificTrip) {
         return null
@@ -71,10 +84,15 @@ export default {
           to: this.specificTrip.to
         }
       }
-    }
-    // tripId() {
-    //   return this.$route.params.id
-    // }
+    },
+    ...mapGetters({
+      tripAdditionalInfo: 'getTripAdditionalInfo',
+      isDataLoaded: 'getIsDataLoaded',
+      specificTrip: 'getSpecificTrip',
+      getAuthUserId: 'getAuthUserId',
+      accommodationTypes: 'getAccommodationTypes',
+      hasEditRights: 'getHasEditRights'
+    })
   },
   watch: {
     hasEditRights(newValue, oldValue) {
@@ -85,6 +103,27 @@ export default {
     }
   },
   methods: {
+    backToTrips() {
+      this.$router.push("/trips")
+    },
+    leaveTrip() {
+      let payload = {
+        tripId: this.tripId,
+        userId: this.getAuthUserId
+      }
+      this.$store.dispatch("putRemoveTripMember", payload)
+      this.$router.push("/trips")
+    },
+    addMember() {
+      this.releaseEdit = false
+      this.$router.push({
+        name: "PageAddMember", 
+        params: {
+          id: this.tripId, 
+          type: "trips"
+        }
+      })
+    },
     onTripInfoEdited(trip) {
       this.trip.name = trip.name
       this.trip.description = trip.description
@@ -130,19 +169,21 @@ export default {
     else 
       this.$store.dispatch('fillSpecificTrip', {tripId: this.tripId})
 
-    this.$store.dispatch('requestTripEdit', {
-      tripId: this.tripId,
-      userId: this.getAuthUserId
+    if(!this.noEditRequest) {
+      this.$store.dispatch('requestTripEdit', {
+        tripId: this.tripId,
+        userId: this.getAuthUserId
+      })
+    }
+    
+    this.$store.dispatch('fillTripLocations', {
+      tripId: this.tripId
     }).then(() => {
-      this.$store.dispatch('fillTripLocations', {
+      this.$store.dispatch('fillTripAddOns', {
         tripId: this.tripId
       }).then(() => {
-        this.$store.dispatch('fillTripAddOns', {
+        this.$store.dispatch('fillAvailableDecorations', {
           tripId: this.tripId
-        }).then(() => {
-          this.$store.dispatch('fillAvailableDecorations', {
-            tripId: this.tripId
-          })
         })
       })
     })
@@ -154,9 +195,11 @@ export default {
   },
   beforeDestroy() {
     if(this.hasEditRights) {
-      this.$store.dispatch('releaseEditRights', {
-        tripId: this.tripId
-      })
+      if(this.releaseEdit) {
+        this.$store.dispatch('releaseEditRights', {
+          tripId: this.tripId
+        })
+      }
     }
     else {
       this.$travelPlanHub.$off('ChangeVotable')
@@ -195,4 +238,9 @@ export default {
   border-bottom: 30px solid lightskyblue;
 }
 
+.leave-btn {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
 </style>

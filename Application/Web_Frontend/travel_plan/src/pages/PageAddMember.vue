@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex"
 import Spinner from "@/components/Spinner"
 import TeamViewOnly from "@/components/TeamViewOnly"
 import ModalAreYouSure from "@/components/ModalAreYouSure"
@@ -119,7 +120,7 @@ export default {
             if(this.objectType == "teams")
                 this.$router.push("/teams")
             else
-                this.$router.push({name: "PageSpecificTrip", params: {id: this.objectId}})
+                this.$router.push({name: "PageSpecificTrip", params: {id: this.objectId, noEditRequest: true}})
         },
         selectMember(id)
         {

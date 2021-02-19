@@ -1,14 +1,17 @@
 <template>
-  <div  v-if="specificTrip" class="main-wrap">
+  <div  v-if="specificTrip" class="main-wrapper">
     <div style="font-weight: bold; font-size: 25px;">
       Travelers:
     </div>
-    <div class="travelers">
-      <img src="../assets/left-arrow.svg" class="arrows" @click="rotateTravelers(-1)" v-if="canRotateLeft">
-      <div v-for="traveler in travelersPortion" :key="traveler.userId">
-        <TravelerBox :travelerProp="traveler"/>
+    <div style="display:flex;">
+      <div class="travelers">
+        <img src="../assets/left-arrow.svg" class="arrows" @click="rotateTravelers(-1)" v-if="canRotateLeft">
+        <div v-for="traveler in travelersPortion" :key="traveler.userId">
+          <TravelerBox :travelerProp="traveler"/>
+        </div>
+        <img src="../assets/right-arrow.svg" class="arrows" @click="rotateTravelers(1)" v-if="canRotateRight">
       </div>
-      <img src="../assets/right-arrow.svg" class="arrows" @click="rotateTravelers(1)" v-if="canRotateRight">
+      <img src="../assets/add.svg" class="add" v-b-popover.hover.top="'Add a new traveler'" @click="goToAddMember" v-if="hasEditRights">
     </div>
   </div>
   <Spinner v-else />
@@ -34,7 +37,8 @@ export default {
     ...mapGetters({
       isDataLoaded: 'getIsDataLoaded',
       tripTravelers: 'getSpecificTripTravelers',
-      specificTrip: 'getSpecificTrip'
+      specificTrip: 'getSpecificTrip',
+      hasEditRights: 'getHasEditRights'
     }),
     travelersPortion() {
       if(!this.tripTravelers)
@@ -54,12 +58,14 @@ export default {
     }
   },
   methods: {
+    goToAddMember() {
+      this.$emit("addMember", "addMember")
+    },
     rotateTravelers(factor) {
       if(factor > 0 && (this.firstTravelerInd + this.travelersShown - 1 + factor) <= this.tripTravelers.length)
         this.firstTravelerInd ++
       else if((this.firstTravelerInd + factor) >= 0)
         this.firstTravelerInd --
-
     },
     onAddTraveler(item) {
       this.addTraveler(item)
@@ -88,7 +94,7 @@ export default {
   width:100%;
 }
 
-.main-wrap {
+.main-wrapper {
   margin: 20px;
   flex-grow: 1;
 }
@@ -117,5 +123,19 @@ export default {
   border-radius: 8px;
 }
 
+.add {
+  height: 50px;
+  width: 50px;
+  align-self: center;
+  margin: 0px 5px;
+  padding: 3px;
+  cursor: pointer;
+  border: 1px solid white;
+}
+
+.add:hover {
+  border: 1px lightgray solid;
+  border-radius: 30px;
+}
 
 </style>

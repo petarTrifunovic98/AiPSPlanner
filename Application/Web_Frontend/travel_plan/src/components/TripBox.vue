@@ -43,7 +43,7 @@ export default {
       //   this.$router.push({name: "PageViewProfile", params: {id: this.user.id, user: this.user, RequestSelect:this.RequestSelect}})
       // },
       onViewTripPage() {
-        this.$router.push({name: "PageSpecificTrip", params: {tripProp: this.tripProp, id: this.tripProp.tripId}})
+        this.$router.push({name: "PageSpecificTrip", params: {tripProp: this.tripProp, id: this.tripProp.tripId, noEditRequest: false}})
       },
       goToAdditionalInfo()
       {
