@@ -28,7 +28,10 @@ export default new Vuex.Store({
     searchedUsers: null,
     allAvailableDecorations: null,
     accommodationTypes: null,
-    addOnWatch: null
+    addOnWatch: null,
+    positiveVotes: null,
+    negativeVotes: null,
+    votables: null
   },
   getters: {
     getIsDataLoaded: state => {
@@ -110,6 +113,15 @@ export default new Vuex.Store({
     },
     getAddOnWatch: state => {
       return state.addOnWatch
+    },
+    getPositiveVotes: state => {
+      return state.positiveVotes
+    },
+    getNegativeVotes: state => {
+      return state.negativeVotes
+    },
+    getVotables: state => {
+      return state.votables
     }
   },
   mutations: {
@@ -144,6 +156,13 @@ export default new Vuex.Store({
     },
     setTripLocations(state, locations) {
       state.tripLocations = locations
+      if(locations == null)
+        return
+      if(state.votables) {
+        state.tripLocations.forEach(loc => {
+          state.votables.push(loc.votable)
+        })
+      }
     },
     setAvailableDecorations(state, data) {
       state.allAvailableDecorations = data
@@ -153,6 +172,10 @@ export default new Vuex.Store({
         state.tripAddOns = null
         return
       }
+      if(state.votables)
+        addOns.forEach(addOn => {
+          state.votables.push(addOn.votable)
+        })
       state.tripAddOns = {}
       addOns.slice(0).reverse().map(addOn => {
         if(addOn.lvl1DependId == 0 && addOn.lvl2DependId == 0) {
@@ -172,6 +195,11 @@ export default new Vuex.Store({
       state.accommodationTypes = data
     },
     setLocationAccommodations(state, {data, locationId}) {
+      if(state.votables) {
+        data.forEach(acc => {
+          state.votables.push(acc.votable)
+        })
+      }
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == locationId)
       state.tripLocations[locationIndex].accommodations = data
     },
@@ -186,8 +214,18 @@ export default new Vuex.Store({
       state.specificTrip.from = tripInfo.from
       state.specificTrip.to = tripInfo.to
     },
+    setVotes(state, {positive, data}) {
+      if(positive) 
+        state.positiveVotes = data
+      else
+        state.negativeVotes = data
+    },
+    setVotables(state, data) {
+      state.votables = data
+    },
     addLocationToSpecificTrip(state, location) {
       state.tripLocations.push(location)
+      state.votables.push(location.votable)
     },
     replaceEditedLocation(state, location) {
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == location.locationId)
@@ -199,9 +237,18 @@ export default new Vuex.Store({
       }
     },
     removeLocationFromSpecificTrip(state, locationId) {
-      const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == locationId)
-      if(locationIndex > -1)
+      let locationIndex = state.tripLocations.findIndex(loc => loc.locationId == locationId)
+      if(locationIndex > -1) {
+        let votableIndex = state.votables.findIndex(v => v.votableId == state.tripLocations[locationIndex].votableId)
+        if(votableIndex > -1)
+          state.votables.splice(votableIndex, 1)
+        state.tripLocations[locationIndex].accommodations.forEach(acc => {
+          votableIndex = state.votables.findIndex(v => v.votableId == acc.votableId)
+          if(votableIndex > -1)
+            state.votables.splice(votableIndex, 1)
+        })
         state.tripLocations.splice(locationIndex, 1)
+      }
     },
     addItemToSpecificTrip(state, item) {
       state.specificTrip.itemList.push(item)
@@ -225,6 +272,8 @@ export default new Vuex.Store({
         state.specificTrip.itemList.splice(itemIndex, 1)
     },
     addAccommodationToLocation(state, accommodation) {
+      if(state.votables)
+        state.votables.push(accommodation.votable)
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == accommodation.locationId)
       state.tripLocations[locationIndex].accommodations.push(accommodation)
     },
@@ -245,8 +294,12 @@ export default new Vuex.Store({
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == accommodation.locationId)
       if(locationIndex > -1) {
         const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodation.accommodationId)
-        if(accommodationIndex > -1)
+        if(accommodationIndex > -1) {
+          const votableIndex = state.votables.findIndex(v => v.votableId == state.tripLocations[locationIndex].accommodations[accommodationIndex].votableId)
           state.tripLocations[locationIndex].accommodations.splice(accommodationIndex, 1)
+          if(votableIndex > -1)
+           state.votables.splice(votableIndex, 1)
+        }
       }
     },
     addPictureToAccommodation(state, data) {
@@ -271,6 +324,9 @@ export default new Vuex.Store({
       }
     },
     addAddOnToTrip(state, addOn) {
+      if(state.votables)
+        state.votables.push(addOn.votable)
+
       if(addOn.lvl1DependId == 0 && addOn.lvl2DependId == 0) {
         addOn["lvl1"] = {}
         Vue.set(state.tripAddOns, String(addOn.addOnId), addOn)
@@ -311,19 +367,77 @@ export default new Vuex.Store({
     },
     removeAddOnsFromTrip(state, addOn) {
       if(addOn.lvl1DependId == 0 && addOn.lvl2DependId == 0) {
+        let votableIndex = state.votables.findIndex(v => v.votableId == addOn.votableId)
+        if(votableIndex > -1)
+          state.votables.splice(votableIndex, 1)
+        for(const prop in addOn.lvl1) {
+          votableIndex = state.votables.findIndex(v => v.votableId == addOn.lvl1[prop].votableId)
+          if(votableIndex > -1)
+            state.votables.splice(votableIndex, 1)
+          for(const prop2 in addOn.lvl1[prop].lvl2) {
+            votableIndex = state.votables.findIndex(v => v.votableId == addOn.lvl1[prop].lvl2[prop2].votableId)
+            if(votableIndex > -1)
+              state.votables.splice(votableIndex, 1)
+          }
+        }
         Vue.delete(state.tripAddOns, String(addOn.addOnId))
       }
       else if(addOn.lvl2DependId == 0) {
         const topLevelAddOn = JSON.parse(JSON.stringify(state.tripAddOns[String(addOn.lvl1DependId)]))
+        let votableIndex = state.votables.findIndex(v => v.votableId == topLevelAddOn.lvl1[String(addOn.addOnId)].votableId)
+        if(votableIndex > -1) {
+          state.votables.splice(votableIndex, 1)
+          for(const prop in topLevelAddOn.lvl1[addOn.addOnId].lvl2) {
+            votableIndex = state.votables.findIndex(v => v.votableId == topLevelAddOn.lvl1[String(addOn.addOnId)].lvl2[prop].votableId)
+            if(votableIndex > -1) 
+              state.votables.splice(votableIndex, 1)
+          }
+        } 
         Vue.delete(topLevelAddOn["lvl1"], String(addOn.addOnId))
         Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
       }
       else {
         const topLevelAddOn = JSON.parse(JSON.stringify(state.tripAddOns[String(addOn.lvl1DependId)]))
+        let votableIndex = state.votables.findIndex(v => v.votableId == topLevelAddOn.lvl1[String(addOn.lvl2DependId)].lvl2[String(addOn.addOnId)].votableId)
+        if(votableIndex > -1) 
+          state.votables.splice(votableIndex, 1)
         Vue.delete(topLevelAddOn["lvl1"][String(addOn.lvl2DependId)]["lvl2"], String(addOn.addOnId))
         Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
       }
       state.addOnWatch = 1
+    },
+    replaceVotable(state, newVotable) {
+      let votableIndex = state.votables.findIndex(v => v.votableId == newVotable.votableId)
+      state.votables.splice(votableIndex, 1, newVotable)
+    },
+    addVote(state, newVote) {
+      if(newVote.positive) {
+        state.positiveVotes.push(newVote)
+      }
+      else
+        state.negativeVotes.push(newVote)
+    },
+    changeVote(state, newVote) {
+      if(!newVote.positive) {
+        let voteIndex = state.positiveVotes.findIndex(v => v.voteId == newVote.voteId)
+        state.positiveVotes.splice(voteIndex, 1)
+        state.negativeVotes.push(newVote)
+      }
+      else {
+        let voteIndex = state.negativeVotes.findIndex(v => v.voteId == newVote.voteId)
+        state.negativeVotes.splice(voteIndex, 1)
+        state.positiveVotes.push(newVote)
+      }
+    },
+    removeVote(state, {positive, voteId}) {
+      if(positive) {
+        let voteIndex = state.positiveVotes.findIndex(v => v.voteId == voteId)
+        state.positiveVotes.splice(voteIndex, 1)
+      }
+      else {
+        let voteIndex = state.negativeVotes.findIndex(v => v.voteId == voteId)
+        state.negativeVotes.splice(voteIndex, 1)
+      }
     }
   },
   actions: {
@@ -1509,9 +1623,93 @@ export default new Vuex.Store({
           commit("setDataLoaded", true)
         }
       })
+    },
+
+    fillVotes({commit}, payload) {
+      commit("setVotes", {positive: payload.positive, data: null})
+      fetch("https://" + this.state.host + ":44301/api/vote/get-votes/" + payload.votableId + "/" + payload.positive, {
+        method: "GET",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("setVotes", {positive: payload.positive, data: data})
+          })
+        }
+        else {
+          commit("setVotes", {positive: payload.positive, data: []})
+        }
+      })
+    },
+
+    postAddVote({commit}, {tripId, voteInfo}) {
+      fetch("https://" + this.state.host + ":44301/api/vote/vote/" + tripId, {
+        method: 'POST',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify({
+          "positive": voteInfo.positive,
+          "userId": voteInfo.userId,
+          "votableId": voteInfo.votableId
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("addVote", data)
+          })
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    putChangeVote({commit}, {tripId, voteInfo}) {
+      fetch("https://" + this.state.host + ":44301/api/vote/change-vote/" + tripId, {
+        method: 'PUT',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        },
+        body: JSON.stringify({
+          "voteId": voteInfo.voteId,
+          "positive": voteInfo.positive
+        })
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            commit("changeVote", data)
+          })
+        }
+        else {
+          console.log(response)
+        }
+      })
+    },
+
+    deleteVote({commit}, payload) {
+      fetch("https://" + this.state.host + ":44301/api/vote/remove-vote/" + payload.voteId + "/" + payload.tripId, {
+        method: 'DELETE',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          commit("removeVote", {positive: payload.positive, voteId: payload.voteId})
+        }
+        else {
+          console.log(response)
+        }
+      })
     }
   },
   modules: {
-
+    
   }
 })
