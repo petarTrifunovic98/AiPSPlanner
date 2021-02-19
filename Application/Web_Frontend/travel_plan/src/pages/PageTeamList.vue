@@ -34,10 +34,7 @@ export default {
     },
     created()
     {
-        if(this.TeamList == null)
-        {
-            this.$store.dispatch('fillMyTeams')
-        }
+        this.$store.dispatch('fillMyTeams')
     }
 }
 </script>

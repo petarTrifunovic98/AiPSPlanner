@@ -12,7 +12,7 @@ RemoveLocation			int				Id obrisane lokacije
 EditLocation			LocationDTO			Lokacija koja je menjana
 AddAccommodation		AccommodationDTO		Smeštaj koji je kreiran
 RemoveAccommodation		int				Id obrisanog smeštaja
-EditAccommodation		AccommodationDOT		Smeštaj koji je menjan
+EditAccommodation		AccommodationDTO		Smeštaj koji je menjan
 AddAccommodationPicture		AccommodationPictureDTO		Dodata slika
 RemoveAccommodationPicture	int				Id obrisane slike
 AddItem				ItemDTO				Dodati item
@@ -31,10 +31,10 @@ ChangeVotable			VotableDTO			Objekat koji sadrži Id votable-a za koji je odnos 
 
 
 Naziv				Prosleđena vrednost		Objašnjenje vraćene vrednosti
-_______________________________________________________________________________________________________________________________________
+_____________________________________________________________________________________________________________________
 EditTeamName			TeamEditDTO			Sadrži id tima i novo ime
-RemoveUserFromTeam		int				Id korisnika koji je napustio tim
-AddMemberToTeam			List<UserBasticDTO>		Lista korisnika dodatih u tim (nefiltrirana, ista priča kao za trip)
+RemoveUserFromTeam		TeamUserInfoDTO			Sadrži id tima i id korisnika koji je napustio tim
+AddMemberToTeam			TeamUserListDTO			Lista korisnika koji su trenutno u timu i id tima
 
 
 

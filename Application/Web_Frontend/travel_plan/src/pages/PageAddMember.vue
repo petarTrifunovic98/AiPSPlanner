@@ -16,8 +16,8 @@
         </nav>
         <div class="page-body">
             <div class="content-div">
-                <Spinner v-if="!user && teamList == null" />
-                <div class="team-div" v-if="!user && teamList != null">
+                <Spinner v-if="!user && !isDataLoaded" />
+                <div class="team-div" v-if="!user && isDataLoaded">
                     <TeamViewOnly v-for="team in teamList" :key="team.teamId" :team="team" @clicked="selectMember"
                                   :class="selectedMember == team.teamId ? 'selektovano' : 'standard'" />
                 </div>
@@ -113,8 +113,6 @@ export default {
             if(this.user != false)
                 this.switchTab();
             this.user = false
-            if(this.teamList == null)
-                this.$store.dispatch('fillMyTeams')
         },
         backTo()
         {
@@ -156,13 +154,43 @@ export default {
             this.searchedUsers = true
             this.$store.dispatch('searchUsers', this.searchString)
             this.searchString = ""
-        }
+        },
+         onEditTeamName(team)
+        {
+            this.editTeamName(team)
+        },
+        onRemoveUserFromTeam(teamInfo)
+        {
+            this.removeUserFromTeam(teamInfo)
+        },
+        onAddMemberToTeam(teamInfo)
+        {
+            this.addMemberToTeam(teamInfo)
+        },
+        ...mapMutations({
+            editTeamName: 'editTeamName',
+            removeUserFromTeam: 'removeUserFromTeam',
+            addMemberToTeam: 'addMemberToTeam'
+        })
     },
     components:
     {
         Spinner,
         TeamViewOnly,
         ModalAreYouSure
+    },
+    created()
+    {
+        this.$store.dispatch('fillMyTeams')
+        this.$travelPlanHub.$on('EditTeamName', this.onEditTeamName)
+        this.$travelPlanHub.$on('RemoveUserFromTeam', this.onRemoveUserFromTeam)
+        this.$travelPlanHub.$on('AddMemberToTeam', this.onAddMemberToTeam)
+    },
+    destroyed()
+    {
+        this.$travelPlanHub.$off('EditTeamName')
+        this.$travelPlanHub.$off('RemoveUserFromTeam')
+        this.$travelPlanHub.$off('AddMemberToTeam')
     }
 }
 </script>

@@ -44,9 +44,22 @@ export default {
       addSignalREventListener('AddMemberToTrip')
       addSignalREventListener('RemoveUserFromTrip')
 
+      addSignalREventListener('ChangeVotable')
+
+      addSignalREventListener('EditTeamName')
+      addSignalREventListener('RemoveUserFromTeam')
+      addSignalREventListener('AddMemberToTeam')
+
       addSignalREventListener('AddItemNotification')
       addSignalREventListener('EditItemNotification')
       addSignalREventListener('RemoveItemNotification')
+
+      addSignalREventListener('AddToTripNotification')
+
+      addSignalREventListener('AddToTeamNotification')
+
+      addSignalREventListener('EditRightsNotification')
+      
 
       function addSignalREventListener(name) {
         connection.on(name, (payload) => {
@@ -89,6 +102,14 @@ export default {
         .catch(console.error)
     }
 
+    travelPlanHub.JoinTeamGroup = (teamId) => {
+      if (!startedPromise) return
+
+      return startedPromise
+        .then(() => connection.invoke('JoinTeamGroup', teamId))
+        .catch(console.error)
+    }
+
     travelPlanHub.JoinItemGroup = (userId) => {
       if (!startedPromise) return
 
@@ -102,6 +123,14 @@ export default {
 
       return startedPromise
       .then(() => connection.invoke('LeaveTripGroup', tripId))
+      .catch(console.error)
+    }
+
+    travelPlanHub.LeaveTeamGroup = (teamId) => {
+      if(!startedPromise) return
+
+      return startedPromise
+      .then(() => connection.invoke('LeaveTeamGroup', teamId))
       .catch(console.error)
     }
 

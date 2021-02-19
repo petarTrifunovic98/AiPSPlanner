@@ -324,6 +324,16 @@ export default new Vuex.Store({
         Vue.set(state.tripAddOns, String(addOn.lvl1DependId), topLevelAddOn)
       }
       state.addOnWatch = 1
+    },
+    editTeamName(state, team){
+      state.myTeams.find(element => element.teamId == team.teamId).name = team.name
+    },
+    removeUserFromTeam(state, teamInfo){
+      var team = state.myTeams.find(element => element.teamId == teamInfo.teamId)
+      team.members = team.members.filter(element => element.userId != teamInfo.removedUserId)
+    },
+    addMemberToTeam(state, teamInfo){
+      state.myTeams.find(element => element.teamId == teamInfo.teamId).members = teamInfo.users
     }
   },
   actions: {

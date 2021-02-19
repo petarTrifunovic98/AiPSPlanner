@@ -78,7 +78,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                         _unitOfWork.TeamRepository.Delete(teamId);
 
                     await _unitOfWork.Save();
-                    await _messageControllerService.NotifyOnTeamChanges(teamId, "RemoveUserFromTeam", userId);
+                    await _messageControllerService.NotifyOnTeamChanges(teamId, "RemoveUserFromTeam", new TeamUserInfoDTO() { TeamId = teamId, RemovedUserId = userId});
 
                     return true;
                 }
@@ -117,8 +117,12 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.Save();
 
                 TeamDTO retTeam = _mapper.Map<Team, TeamDTO>(team);
-                await _messageControllerService.NotifyOnTeamChanges(teamId, "AddMemberToTeam", 
-                                                    member.GetUsers().Select(user => _mapper.Map<User, UserBasicDTO>(user)));
+                TeamUserListDTO notifyDTO = new TeamUserListDTO()
+                {
+                    TeamId = teamId,
+                    Users = team.Members.Select(user => _mapper.Map<User, UserBasicDTO>(user))
+                };
+                await _messageControllerService.NotifyOnTeamChanges(teamId, "AddMemberToTeam", notifyDTO);
                 return retTeam;
             }
         }
