@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex"
+import {mapMutations} from "vuex"
 import Spinner from "@/components/Spinner"
 import TeamViewOnly from "@/components/TeamViewOnly"
 import ModalAreYouSure from "@/components/ModalAreYouSure"
