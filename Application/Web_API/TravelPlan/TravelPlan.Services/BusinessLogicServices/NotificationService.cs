@@ -51,7 +51,7 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             using(_unitOfWork)
             {
-                ICollection<Notification> notifications = await _unitOfWork.UserRepository.GetNotifications(userId);
+                IEnumerable<Notification> notifications = await _unitOfWork.UserRepository.GetNotifications(userId);
                 foreach(Notification notification in notifications)
                 {
                     notification.Seen = true;
@@ -77,7 +77,7 @@ namespace TravelPlan.Services.BusinessLogicServices
 
         public async Task<bool> DeleteSeenNotifications(int userId, bool itemRelated) //needs testing
         {
-            ICollection<Notification> notifications = await _unitOfWork.UserRepository.GetNotifications(userId);
+            IEnumerable<Notification> notifications = await _unitOfWork.UserRepository.GetNotifications(userId);
             foreach(Notification notification in notifications)
             {
                 if(notification.Seen && (itemRelated ^ (notification.Type == NotificationType.NewTrip)))

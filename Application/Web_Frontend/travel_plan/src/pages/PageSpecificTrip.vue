@@ -98,7 +98,7 @@ export default {
     hasEditRights(newValue, oldValue) {
       if(newValue == false) {
         this.$travelPlanHub.JoinTripGroup(parseInt(this.tripId))
-        console.log("joined")
+        console.log("joined trip group")
       }
     }
   },

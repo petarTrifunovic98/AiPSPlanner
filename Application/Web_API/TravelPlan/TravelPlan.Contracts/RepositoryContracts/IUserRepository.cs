@@ -13,7 +13,7 @@ namespace TravelPlan.Contracts.RepositoryContracts
         Task<User> GetUserWithItems(int id);
         Task<User> GetUserByUsername(string username);
         int GetUnseenNotificationNumber(int userId);
-        Task<ICollection<Notification>> GetNotifications(int userId);
+        Task<IEnumerable<Notification>> GetNotifications(int userId);
         Task<List<User>> GetUsersWithSubstring(String substring);
     }
 }
