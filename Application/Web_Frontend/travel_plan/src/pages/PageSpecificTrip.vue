@@ -124,11 +124,9 @@ export default {
         }
       })
     },
-    onTripInfoEdited(trip) {
-      this.trip.name = trip.name
-      this.trip.description = trip.description
-      this.trip.from = trip.from
-      this.trip.to = trip.to
+    onGetEditRights() {
+      this.$travelPlanHub.LeaveTripGroup(this.tripId)
+      this.setEditRights(true)
     },
     leavePage(event) {
       event.preventDefault()
@@ -155,7 +153,8 @@ export default {
     ...mapMutations({
       setSpecificTrip: 'setSpecificTrip',
       setVotables: 'setVotables',
-      changeVotable: 'replaceVotable'
+      changeVotable: 'replaceVotable',
+      setEditRights: 'setHasEditRights'
     })
   },
   created() {
@@ -189,6 +188,7 @@ export default {
     })
 
     this.$travelPlanHub.$on('ChangeVotable', this.onVotableChanged)
+    this.$travelPlanHub.$on('EditRightsNotification', this.onGetEditRights)
 
     if(!this.accommodationTypes)
       this.$store.dispatch('fillAccommodationTypes')
