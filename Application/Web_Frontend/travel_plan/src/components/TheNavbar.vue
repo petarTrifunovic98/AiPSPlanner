@@ -6,6 +6,7 @@
 </template>
 
 <script>
+  import { mapGetters, mapMutations } from "vuex"
   import TheNavbarSmall from "@/components/TheNavbarSmall"
   import TheNavbarLarge from "@/components/TheNavbarLarge"
   export default {
@@ -13,6 +14,68 @@
     {
       TheNavbarSmall,
       TheNavbarLarge
+    },
+    computed: {
+      ...mapGetters({
+        logedIn: 'getIsLogedIn',
+        userId: 'getAuthUserId'
+      })
+    },
+    watch: {
+      logedIn(newValue, oldValue) {
+        if(newValue == true) {
+          this.subscribeToEvents()
+        }
+        else {
+          this.$travelPlanHub.LeaveItemGroup(parseInt(this.userId))
+          console.log("left item group")
+          this.$travelPlanHub.$off('AddItemNotification')
+          this.$travelPlanHub.$off('EditItemNotification')
+          this.$travelPlanHub.$off('RemoveItemNotification')
+        }
+      }
+    },
+    methods: {
+      subscribeToEvents() {
+        this.$travelPlanHub.JoinItemGroup(parseInt(this.userId))
+        console.log("joined item group")
+        this.$travelPlanHub.$on('AddItemNotification', this.onAddItemNotification)
+        this.$travelPlanHub.$on('EditItemNotification', this.onEditItemNotification)
+        this.$travelPlanHub.$on('RemoveItemNotification', this.onRemoveItemNotification)
+      },
+      onAddItemNotification(itemNotifInfo) {
+        console.log("add item notification: ")
+        console.log(itemNotifInfo)
+        this.decreseNotifNumber()
+        this.addItemNofication(itemNotifInfo)
+      },
+      onEditItemNotification(itemNotifInfo) {
+        console.log("edit item notification: ")
+        console.log(itemNotifInfo)
+        this.decreseNotifNumber()
+        this.editItemNotification(itemNotifInfo)
+      },
+      onRemoveItemNotification(itemNotifInfo) {
+        console.log("remove item notification: ")
+        console.log(itemNotifInfo)
+        this.decreseNotifNumber()
+        this.removeItenNotification(itemNotifInfo)
+      },
+      decreseNotifNumber() {
+        if(this.$route.name == "PageNotifications") {
+          this.$store.state.notificationNumber --
+        }
+      },
+      ...mapMutations({
+        addItemNofication: 'addItemNotification',
+        editItemNotification: 'editItemNotification',
+        removeItenNotification: 'removeItemNotification'
+      })
+    },
+    created() {
+      if(this.logedIn) {
+        this.subscribeToEvents()
+      }
     }
   }
 </script>

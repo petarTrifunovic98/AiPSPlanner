@@ -448,6 +448,35 @@ export default new Vuex.Store({
         let voteIndex = state.negativeVotes.findIndex(v => v.voteId == voteId)
         state.negativeVotes.splice(voteIndex, 1)
       }
+    },
+    addItemNotification(state, {notification, item}) {
+      state.notificationNumber ++
+      if(state.notifications)
+        state.notifications.unshift(notification)
+      if(state.myItems)
+        state.myItems.push(item)
+    },
+    editItemNotification(state, {notification, item}) {
+      state.notificationNumber ++
+      if(state.notifications)
+        state.notifications.unshift(notification)
+      if(state.myItems) {
+        let itemIndex = state.myItems.findIndex(i => i.itemId == item.itemId)
+        state.myItems[itemIndex].name = item.name
+        state.myItems[itemIndex].description = item.description
+        state.myItems[itemIndex].amount = item.amount
+        state.myItems[itemIndex].unit = item.unit
+        state.myItems[itemIndex].checked = item.checked 
+      }
+    },
+    removeItemNotification(state, {notification, itemToDelete}) {
+      state.notificationNumber ++
+      if(state.notifications)
+        state.notifications.unshift(notification)
+      if(state.myItems) {
+        let itemIndex = state.myItems.findIndex(i => i.itemId == itemToDelete)
+        state.myItems.splice(itemIndex, 1)
+      }
     }
   },
   actions: {

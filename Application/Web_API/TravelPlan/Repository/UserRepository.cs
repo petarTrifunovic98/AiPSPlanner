@@ -43,9 +43,10 @@ namespace TravelPlan.Repository
                          .Count();
         }
 
-        public async Task<ICollection<Notification>> GetNotifications(int userId)
+        public async Task<IEnumerable<Notification>> GetNotifications(int userId)
         {
-            return await _dbSet.Where(user => user.UserId == userId).Select(user => user.MyNotifications).FirstOrDefaultAsync();
+            return await _dbSet.Where(user => user.UserId == userId).Select(user => 
+                user.MyNotifications.OrderByDescending(notif => notif.NotificationId).Select(notif => notif)).FirstOrDefaultAsync();
         }
 
         public async Task<List<User>> GetUsersWithSubstring(String substring)

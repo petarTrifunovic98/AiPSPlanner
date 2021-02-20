@@ -223,7 +223,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                     Notification = _mapper.Map<Notification, NotificationDTO>(notification),
                     Item = retItem
                 };
-                await _messageControllerService.SendNotification(item.UserId, "AddItemNotification", notificationItem);
+                await _messageControllerService.SendNotification(item.UserId, "EditItemNotification", notificationItem);
                 return retItem;
             }
         }
