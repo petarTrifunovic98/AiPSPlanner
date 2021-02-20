@@ -94,6 +94,7 @@ export default {
       this.removeAccommodation(accommodation)
     },
     onAddAccommodationPicture(picture) {
+      debugger
       this.addAccommodationPicture(picture)
     },
     onRemoveaccommodationPicture(pictureInfo) {
@@ -128,6 +129,8 @@ export default {
     this.$travelPlanHub.$off('AddAccommodation')
     this.$travelPlanHub.$off('EditAccommodation')
     this.$travelPlanHub.$off('RemoveAccommodation')
+    this.$travelPlanHub.$off('AddAccommodationPicture')
+    this.$travelPlanHub.$off('RemoveAccommodationPicture')
     this.setLocations(null)
   }
 }
