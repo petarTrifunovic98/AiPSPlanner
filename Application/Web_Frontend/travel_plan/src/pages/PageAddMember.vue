@@ -95,6 +95,20 @@ export default {
             return this.$store.state.isDataLoaded
         }
     },
+    watch:
+    {
+        teamList(newValue, oldValue)
+        {
+            if(newValue) 
+            {
+                newValue.forEach(team => 
+                {
+                    console.log("Joined group for team " + team.name)
+                    this.$travelPlanHub.JoinTeamGroup(team.teamId)
+                })
+            }
+        }
+    },
     methods:
     {
         switchTab()
@@ -168,6 +182,28 @@ export default {
         {
             this.addMemberToTeam(teamInfo)
         },
+        onPageLeave()
+        {
+            this.$travelPlanHub.$off('EditTeamName')
+            this.$travelPlanHub.$off('RemoveUserFromTeam')
+            this.$travelPlanHub.$off('AddMemberToTeam')
+            if(this.TeamList)
+            {
+                this.TeamList.forEach(team => 
+                {
+                    console.log("Left group for team " + team.name)
+                    this.$travelPlanHub.LeaveTeamGroup(team.teamId)
+                })
+            }
+            window.removeEventListener('beforeunload', this.leavePage)
+        },
+        leavePage(event)
+        {
+            event.preventDefault()
+            console.log("Leave page")
+            this.onPageLeave()
+            event.returnValue = ''
+        },
         ...mapMutations({
             editTeamName: 'editTeamName',
             removeUserFromTeam: 'removeUserFromTeam',
@@ -182,16 +218,16 @@ export default {
     },
     created()
     {
+        window.addEventListener('beforeunload', this.leavePage)
+        this.$store.state.myTeams = null
         this.$store.dispatch('fillMyTeams')
         this.$travelPlanHub.$on('EditTeamName', this.onEditTeamName)
         this.$travelPlanHub.$on('RemoveUserFromTeam', this.onRemoveUserFromTeam)
         this.$travelPlanHub.$on('AddMemberToTeam', this.onAddMemberToTeam)
     },
-    destroyed()
+    beforeDestroy()
     {
-        this.$travelPlanHub.$off('EditTeamName')
-        this.$travelPlanHub.$off('RemoveUserFromTeam')
-        this.$travelPlanHub.$off('AddMemberToTeam')
+        this.onPageLeave()
     }
 }
 </script>

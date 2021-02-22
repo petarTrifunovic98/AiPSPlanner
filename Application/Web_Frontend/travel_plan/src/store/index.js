@@ -31,7 +31,8 @@ export default new Vuex.Store({
     addOnWatch: null,
     positiveVotes: null,
     negativeVotes: null,
-    votables: null
+    votables: null,
+    createdTeamId: -1
   },
   getters: {
     getIsDataLoaded: state => {
@@ -406,15 +407,20 @@ export default new Vuex.Store({
       }
       state.addOnWatch = 1
     },
-    editTeamName(state, team){
+    editTeamName(state, team) {
       state.myTeams.find(element => element.teamId == team.teamId).name = team.name
     },
-    removeUserFromTeam(state, teamInfo){
+    removeUserFromTeam(state, teamInfo) {
       var team = state.myTeams.find(element => element.teamId == teamInfo.teamId)
       team.members = team.members.filter(element => element.userId != teamInfo.removedUserId)
     },
-    addMemberToTeam(state, teamInfo){
+    addMemberToTeam(state, teamInfo) {
       state.myTeams.find(element => element.teamId == teamInfo.teamId).members = teamInfo.users
+    },
+    addNewTeam(state, teamInfo) {
+      if(state.myTeams) {
+        state.myTeams.push(teamInfo)
+      }
     },
     replaceVotable(state, newVotable) {
       let votableIndex = state.votables.findIndex(v => v.votableId == newVotable.votableId)
@@ -1472,8 +1478,10 @@ export default new Vuex.Store({
       }).then(response => {
         if(response.ok) {
           response.json().then(data => {
-            if(this.state.myTeams != null)
+            if(this.state.myTeams != null) {
               this.state.myTeams.push(data);
+              this.state.createdTeamId = data.teamId
+            }
           })
         }
         else {

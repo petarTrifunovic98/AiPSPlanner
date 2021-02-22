@@ -2,7 +2,7 @@
     <Spinner v-if="!isDataLoaded" />
     <div class = "wrapper" v-else>
         <div class="novi-tim">
-            <NewTeam />
+            <NewTeam @newTeam="joinNewTeam" />
         </div>
         <div class="timovi">
             <TeamList :editable="true"/>
@@ -32,9 +32,55 @@ export default {
             return this.$store.state.isDataLoaded
         }
     },
-    created()
+    watch:
     {
+        TeamList(newValue, oldValue)
+        {
+            if(newValue && !oldValue) 
+            {
+                newValue.forEach(team => 
+                {
+                    console.log("Joined group for team " + team.name)
+                    this.$travelPlanHub.JoinTeamGroup(team.teamId)
+                })
+            }
+        }
+    },
+    methods:
+    {
+        joinNewTeam(newValue)
+        {   
+            console.log("Joined groip for team with id " + newValue)
+            this.$travelPlanHub.JoinTeamGroup(newValue)
+        },
+        onPageLeave()
+        {
+            if(this.TeamList)
+            {
+                this.TeamList.forEach(team => 
+                {
+                    console.log("Left group for team " + team.name)
+                    this.$travelPlanHub.LeaveTeamGroup(team.teamId)
+                })
+            }
+            window.removeEventListener('beforeunload', this.leavePage)
+        },
+        leavePage(event)
+        {
+            event.preventDefault()
+            console.log("Leave page")
+            this.onPageLeave()
+            event.returnValue = ''
+        }
+    },
+    created()
+    {   
+        window.addEventListener('beforeunload', this.leavePage)
+        this.$store.state.myTeams = null
         this.$store.dispatch('fillMyTeams')
+    },
+    beforeDestroy() {
+        this.onPageLeave()
     }
 }
 </script>

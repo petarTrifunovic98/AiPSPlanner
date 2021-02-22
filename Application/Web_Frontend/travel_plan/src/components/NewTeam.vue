@@ -30,6 +30,7 @@ export default {
         },
         dodaj()
         {
+            this.$store.state.createdTeamId = -1
             this.$store.dispatch("createTeam", {name : this.name})
             this.cancel();
         }
@@ -39,6 +40,20 @@ export default {
         isInvalid()
         {
             return this.name == null || this.name == ""
+        },
+        createdTeamId()
+        {
+            return this.$store.state.createdTeamId
+        }
+    },
+    watch: 
+    {
+        createdTeamId(newValue, oldValue)
+        {
+            if(oldValue == -1 && newValue != -1)
+            {
+                this.$emit("newTeam", newValue)
+            }
         }
     }
 }

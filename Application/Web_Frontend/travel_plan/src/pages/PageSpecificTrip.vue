@@ -128,24 +128,30 @@ export default {
       this.$travelPlanHub.LeaveTripGroup(this.tripId)
       this.setEditRights(true)
     },
-    leavePage(event) {
-      event.preventDefault()
-      console.log("Leave page")
+    onPageLeave() {
       if(this.hasEditRights) {
+      if(this.releaseEdit) {
         this.$store.dispatch('releaseEditRights', {
           tripId: this.tripId
         })
       }
-      else {
-        this.$travelPlanHub.$off('ChangeVotable')
-        this.$travelPlanHub.LeaveTripGroup(this.tripId)
-        this.$store.dispatch('cancelEditRequest', {
-          tripId: this.tripId,
-          userId: this.getAuthUserId
-        })
-      }
+    }
+    else {
+      this.$travelPlanHub.$off('ChangeVotable')
+      this.$travelPlanHub.LeaveTripGroup(this.tripId)
+      this.$store.dispatch('cancelEditRequest', {
+        tripId: this.tripId,
+        userId: this.getAuthUserId
+      })
+    }
+    this.setSpecificTrip(null)
+    window.removeEventListener('beforeunload', this.leavePage)
+    },
+    leavePage(event) {
+      event.preventDefault()
+      console.log("Leave page")
+      this.onPageLeave()
       event.returnValue = ''
-      window.removeEventListener('beforeunload', this.leavePage)
     },
     onVotableChanged(newVotable) {
       this.changeVotable(newVotable)
@@ -194,23 +200,7 @@ export default {
       this.$store.dispatch('fillAccommodationTypes')
   },
   beforeDestroy() {
-    if(this.hasEditRights) {
-      if(this.releaseEdit) {
-        this.$store.dispatch('releaseEditRights', {
-          tripId: this.tripId
-        })
-      }
-    }
-    else {
-      this.$travelPlanHub.$off('ChangeVotable')
-      this.$travelPlanHub.LeaveTripGroup(this.tripId)
-      this.$store.dispatch('cancelEditRequest', {
-        tripId: this.tripId,
-        userId: this.getAuthUserId
-      })
-    }
-    this.setSpecificTrip(null)
-    window.removeEventListener('beforeunload', this.leavePage)
+    this.onPageLeave()
   }
 }
 </script>
