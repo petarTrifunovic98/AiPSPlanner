@@ -32,7 +32,8 @@ export default new Vuex.Store({
     positiveVotes: null,
     negativeVotes: null,
     votables: null,
-    createdTeamId: -1
+    createdTeamId: -1,
+    leftTrip: false
   },
   getters: {
     getIsDataLoaded: state => {
@@ -123,6 +124,9 @@ export default new Vuex.Store({
     },
     getVotables: state => {
       return state.votables
+    },
+    getLeftTrip: state => {
+      return state.leftTrip
     }
   },
   mutations: {
@@ -142,6 +146,9 @@ export default new Vuex.Store({
     setIsLogedIn(state, isLogedIn)
     {
       state.isLogedIn = isLogedIn
+    },
+    setLeftTrip(state, value) {
+      state.leftTrip = value
     },
     setTripsPortion(state, trips) {
       state.tripsPortion = trips
@@ -202,12 +209,16 @@ export default new Vuex.Store({
         })
       }
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == locationId)
-      state.tripLocations[locationIndex].accommodations = data
+      if(locationIndex > -1)
+        state.tripLocations[locationIndex].accommodations = data
     },
     setAccommodationPictures(state, {data, accommodationId, locationId}) {
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == locationId)
-      const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodationId)
-      state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures = data
+      if(locationIndex > -1) {
+        const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodationId)
+        if(accommodationIndex > -1)
+          state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures = data
+      }
     },
     setSpecificTripBasicInfo(state, tripInfo) {
       state.specificTrip.name = tripInfo.name
@@ -276,7 +287,11 @@ export default new Vuex.Store({
       if(state.votables)
         state.votables.push(accommodation.votable)
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == accommodation.locationId)
-      state.tripLocations[locationIndex].accommodations.push(accommodation)
+      if(locationIndex > -1) {
+        if(!state.tripLocations[locationIndex].accommodations)
+          state.tripLocations[locationIndex].accommodations = []
+        state.tripLocations[locationIndex].accommodations.push(accommodation)
+      }
     },
     editAccommodationForLocation(state, accommodation) {
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == accommodation.locationId)
@@ -305,14 +320,24 @@ export default new Vuex.Store({
     },
     addPictureToAccommodation(state, data) {
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == data.locationId)
-      const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == data.accommodationId)
-      state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures.push(data)
+      if(locationIndex > -1) {
+        const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == data.accommodationId)
+        if(accommodationIndex > -1) {
+          state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures.push(data)
+        }
+      }
     },
     removePictureFromAccommodation(state, deleteInfo) {
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == deleteInfo.locationId)
-      const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == deleteInfo.accommodationId)
-      const pictureIndex = state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures.findIndex(p => p.accommodationPictureId == deleteInfo.accommodationPictureId)
-      state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures.splice(pictureIndex, 1)
+      if(locationIndex > -1) {
+        const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == deleteInfo.accommodationId)
+        if(accommodationIndex > -1) {
+          const pictureIndex = state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures.findIndex(p => p.accommodationPictureId == deleteInfo.accommodationPictureId)
+          if(pictureIndex > -1) {
+            state.tripLocations[locationIndex].accommodations[accommodationIndex].pictures.splice(pictureIndex, 1)
+          }
+        }
+      }
     },
     addTravelerToSpecificTrip(state, addedTravelers) {
       addedTravelers = addedTravelers.filter(traveler => state.specificTrip.travelers.findIndex(t => t.userId == traveler.userId) < 0)
@@ -468,11 +493,13 @@ export default new Vuex.Store({
         state.notifications.unshift(notification)
       if(state.myItems) {
         let itemIndex = state.myItems.findIndex(i => i.itemId == item.itemId)
-        state.myItems[itemIndex].name = item.name
-        state.myItems[itemIndex].description = item.description
-        state.myItems[itemIndex].amount = item.amount
-        state.myItems[itemIndex].unit = item.unit
-        state.myItems[itemIndex].checked = item.checked 
+        if(itemIndex > -1) {
+          state.myItems[itemIndex].name = item.name
+          state.myItems[itemIndex].description = item.description
+          state.myItems[itemIndex].amount = item.amount
+          state.myItems[itemIndex].unit = item.unit
+          state.myItems[itemIndex].checked = item.checked 
+        }
       }
     },
     removeItemNotification(state, {notification, itemToDelete}) {
@@ -483,6 +510,13 @@ export default new Vuex.Store({
         let itemIndex = state.myItems.findIndex(i => i.itemId == itemToDelete)
         state.myItems.splice(itemIndex, 1)
       }
+    },
+    addTripNotification(state, {notification, trip}) {
+      state.notificationNumber ++
+      if(state.notifications)
+        state.notifications.unshift(notification)
+      if(state.tripsPortion)
+        state.tripsPortion.push(trip)
     }
   },
   actions: {
@@ -1633,6 +1667,7 @@ export default new Vuex.Store({
       }).then(response => {
         if(response.ok) {
           console.log("Left trip")
+          commit("setLeftTrip", true)
         }
         else {
           console.log(response)

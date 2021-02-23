@@ -33,6 +33,7 @@
           this.$travelPlanHub.$off('EditItemNotification')
           this.$travelPlanHub.$off('RemoveItemNotification')
           this.$travelPlanHub.$off('AddToTeamNotification')
+          this.$travelPlanHub.$off('AddToTripNotification')
         }
       }
     },
@@ -44,6 +45,7 @@
         this.$travelPlanHub.$on('EditItemNotification', this.onEditItemNotification)
         this.$travelPlanHub.$on('RemoveItemNotification', this.onRemoveItemNotification)
         this.$travelPlanHub.$on('AddToTeamNotification', this.onAddedToTeam)
+        this.$travelPlanHub.$on('AddToTripNotification', this.onAddedToTrip)
       },
       onAddItemNotification(itemNotifInfo) {
         console.log("add item notification: ")
@@ -61,7 +63,7 @@
         console.log("remove item notification: ")
         console.log(itemNotifInfo)
         this.decreseNotifNumber()
-        this.removeItenNotification(itemNotifInfo)
+        this.removeItemNotification(itemNotifInfo)
       },
       onAddedToTeam(teamInfo) {
         console.log("added to team: ")
@@ -72,6 +74,12 @@
           this.addNewTeam(teamInfo)
         }
       },
+      onAddedToTrip(tripNotifInfo) {
+        console.log("added to trip notification: ")
+        console.log(tripNotifInfo)
+        this.decreseNotifNumber()
+        this.addTripNotification(tripNotifInfo)
+      },
       decreseNotifNumber() {
         if(this.$route.name == "PageNotifications") {
           this.$store.state.notificationNumber --
@@ -80,8 +88,9 @@
       ...mapMutations({
         addItemNofication: 'addItemNotification',
         editItemNotification: 'editItemNotification',
-        removeItenNotification: 'removeItemNotification',
-        addNewTeam: 'addNewTeam'
+        removeItemNotification: 'removeItemNotification',
+        addNewTeam: 'addNewTeam',
+        addTripNotification: 'addTripNotification'
       })
     },
     created() {

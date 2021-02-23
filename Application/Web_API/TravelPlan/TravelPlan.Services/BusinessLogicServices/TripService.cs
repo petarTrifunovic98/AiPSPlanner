@@ -161,7 +161,7 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             using (_unitOfWork)
             {
-                Trip trip = await _unitOfWork.TripRepository.GetTripWithMembers(tripId);
+                Trip trip = await _unitOfWork.TripRepository.GetTripWithItemsAndMembers(tripId);
                 Member member;
                 if (IsTeam)
                     member = await _unitOfWork.TeamRepository.GetTeamWithMembers(memberId);
