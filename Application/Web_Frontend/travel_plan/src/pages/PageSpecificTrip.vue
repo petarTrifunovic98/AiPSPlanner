@@ -91,7 +91,8 @@ export default {
       specificTrip: 'getSpecificTrip',
       getAuthUserId: 'getAuthUserId',
       accommodationTypes: 'getAccommodationTypes',
-      hasEditRights: 'getHasEditRights'
+      hasEditRights: 'getHasEditRights',
+      leftTrip: 'getLeftTrip'
     })
   },
   watch: {
@@ -99,6 +100,12 @@ export default {
       if(newValue == false) {
         this.$travelPlanHub.JoinTripGroup(parseInt(this.tripId))
         console.log("joined trip group")
+      }
+    },
+    leftTrip(newValue, oldValue) {
+      if(newValue) {
+        this.setLeftTrip(false)
+        this.$router.push("/trips")
       }
     }
   },
@@ -112,7 +119,6 @@ export default {
         userId: this.getAuthUserId
       }
       this.$store.dispatch("putRemoveTripMember", payload)
-      this.$router.push("/trips")
     },
     addMember() {
       this.releaseEdit = false
@@ -125,7 +131,7 @@ export default {
       })
     },
     onGetEditRights() {
-      this.$travelPlanHub.LeaveTripGroup(this.tripId)
+      this.$travelPlanHub.LeaveTripGroup(parseInt(this.tripId))
       this.setEditRights(true)
     },
     onPageLeave() {
@@ -138,7 +144,7 @@ export default {
     }
     else {
       this.$travelPlanHub.$off('ChangeVotable')
-      this.$travelPlanHub.LeaveTripGroup(this.tripId)
+      this.$travelPlanHub.LeaveTripGroup(parseInt(this.tripId))
       this.$store.dispatch('cancelEditRequest', {
         tripId: this.tripId,
         userId: this.getAuthUserId
@@ -159,6 +165,7 @@ export default {
     ...mapMutations({
       setSpecificTrip: 'setSpecificTrip',
       setVotables: 'setVotables',
+      setLeftTrip: 'setLeftTrip',
       changeVotable: 'replaceVotable',
       setEditRights: 'setHasEditRights'
     })
