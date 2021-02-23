@@ -105,7 +105,7 @@ export default {
                 if(team.teamId == this.team.teamId)
                     this.$store.state.myTeams.splice(index,1)
             })
-            this.$travelPlanHub.LeaveTeamGroup(this.team.teamId)
+            this.$travelPlanHub.LeaveTeamGroup(parseInt(this.team.teamId))
             this.$store.dispatch("leaveTeam", {teamId: this.team.teamId})
         },
         addMember()

@@ -192,7 +192,7 @@ export default {
                 this.TeamList.forEach(team => 
                 {
                     console.log("Left group for team " + team.name)
-                    this.$travelPlanHub.LeaveTeamGroup(team.teamId)
+                    this.$travelPlanHub.LeaveTeamGroup(parseInt(team.teamId))
                 })
             }
             window.removeEventListener('beforeunload', this.leavePage)

@@ -94,7 +94,6 @@ export default {
       this.removeAccommodation(accommodation)
     },
     onAddAccommodationPicture(picture) {
-      debugger
       this.addAccommodationPicture(picture)
     },
     onRemoveaccommodationPicture(pictureInfo) {
