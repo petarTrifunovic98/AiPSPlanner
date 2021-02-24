@@ -17,12 +17,12 @@
           <span v-if="!inEditMode">{{tripInfo.from | showTime}} - {{tripInfo.to | showTime}}</span>
           <div style="display:flex;" v-if="inEditMode">
             <b-form-datepicker 
-              v-model="editingInfo.from" style="width:fit-content;" 
+              v-model="editingInfo.from" style="width:fit-content;" :date-disabled-fn="isDateDisabled"
               :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }">
             </b-form-datepicker>
             <span style="text-align:center; margin: 3px 3px 0px 3px;"> - </span>
             <b-form-datepicker 
-              v-model="editingInfo.to" style="width:fit-content;"
+              v-model="editingInfo.to" style="width:fit-content;" :date-disabled-fn="isDateDisabled"
               :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }">
             </b-form-datepicker>
           </div>
@@ -62,12 +62,14 @@ export default {
       hasEditRights: 'getHasEditRights',
       specificTrip: 'getSpecificTrip'
     }),
-    invalidDates()
-    {
-      return this.editingInfo.to < this.editingInfo.from
+    invalidDates() {
+      return new Date(this.editingInfo.to) < new Date(this.editingInfo.from)
     }
   },
   methods: {
+    isDateDisabled(string, date) {
+      return !this.$store.getters.getIsTripDateAvailable(date)
+    },
     onTripInfoEdited(tripInfo) {
       this.setSpecificTripBasicInfo(tripInfo)
     },

@@ -32,12 +32,14 @@
           <div style="display:flex;" v-else>
             <b-form-datepicker 
               v-model="editingLocation.from" style="width:fit-content;" size="sm" class="mb-2"
-              :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }">
+              :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }"
+              :date-disabled-fn="isDateDisabled" :min="specificTrip.from" :max="specificTrip.to">
             </b-form-datepicker>
             <span style="text-align:center; margin: 3px 3px 0px 3px;"> - </span>
             <b-form-datepicker 
               v-model="editingLocation.to" style="width:fit-content;" size="sm" class="mb-2"
-              :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }">
+              :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }"
+              :date-disabled-fn="isDateDisabled" :min="specificTrip.from" :max="specificTrip.to">
             </b-form-datepicker>
           </div>
         </b-card-text>
@@ -138,10 +140,11 @@ export default {
       return 'https://www.google.com/maps/search/?api=1&query=' + this.locationProp.latitude + "," + this.locationProp.longitude
     },
     saveDisabled() {
-      if(this.modeAddNew) {
+      if(this.modeAddNew || this.inEditMode) {
         if(this.editingLocation.name == "" || this.editingLocation.description == "" || 
           this.editingLocation.latitude == "" || this.editingLocation.longitude == "" || 
-          this.editingLocation.from == "" || this.editingLocation.to == "")
+          this.editingLocation.from == "" || this.editingLocation.to == "" || 
+          (new Date(this.editingLocation.to) < new Date(this.editingLocation.from)))
           return true
         else 
           return false
@@ -160,10 +163,16 @@ export default {
     ...mapGetters({
       hasEditRights: 'getHasEditRights',
       tripId: 'getSpecificTripId',
-      votables: 'getVotables'
+      votables: 'getVotables',
+      specificTrip: 'getSpecificTrip'
     })
   },
   methods: {
+    isDateDisabled(string, date) {
+      if(this.modeAddNew)
+        return false
+      return !this.$store.getters.getIsLocationDateAvailable(date, this.location.locationId)
+    },
     showAccommodations() {
       if(!this.accommodationsLoaded) {
         this.$store.dispatch('fillLocationAccommodations', {
@@ -181,6 +190,13 @@ export default {
       this.accommodationsOpen = false
     },
     toggleEditMode() {
+      if(!this.inEditMode && !this.accommodationsLoaded) {
+        this.$store.dispatch('fillLocationAccommodations', {
+          locationId: this.location.locationId
+        }).then(() => {
+          this.accommodationsLoaded = true
+        })
+      }
       this.inEditMode = !this.inEditMode
       this.$emit("chosenLocation", -1)
     },

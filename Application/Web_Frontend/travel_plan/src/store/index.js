@@ -127,6 +127,38 @@ export default new Vuex.Store({
     },
     getLeftTrip: state => {
       return state.leftTrip
+    },
+    getIsTripDateAvailable: (state) => (date) => {
+      if(!state.tripLocations)
+        return false
+      if(state.tripLocations.length == 0)
+        return true
+      const minDate = new Date(state.tripLocations.reduce((acc, loc) => { return new Date(loc.from) < new Date(acc.from) ? loc : acc }).from)
+      const maxDate = new Date(state.tripLocations.reduce((acc, loc) => { return new Date(loc.to) > new Date(acc.to) ? loc : acc }).to)
+      if((date > minDate) && (date < maxDate))
+        return false
+      return true
+    },
+    getIsLocationDateAvailable: (state) => (date, locationId) => {
+      if(!state.tripLocations || !state.tripLocations.find(loc => loc.locationId == locationId).accommodations)
+        return false
+      const location = state.tripLocations.find(loc => loc.locationId == locationId)
+      if(location.accommodations.length == 0)
+        return true
+      const minDate = new Date(location.accommodations.reduce((accummulator, accommodation) => { 
+        return new Date(accommodation.from) < new Date(accummulator.from) ? accommodation : accummulator 
+      }).from)
+      const maxDate = new Date(location.accommodations.reduce((accummulator, accommodation) => {
+        return new Date(accommodation.to) > new Date(accummulator.to) ? accommodation : accummulator
+      }).to)
+      if((date > minDate) && (date < maxDate))
+        return false
+      return true
+    },
+    getLocation: (state) => (locationId) => {
+      if(!state.tripLocations)
+        return null
+      return state.tripLocations.find(loc => loc.locationId == locationId)
     }
   },
   mutations: {

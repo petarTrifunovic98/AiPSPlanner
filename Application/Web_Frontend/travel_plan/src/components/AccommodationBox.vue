@@ -35,12 +35,14 @@
           <div style="display:flex;" v-else>
             <b-form-datepicker 
               v-model="editingAccommodation.from" style="width:fit-content;" 
-              :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }">
+              :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }"
+              :min="dateMin" :max="dateMax">
             </b-form-datepicker>
             <span style="text-align:center; margin: 3px 3px 0px 3px;"> - </span>
             <b-form-datepicker 
               v-model="editingAccommodation.to" style="width:fit-content;"
-              :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }">
+              :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }"
+              :min="dateMin" :max="dateMax">
             </b-form-datepicker>
           </div>
         </b-card-text>
@@ -147,6 +149,23 @@ export default {
     }
   },
   computed: {
+    dateMin() {
+      if(this.modeAddNew) 
+        return null
+      else {
+        return this.myLocation.from
+      }
+    },
+    dateMax() {
+      if(this.modeAddNew) 
+        return null
+      else {
+        return this.myLocation.to
+      }
+    },
+    myLocation() {
+      return this.$store.getters.getLocation(this.accommodationProp.locationId)
+    },
     accommodation() {
       return this.accommodationProp
     },
@@ -162,10 +181,11 @@ export default {
       })
     },
     saveDisabled() {
-      if(this.modeAddNew) {
+      if(this.modeAddNew || this.inEditMode) {
         if(this.editingAccommodation.name == "" || this.editingAccommodation.description == ""
           || this.editingAccommodation.address == "" || this.editingAccommodation.from == ""
-          || this.editingAccommodation.to == "" || this.chosenLocationId == -1 || this.selectedType == 0)
+          || this.editingAccommodation.to == "" || this.chosenLocationId == -1 || this.selectedType == 0 ||
+          (new Date(this.editingAccommodation.to) < new Date(this.editingAccommodation.from)))
           return true
         else
           return false
