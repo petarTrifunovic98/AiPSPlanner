@@ -16,14 +16,22 @@
           <span v-if="!inEditMode && !modeAddNew">{{location.description}}</span>
           <b-form-textarea v-else v-model="editingLocation.description" rows="3" no-resize placeholder="Enter location description..."></b-form-textarea>
         </b-card-text>
-        <div class="common-header" style="justify-content:left;">
+        <div class="common-header" style="justify-content:left;" v-if="!inEditMode">
           <img src="../assets/placeholder.svg" style="height: 20px; width: 20px; margin-right: 10px">
           <a :href="mapURL" target="_blank" v-if="!modeAddNew">
             View location on Google Maps
           </a>
           <div v-else>
-            <b-form-input :type="'text'" v-model="editingLocation.latitude" placeholder="Latitude..."></b-form-input>
-            <b-form-input :type="'text'" v-model="editingLocation.longitude" placeholder="Longitude..."></b-form-input>
+            <b-form-input 
+              :type="'number'" :max="latitudeAbsMax" :min="-latitudeAbsMax" 
+              :state="Math.abs(editingLocation.latitude) > latitudeAbsMax ? false : null"
+              v-model="editingLocation.latitude" placeholder="Latitude...">
+            </b-form-input>
+            <b-form-input 
+              :type="'number'" :max="longitudeAbsMax" :min="-longitudeAbsMax" 
+              :state="Math.abs(editingLocation.longitude) > longitudeAbsMax ? false : null"
+              v-model="editingLocation.longitude" placeholder="Longitude...">
+            </b-form-input>
           </div>
         </div>
         <b-card-text class="common-header" style="margin-top: 20px; justify-content:left; max-width:100%;">
@@ -123,10 +131,12 @@ export default {
       accommodationsOpen: false,
       inEditMode: false,
       editingLocation: this.modeAddNew ? 
-        { name: "", description: "", latitude: "", longitude: "", from: "", to: ""} : 
+        { name: "", description: "", latitude: 43.32129607887601, longitude: 21.897650399832497, from: "", to: ""} : 
         JSON.parse(JSON.stringify(this.locationProp)),
       openModalDelete: false,
-      openModalVotes: false
+      openModalVotes: false,
+      latitudeAbsMax: 90,
+      longitudeAbsMax: 180
     }
   },
   computed: {
@@ -141,9 +151,10 @@ export default {
     },
     saveDisabled() {
       if(this.modeAddNew || this.inEditMode) {
-        if(this.editingLocation.name == "" || this.editingLocation.description == "" || 
-          this.editingLocation.latitude == "" || this.editingLocation.longitude == "" || 
+        if(this.editingLocation.name == "" || this.editingLocation.description == "" ||
           this.editingLocation.from == "" || this.editingLocation.to == "" || 
+          Math.abs(this.editingLocation.latitude) > this.latitudeAbsMax || 
+          Math.abs(this.editingLocation.longitude) > this.longitudeAbsMax || 
           (new Date(this.editingLocation.to) < new Date(this.editingLocation.from)))
           return true
         else 
