@@ -47,22 +47,43 @@
         this.$travelPlanHub.$on('AddToTeamNotification', this.onAddedToTeam)
         this.$travelPlanHub.$on('AddToTripNotification', this.onAddedToTrip)
       },
+      showToast(imgSrc, titleText, text) {
+        const h = this.$createElement
+        const toastTitle = h('div', {}, [
+          h('img', { style: "width: 20px; height: 20px; margin-right:20px;", attrs: {
+            src: require("../assets/" + imgSrc)
+          } }),
+          h('span', {}, titleText)
+        ])
+
+        this.$bvToast.toast(text, {
+          title: [toastTitle],
+          autHideDelay: 4000,
+          variant: 'info'
+        })
+      },
       onAddItemNotification(itemNotifInfo) {
         console.log("add item notification: ")
         console.log(itemNotifInfo)
-        this.decreseNotifNumber()
+        if(!this.decreseNotifNumber()) {
+          this.showToast('checklist.svg', 'New item assigned', 'You were assigned a new item named "' + itemNotifInfo.notification.relatedObjectName + '".')
+        }
         this.addItemNofication(itemNotifInfo)
       },
       onEditItemNotification(itemNotifInfo) {
         console.log("edit item notification: ")
         console.log(itemNotifInfo)
-        this.decreseNotifNumber()
+        if(!this.decreseNotifNumber()) {
+          this.showToast('checklist.svg', 'Item edited', 'The item "' + itemNotifInfo.notification.relatedObjectName + '" you are in charge of has been edited.')
+        }
         this.editItemNotification(itemNotifInfo)
       },
       onRemoveItemNotification(itemNotifInfo) {
         console.log("remove item notification: ")
         console.log(itemNotifInfo)
-        this.decreseNotifNumber()
+        if(!this.decreseNotifNumber()) {
+          this.showToast('checklist.svg', 'Item removed', 'The item "' + itemNotifInfo.notification.relatedObjectName + '" has been deleted. You are no longer in chage of it.')
+        }
         this.removeItemNotification(itemNotifInfo)
       },
       onAddedToTeam(teamInfo) {
@@ -77,13 +98,17 @@
       onAddedToTrip(tripNotifInfo) {
         console.log("added to trip notification: ")
         console.log(tripNotifInfo)
-        this.decreseNotifNumber()
+        if(!this.decreseNotifNumber()) {
+          this.showToast('map.svg', 'Added to trip', 'You were added to a new trip named "' + tripNotifInfo.notification.relatedObjectName + '".')
+        }
         this.addTripNotification(tripNotifInfo)
       },
       decreseNotifNumber() {
         if(this.$route.name == "PageNotifications") {
           this.$store.state.notificationNumber --
+          return true
         }
+        return false
       },
       ...mapMutations({
         addItemNofication: 'addItemNotification',

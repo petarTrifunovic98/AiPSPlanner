@@ -112,11 +112,15 @@ export default {
   top: 0;
   width: 100%;
   background-color: white;
-  z-index: 1000000000;
+  z-index: 1000;
 }
 
 .input-padding
 {
   padding:5px;
+}
+
+.b-toast {
+  z-index: 100000 !important;
 }
 </style>

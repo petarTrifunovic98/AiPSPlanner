@@ -62,7 +62,8 @@ export default {
             {
                 name: "PageSpecificTrip", 
                 params: {
-                    id: tripId
+                    id: tripId,
+                    noEditRequest: false
                 }
             })
         }
