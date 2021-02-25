@@ -54,9 +54,6 @@ export default {
     ModalAreYouSure
   },
   props: {
-    tripProp: {
-      required: false
-    },
     noEditRequest: {
       required: false,
       type: Boolean
@@ -64,7 +61,7 @@ export default {
   },
   data() {
     return {
-      trip: this.tripProp,
+      trip: null,
       tripId: this.$route.params.id,
       releaseEdit: true,
       openModalLeave: false
@@ -174,12 +171,8 @@ export default {
     const that = this
     window.addEventListener('beforeunload', this.leavePage)
     this.setVotables([])
-
-    if(this.tripProp) {
-      this.setSpecificTrip(this.tripProp)
-    }
-    else 
-      this.$store.dispatch('fillSpecificTrip', {tripId: this.tripId})
+    
+    this.$store.dispatch('fillSpecificTrip', {tripId: this.tripId})
 
     if(!this.noEditRequest) {
       this.$store.dispatch('requestTripEdit', {
