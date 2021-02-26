@@ -27,13 +27,7 @@
           this.subscribeToEvents()
         }
         else {
-          this.$travelPlanHub.LeaveItemGroup(parseInt(this.userId))
-          console.log("left item group")
-          this.$travelPlanHub.$off('AddItemNotification')
-          this.$travelPlanHub.$off('EditItemNotification')
-          this.$travelPlanHub.$off('RemoveItemNotification')
-          this.$travelPlanHub.$off('AddToTeamNotification')
-          this.$travelPlanHub.$off('AddToTripNotification')
+          this.clearSignalRSubscription()
         }
       }
     },
@@ -46,6 +40,7 @@
         this.$travelPlanHub.$on('RemoveItemNotification', this.onRemoveItemNotification)
         this.$travelPlanHub.$on('AddToTeamNotification', this.onAddedToTeam)
         this.$travelPlanHub.$on('AddToTripNotification', this.onAddedToTrip)
+        window.addEventListener('beforeunload', this.leavePage)
       },
       showToast(imgSrc, titleText, text) {
         const h = this.$createElement
@@ -110,6 +105,22 @@
         }
         return false
       },
+      clearSignalRSubscription() {
+        this.$travelPlanHub.LeaveItemGroup(parseInt(this.userId))
+        console.log("left item group")
+        this.$travelPlanHub.$off('AddItemNotification')
+        this.$travelPlanHub.$off('EditItemNotification')
+        this.$travelPlanHub.$off('RemoveItemNotification')
+        this.$travelPlanHub.$off('AddToTeamNotification')
+        this.$travelPlanHub.$off('AddToTripNotification')
+        window.removeEventListener('beforeunload', this.leavePage)
+      },
+      leavePage(event) {
+        event.preventDefault()
+        console.log("Leave page")
+        this.clearSignalRSubscription()
+        event.returnValue = ''
+      },
       ...mapMutations({
         addItemNofication: 'addItemNotification',
         editItemNotification: 'editItemNotification',
@@ -122,6 +133,9 @@
       if(this.logedIn) {
         this.subscribeToEvents()
       }
+    },
+    beforeDestroy() {
+      this.clearSignalRSubscription()
     }
   }
 </script>

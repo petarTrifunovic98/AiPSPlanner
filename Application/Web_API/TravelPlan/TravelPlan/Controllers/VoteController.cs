@@ -44,10 +44,10 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 VoteDTO retValue = await _voteService.Vote(newVote, tripId);
                 if (retValue == null)
-                    return BadRequest("You already voted for this item");
+                    return BadRequest(new JsonResult("You already voted for this item"));
                 return Ok(retValue);
             }
             catch (Exception ex)
@@ -63,10 +63,10 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 VoteDTO retValue = await _voteService.EditVote(voteInfo, tripId);
                 if (retValue == null)
-                    return BadRequest("Vote does not exist");
+                    return BadRequest(new JsonResult("Vote does not exist"));
                 return Ok(retValue);
             }
             catch (Exception ex)
@@ -82,10 +82,10 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 VotableDTO retValue = await _voteService.RemoveVote(voteId, tripId);
                 if (retValue == null)
-                    return BadRequest("Vote does not exist");
+                    return BadRequest(new JsonResult("Vote does not exist"));
                 return Ok(retValue);
             }
             catch (Exception ex)

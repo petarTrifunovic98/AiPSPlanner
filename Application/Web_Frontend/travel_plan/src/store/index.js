@@ -33,7 +33,8 @@ export default new Vuex.Store({
     negativeVotes: null,
     votables: null,
     createdTeamId: -1,
-    leftTrip: false
+    leftTrip: false,
+    message: null
   },
   getters: {
     getIsDataLoaded: state => {
@@ -53,6 +54,9 @@ export default new Vuex.Store({
     },
     getHasEditRights: state => {
       return state.hasEditRights
+    },
+    getMessage: state => {
+      return state.message
     },
     getSpecificTrip: state => {
       return state.specificTrip
@@ -190,6 +194,9 @@ export default new Vuex.Store({
     },
     setHasEditRights(state, value) {
       state.hasEditRights = value
+    },
+    setMessage(state, value) {
+      state.message = value
     },
     setSpecificTrip(state, trip) {
       state.specificTrip = trip
@@ -571,6 +578,7 @@ export default new Vuex.Store({
             commit("setAuthUser", data)
             commit("setDataLoaded", true)
             commit("setIsLogedIn", true)
+            commit("setMessage", null)
             Vue.cookie.set('token',data['token'], { expires: '2h' });
             Vue.cookie.set('id',this.state.authUser.userId, { expires: '2h' });
             Vue.cookie.set('username',this.state.authUser.username, { expires: '2h' });
@@ -578,6 +586,9 @@ export default new Vuex.Store({
           })
         }
         else {
+          response.json().then(data => {
+            commit("setMessage", data.value)
+          }).catch(() => commit("setMessage", "An unknown error has occured."))
           commit("setDataLoaded", true)
         }
       })
@@ -607,6 +618,9 @@ export default new Vuex.Store({
           })
         }
         else {
+          response.json().then(data => {
+            commit("setMessage", data.value)
+          }).catch(() => commit("setMessage", "An unknown error has occured."))
           commit("setDataLoaded", true)
         }
       });

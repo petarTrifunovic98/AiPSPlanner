@@ -27,11 +27,11 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(newLocation.TripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 LocationDTO result = await _locationService.CreateLocation(newLocation);
                 if (result != null)
                     return Ok(result);
-                return BadRequest("Location dates are not valid");
+                return BadRequest(new JsonResult("Location dates are not valid"));
             }
             catch(Exception ex)
             {
@@ -46,7 +46,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 await _locationService.DeleteLocation(locationId);
                 return Ok();
             }
@@ -63,11 +63,11 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 LocationDTO result = await _locationService.EditLocationInfo(locationInfo);
                 if (result != null)
                     return Ok(result);
-                return BadRequest("Location dates are not valid");
+                return BadRequest(new JsonResult("Location dates are not valid"));
             }
             catch (Exception ex)
             {

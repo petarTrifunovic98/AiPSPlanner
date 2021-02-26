@@ -30,7 +30,7 @@ namespace TravelPlan.Controllers
             {
                 UserAuthenticateResponseDTO result = await _userService.AddUserAccount(userInfo);
                 if (result == null)
-                    return BadRequest("The desired username is not available.");
+                    return BadRequest(new JsonResult("The desired username is not available."));
                 return Ok(result);
             }
             catch(Exception ex)
@@ -48,7 +48,7 @@ namespace TravelPlan.Controllers
             {
                 UserAuthenticateResponseDTO result = await _userService.LogUserIn(userInfo);
                 if (result == null)
-                    return BadRequest("Wrong email or password");
+                    return BadRequest(new JsonResult("Wrong email or password"));
                 return Ok(result);
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace TravelPlan.Controllers
             {
                 if(await _userService.LogUserOut(userId))
                     return Ok();
-                return BadRequest("Unauthorized");
+                return BadRequest(new JsonResult("Unauthorized"));
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace TravelPlan.Controllers
             {
                 if (await _userService.ChangePassword(userInfo))
                     return Ok();
-                return BadRequest("Incorrect old password");
+                return BadRequest(new JsonResult("Incorrect old password"));
             }
             catch (Exception ex)
             {
@@ -161,7 +161,7 @@ namespace TravelPlan.Controllers
                 UserBasicDTO user = await _userService.GetUserByUsername(username);
                 if(user != null)
                     return Ok(user);
-                return BadRequest("A user with the provided username does not exist.");
+                return BadRequest(new JsonResult("A user with the provided username does not exist."));
             }
             catch (Exception ex)
             {

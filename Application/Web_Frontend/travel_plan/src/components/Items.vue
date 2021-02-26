@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper" v-if="specificTrip">
     <div class="section-title">
-      Items:
+      Items
     </div>
     <button style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" @click="addFormOpen = !addFormOpen" v-text="addFormOpen ? 'Hide form' : 'Add a new item'"></button>
     <div style="width: fit-content;" v-if="addFormOpen">

@@ -107,8 +107,8 @@
                   <span v-if="isDataLoaded">Register</span>
               </button>
             </form>
-            <p class = "text-danger upozorenje" v-if="tryRegister && isDataLoaded">
-              An account with that email address already exists
+            <p class = "text-danger upozorenje" v-if="tryRegister && isDataLoaded && message">
+              {{message}}
             </p>
             <p class = "text-danger upozorenje">
               Elements marked with * are required
@@ -151,7 +151,8 @@
         computed:
         {
           ...mapGetters({
-            isDataLoaded: 'getIsDataLoaded'
+            isDataLoaded: 'getIsDataLoaded',
+            message: 'getMessage'
           }),
           isFormInvalid(){
             return this.$v.form.$invalid
@@ -176,7 +177,6 @@
         {
             register()
             {
-              debugger
               this.$v.form.$touch()
               this.$store.dispatch("createUser", this.form)
               this.tryRegister = true
