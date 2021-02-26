@@ -22,7 +22,7 @@ namespace TravelPlan.Services.BusinessLogicServices
         private static List<DecorationAvailableDTO> WinterList;
         private static List<DecorationAvailableDTO> SpaList;
 
-        private object _lock;
+        private static object _lock = new object();
 
         public AddOnService(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<MessageHub> hubContext)
         {

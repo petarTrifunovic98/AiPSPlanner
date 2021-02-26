@@ -34,7 +34,8 @@ export default new Vuex.Store({
     votables: null,
     createdTeamId: -1,
     leftTrip: false,
-    message: null
+    message: null,
+    tripTypes: null
   },
   getters: {
     getIsDataLoaded: state => {
@@ -1110,6 +1111,7 @@ export default new Vuex.Store({
             this.state.myTeams = null
             this.state.notifications = null
             this.state.searchedUsers = null
+            this.tripTypes = null
 
             Vue.cookie.delete('id');
             Vue.cookie.delete('token');
@@ -1850,6 +1852,24 @@ export default new Vuex.Store({
         }
         else {
           console.log(response)
+        }
+      })
+    },
+
+    getTripTypes() {
+      fetch("https://" + this.state.host + ":44301/api/trip/get-trip-types", {
+        method: 'GET',
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : this.state.token
+        }
+      }).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            this.state.tripTypes = data
+          })
+        }
+        else {
         }
       })
     }

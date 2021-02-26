@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <Spinner v-if="!isDataLoaded"/>
+        <Spinner v-if="!isDataLoaded || tripTypes == null"/>
         <div v-else class="new-trip">
             <div class="title-div"> New trip </div>
             <span class="labela"> Name: </span>
@@ -21,7 +21,7 @@
             </div>
             <span class="labela"> Trip category: </span>
             <select v-model="newTrip.tripCategory" class="polje selekt">
-                <option v-for="option in options" :key="option" class="option"> 
+                <option v-for="option in tripTypes" :key="option" class="option"> 
                     {{option}}
                 </option>
             </select>
@@ -53,14 +53,9 @@ export default {
         {
             return this.$store.state.isDataLoaded
         },
-        options()
+        tripTypes()
         {
-            var niz = []
-            niz.push("Sea")
-            niz.push("Winter")
-            niz.push("Spa")
-            niz.push("Other")
-            return niz
+            return this.$store.state.tripTypes
         },
         tripInvalid()
         {
@@ -99,6 +94,11 @@ export default {
 
             return year + "-" + month + "-" + day
         }
+    },
+    created()
+    {
+        if(this.tripTypes == null)
+            this.$store.dispatch('getTripTypes')
     }
 }
 </script>

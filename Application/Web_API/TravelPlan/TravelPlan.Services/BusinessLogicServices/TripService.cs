@@ -21,6 +21,9 @@ namespace TravelPlan.Services.BusinessLogicServices
         private readonly IMapper _mapper;
         private MessageControllerService _messageControllerService;
 
+        private static List<String> tripTypes;
+        private static object _lock = new object();
+
         public TripService(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<MessageHub> hubContext)
         {
             _unitOfWork = unitOfWork;
@@ -260,6 +263,22 @@ namespace TravelPlan.Services.BusinessLogicServices
                 await _unitOfWork.Save();
                 return _mapper.Map<TripType, TripAdditionalInfoDTO>(tripType);
             }
+        }
+
+        public List<string> GetTripTypes()
+        {
+            if (tripTypes == null)
+            {
+                lock (_lock)
+                {
+                    tripTypes = new List<string>();
+                    tripTypes.Add("Sea");
+                    tripTypes.Add("Winter");
+                    tripTypes.Add("Spa");
+                    tripTypes.Add("Other");
+                }
+            }
+            return tripTypes;
         }
     }
 }

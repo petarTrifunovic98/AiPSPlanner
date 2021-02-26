@@ -17,5 +17,6 @@ namespace TravelPlan.Contracts.ServiceContracts
         Task<TripDTO> GetTripWithLocations(int tripId);
         Task<TripAdditionalInfoDTO> GetTripAdditionalInfo(int tripId);
         Task<TripAdditionalInfoDTO> AddItemToPackingList(int tripId, TripStandardListItemDTO item);
+        List<string> GetTripTypes();
     }
 }

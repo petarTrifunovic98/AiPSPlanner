@@ -186,5 +186,19 @@ namespace TravelPlan.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("get-trip-types")]
+        public ActionResult GetTripTypes()
+        {
+            try
+            {
+                return Ok(_tripService.GetTripTypes());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
