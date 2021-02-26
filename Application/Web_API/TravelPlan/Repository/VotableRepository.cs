@@ -16,7 +16,9 @@ namespace TravelPlan.Repository
 
         public async Task<Votable> GetVotableWithVotes(int id)
         {
-            Votable votable = await _dbSet.Include(votable => votable.Votes).FirstOrDefaultAsync(votable => votable.VotableId == id);
+            Votable votable = await _dbSet.Include(votable => votable.Votes)
+                                          .ThenInclude(vote => vote.User)
+                                          .FirstOrDefaultAsync(votable => votable.VotableId == id);
             return votable;
         }
     }
