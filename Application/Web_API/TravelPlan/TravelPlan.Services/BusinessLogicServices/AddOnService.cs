@@ -22,6 +22,8 @@ namespace TravelPlan.Services.BusinessLogicServices
         private static List<DecorationAvailableDTO> WinterList;
         private static List<DecorationAvailableDTO> SpaList;
 
+        private object _lock;
+
         public AddOnService(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<MessageHub> hubContext)
         {
             _unitOfWork = unitOfWork;
@@ -49,28 +51,31 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             if (SeaList == null)
             {
-                DecorationAvailableDTO tea = new DecorationAvailableDTO(AddOnType.Tea.ToString(), true, true);
-                DecorationAvailableDTO coffee = new DecorationAvailableDTO(AddOnType.Coffee.ToString(), true, true);
-                DecorationAvailableDTO juice = new DecorationAvailableDTO(AddOnType.Juice.ToString(), true, true);
-                DecorationAvailableDTO breakfast = new DecorationAvailableDTO(AddOnType.Breakfast.ToString(), true, false);
-                breakfast.NextLvlDecorations.Add(tea);
-                breakfast.NextLvlDecorations.Add(coffee);
-                breakfast.NextLvlDecorations.Add(juice);
-                DecorationAvailableDTO wine = new DecorationAvailableDTO(AddOnType.Wine.ToString(), true, true);
-                DecorationAvailableDTO dessert = new DecorationAvailableDTO(AddOnType.Dessert.ToString(), true, true);
-                DecorationAvailableDTO lunch = new DecorationAvailableDTO(AddOnType.Lunch.ToString(), true, false);
-                lunch.NextLvlDecorations.Add(wine);
-                lunch.NextLvlDecorations.Add(dessert);
-                DecorationAvailableDTO cruise = new DecorationAvailableDTO(AddOnType.Cruise.ToString(), false, false);
-                cruise.NextLvlDecorations.Add(breakfast);
-                cruise.NextLvlDecorations.Add(lunch);
-                SeaList = new List<DecorationAvailableDTO>
+                lock (_lock)
                 {
-                    cruise,
-                    new DecorationAvailableDTO(AddOnType.Aquapark.ToString(), false, false),
-                    new DecorationAvailableDTO(AddOnType.Waterboard.ToString(), false, false),
-                    new DecorationAvailableDTO(AddOnType.Sunbeds.ToString(), false, false)
-                };
+                    DecorationAvailableDTO tea = new DecorationAvailableDTO(AddOnType.Tea.ToString(), true, true);
+                    DecorationAvailableDTO coffee = new DecorationAvailableDTO(AddOnType.Coffee.ToString(), true, true);
+                    DecorationAvailableDTO juice = new DecorationAvailableDTO(AddOnType.Juice.ToString(), true, true);
+                    DecorationAvailableDTO breakfast = new DecorationAvailableDTO(AddOnType.Breakfast.ToString(), true, false);
+                    breakfast.NextLvlDecorations.Add(tea);
+                    breakfast.NextLvlDecorations.Add(coffee);
+                    breakfast.NextLvlDecorations.Add(juice);
+                    DecorationAvailableDTO wine = new DecorationAvailableDTO(AddOnType.Wine.ToString(), true, true);
+                    DecorationAvailableDTO dessert = new DecorationAvailableDTO(AddOnType.Dessert.ToString(), true, true);
+                    DecorationAvailableDTO lunch = new DecorationAvailableDTO(AddOnType.Lunch.ToString(), true, false);
+                    lunch.NextLvlDecorations.Add(wine);
+                    lunch.NextLvlDecorations.Add(dessert);
+                    DecorationAvailableDTO cruise = new DecorationAvailableDTO(AddOnType.Cruise.ToString(), false, false);
+                    cruise.NextLvlDecorations.Add(breakfast);
+                    cruise.NextLvlDecorations.Add(lunch);
+                    SeaList = new List<DecorationAvailableDTO>
+                    {
+                        cruise,
+                        new DecorationAvailableDTO(AddOnType.Aquapark.ToString(), false, false),
+                        new DecorationAvailableDTO(AddOnType.Waterboard.ToString(), false, false),
+                        new DecorationAvailableDTO(AddOnType.Sunbeds.ToString(), false, false)
+                    };
+                }
             }
             return SeaList;
         }
