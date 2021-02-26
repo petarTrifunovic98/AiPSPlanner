@@ -14,7 +14,7 @@ namespace TravelPlan.DataAccess.Entities
         public SpaType()
         {
             this.StandardList = "Book_Comfortable shoes_Hiking shoes_Portable speaker_Backpack_Large water bottle_Sports wear_"
-                                + "Warm clothing_Layered clothing_Wind jacket_Hat_Sunscreen_Sunglassess_Sports gear_Backpack_"
+                                + "Warm clothing_Layered clothing_Wind jacket_Hat_Sunscreen_Sunglassess_Sports gear_"
                                 + "First aid kit_Lip balm_Rain coat_Board games_Tea";
         }
 
