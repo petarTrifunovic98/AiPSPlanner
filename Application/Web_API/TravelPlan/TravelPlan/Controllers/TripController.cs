@@ -29,7 +29,7 @@ namespace TravelPlan.API.Controllers
                 TripDTO result = await _tripService.CreateTrip(creatorId, newTrip);
                 if (result != null)
                     return Ok(result);
-                return BadRequest("Trip dates are not valid.");
+                return BadRequest(new JsonResult("Trip dates are not valid."));
             }
             catch (Exception ex)
             {
@@ -44,11 +44,11 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripInfo.TripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 TripDTO result = await _tripService.EditTripInfo(tripInfo);
                 if (result != null)
                     return Ok(result);
-                return BadRequest("Trip dates are not valid.");
+                return BadRequest(new JsonResult("Trip dates are not valid."));
             }
             catch (Exception ex)
             {
@@ -81,7 +81,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 TripDTO trip = await _tripService.AddMemberToTrip(tripId, memberId, false);
                 if (trip != null)
                     return Ok(trip);
@@ -100,7 +100,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 TripDTO trip = await _tripService.AddMemberToTrip(tripId, memberId, true);
                 if (trip != null)
                     return Ok(trip);

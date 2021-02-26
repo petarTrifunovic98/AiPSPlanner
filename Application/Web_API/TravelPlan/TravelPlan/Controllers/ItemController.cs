@@ -27,7 +27,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(newItem.TripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 ItemDTO result = await _itemService.CreateItem(newItem);
                 if (result != null)
                     return Ok(result);
@@ -46,7 +46,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 if (await _itemService.DeleteItem(itemId))
                     return Ok();
                 return BadRequest();
@@ -64,7 +64,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 ItemDTO result = await _itemService.EditItemInfo(itemInfo);
                 if (result != null)
                     return Ok(result);
@@ -83,7 +83,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 ItemDTO result = await _itemService.ChangeUser(itemId, newUserId);
                 if (result != null)
                     return Ok(result);
@@ -102,7 +102,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 ItemDTO result = await _itemService.un_checkItem(itemId);
                 if (result != null)
                     return Ok(result);

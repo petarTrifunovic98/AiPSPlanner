@@ -35,7 +35,7 @@ namespace TravelPlan.Repository
         public async Task<Trip> GetTripWithItemsAndMembers(int id)
         {
             Trip trip = await _dbSet.Include(trip => trip.Travelers)
-                                    .Include(trip => trip.ItemList)
+                                    .Include(trip => trip.ItemList).ThenInclude(item => item.User)
                                     .Include(trip => trip.TripType)
                                     .FirstOrDefaultAsync(trip => trip.TripId == id);
             return trip;

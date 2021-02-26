@@ -44,11 +44,11 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(newAddOn.TripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 AddOnDTO result = await _addOnService.CreateAddOn(newAddOn);
                 if (result != null)
                     return Ok(result);
-                return BadRequest("Invalid add on information");
+                return BadRequest(new JsonResult("Invalid add on information"));
             }
             catch (Exception ex)
             {
@@ -63,11 +63,11 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 AddOnDTO result = await _addOnService.EditAddOn(addOnInfo, tripId);
                 if (result != null)
                     return Ok(result);
-                return BadRequest("Invalid add on information");
+                return BadRequest(new JsonResult("Invalid add on information"));
             }
             catch (Exception ex)
             {
@@ -82,7 +82,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 if (await _addOnService.DeleteAddOn(addOnId, tripId))
                     return Ok();
                 return BadRequest();

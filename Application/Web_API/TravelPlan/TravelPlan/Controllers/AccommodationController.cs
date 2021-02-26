@@ -27,11 +27,11 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 AccommodationDTO result = await _accommodationService.CreateAccommodation(newAccommodation);
                 if (result != null)
                     return Ok(result);
-                return BadRequest("Accommodation dates are not valid.");
+                return BadRequest(new JsonResult("Accommodation dates are not valid."));
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 await _accommodationService.DeleteAccommodation(accommodationId);
                 return Ok();
             }
@@ -63,11 +63,11 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 AccommodationDTO result = await _accommodationService.EditAccommodationInfo(accommodationInfo);
                 if (result != null)
                     return Ok(result);
-                return BadRequest("Accommodation dates are not valid.");
+                return BadRequest(new JsonResult("Accommodation dates are not valid."));
             }
             catch (Exception ex)
             {
@@ -124,7 +124,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 AccommodationPictureDTO accommodationPicture = await _accommodationService.AddAccommodationPicture(picture);
                 return Ok(accommodationPicture);
             }
@@ -156,7 +156,7 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
                 await _accommodationService.DeleteAccommodationPicture(pictureId);
                 return Ok();
             }
