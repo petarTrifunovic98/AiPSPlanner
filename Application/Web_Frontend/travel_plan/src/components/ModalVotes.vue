@@ -109,10 +109,12 @@ export default {
   },
   computed: {
     positiveUsers() {
-      return this.positiveVotes.map(vote => this.travelers.find(t => t.userId == vote.userId))
+      const users = this.positiveVotes.map(vote => this.travelers.find(t => t.userId == vote.userId))
+      return users.filter(user => (user != undefined) && (user != null))
     },
     negativeUsers() {
-      return this.negativeVotes.map(vote => this.travelers.find(t => t.userId == vote.userId))
+      const users = this.negativeVotes.map(vote => this.travelers.find(t => t.userId == vote.userId))
+      return users.filter(user => (user != undefined) && (user != null))
     },
     myVote() {
       let myVote = this.positiveVotes.find(vote => vote.userId == this.userId)

@@ -136,19 +136,19 @@ export default {
       if(this.releaseEdit) {
         this.$store.dispatch('releaseEditRights', {
           tripId: this.tripId
+          })
+        }
+      }
+      else {
+        this.$travelPlanHub.$off('ChangeVotable')
+        this.$travelPlanHub.LeaveTripGroup(parseInt(this.tripId))
+        this.$store.dispatch('cancelEditRequest', {
+          tripId: this.tripId,
+          userId: this.getAuthUserId
         })
       }
-    }
-    else {
-      this.$travelPlanHub.$off('ChangeVotable')
-      this.$travelPlanHub.LeaveTripGroup(parseInt(this.tripId))
-      this.$store.dispatch('cancelEditRequest', {
-        tripId: this.tripId,
-        userId: this.getAuthUserId
-      })
-    }
-    this.setSpecificTrip(null)
-    window.removeEventListener('beforeunload', this.leavePage)
+      this.setSpecificTrip(null)
+      window.removeEventListener('beforeunload', this.leavePage)
     },
     leavePage(event) {
       event.preventDefault()

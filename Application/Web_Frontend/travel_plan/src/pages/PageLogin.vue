@@ -50,8 +50,8 @@
                 <span v-if="isDataLoaded">Login</span>
               </button>
             </form>
-            <p class = "text-danger upozorenje" v-if="TryLogIn && isDataLoaded">
-              Incorrect email or password
+            <p class = "text-danger upozorenje" v-if="TryLogIn && isDataLoaded && message">
+              {{message}}
             </p>
             <p class = "text-danger upozorenje">
               Elements marked with * are required
@@ -95,7 +95,8 @@
     computed:
     {
       ...mapGetters({
-        isDataLoaded: 'getIsDataLoaded'
+        isDataLoaded: 'getIsDataLoaded',
+        message: 'getMessage'
       }),
       isFormInvalid() {
         return this.$v.form.$invalid
