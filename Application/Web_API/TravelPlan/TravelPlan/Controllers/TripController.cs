@@ -66,7 +66,7 @@ namespace TravelPlan.API.Controllers
                     return BadRequest("You can't currently edit this trip.");
                 if (await _tripService.RemoveUserFromTrip(tripId, userId))
                     return Ok();
-                return BadRequest();
+                return BadRequest("Before you leave the trip you must delegate to other travelers all of the items you are responsible for.");
             }
             catch (Exception ex)
             {

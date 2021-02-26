@@ -108,8 +108,12 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             using (_unitOfWork)
             {
+                User user = await _unitOfWork.UserRepository.GetUserWithItems(userId);
+                ICollection<Item> userItems = user.MyItems.Where(item => item.TripId == tripId).ToList();
+                if (userItems.Count > 0)
+                    return false;
+
                 Trip trip = await _unitOfWork.TripRepository.GetTripWithMembersAndLocations(tripId);
-                User user = await _unitOfWork.UserRepository.FindByID(userId);
                 if (trip.Travelers != null && trip.Travelers.Contains(user))
                 {
                     trip.Travelers.Remove(user);

@@ -54,7 +54,7 @@ export default {
         kliknuto()
         {
             if(this.notification.type == 3)
-                this.$router.push("/")
+                this.$router.push("/trips")
             else
                 this.$router.push("/items")
         }

@@ -123,7 +123,7 @@ export default {
         name: "PageAddMember", 
         params: {
           id: this.tripId, 
-          type: "trips"
+          type: "trip"
         }
       })
     },

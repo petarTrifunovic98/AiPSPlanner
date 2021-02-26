@@ -11,7 +11,7 @@
           
         <div class="info">
           <div class="info-element">
-            <span class="full-name-span">{{tripProp.name}}</span>
+            <a @click="onViewTripPage"><span class="full-name-span" v-b-popover.hover.top="'View trip page'">{{tripProp.name}}</span></a>
           </div>
           <div class="info-element">
             <span class="desc">{{tripProp.description}}</span>
@@ -150,6 +150,11 @@ export default {
     font-weight: bold;
     font-size: 20px;
     text-overflow: ellipsis;
+
+  }
+
+  .full-name-span:hover {
+    color: rgb(100, 100, 100);
   }
 
   .desc {
