@@ -21,8 +21,8 @@
           <a :href="mapURL" target="_blank" v-if="!modeAddNew">
             View location on Google Maps
           </a>
-          <div v-else>
-            <b-form-input 
+          <div v-else style="width:100%;">
+            <!-- <b-form-input 
               :type="'number'" :max="latitudeAbsMax" :min="-latitudeAbsMax" 
               :state="Math.abs(editingLocation.latitude) > latitudeAbsMax ? false : null"
               v-model="editingLocation.latitude" placeholder="Latitude...">
@@ -31,7 +31,13 @@
               :type="'number'" :max="longitudeAbsMax" :min="-longitudeAbsMax" 
               :state="Math.abs(editingLocation.longitude) > longitudeAbsMax ? false : null"
               v-model="editingLocation.longitude" placeholder="Longitude...">
-            </b-form-input>
+            </b-form-input> -->
+            <div class="map-toggle" @click="openModalMap=true">Open map to choose a location </div>
+            <div> Currently chosen: {{mapLocationName}} </div>
+            <ModalMap 
+              :startingLatLng="startingLatLng" :startingLocationName="mapLocationName" v-if="openModalMap" 
+              @close="openModalMap = false" @ok="getLocationFromMap"
+            />
           </div>
         </div>
         <b-card-text class="common-header" style="margin-top: 20px; justify-content:left; max-width:100%;">
@@ -101,12 +107,14 @@ import { mapGetters, mapMutations } from "vuex"
 import AccommodationBox from "@/components/AccommodationBox.vue"
 import ModalAreYouSure from "@/components/ModalAreYouSure.vue"
 import ModalVotes from "@/components/ModalVotes.vue"
+import ModalMap from "@/components/ModalMap.vue"
 
 export default {
   components: {
     AccommodationBox,
     ModalAreYouSure,
-    ModalVotes
+    ModalVotes,
+    ModalMap
   },
   props: {
     locationProp: {
@@ -133,8 +141,11 @@ export default {
       editingLocation: this.modeAddNew ? 
         { name: "", description: "", latitude: 43.32129607887601, longitude: 21.897650399832497, from: "", to: ""} : 
         JSON.parse(JSON.stringify(this.locationProp)),
+      startingLatLng: { lat: 43.32129607887601, lng: 21.897650399832497 },
+      mapLocationName: "Niš, Serbia",
       openModalDelete: false,
       openModalVotes: false,
+      openModalMap: false,
       latitudeAbsMax: 90,
       longitudeAbsMax: 180
     }
@@ -179,6 +190,16 @@ export default {
     })
   },
   methods: {
+    getLocationFromMap(location) {
+      this.editingLocation.latitude = location.latLng.lat
+      this.editingLocation.longitude = location.latLng.lng
+      this.startingLatLng = {
+        lat: this.editingLocation.latitude,
+        lng: this.editingLocation.longitude
+      }
+      this.mapLocationName = location.name
+      this.openModalMap = false
+    },
     isDateDisabled(string, date) {
       if(this.modeAddNew)
         return false
@@ -353,5 +374,14 @@ export default {
   display:flex;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.map-toggle {
+  color: #17a2b8;
+  cursor: pointer;
+}
+
+.map-toggle:hover {
+  text-decoration: underline;
 }
 </style>
