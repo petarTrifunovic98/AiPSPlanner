@@ -22,7 +22,9 @@ namespace TravelPlan.Services.BusinessLogicServices
         private static List<DecorationAvailableDTO> WinterList;
         private static List<DecorationAvailableDTO> SpaList;
 
-        private static object _lock = new object();
+        private static object _seaLock = new object();
+        private static object _winterLock = new object();
+        private static object _spaLock = new object();
 
         public AddOnService(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<MessageHub> hubContext)
         {
@@ -51,7 +53,7 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             if (SeaList == null)
             {
-                lock (_lock)
+                lock (_seaLock)
                 {
                     DecorationAvailableDTO tea = new DecorationAvailableDTO(AddOnType.Tea.ToString(), true, true);
                     DecorationAvailableDTO coffee = new DecorationAvailableDTO(AddOnType.Coffee.ToString(), true, true);
@@ -84,22 +86,25 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             if (WinterList == null)
             {
-                DecorationAvailableDTO snowboard = new DecorationAvailableDTO(AddOnType.Snowboard.ToString(), true, false);
-                DecorationAvailableDTO skis = new DecorationAvailableDTO(AddOnType.Skis.ToString(), true, false);
-                DecorationAvailableDTO skiPoles = new DecorationAvailableDTO(AddOnType.SkiPoles.ToString(), true, false);
-                DecorationAvailableDTO skiBoots = new DecorationAvailableDTO(AddOnType.SkiBoots.ToString(), true, false);
-                DecorationAvailableDTO sled = new DecorationAvailableDTO(AddOnType.Sled.ToString(), true, false);
-                DecorationAvailableDTO skiEquipment = new DecorationAvailableDTO(AddOnType.SkiEquipment.ToString(), false, false);
-                skiEquipment.NextLvlDecorations.Add(snowboard);
-                skiEquipment.NextLvlDecorations.Add(skis);
-                skiEquipment.NextLvlDecorations.Add(skiPoles);
-                skiEquipment.NextLvlDecorations.Add(skiBoots);
-                skiEquipment.NextLvlDecorations.Add(sled);
-                WinterList = new List<DecorationAvailableDTO>
+                lock (_winterLock)
                 {
-                    skiEquipment,
-                    new DecorationAvailableDTO(AddOnType.SkiPass.ToString(), false, false)
-                };
+                    DecorationAvailableDTO snowboard = new DecorationAvailableDTO(AddOnType.Snowboard.ToString(), true, false);
+                    DecorationAvailableDTO skis = new DecorationAvailableDTO(AddOnType.Skis.ToString(), true, false);
+                    DecorationAvailableDTO skiPoles = new DecorationAvailableDTO(AddOnType.SkiPoles.ToString(), true, false);
+                    DecorationAvailableDTO skiBoots = new DecorationAvailableDTO(AddOnType.SkiBoots.ToString(), true, false);
+                    DecorationAvailableDTO sled = new DecorationAvailableDTO(AddOnType.Sled.ToString(), true, false);
+                    DecorationAvailableDTO skiEquipment = new DecorationAvailableDTO(AddOnType.SkiEquipment.ToString(), false, false);
+                    skiEquipment.NextLvlDecorations.Add(snowboard);
+                    skiEquipment.NextLvlDecorations.Add(skis);
+                    skiEquipment.NextLvlDecorations.Add(skiPoles);
+                    skiEquipment.NextLvlDecorations.Add(skiBoots);
+                    skiEquipment.NextLvlDecorations.Add(sled);
+                    WinterList = new List<DecorationAvailableDTO>
+                    {
+                        skiEquipment,
+                        new DecorationAvailableDTO(AddOnType.SkiPass.ToString(), false, false)
+                    };
+                }
             }
             return WinterList;
         }
@@ -108,23 +113,26 @@ namespace TravelPlan.Services.BusinessLogicServices
         {
             if (SpaList == null)
             {
-                DecorationAvailableDTO schnapps = new DecorationAvailableDTO(AddOnType.Schnapps.ToString(), true, true);
-                DecorationAvailableDTO pogaca = new DecorationAvailableDTO(AddOnType.Pogaca.ToString(), true, true);
-                DecorationAvailableDTO meal = new DecorationAvailableDTO(AddOnType.Meal.ToString(), true, false);
-                meal.NextLvlDecorations.Add(schnapps);
-                meal.NextLvlDecorations.Add(pogaca);
-                DecorationAvailableDTO trainTour = new DecorationAvailableDTO(AddOnType.TrainTour.ToString(), false, false);
-                trainTour.NextLvlDecorations.Add(meal);
-                DecorationAvailableDTO tourGuide = new DecorationAvailableDTO(AddOnType.TourGuide.ToString(), true, false);
-                DecorationAvailableDTO walk = new DecorationAvailableDTO(AddOnType.Walk.ToString(), false, false);
-                walk.NextLvlDecorations.Add(tourGuide);
-                SpaList = new List<DecorationAvailableDTO>
+                lock (_spaLock)
                 {
-                    trainTour,
-                    walk,
-                    new DecorationAvailableDTO(AddOnType.BikeRent.ToString(), false, false),
-                    new DecorationAvailableDTO(AddOnType.ScooterRent.ToString(), false, false)
-                };
+                    DecorationAvailableDTO schnapps = new DecorationAvailableDTO(AddOnType.Schnapps.ToString(), true, true);
+                    DecorationAvailableDTO pogaca = new DecorationAvailableDTO(AddOnType.Pogaca.ToString(), true, true);
+                    DecorationAvailableDTO meal = new DecorationAvailableDTO(AddOnType.Meal.ToString(), true, false);
+                    meal.NextLvlDecorations.Add(schnapps);
+                    meal.NextLvlDecorations.Add(pogaca);
+                    DecorationAvailableDTO trainTour = new DecorationAvailableDTO(AddOnType.TrainTour.ToString(), false, false);
+                    trainTour.NextLvlDecorations.Add(meal);
+                    DecorationAvailableDTO tourGuide = new DecorationAvailableDTO(AddOnType.TourGuide.ToString(), true, false);
+                    DecorationAvailableDTO walk = new DecorationAvailableDTO(AddOnType.Walk.ToString(), false, false);
+                    walk.NextLvlDecorations.Add(tourGuide);
+                    SpaList = new List<DecorationAvailableDTO>
+                    {
+                        trainTour,
+                        walk,
+                        new DecorationAvailableDTO(AddOnType.BikeRent.ToString(), false, false),
+                        new DecorationAvailableDTO(AddOnType.ScooterRent.ToString(), false, false)
+                    };
+                }
             }
             return SpaList;
         }
@@ -275,8 +283,6 @@ namespace TravelPlan.Services.BusinessLogicServices
                         
                         _unitOfWork.AddOnRepository.Delete(currAddOn.AddOnId);
                         _unitOfWork.VotableRepository.Delete(currAddOn.VotableId);
-                        //deletedIds.Add(currAddOn.AddOnId);
-                        //deletedAddOns.Add(_mapper.Map<AddOn, AddOnDTO>(currAddOn));
                         await _unitOfWork.Save();
                     }
                     else
@@ -287,8 +293,6 @@ namespace TravelPlan.Services.BusinessLogicServices
                     else
                         currAddOn = await _unitOfWork.AddOnRepository.GetAddOnWithVotable(prevAddOn.GetDecoratorId());
                 }
-                //await _messageControllerService.NotifyOnTripChanges(tripId, "RemoveAddOn", deletedIds);
-                //await _messageControllerService.NotifyOnTripChanges(tripId, "RemoveAddOn", deletedAddOns);
                 await _messageControllerService.NotifyOnTripChanges(tripId, "RemoveAddOn", deletedAddOn);
                 return true;
             }
