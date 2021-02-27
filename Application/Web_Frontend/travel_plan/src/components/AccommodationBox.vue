@@ -36,13 +36,13 @@
             <b-form-datepicker 
               v-model="editingAccommodation.from" style="width:fit-content;" 
               :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }"
-              :min="dateMin" :max="dateMax">
+              :min="dateMin" :max="dateMax" :disabled="chosenLocationId == -1">
             </b-form-datepicker>
             <span style="text-align:center; margin: 3px 3px 0px 3px;"> - </span>
             <b-form-datepicker 
               v-model="editingAccommodation.to" style="width:fit-content;"
               :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit' }"
-              :min="dateMin" :max="dateMax">
+              :min="dateMin" :max="dateMax" :disabled="chosenLocationId == -1">
             </b-form-datepicker>
           </div>
         </b-card-text>
@@ -150,15 +150,15 @@ export default {
   },
   computed: {
     dateMin() {
-      if(this.modeAddNew) 
-        return null
+      if(this.modeAddNew && this.chosenLocationId != -1) 
+        return this.tripLocations.find(loc => loc.locationId == this.chosenLocationId).from
       else {
         return this.myLocation.from
       }
     },
     dateMax() {
-      if(this.modeAddNew) 
-        return null
+      if(this.modeAddNew && this.chosenLocationId != -1) 
+        return this.tripLocations.find(loc => loc.locationId == this.chosenLocationId).to
       else {
         return this.myLocation.to
       }
@@ -208,6 +208,7 @@ export default {
       hasEditRights: 'getHasEditRights',
       tripId: 'getSpecificTripId',
       accommodationTypes: 'getAccommodationTypes',
+      tripLocations: 'getSpecificTripLocations',
       votables: 'getVotables'
     })
   },
@@ -253,6 +254,7 @@ export default {
     },
     cancelEdit() {
       this.editingAccommodation = JSON.parse(JSON.stringify(this.accommodationProp))
+      this.selectedType = 0
       this.toggleEditMode()
     },
     saveEdit() {
