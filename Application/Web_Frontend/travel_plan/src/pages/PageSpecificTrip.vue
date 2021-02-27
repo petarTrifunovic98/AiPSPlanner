@@ -1,12 +1,18 @@
 <template>
   <div v-if="isDataLoaded && specificTrip" class="main-wrap">
     <div class="a-row primary-row">
-      <div style="flex-grow:1; display:flex; flex-direction:column; width:fit-content;">
+      <div class="basic-info">
         <BasicInfo :tripInfo="tripInfo" v-if="tripInfo"/>
-        <button type="button" class="btn btn-danger leave-btn" @click="openModalLeave = true" v-if="hasEditRights">
-          Leave trip
-        </button>
-        <button type="button" class="btn btn-primary leave-btn" @click="backToTrips">
+        <div class="leave-trip">
+          <button 
+            type="button" class="btn btn-danger leave-btn" 
+            @click="openModalLeave = true" v-if="hasEditRights"
+            :disabled="!canLeave">
+            Leave trip
+          </button>
+          <img v-if="!canLeave" src="../assets/information.svg" class="info" v-b-popover.hover.top="leaveInfo">
+        </div>
+        <button type="button" class="btn btn-primary back-btn" @click="backToTrips">
           Back to trips
         </button>
       </div>
@@ -64,10 +70,15 @@ export default {
       trip: null,
       tripId: this.$route.params.id,
       releaseEdit: true,
-      openModalLeave: false
+      openModalLeave: false,
+      leaveInfo: "To leave this trip, you must assign all the items in this trip which you are in charge of to someone else."
     }
   },
   computed: {
+    canLeave() {
+      const ind = this.tripItems.findIndex(item => item.userId == this.getAuthUserId)
+      return ind == -1
+    },
     tripInfo() {
       if(!this.specificTrip) {
         return null
@@ -89,7 +100,8 @@ export default {
       getAuthUserId: 'getAuthUserId',
       accommodationTypes: 'getAccommodationTypes',
       hasEditRights: 'getHasEditRights',
-      leftTrip: 'getLeftTrip'
+      leftTrip: 'getLeftTrip',
+      tripItems: 'getSpecificTripItems'
     })
   },
   watch: {
@@ -228,8 +240,29 @@ export default {
   border-bottom: 30px solid lightskyblue;
 }
 
-.leave-btn {
+.back-btn {
   margin-left: 20px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.info {
+  height: 20px;
+  width: 20px;
+  margin-left: 10px;
+}
+
+.basic-info {
+  flex-grow:1; 
+  display:flex; 
+  flex-direction:column; 
+  width:fit-content;
+}
+
+.leave-trip {
+  display: flex;
+  align-items: center;
+  margin-left: 19px;
   margin-bottom: 10px;
   width: fit-content;
 }

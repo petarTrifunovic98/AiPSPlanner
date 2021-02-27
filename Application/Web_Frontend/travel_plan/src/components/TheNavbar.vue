@@ -77,7 +77,8 @@
         console.log("remove item notification: ")
         console.log(itemNotifInfo)
         if(!this.decreseNotifNumber()) {
-          this.showToast('checklist.svg', 'Item removed', 'The item "' + itemNotifInfo.notification.relatedObjectName + '" has been deleted. You are no longer in chage of it.')
+          this.showToast('checklist.svg', 'No longer in charge', 'The item "' + itemNotifInfo.notification.relatedObjectName + 
+            '" has been removed from its trip, or assigned to someone else. You are no longer in chage of it.')
         }
         this.removeItemNotification(itemNotifInfo)
       },

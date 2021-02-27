@@ -40,7 +40,7 @@ export default {
         text()
         {
             if(this.notification.type == 0)
-                return "Item " + this.notification.relatedObjectName + " was removed from its trip. You are no longer in charge of it."
+                return "Item " + this.notification.relatedObjectName + " was removed from its trip, or assigned to someone else. You are no longer in charge of it."
             else if(this.notification.type == 1)
                 return "You were assigned a new item named '" + this.notification.relatedObjectName + "'. Click on this notification to see its details in the item list."
             else if(this.notification.type == 2)
