@@ -38,10 +38,10 @@
                 <b-tab title="Positive" active>
                   <div v-if="positiveVotes && travelers">
                     <div v-for="user in positiveUsers" :key="user.userId" class="one-vote">
-                      <div>
+                      <div style="display:flex; flex-wrap:no-wrap;">
                         <img :src="'data:;base64,' + user.picture" class="rounded-image" v-if="user.picture">
                         <img :src="require('../assets/no-picture.png')" class="rounded-image" v-else>
-                        <span class="name">{{user.name}} {{user.lastName}}</span>
+                        <span class="name">{{user.name}} {{user.lastName}} <span v-if="!isInTrip(user.userId)" class="info">(no longer a traveler)</span> </span>
                       </div>
                       <img src="../assets/like.png" class="vote-pic" >
                     </div>
@@ -57,7 +57,7 @@
                       <div>
                         <img :src="'data:;base64,' + user.picture" class="rounded-image" v-if="user.picture">
                         <img :src="require('../assets/no-picture.png')" class="rounded-image" v-else>
-                        <span class="name">{{user.name}} {{user.lastName}}</span>
+                        <span class="name">{{user.name}} {{user.lastName}} <span v-if="!isInTrip(user.userId)" class="info">(no longer a traveler)</span> </span>
                       </div>
                       <img src="../assets/dislike.png" class="vote-pic">
                     </div>
@@ -109,12 +109,20 @@ export default {
   },
   computed: {
     positiveUsers() {
-      const users = this.positiveVotes.map(vote => this.travelers.find(t => t.userId == vote.userId))
-      return users.filter(user => (user != undefined) && (user != null))
+      return this.positiveVotes.map(vote => {
+        if(vote.user)
+          return vote.user
+        else
+          return this.travelers.find(user => user.userId == vote.userId)
+      })
     },
     negativeUsers() {
-      const users = this.negativeVotes.map(vote => this.travelers.find(t => t.userId == vote.userId))
-      return users.filter(user => (user != undefined) && (user != null))
+      return this.negativeVotes.map(vote => {
+        if(vote.user)
+          return vote.user
+        else
+          return this.travelers.find(user => user.userId == vote.userId)
+      })
     },
     myVote() {
       let myVote = this.positiveVotes.find(vote => vote.userId == this.userId)
@@ -137,6 +145,9 @@ export default {
     })
   },
   methods: {
+    isInTrip(userId) {
+      return this.travelers.findIndex(user => user.userId == userId) != -1
+    },
     vote(positive) {
       let payload = {
         tripId: this.tripId,
@@ -360,5 +371,10 @@ export default {
       width: 34px;
       height: 34px;
       margin: -2px 13px -2px -2px;
+    }
+
+    .info {
+      color: #17a2b8;
+      font-size: 16px;
     }
 </style>
