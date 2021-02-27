@@ -63,6 +63,11 @@
 
 <script>
 export default {
+    data() {
+        return {
+            waitingLogOut: false
+        }
+    },
     computed:
     {
       isLogedIn()
@@ -72,7 +77,21 @@ export default {
       notificationNumber()
       {
           return this.$store.state.notificationNumber
+      },
+      hasEditRights()
+      {
+          return this.$store.state.hasEditRights
       }
+    },
+    watch: {
+        hasEditRights(newValue, oldValue) 
+        {
+            if(oldValue == true && newValue == null && this.waitingLogOut)
+            {
+                this.waitingLogOut = false
+                this.$store.dispatch("logoutUser")
+            }
+        }
     },
     methods:
     {
@@ -80,8 +99,15 @@ export default {
       {
         this.$toasted.clear()
         this.$store.state.logedIn = false
-        this.$router.push('/');
-        this.$store.dispatch("logoutUser")
+        if(this.hasEditRights)
+        {
+            this.waitingLogOut = true
+        }
+        else
+        {
+            this.$store.dispatch("logoutUser")  
+        }
+        this.$router.push('/')
       },
       goToProfile()
       {
