@@ -15,7 +15,6 @@ namespace TravelPlan.Services.RedisServices
     {
         private static IConnectionMultiplexer _connection = null;
         private static object _objectLock = new object();
-        private static readonly string ConnectionString = "localhost";
         private MessageControllerService _messageControllerService;
         private readonly RedisAppSettings _redisAppSettings;
 
@@ -35,7 +34,7 @@ namespace TravelPlan.Services.RedisServices
                     {
                         if(_connection == null)
                         { 
-                            _connection = ConnectionMultiplexer.Connect(ConnectionString);
+                            _connection = ConnectionMultiplexer.Connect(_redisAppSettings.ConnectionString);
                             var redisPubSub = _connection.GetSubscriber();
 
                             redisPubSub.Subscribe("__keyevent@0__:expired").OnMessage(async message =>

@@ -176,22 +176,22 @@ export default {
     },
     onPageLeave() {
       if(this.hasEditRights) {
-      if(this.releaseEdit) {
-        this.$store.dispatch('releaseEditRights', {
-          tripId: this.tripId
+        if(this.releaseEdit) {
+          this.$store.dispatch('releaseEditRights', {
+            tripId: this.tripId
           })
         }
       }
       else {
-        this.$travelPlanHub.$off('ChangeVotable')
-        this.$travelPlanHub.$off('EditRightsNotification')
-        this.$travelPlanHub.$off('LostEditRightsNotification')
         this.$travelPlanHub.LeaveTripGroup(parseInt(this.tripId))
         this.$store.dispatch('cancelEditRequest', {
           tripId: this.tripId,
           userId: this.getAuthUserId
         })
       }
+      this.$travelPlanHub.$off('ChangeVotable')
+      this.$travelPlanHub.$off('EditRightsNotification')
+      this.$travelPlanHub.$off('LostEditRightsNotification')
       this.setSpecificTrip(null)
       window.removeEventListener('beforeunload', this.leavePage)
     },
