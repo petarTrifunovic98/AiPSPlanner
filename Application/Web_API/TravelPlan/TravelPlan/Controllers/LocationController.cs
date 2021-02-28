@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Helpers;
 
 namespace TravelPlan.API.Controllers
 {
@@ -14,10 +16,13 @@ namespace TravelPlan.API.Controllers
     {
         private readonly ILocationService _locationService;
         private readonly IEditRightsService _editRightsService;
-        public LocationController(ILocationService locationService, IEditRightsService editRightsService)
+        private readonly RedisAppSettings _redisAppSettings;
+
+        public LocationController(ILocationService locationService, IEditRightsService editRightsService, IOptions<RedisAppSettings> redisAppSettings)
         {
             _locationService = locationService;
             _editRightsService = editRightsService;
+            _redisAppSettings = redisAppSettings.Value;
         }
 
         [HttpPost]
@@ -29,6 +34,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(newLocation.TripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 LocationDTO result = await _locationService.CreateLocation(newLocation);
+                await _editRightsService.ProlongEditRights(newLocation.TripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (result != null)
                     return Ok(result);
                 return BadRequest(new JsonResult("Location dates are not valid"));
@@ -48,6 +54,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 await _locationService.DeleteLocation(locationId);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 return Ok();
             }
             catch (Exception ex)
@@ -65,6 +72,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 LocationDTO result = await _locationService.EditLocationInfo(locationInfo);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (result != null)
                     return Ok(result);
                 return BadRequest(new JsonResult("Location dates are not valid"));

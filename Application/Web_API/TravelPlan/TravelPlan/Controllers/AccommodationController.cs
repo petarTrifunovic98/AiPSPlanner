@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Helpers;
+using TravelPlan.Services.AuthentificationService;
 
 namespace TravelPlan.API.Controllers
 {
@@ -14,10 +17,12 @@ namespace TravelPlan.API.Controllers
     {
         private readonly IAccommodationService _accommodationService;
         private readonly IEditRightsService _editRightsService;
-        public AccommodationController(IAccommodationService accommodationService, IEditRightsService editRightsService)
+        private readonly RedisAppSettings _redisAppSettings;
+        public AccommodationController(IAccommodationService accommodationService, IEditRightsService editRightsService, IOptions<RedisAppSettings> redisAppSettings)
         {
             _accommodationService = accommodationService;
             _editRightsService = editRightsService;
+            _redisAppSettings = redisAppSettings.Value;
         }
 
         [HttpPost]
@@ -29,6 +34,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 AccommodationDTO result = await _accommodationService.CreateAccommodation(newAccommodation);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (result != null)
                     return Ok(result);
                 return BadRequest(new JsonResult("Accommodation dates are not valid."));
@@ -48,6 +54,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 await _accommodationService.DeleteAccommodation(accommodationId);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 return Ok();
             }
             catch (Exception ex)
@@ -65,6 +72,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 AccommodationDTO result = await _accommodationService.EditAccommodationInfo(accommodationInfo);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (result != null)
                     return Ok(result);
                 return BadRequest(new JsonResult("Accommodation dates are not valid."));
@@ -126,6 +134,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 AccommodationPictureDTO accommodationPicture = await _accommodationService.AddAccommodationPicture(picture);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 return Ok(accommodationPicture);
             }
             catch (Exception ex)
@@ -158,6 +167,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 await _accommodationService.DeleteAccommodationPicture(pictureId);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 return Ok();
             }
             catch (Exception ex)

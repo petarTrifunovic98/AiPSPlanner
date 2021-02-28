@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Helpers;
 
 namespace TravelPlan.API.Controllers
 {
@@ -14,10 +16,12 @@ namespace TravelPlan.API.Controllers
     {
         private readonly IItemService _itemService;
         private readonly IEditRightsService _editRightsService;
-        public ItemController(IItemService itemService, IEditRightsService editRightsService)
+        private readonly RedisAppSettings _redisAppSettings;
+        public ItemController(IItemService itemService, IEditRightsService editRightsService, IOptions<RedisAppSettings> redisAppSettings)
         {
             _itemService = itemService;
             _editRightsService = editRightsService;
+            _redisAppSettings = redisAppSettings.Value;
         }
 
         [HttpPost]
@@ -29,6 +33,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(newItem.TripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 ItemDTO result = await _itemService.CreateItem(newItem);
+                await _editRightsService.ProlongEditRights(newItem.TripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (result != null)
                     return Ok(result);
                 return BadRequest();
@@ -47,6 +52,7 @@ namespace TravelPlan.API.Controllers
             {
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (await _itemService.DeleteItem(itemId))
                     return Ok();
                 return BadRequest();
@@ -66,6 +72,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 ItemDTO result = await _itemService.EditItemInfo(itemInfo);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (result != null)
                     return Ok(result);
                 return BadRequest();
@@ -85,6 +92,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 ItemDTO result = await _itemService.ChangeUser(itemId, newUserId);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (result != null)
                     return Ok(result);
                 return BadRequest();
@@ -104,6 +112,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 ItemDTO result = await _itemService.un_checkItem(itemId);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (result != null)
                     return Ok(result);
                 return BadRequest();

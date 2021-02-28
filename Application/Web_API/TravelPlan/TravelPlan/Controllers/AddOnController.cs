@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Helpers;
 
 namespace TravelPlan.API.Controllers
 {
@@ -14,10 +16,12 @@ namespace TravelPlan.API.Controllers
     {
         private readonly IAddOnService _addOnService;
         private readonly IEditRightsService _editRightsService;
-        public AddOnController(IAddOnService addOnService, IEditRightsService editRightsService)
+        private readonly RedisAppSettings _redisAppSettings;
+        public AddOnController(IAddOnService addOnService, IEditRightsService editRightsService, IOptions<RedisAppSettings> redisAppSettings)
         {
             _addOnService = addOnService;
             _editRightsService = editRightsService;
+            _redisAppSettings = redisAppSettings.Value;
         }
 
         [HttpGet]
@@ -46,6 +50,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(newAddOn.TripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 AddOnDTO result = await _addOnService.CreateAddOn(newAddOn);
+                await _editRightsService.ProlongEditRights(newAddOn.TripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (result != null)
                     return Ok(result);
                 return BadRequest(new JsonResult("Invalid add on information"));
@@ -65,6 +70,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 AddOnDTO result = await _addOnService.EditAddOn(addOnInfo, tripId);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (result != null)
                     return Ok(result);
                 return BadRequest(new JsonResult("Invalid add on information"));
@@ -83,7 +89,8 @@ namespace TravelPlan.API.Controllers
             {
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
-                if (await _addOnService.DeleteAddOn(addOnId, tripId))
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
+                if (await _addOnService.DeleteAddOn(addOnId, tripId)) 
                     return Ok();
                 return BadRequest();
             }

@@ -54,5 +54,11 @@ namespace TravelPlan.Repository
             long requestsNum = await redisDb.ListRightPushAsync($"trip:{tripId}:edit.requests", userId);
             return requestsNum;
         }
+
+        public async Task SetEditRightsExpiration(int tripId, int minutes)
+        {
+            IDatabase redisDb = _redisConnection.GetDatabase();
+            await redisDb.KeyExpireAsync($"trip:{tripId}:edit.rights.holder", new TimeSpan(0, minutes, 0));
+        }
     }
 }

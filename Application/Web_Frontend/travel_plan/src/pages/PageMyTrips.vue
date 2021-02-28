@@ -24,6 +24,11 @@ import TripBox from "@/components/TripBox"
 import Spinner from "@/components/Spinner.vue"
 
 export default {
+  props: {
+    toastInfo: {
+      required: false
+    }
+  },
   components: {
     TripBox,
     Spinner
@@ -43,16 +48,21 @@ export default {
     })
   },
   methods: {
-    // getAnotherPortion() {
-    //   if(this.lastPage != this.currentPage)
-    //   {
-    //     window.scrollTo(0, 0)
-    //     this.$store.dispatch('fillTripsPortion', {
-    //       userId: this.authUserId
-    //     })
-    //     this.lastPage = this.currentPage
-    //   }
-    // },
+    showToast(imgSrc, titleText, text) {
+      const h = this.$createElement
+      const toastTitle = h('div', {}, [
+        h('img', { style: "width: 20px; height: 20px; margin-right:20px;", attrs: {
+          src: require("../assets/" + imgSrc)
+        } }),
+        h('span', {}, titleText)
+      ])
+
+      this.$bvToast.toast(text, {
+        title: [toastTitle],
+        autHideDelay: 4000,
+        variant: 'danger'
+      })
+    },
     onCreate() {
       this.$store.dispatch('fillTripsPortion', {
         userId: this.authUserId
@@ -70,12 +80,10 @@ export default {
         this.$store.dispatch("getNotificationNumber")
     }
     this.$store.dispatch('deleteSeenNotifications', false)
-  },
-  // watch: {
-  //   $route() {
-  //     this.onCreate()
-  //   }
-  // }
+    if(this.toastInfo) {
+      this.showToast(this.toastInfo.imgSrc, this.toastInfo.titleText, this.toastInfo.text)
+    }
+  }
 }
 </script>
 

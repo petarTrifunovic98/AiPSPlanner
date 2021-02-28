@@ -119,6 +119,21 @@ export default {
     }
   },
   methods: {
+    showToast(imgSrc, titleText, text) {
+      const h = this.$createElement
+      const toastTitle = h('div', {}, [
+        h('img', { style: "width: 20px; height: 20px; margin-right:20px;", attrs: {
+          src: require("../assets/" + imgSrc)
+        } }),
+        h('span', {}, titleText)
+      ])
+
+      this.$bvToast.toast(text, {
+        title: [toastTitle],
+        autHideDelay: 4000,
+        variant: 'info'
+      })
+    },
     backToTrips() {
       this.$router.push("/trips")
     },
@@ -142,6 +157,20 @@ export default {
     onGetEditRights() {
       this.$travelPlanHub.LeaveTripGroup(parseInt(this.tripId))
       this.setEditRights(true)
+      this.showToast('edit_item.png', 'You are the editor!', 'You have just been given the edit rights for this trip.')
+    },
+    onLoseEditRights() {
+      this.setEditRights(false)
+      this.$router.push({
+        name: "PageMyTrips",
+        params: {
+          toastInfo: {
+            imgSrc: 'edit_item.png',
+            titleText: 'No longer the editor...',
+            text: 'You have just lost the edit rights for this trip, due to long inactivity.'
+          }
+        }
+      })
     },
     onPageLeave() {
       if(this.hasEditRights) {
@@ -153,6 +182,8 @@ export default {
       }
       else {
         this.$travelPlanHub.$off('ChangeVotable')
+        this.$travelPlanHub.$off('EditRightsNotification')
+        this.$travelPlanHub.$off('LostEditRightsNotification')
         this.$travelPlanHub.LeaveTripGroup(parseInt(this.tripId))
         this.$store.dispatch('cancelEditRequest', {
           tripId: this.tripId,
@@ -207,6 +238,7 @@ export default {
 
     this.$travelPlanHub.$on('ChangeVotable', this.onVotableChanged)
     this.$travelPlanHub.$on('EditRightsNotification', this.onGetEditRights)
+    this.$travelPlanHub.$on('LostEditRightsNotification', this.onLoseEditRights)
 
     if(!this.accommodationTypes)
       this.$store.dispatch('fillAccommodationTypes')
