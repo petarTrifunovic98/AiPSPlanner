@@ -46,7 +46,7 @@
             </b-form-datepicker>
           </div>
         </b-card-text>
-        <b-card-text v-if="!modeAddNew && !inEditMode && myVotable" style="display:flex; flex-direction:column;">
+        <b-card-text v-if="!modeAddNew && !inEditMode && myVotable" style="display:flex; flex-direction:row;">
           <div class="vote-div">
             <img src="../assets/like.png" class="vote-pic" >
             <span style="font-size: 20px; color:green;"> {{myVotable.positiveVotes}} </span>
@@ -57,8 +57,10 @@
           </div>
         </b-card-text>
         <button 
-          type="button" class="btn btn-primary dugme" @click="openModalVotes = true" 
-          v-if="!modeAddNew && !inEditMode" style="margin-bottom:10px;" v-text="hasEditRights ? 'Vote or view votes' : 'View votes'">
+          type="button" class="btn btn-primary custom-btn" @click="openModalVotes = true" 
+          v-if="!modeAddNew && !inEditMode" style="margin-bottom:10px;">
+          <img src="../assets/vote.svg" class="btn-img">
+          <span v-text="hasEditRights ? 'Vote or view votes' : 'View votes'"></span>
         </button>
         <b-card-text v-if="picturesOpen && !modeAddNew">
           <div style="margin: 30px 0px 10px 0px; font-weight: bold; font-size: 20px;" v-if="pictures && pictures.length > 0">
@@ -84,8 +86,14 @@
           <div class="icon-simulation" v-b-popover.hover.top="'Click on the name of the location you wish to add the accommodation to'"> ? </div>
         </b-card-text>
         <div style="display:flex; flex-direction:column; width:fit-content;">
-          <button type="button" class="btn btn-primary dugme" @click="showPictures" v-if="!picturesOpen && !modeAddNew"> View pictures </button>
-          <button type="button" class="btn btn-primary dugme" @click="hidePictures" v-else-if="!modeAddNew"> Hide pictures </button>
+          <button type="button" class="btn btn-primary custom-btn" @click="showPictures" v-if="!picturesOpen && !modeAddNew"> 
+            <img src="../assets/image.png" class="btn-img">
+            <span> View pictures </span> 
+          </button>
+          <button type="button" class="btn btn-primary custom-btn" @click="hidePictures" v-else-if="!modeAddNew"> 
+            <img src="../assets/image.png" class="btn-img">
+            <span> Hide pictures </span>
+          </button>
         </div>
       </b-card-body>
     </div>
@@ -335,6 +343,7 @@ export default {
 
 .wrapper {
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .header-lvl-1 {
@@ -454,5 +463,39 @@ export default {
   display:flex;
   align-items: center;
   margin-bottom: 10px;
+  margin-right: 40px;
+}
+
+.custom-btn {
+  background-color: lightskyblue;
+  border-color: lightskyblue;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  color: black;
+  padding: 5px 10px;
+  margin-left: 0px;
+  margin-bottom: 20px;
+}
+
+.custom-btn:hover {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+}
+
+.custom-btn:focus {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+  outline: none;
+  box-shadow: none;
+}
+
+.btn-img {
+  height:20px; 
+  width:20px;
+  cursor: pointer;
+  margin-right: 10px;
 }
 </style>

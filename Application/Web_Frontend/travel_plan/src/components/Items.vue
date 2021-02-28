@@ -3,7 +3,12 @@
     <div class="section-title">
       Items
     </div>
-    <button style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" @click="addFormOpen = !addFormOpen" v-text="addFormOpen ? 'Hide form' : 'Add a new item'"></button>
+    <button 
+      style="margin-left: 20px;" v-if="hasEditRights" type="button" 
+      class="btn btn-primary custom-btn" @click="addFormOpen = !addFormOpen" >
+      <img v-if="!addFormOpen" src="../assets/add.svg" class="action-img">
+      <span v-text="addFormOpen ? 'Hide form' : 'Add a new item'"></span>
+    </button>
     <div style="width: fit-content;" v-if="addFormOpen">
       <ItemBox :modeAddNew="true" @addedNew="addFormOpen = false"/>
     </div>
@@ -83,5 +88,35 @@ export default {
   font-weight: bold; 
   font-size: 20px;
   padding: 0px 20px;
+}
+
+.custom-btn {
+  background-color: lightskyblue;
+  border-color: lightskyblue;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  color: black;
+}
+
+.custom-btn:hover {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+}
+
+.custom-btn:focus {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+  outline: none;
+  box-shadow: none;
+}
+
+.action-img {
+  height:20px; 
+  width:20px;
+  cursor: pointer;
+  margin-right: 10px;
 }
 </style>

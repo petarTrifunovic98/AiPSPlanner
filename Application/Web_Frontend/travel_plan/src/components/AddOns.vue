@@ -4,9 +4,10 @@
       Add-ons
     </div>
     <button 
-      style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" 
-      @click="toggleAddOnForm" v-text="addAddOnFormOpen ? 
-      'Hide new add-on form' : 'Add a new add-on'">
+      style="margin-left: 20px;" v-if="hasEditRights" type="button" 
+      class="btn btn-primary custom-btn" @click="toggleAddOnForm">
+      <img v-if="!addAddOnFormOpen" src="../assets/add.svg" class="action-img">
+      <span v-text="addAddOnFormOpen ? 'Hide new add-on form' : 'Add a new add-on'"></span>
     </button>
     <div style="width: fit-content;" v-if="addAddOnFormOpen && canShowForm">
       <AddOnBox 
@@ -157,5 +158,35 @@ export default {
 .choosable:hover {
   cursor: pointer;
   color: blue;
+}
+
+.custom-btn {
+  background-color: lightskyblue;
+  border-color: lightskyblue;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  color: black;
+}
+
+.custom-btn:hover {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+}
+
+.custom-btn:focus {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+  outline: none;
+  box-shadow: none;
+}
+
+.action-img {
+  height:20px; 
+  width:20px;
+  cursor: pointer;
+  margin-right: 10px;
 }
 </style>

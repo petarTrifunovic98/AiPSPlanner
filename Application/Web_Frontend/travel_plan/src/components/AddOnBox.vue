@@ -10,8 +10,8 @@
         </b-form-select>
         <div>
           <img src="../assets/edit_item.png" v-b-popover.hover.top="'Edit add-on'" class="action-img" v-if="hasEditRights && !inEditMode && !modeAddNew" @click="toggleEditMode">
-          <button type="button" class="btn btn-primary dugme" v-if="inEditMode || modeAddNew" @click="modeAddNew ? addNew() : saveEdit()" :disabled="saveDisabled"  v-text="modeAddNew ? 'Add' : 'Save'"></button>
-          <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
+          <button type="button" class="btn btn-primary custom-btn" v-if="inEditMode || modeAddNew" @click="modeAddNew ? addNew() : saveEdit()" :disabled="saveDisabled"  v-text="modeAddNew ? 'Add' : 'Save'"></button>
+          <button type="button" class="btn btn-primary custom-btn" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
           <img src="../assets/delete_item.png" v-b-popover.hover.top="'Delete location'" class="action-img" v-if="hasEditRights && !inEditMode && !modeAddNew" @click="openModalDelete = true">
         </div>
       </b-card-header>
@@ -29,7 +29,7 @@
           <div class="icon-simulation" v-b-popover.hover.top='"Click on the title of the add-on you wish to decorate. " + 
           "Click on \"Add-ons\" if you wish to decorate the trip itself."'> ? </div>
         </b-card-text>
-        <b-card-text v-if="!modeAddNew && !inEditMode && myVotable" style="display:flex; flex-direction:column;">
+        <b-card-text v-if="!modeAddNew && !inEditMode && myVotable" style="display:flex; flex-direction:row;">
           <div class="vote-div">
             <img src="../assets/like.png" class="vote-pic" >
             <span style="font-size: 20px; color:green;"> {{myVotable.positiveVotes}} </span>
@@ -40,8 +40,10 @@
           </div>
         </b-card-text>
         <button 
-          type="button" class="btn btn-primary dugme" @click="openModalVotes = true" 
-          v-if="!modeAddNew && !inEditMode" style="margin-bottom:10px;" v-text="hasEditRights ? 'Vote or view votes' : 'View votes'">
+          type="button" class="btn btn-primary custom-btn" 
+          @click="openModalVotes = true" v-if="!modeAddNew && !inEditMode" >
+          <img src="../assets/vote.svg" class="btn-img">
+          <span v-text="hasEditRights ? 'Vote or view votes' : 'View votes'"></span>
         </button>
         <div style="display:flex; flex-wrap:wrap;" v-if="!modeAddNew">
           <div v-for="lvl1AddOn in addOn.lvl1" :key="lvl1AddOn.addOnId">
@@ -331,5 +333,39 @@ export default {
   display:flex;
   align-items: center;
   margin-bottom: 10px;
+  margin-right: 40px;
+}
+
+.custom-btn {
+  background-color: lightskyblue;
+  border-color: lightskyblue;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  color: black;
+  padding: 5px 10px;
+  margin-left: 0px;
+  margin-bottom: 20px;
+}
+
+.custom-btn:hover {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+}
+
+.custom-btn:focus {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+  outline: none;
+  box-shadow: none;
+}
+
+.btn-img {
+  height:20px; 
+  width:20px;
+  cursor: pointer;
+  margin-right: 10px;
 }
 </style>

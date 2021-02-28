@@ -47,7 +47,7 @@
             </b-form-datepicker>
           </div>
         </b-card-text>
-        <b-card-text v-if="!modeAddNew && !inEditMode && myVotable" style="display:flex; flex-direction:column;">
+        <b-card-text v-if="!modeAddNew && !inEditMode && myVotable" style="display:flex; flex-direction:row;">
           <div class="vote-div">
             <img src="../assets/like.png" class="vote-pic" >
             <span style="font-size: 20px; color:green;"> {{myVotable.positiveVotes}} </span>
@@ -58,8 +58,10 @@
           </div>
         </b-card-text>
         <button 
-          type="button" class="btn btn-primary dugme" @click="openModalVotes = true" 
-          v-if="!modeAddNew && !inEditMode" style="margin-bottom:10px;" v-text="hasEditRights ? 'Vote or view votes' : 'View votes'">
+          type="button" class="btn btn-primary custom-btn" 
+          @click="openModalVotes = true" v-if="!modeAddNew && !inEditMode">
+          <img src="../assets/vote.svg" class="btn-img">
+          <span v-text="hasEditRights ? 'Vote or view votes' : 'View votes'"></span>
         </button>
         <div v-if="accommodationsOpen">
           <div style="margin: 30px 0px 10px 0px; font-weight: bold; font-size: 20px;" v-if="accommodations && accommodations.length > 0">
@@ -75,8 +77,14 @@
           </div>
         </div>
         <div style="display:flex; flex-direction:column; width:fit-content;">
-          <button type="button" class="btn btn-primary dugme" @click="showAccommodations" v-if="!accommodationsOpen && !modeAddNew"> View accommodations </button>
-          <button type="button" class="btn btn-primary dugme" @click="hideAccommodations" v-else-if="!modeAddNew"> Hide accommodations </button>
+          <button type="button" class="btn btn-primary custom-btn" @click="showAccommodations" v-if="!accommodationsOpen && !modeAddNew">
+            <img src="../assets/accommodation.svg" class="btn-img">
+            <span> View accommodations </span>
+          </button>
+          <button type="button" class="btn btn-primary custom-btn" @click="hideAccommodations" v-else-if="!modeAddNew"> 
+            <img src="../assets/accommodation.svg" class="btn-img">
+            <span> Hide accommodations </span>
+          </button>
         </div>
       </b-card-body>
     </div>
@@ -364,6 +372,40 @@ export default {
   display:flex;
   align-items: center;
   margin-bottom: 10px;
+  margin-right: 40px;
+}
+
+.custom-btn {
+  background-color: lightskyblue;
+  border-color: lightskyblue;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  color: black;
+  padding: 5px 10px;
+  margin-left: 0px;
+  margin-bottom: 20px;
+}
+
+.custom-btn:hover {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+}
+
+.custom-btn:focus {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+  outline: none;
+  box-shadow: none;
+}
+
+.btn-img {
+  height:20px; 
+  width:20px;
+  cursor: pointer;
+  margin-right: 10px;
 }
 
 .map-toggle {

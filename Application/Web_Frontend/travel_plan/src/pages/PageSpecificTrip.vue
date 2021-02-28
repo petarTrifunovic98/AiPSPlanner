@@ -5,15 +5,17 @@
         <BasicInfo :tripInfo="tripInfo" v-if="tripInfo"/>
         <div class="leave-trip">
           <button 
-            type="button" class="btn btn-danger leave-btn" 
+            type="button" class="btn btn-danger leave-btn justify-btn" 
             @click="openModalLeave = true" v-if="hasEditRights"
             :disabled="!canLeave">
-            Leave trip
+            <img src="../assets/failed.svg" class="action-img" >
+            <span> Leave trip </span>
           </button>
           <img v-if="!canLeave" src="../assets/information.svg" class="info" v-b-popover.hover.top="leaveInfo">
         </div>
-        <button type="button" class="btn btn-primary back-btn" @click="backToTrips">
-          Back to trips
+        <button type="button" class="btn btn-primary justify-btn back-btn" @click="backToTrips">
+          <img src="../assets/back.png" class="action-img">
+          <span> Back to trips </span>
         </button>
       </div>
       <Travelers @addMember="addMember"/>
@@ -276,6 +278,15 @@ export default {
   margin-left: 20px;
   margin-bottom: 10px;
   width: fit-content;
+  background-color: lightskyblue;
+  border-color: lightskyblue;
+  color: black;
+}
+
+.back-btn:hover {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
 }
 
 .info {
@@ -297,5 +308,18 @@ export default {
   margin-left: 19px;
   margin-bottom: 10px;
   width: fit-content;
+}
+
+.action-img {
+  height:20px; 
+  width:20px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.justify-btn {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
 }
 </style>

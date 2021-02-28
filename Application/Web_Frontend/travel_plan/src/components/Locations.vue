@@ -3,16 +3,20 @@
     <div class="section-title">
       Locations
     </div>
-    <button 
-      style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" 
-      @click="toggleLocationForm" v-text="addLocationFormOpen ? 
-      'Hide new location form' : 'Add a new location'">
-    </button>
-    <button 
-      style="margin-left: 20px;" v-if="hasEditRights" type="button" class="btn btn-primary dugme" 
-      @click="toggleAccommodationForm" v-text="addAccommodationFormOpen ? 
-      'Hide new accommodaiton form' : 'Add a new accommodation'">
-    </button>
+    <div class="btn-container">
+      <button 
+        style="margin-left: 20px;" v-if="hasEditRights" type="button" 
+        class="btn btn-primary custom-btn" @click="toggleLocationForm" >
+        <img v-if="!addLocationFormOpen" src="../assets/add.svg" class="action-img">
+        <span v-text="addLocationFormOpen ? 'Hide new location form' : 'Add a new location'"></span>
+      </button>
+      <button 
+        style="margin-left: 20px;" v-if="hasEditRights" type="button" 
+        class="btn btn-primary custom-btn" @click="toggleAccommodationForm">
+        <img v-if="!addAccommodationFormOpen" src="../assets/add.svg" class="action-img">
+        <span v-text="addAccommodationFormOpen ? 'Hide new accommodaiton form' : 'Add a new accommodation'"></span>
+      </button>
+    </div>
     <div style="width: fit-content;" v-if="addLocationFormOpen">
       <LocationBox :modeAddNew="true"/>
     </div>
@@ -150,5 +154,39 @@ export default {
   font-weight: bold; 
   font-size: 20px;
   padding: 0px 20px;
+}
+
+.custom-btn {
+  background-color: lightskyblue;
+  border-color: lightskyblue;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  color: black;
+}
+
+.custom-btn:hover {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+}
+
+.custom-btn:focus {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+  outline: none;
+  box-shadow: none;
+}
+
+.action-img {
+  height:20px; 
+  width:20px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.btn-container {
+  display: flex;
 }
 </style>

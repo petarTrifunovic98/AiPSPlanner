@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper" v-if="specificTrip">
-    <div>
+    <div class="inner-wrapper">
       <div
         tag="article"
       >
@@ -27,9 +27,14 @@
             </b-form-datepicker>
           </div>
         </b-card-text>
-        <button type="button" class="btn btn-primary dugme" v-if="hasEditRights && !inEditMode" @click="toggleEditMode"> Edit </button>
-        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="saveEdit" :disabled="invalidDates"> Save </button>
-        <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
+        <button type="button" class="btn btn-primary custom-btn" v-if="hasEditRights && !inEditMode" @click="toggleEditMode">
+          <img src="../assets/edit_item.png" class="action-img">
+          <span> Edit basic info </span>
+        </button>
+        <div class="btn-container">
+          <button type="button" class="btn btn-primary custom-btn" v-if="inEditMode" @click="saveEdit" :disabled="invalidDates"> Save </button>
+          <button type="button" class="btn btn-primary custom-btn" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
+        </div>
       </div>
     </div>
   </div>
@@ -116,5 +121,38 @@ export default {
 .big-text {
   font-weight: bold;
   font-size: 30px;
+}
+
+.action-img {
+  height:20px; 
+  width:20px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.inner-wrapper {
+  padding: 10px;
+  border: 2px solid lightskyblue;
+  border-radius: 10px;
+}
+
+.custom-btn {
+  background-color: lightskyblue;
+  border-color: lightskyblue;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  color: black;
+}
+
+.custom-btn:hover {
+  background-color: rgb(104, 185, 235);
+  border-color: rgb(104, 185, 235);
+  color: black;
+}
+
+.btn-container {
+  display: flex;
+  flex-wrap: nowrap;
 }
 </style>
