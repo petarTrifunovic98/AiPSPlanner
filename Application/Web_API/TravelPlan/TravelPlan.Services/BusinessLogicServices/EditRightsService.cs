@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using TravelPlan.Contracts;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DataAccess.Entities;
+using TravelPlan.Helpers;
 using TravelPlan.Services.MessagingService;
 
 namespace TravelPlan.Services.BusinessLogicServices
@@ -15,13 +17,15 @@ namespace TravelPlan.Services.BusinessLogicServices
     {
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IUnitOfWork _unitOfWork;
-        private MessageControllerService _messageControllerService;
+        private readonly MessageControllerService _messageControllerService;
+        private readonly RedisAppSettings _redisAppSettings;
 
-        public EditRightsService(IHttpContextAccessor contextAccessor, IUnitOfWork unitOfWork, IHubContext<MessageHub> hubContext)
+        public EditRightsService(IHttpContextAccessor contextAccessor, IUnitOfWork unitOfWork, IHubContext<MessageHub> hubContext, IOptions<RedisAppSettings> redisAppSettings)
         {
             _contextAccessor = contextAccessor;
             _unitOfWork = unitOfWork;
             _messageControllerService = new MessageControllerService(hubContext);
+            _redisAppSettings = redisAppSettings.Value;
         }
 
         public async Task<bool> HasEditRights(int tripId)
@@ -43,6 +47,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 if (requestsInList == 1)
                 {
                     await _unitOfWork.EditRightsRepository.SetEditRightHolder(tripId, userId);
+                    await _unitOfWork.EditRightsRepository.SetEditRightsExpiration(tripId, _redisAppSettings.InitialEditRightsTTL);
                     return true;
                 }
                 return false;
@@ -57,6 +62,7 @@ namespace TravelPlan.Services.BusinessLogicServices
                 if (!string.IsNullOrEmpty(nextUserIdString))
                 {
                     await _unitOfWork.EditRightsRepository.SetEditRightHolder(tripId, int.Parse(nextUserIdString));
+                    await _unitOfWork.EditRightsRepository.SetEditRightsExpiration(tripId, _redisAppSettings.InitialEditRightsTTL);
                     await _messageControllerService.SendNotification(int.Parse(nextUserIdString), "EditRightsNotification", tripId);
                 }
             }
@@ -67,6 +73,14 @@ namespace TravelPlan.Services.BusinessLogicServices
             using (_unitOfWork)
             {
                 await _unitOfWork.EditRightsRepository.RemoveUserFromRequestQueue(tripId, userId);
+            }
+        }
+
+        public async Task ProlongEditRights(int tripId, int newMinutes)
+        {
+            using (_unitOfWork)
+            {
+                await _unitOfWork.EditRightsRepository.SetEditRightsExpiration(tripId, newMinutes);
             }
         }
     }

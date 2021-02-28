@@ -48,4 +48,5 @@ EditItemNotification		NotificationItemDTO		Slično kao metoda iznad samo se u it
 RemoveItemNotification		NotificationItemDeleteDTO	Nosi NotificationDTO objekat i id obrisanog itema	
 AddToTripNotification		NotificationTripDTO		Nosi NotificationDTO objekat i tripDTO objekat	
 EditRightsNotification		int				Id putovanja za koje je korisnik upravo dobio edit rights
+LostEditRightsNotification	void				Id putovanja za koje je korisnik izgubio edit rights
 AddToTeamNotification		TeamDTO				DTO tima u koji je korisnik upravo dodat

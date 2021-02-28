@@ -47,6 +47,7 @@ namespace TravelPlan.DTOs.Profiles
             CreateMap<AddOnCreateDTO, Skis>();
             CreateMap<AddOnCreateDTO, SkiPoles>();
             CreateMap<AddOnCreateDTO, SkiBoots>();
+            CreateMap<AddOnCreateDTO, Sled>();
             CreateMap<AddOnCreateDTO, BikeRent>();
             CreateMap<AddOnCreateDTO, ScooterRent>();
             CreateMap<AddOnCreateDTO, Walk>();

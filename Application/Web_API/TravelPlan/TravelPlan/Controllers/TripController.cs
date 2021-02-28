@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Helpers;
 
 namespace TravelPlan.API.Controllers
 {
@@ -14,10 +16,13 @@ namespace TravelPlan.API.Controllers
     {
         private readonly ITripService _tripService;
         private readonly IEditRightsService _editRightsService;
-        public TripController(ITripService tripService, IEditRightsService editRightsService)
+        private readonly RedisAppSettings _redisAppSettings;
+
+        public TripController(ITripService tripService, IEditRightsService editRightsService, IOptions<RedisAppSettings> redisAppSettings)
         {
             _tripService = tripService;
             _editRightsService = editRightsService;
+            _redisAppSettings = redisAppSettings.Value;
         }
 
         [HttpPost]
@@ -46,6 +51,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripInfo.TripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 TripDTO result = await _tripService.EditTripInfo(tripInfo);
+                await _editRightsService.ProlongEditRights(tripInfo.TripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (result != null)
                     return Ok(result);
                 return BadRequest(new JsonResult("Trip dates are not valid."));
@@ -63,10 +69,11 @@ namespace TravelPlan.API.Controllers
             try
             {
                 if (!await _editRightsService.HasEditRights(tripId))
-                    return BadRequest("You can't currently edit this trip.");
+                    return BadRequest(new JsonResult("You can't currently edit this trip."));
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (await _tripService.RemoveUserFromTrip(tripId, userId))
                     return Ok();
-                return BadRequest("Before you leave the trip you must delegate to other travelers all of the items you are responsible for.");
+                return BadRequest(new JsonResult("Before you leave the trip you must delegate to other travelers all of the items you are responsible for."));
             }
             catch (Exception ex)
             {
@@ -83,6 +90,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 TripDTO trip = await _tripService.AddMemberToTrip(tripId, memberId, false);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (trip != null)
                     return Ok(trip);
                 return BadRequest();
@@ -102,6 +110,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 TripDTO trip = await _tripService.AddMemberToTrip(tripId, memberId, true);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (trip != null)
                     return Ok(trip);
                 return BadRequest();

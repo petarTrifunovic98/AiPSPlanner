@@ -12,5 +12,6 @@ namespace TravelPlan.Contracts.RepositoryContracts
         Task<string> GetCurrentRightHolder(int tripId);
         Task RemoveUserFromRequestQueue(int tripId, int userId);
         Task<long> RequestTripEdit(int tripId, int userId);
+        Task SetEditRightsExpiration(int tripId, int newMinutes);
     }
 }

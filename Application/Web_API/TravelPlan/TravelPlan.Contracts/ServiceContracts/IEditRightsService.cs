@@ -11,5 +11,6 @@ namespace TravelPlan.Contracts.ServiceContracts
         Task<bool> RequestTripEdit(int tripId, int userId);
         Task ReleaseTripEdit(int tripId);
         Task LeaveRequestEditQueue(int tripId, int userId);
+        Task ProlongEditRights(int tripId, int minutes);
     }
 }

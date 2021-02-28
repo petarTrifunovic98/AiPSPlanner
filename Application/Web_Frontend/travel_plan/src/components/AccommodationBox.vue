@@ -152,16 +152,18 @@ export default {
     dateMin() {
       if(this.modeAddNew && this.chosenLocationId != -1) 
         return this.tripLocations.find(loc => loc.locationId == this.chosenLocationId).from
-      else {
+      else if (!this.modeAddNew)
         return this.myLocation.from
-      }
+      else
+        return null
     },
     dateMax() {
       if(this.modeAddNew && this.chosenLocationId != -1) 
         return this.tripLocations.find(loc => loc.locationId == this.chosenLocationId).to
-      else {
+      else if (!this.modeAddNew)
         return this.myLocation.to
-      }
+      else
+        return null
     },
     myLocation() {
       return this.$store.getters.getLocation(this.accommodationProp.locationId)

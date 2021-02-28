@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPlan.Contracts.ServiceContracts;
 using TravelPlan.DTOs.DTOs;
+using TravelPlan.Helpers;
 
 namespace TravelPlan.API.Controllers
 {
@@ -14,10 +16,13 @@ namespace TravelPlan.API.Controllers
     {
         private readonly IVoteService _voteService;
         private readonly IEditRightsService _editRightsService;
-        public VoteController(IVoteService voteService, IEditRightsService editRightsService)
+        private readonly RedisAppSettings _redisAppSettings;
+
+        public VoteController(IVoteService voteService, IEditRightsService editRightsService, IOptions<RedisAppSettings> redisAppSettings)
         {
             _voteService = voteService;
             _editRightsService = editRightsService;
+            _redisAppSettings = redisAppSettings.Value;
         }
 
         [HttpGet]
@@ -46,6 +51,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 VoteDTO retValue = await _voteService.Vote(newVote, tripId);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (retValue == null)
                     return BadRequest(new JsonResult("You already voted for this item"));
                 return Ok(retValue);
@@ -65,6 +71,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 VoteDTO retValue = await _voteService.EditVote(voteInfo, tripId);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (retValue == null)
                     return BadRequest(new JsonResult("Vote does not exist"));
                 return Ok(retValue);
@@ -84,6 +91,7 @@ namespace TravelPlan.API.Controllers
                 if (!await _editRightsService.HasEditRights(tripId))
                     return BadRequest(new JsonResult("You can't currently edit this trip."));
                 VotableDTO retValue = await _voteService.RemoveVote(voteId, tripId);
+                await _editRightsService.ProlongEditRights(tripId, _redisAppSettings.EditRightsProlongedTTL);
                 if (retValue == null)
                     return BadRequest(new JsonResult("Vote does not exist"));
                 return Ok(retValue);

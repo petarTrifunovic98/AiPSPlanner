@@ -22,16 +22,6 @@
             View location on Google Maps
           </a>
           <div v-else style="width:100%;">
-            <!-- <b-form-input 
-              :type="'number'" :max="latitudeAbsMax" :min="-latitudeAbsMax" 
-              :state="Math.abs(editingLocation.latitude) > latitudeAbsMax ? false : null"
-              v-model="editingLocation.latitude" placeholder="Latitude...">
-            </b-form-input>
-            <b-form-input 
-              :type="'number'" :max="longitudeAbsMax" :min="-longitudeAbsMax" 
-              :state="Math.abs(editingLocation.longitude) > longitudeAbsMax ? false : null"
-              v-model="editingLocation.longitude" placeholder="Longitude...">
-            </b-form-input> -->
             <div class="map-toggle" @click="openModalMap=true">Open map to choose a location </div>
             <div> Currently chosen: {{mapLocationName}} </div>
             <ModalMap 

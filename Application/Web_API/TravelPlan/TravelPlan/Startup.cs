@@ -24,6 +24,7 @@ using TravelPlan.Services.BusinessLogicServices;
 using Microsoft.AspNetCore.Http;
 using TravelPlan.Services.MessagingService;
 using TravelPlan.Services.RedisServices;
+using TravelPlan.Helpers;
 
 namespace TravelPlan
 {
@@ -78,6 +79,7 @@ namespace TravelPlan
             });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<RedisAppSettings>(Configuration.GetSection("Redis"));
             services.AddDistributedRedisCache(redis =>
                 { 
                     redis.Configuration = Configuration["Redis:ConnectionString"]; 

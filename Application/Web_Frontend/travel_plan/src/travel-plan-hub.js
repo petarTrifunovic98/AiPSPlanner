@@ -59,6 +59,7 @@ export default {
       addSignalREventListener('AddToTeamNotification')
 
       addSignalREventListener('EditRightsNotification')
+      addSignalREventListener('LostEditRightsNotification')
 
 
       function addSignalREventListener(name) {

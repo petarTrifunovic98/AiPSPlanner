@@ -59,6 +59,7 @@ const routes = [
     path: "/trips",
     name: "PageMyTrips",
     component: PageMyTrips,
+    props: true,
     beforeEnter(to,from,next)
     {
         if(store.state.isLogedIn)
