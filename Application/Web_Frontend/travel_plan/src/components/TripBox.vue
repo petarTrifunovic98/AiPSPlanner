@@ -38,10 +38,6 @@ export default {
       return {}
     },
     methods: {
-      // goToTripPage() {
-      //   //prepraviti da se stranici kao prop prosledi user
-      //   this.$router.push({name: "PageViewProfile", params: {id: this.user.id, user: this.user, RequestSelect:this.RequestSelect}})
-      // },
       onViewTripPage() {
         this.$router.push({name: "PageSpecificTrip", params: {id: this.tripProp.tripId, noEditRequest: false}})
       },

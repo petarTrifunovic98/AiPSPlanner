@@ -23,7 +23,7 @@
         <b-card-text class="common-header" style="justify-content: left;">
           <img src="../assets/cash.svg" style="height: 20px; width:20px; margin-right: 10px;" >
           <span v-if="!inEditMode && !modeAddNew">{{addOn.price}}</span>
-          <b-form-input :type="'number'" v-model="editingAddOn.price" v-else style="width: 80px;" placeholder="Enter price..."></b-form-input>
+          <b-form-input :type="'number'" v-model="editingAddOn.price" v-else style="width: 80px;" placeholder="Enter price..." min="0"></b-form-input>
         </b-card-text>
         <b-card-text v-if="modeAddNew" class="common-header" style="justify-content:center; max-width:none; width:100%;">
           <div class="icon-simulation" v-b-popover.hover.top='"Click on the title of the add-on you wish to decorate. " + 
@@ -108,7 +108,7 @@ export default {
     return {
       inEditMode: false,
       editingAddOn: this.modeAddNew ?
-        { type: "", description: "", price: "" } :
+        { type: "", description: "", price: 0 } :
         JSON.parse(JSON.stringify(this.addOnProp)),
       headerClasses: ['header-lvl-1', 'header-lvl-2', 'header-lvl-3'],
       openModalDelete: false,
@@ -126,8 +126,10 @@ export default {
         this.$store.getters.getAvailableDecorations(this.addOnProp))
     },
     saveDisabled() {
-      if(this.modeAddNew) {
-        if(this.editingAddOn.description == "" || this.editingAddOn.price == "" || this.selectedDecoration == 0)
+      if(this.modeAddNew || this.inEditMode) {
+        if(this.editingAddOn.description == "" || this.editingAddOn.price < 0)
+          return true
+        else if(this.modeAddNew && this.selectedDecoration == 0)
           return true
         else
           return false

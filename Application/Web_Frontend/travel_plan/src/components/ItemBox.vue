@@ -11,7 +11,7 @@
             <span v-if="!inEditModeInfo && !modeAddNew">{{item.name}}</span>
             <b-form-input type="text" v-model="editingItem.name" v-else style="width:fit-content;" placeholder="Enter item name..."></b-form-input>
             <img src="../assets/edit_item.png" v-b-popover.hover.top="'Edit info'" class="action-img" v-if="hasEditRights && !inEditModeInfo && !modeAddNew" @click="toggleEditModeInfo">
-            <button type="button" class="btn btn-primary dugme" v-if="inEditModeInfo" @click="saveEditInfo"> Save </button>
+            <button type="button" class="btn btn-primary dugme" v-if="inEditModeInfo" @click="saveEditInfo" :disabled="saveDisabled"> Save </button>
             <button type="button" class="btn btn-primary dugme" v-if="inEditModeInfo" @click="cancelEditInfo"> Cancel </button>
           </b-card-text>
           <b-card-text>
@@ -22,7 +22,7 @@
             <img src="../assets/weight.svg" style="height: 20px; width: 20px; margin-right: 10px;">
             <span v-if="!inEditModeInfo && !modeAddNew">{{item.amount}} {{item.unit}}</span>
             <span v-else>
-              <b-form-input :type="'number'" v-model="editingItem.amount" placeholder="Enter amount..."></b-form-input>
+              <b-form-input :type="'number'" v-model="editingItem.amount" placeholder="Enter amount..." min="1"></b-form-input>
               <b-form-input :type="'text'" v-model="editingItem.unit" placeholder="Enter unit"></b-form-input>
             </span>
           </b-card-text>
@@ -104,6 +104,16 @@ export default {
     }
   },
   computed: {
+    saveDisabled() {
+      if(this.inEditModeInfo) {
+        if(this.editingItem.name == "" || this.editingItem.description == "" || this.editingItem.amount < 1 || this.editingItem.unit == "")
+          return true
+        else
+          return false
+      }
+      else
+        return false
+    },
     item() {
       return this.itemProp
     },
