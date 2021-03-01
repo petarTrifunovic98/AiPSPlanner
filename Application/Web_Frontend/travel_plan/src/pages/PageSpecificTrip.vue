@@ -214,6 +214,7 @@ export default {
   },
   created() {
     const that = this
+    this.setEditRights(null)
     window.addEventListener('beforeunload', this.leavePage)
     this.setVotables([])
     

@@ -10,8 +10,8 @@
         </b-form-select>
         <div>
           <img src="../assets/edit_item.png" v-b-popover.hover.top="'Edit add-on'" class="action-img" v-if="hasEditRights && !inEditMode && !modeAddNew" @click="toggleEditMode">
-          <button type="button" class="btn btn-primary custom-btn" v-if="inEditMode || modeAddNew" @click="modeAddNew ? addNew() : saveEdit()" :disabled="saveDisabled"  v-text="modeAddNew ? 'Add' : 'Save'"></button>
-          <button type="button" class="btn btn-primary custom-btn" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
+          <button type="button" class="btn btn-primary dugme" v-if="inEditMode || modeAddNew" @click="modeAddNew ? addNew() : saveEdit()" :disabled="saveDisabled"  v-text="modeAddNew ? 'Add' : 'Save'"></button>
+          <button type="button" class="btn btn-primary dugme" v-if="inEditMode" @click="cancelEdit"> Cancel </button>
           <img src="../assets/delete_item.png" v-b-popover.hover.top="'Delete location'" class="action-img" v-if="hasEditRights && !inEditMode && !modeAddNew" @click="openModalDelete = true">
         </div>
       </b-card-header>

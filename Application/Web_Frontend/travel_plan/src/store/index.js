@@ -337,13 +337,14 @@ export default new Vuex.Store({
       const locationIndex = state.tripLocations.findIndex(loc => loc.locationId == accommodation.locationId)
       if(locationIndex > -1) {
         const accommodationIndex = state.tripLocations[locationIndex].accommodations.findIndex(acc => acc.accommodationId == accommodation.accommodationId)
-        if(accommodationIndex > -1)
+        if(accommodationIndex > -1) {
           state.tripLocations[locationIndex].accommodations[accommodationIndex].type = accommodation.type
           state.tripLocations[locationIndex].accommodations[accommodationIndex].name = accommodation.name
           state.tripLocations[locationIndex].accommodations[accommodationIndex].description = accommodation.description
           state.tripLocations[locationIndex].accommodations[accommodationIndex].from = accommodation.from
           state.tripLocations[locationIndex].accommodations[accommodationIndex].to = accommodation.to
           state.tripLocations[locationIndex].accommodations[accommodationIndex].address = accommodation.address
+        }
       }
     },
     removeAccommodationFromLocation(state, accommodation) {
