@@ -4,17 +4,17 @@
 Naziv				Prosleđena vrednost		Objašnjenje vraćene vrednosti
 ___________________________________________________________________________________________________________________________________________________________
 AddAddOn			AddOnDTO			Kreirani novi AddOn
-RemoveAddOn			List<int> 			Lista id-jeva svih AddOn-ova koji su obrisani
+RemoveAddOn			AddOnDTO			Izbrisani AddOn
 EditAddOn			AddOnDTO			AddOn koji je izmenjen
 EditTripInfo			TripBasicDTO			Osnovne info o tripu koje su menjane
 AddLocation			LocationDTO			Nova lokacija
 RemoveLocation			int				Id obrisane lokacije
 EditLocation			LocationDTO			Lokacija koja je menjana
 AddAccommodation		AccommodationDTO		Smeštaj koji je kreiran
-RemoveAccommodation		int				Id obrisanog smeštaja
+RemoveAccommodation		AccommodationRemoveDTO		Sadrži id smeštaja koji je obrisan, i id lokacije kojoj je pripadao
 EditAccommodation		AccommodationDTO		Smeštaj koji je menjan
 AddAccommodationPicture		AccommodationPictureDTO		Dodata slika
-RemoveAccommodationPicture	int				Id obrisane slike
+RemoveAccommodationPicture	AccommodationPictureDTO		Obrisana slika
 AddItem				ItemDTO				Dodati item
 EditItem			ItemDTO				Menjani item
 RemoveItem			int				Id obrisanog item-a
@@ -48,5 +48,5 @@ EditItemNotification		NotificationItemDTO		Slično kao metoda iznad samo se u it
 RemoveItemNotification		NotificationItemDeleteDTO	Nosi NotificationDTO objekat i id obrisanog itema	
 AddToTripNotification		NotificationTripDTO		Nosi NotificationDTO objekat i tripDTO objekat	
 EditRightsNotification		int				Id putovanja za koje je korisnik upravo dobio edit rights
-LostEditRightsNotification	void				Id putovanja za koje je korisnik izgubio edit rights
+LostEditRightsNotification	int				Id putovanja za koje je korisnik izgubio edit rights
 AddToTeamNotification		TeamDTO				DTO tima u koji je korisnik upravo dodat
