@@ -1,0 +1,42 @@
++ AddAddOn -- radi, moze da se prezentuje, ali mora da se popravi da lici na nesto
++ RemoveAddOn
++ EditAddOn
++ EditTripInfo
++ AddLocation
++ RemoveLocation
++ EditLocation -napravljen edit preko fronta
++ AddAccommodation 
++ RemoveAccommodation
++ EditAccommodation -napravljen edit preko fronta
+--+ AddAccommodationPicture
+--+ RemoveAccommodationPicture
++ AddItem
++ EditItem -napravljen edit preko fronta
++ RemoveItem
++ AddMemberToTrip	
+-+ RemoveUserFromTrip
+
+- Notifikacija
+
+
+
+Pred-finalna provera:
+EditBasicInfo (sa fronta na front) - radi
+EditLocation (sa fronta na front) - radi
+EditAccommodation (sa fronta na front) - radi
+EditItems (sa fronta na front) - radi (verovatno ne za checked i za menjanje korisnika)
+EditAddOn (sa fronta na front) - radi
+
+AddItem (sa postamana na front) - radi
+AddLocation (sa postmana na front) - radi
+AddAccommodation (sa postmana na front) - radi
+AddAddOn (sa postmana na front) - radi
+AddMemberToTrip (sa postmana na front) - radi
+
+RemoveItem (sa postmana na front) - radi
+RemoveAccommodation (sa postmana na front) - radi
+RemoveLocation (sa postmana na front) - radi
+RemoveAddOn (sa postmana na front) - radi
+RemoveUserFromTrip (sa postmana na front) - radi
+
+SVE RADI!
